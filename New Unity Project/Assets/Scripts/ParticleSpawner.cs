@@ -27,5 +27,6 @@ public class ParticleSpawner : MonoBehaviour
     {
         GameObject prefab = nucleonPrefabs[2];
         GameObject spawn = Instantiate<GameObject>(prefab, parent);
+        spawn.transform.localPosition = new Vector3(1f,0f,0f);
     }
 }

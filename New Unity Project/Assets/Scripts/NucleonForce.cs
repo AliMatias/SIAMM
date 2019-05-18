@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NucleonForce : MonoBehaviour
 {
-    //private Transform transform;
     public Rigidbody rigidbody;
 
     public void FixedUpdate()
