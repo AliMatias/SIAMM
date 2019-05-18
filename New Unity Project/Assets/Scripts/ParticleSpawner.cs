@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,6 +23,12 @@ public class ParticleSpawner : MonoBehaviour
         }
         GameObject prefab = nucleonPrefabs[index];
         GameObject spawn = Instantiate<GameObject>(prefab, parent);
+        
+        //posicion random para que no queden todos en fila
+        float randomNumber = Random.Range(0f, 0.2f);
+        Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
+        spawn.transform.localPosition = randomPosition;
+        
         if (proton)
         {
             protonQueue.Enqueue(spawn);
@@ -39,6 +45,7 @@ public class ParticleSpawner : MonoBehaviour
     {
         GameObject prefab = nucleonPrefabs[2];
         GameObject spawn = Instantiate<GameObject>(prefab, parent);
+        spawn.transform.localPosition = new Vector3(1f,0f,0f);
         electronQueue.Enqueue(spawn);
         electronCounter++;
     }
