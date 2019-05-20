@@ -13,30 +13,56 @@ public class DBManager : MonoBehaviour
     void Start()
     {
         connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";
-        getElement();
+        //getAllElements();
     }
     
-    private void getElement()
+    private void getAllElements()
     {
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
             dbConnection.Open();
-
             using (IDbCommand command = dbConnection.CreateCommand())
             {
                 string sqlQuery = "SELECT * FROM element";
                 command.CommandText = sqlQuery;
-
                 using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        Debug.Log(reader.GetString(1));
+                        string message = "Element: " + reader.GetString(1) + ". Protons: " + reader.GetInt32(2) +
+                            ". Neutrons: " + reader.GetInt32(3) + ". Electrons: " + reader.GetInt32(4) + ".";
+                        Debug.Log(message);
                     }
                     dbConnection.Close();
                     reader.Close();
                 }
             }
         }
+    }
+
+    public String GetElementFromParticles(int protons, int neutrons, int electrons)
+    {
+        string element = null;
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT name FROM element WHERE protons="
+                    + protons + " AND neutrons=" + neutrons 
+                    + " AND electrons=" + electrons + ";";
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        element = reader.GetString(0);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return element;
     }
 }
