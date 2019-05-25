@@ -93,10 +93,12 @@ public class ParticleSpawner : MonoBehaviour
     {
         Debug.Log("protons: " + protons + " neutrons:" + neutrons + " electrons:" + electrons);
         string elementName = DBManager.GetElementFromParticles(protons, neutrons, electrons);
-        if (elementName != null)
+        if (elementName == null)
         {
-            Debug.Log(elementName);
-            elementLabel.SetText(elementName);
+            elementName = "no encontrado";
         }
+        Debug.Log(elementName);
+        elementLabel.SetText("Elemento: " + elementName);
+
     }
 }
