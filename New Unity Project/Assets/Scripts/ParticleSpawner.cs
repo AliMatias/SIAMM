@@ -1,12 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ParticleSpawner : MonoBehaviour
 {
     public GameObject[] nucleonPrefabs;
     [SerializeField]
     private Transform parent;
+    public DBManager DBManager;
+    public TextMeshProUGUI elementLabel;
     private Queue<GameObject> protonQueue = new Queue<GameObject>();
     private Queue<GameObject> neutronQueue = new Queue<GameObject>();
     private Queue<GameObject> electronQueue = new Queue<GameObject>();
@@ -39,6 +43,7 @@ public class ParticleSpawner : MonoBehaviour
             neutronQueue.Enqueue(spawn);
             neutronCounter++;
         }
+        UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
     public void SpawnElectron()
@@ -48,6 +53,7 @@ public class ParticleSpawner : MonoBehaviour
         spawn.transform.localPosition = new Vector3(1f,0f,0f);
         electronQueue.Enqueue(spawn);
         electronCounter++;
+        UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
     public void RemoveNeutron()
@@ -58,6 +64,7 @@ public class ParticleSpawner : MonoBehaviour
             Destroy(toDelete);
             neutronCounter--;
         }
+        UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
     public void RemoveProton()
@@ -68,6 +75,7 @@ public class ParticleSpawner : MonoBehaviour
             Destroy(toDelete);
             protonCounter--;
         }
+        UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
     public void RemoveElectron()
@@ -78,5 +86,19 @@ public class ParticleSpawner : MonoBehaviour
             Destroy(toDelete);
             electronCounter--;
         }
+        UpdateElement(protonCounter, neutronCounter, electronCounter);
+    }
+
+    private void UpdateElement(int protons, int neutrons, int electrons)
+    {
+        Debug.Log("protons: " + protons + " neutrons:" + neutrons + " electrons:" + electrons);
+        string elementName = DBManager.GetElementFromParticles(protons, neutrons, electrons);
+        if (elementName == null)
+        {
+            elementName = "no encontrado";
+        }
+        Debug.Log(elementName);
+        elementLabel.SetText("Elemento: " + elementName);
+
     }
 }
