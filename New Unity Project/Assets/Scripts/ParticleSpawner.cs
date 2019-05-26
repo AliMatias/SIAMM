@@ -89,16 +89,33 @@ public class ParticleSpawner : MonoBehaviour
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
+    /*Metodo Valida si es un elemento de tabla periodica, si isotopo, cation-anion o propio*/
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
-        Debug.Log("protons: " + protons + " neutrons:" + neutrons + " electrons:" + electrons);
-        string elementName = DBManager.GetElementFromParticles(protons, neutrons, electrons);
-        if (elementName == null)
+        string elementName = string.Empty;
+
+        Debug.Log("protones: " + protons + " neutrones:" + neutrons + " electrones:" + electrons);
+        //string elementName = DBManager.GetElementFromParticles(protons, neutrons, electrons);
+
+        if (protons == 0 && neutrons == 0 && electrons == 0)//resetea valor a by default
+            elementName = "";
+        else
         {
-            elementName = "no encontrado";
+            elementName = DBManager.GetElementProtonNeutron(protons, neutrons);
+
+            if (elementName == null)
+                elementName = "no encontrado (PROPIO) o isotopo";
+            else
+            {
+                elementName = DBManager.GetElementProtonElectron(protons, electrons);
+
+                if (elementName == null)
+                    elementName = "cation o anion";
+            }
         }
         Debug.Log(elementName);
         elementLabel.SetText("Elemento: " + elementName);
 
     }
+
 }
