@@ -92,30 +92,44 @@ public class ParticleSpawner : MonoBehaviour
     /*Metodo Valida si es un elemento de tabla periodica, si isotopo, cation-anion o propio*/
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
-        string elementName = string.Empty;
+        ElementData element = new ElementData();
+        string elementText = string.Empty;
 
         Debug.Log("protones: " + protons + " neutrones:" + neutrons + " electrones:" + electrons);
         //string elementName = DBManager.GetElementFromParticles(protons, neutrons, electrons);
 
-        if (protons == 0 && neutrons == 0 && electrons == 0)//resetea valor a by default
-            elementName = "";
+        //resetea valor a by default
+        if (protons == 0 && neutrons == 0 && electrons == 0)
+            elementText = "";
         else
         {
-            elementName = DBManager.GetElementProtonNeutron(protons, neutrons);
+            element = DBManager.GetElementFromProton(protons);
 
-            if (elementName == null)
-                elementName = "no encontrado (PROPIO) o isotopo";
+            if (element == null || element.Name == null)
+            {
+                elementText = "no encontrado.";
+            }
             else
             {
-                elementName = DBManager.GetElementProtonElectron(protons, electrons);
+                elementText = element.Name + " (" + element.Simbol + ")";
 
-                if (elementName == null)
-                    elementName = "cation o anion";
+                if (element.Neutrons != neutrons)
+                {
+                    elementText = "isótopo de " + elementText;
+                }
+                if (element.Electrons < electrons)
+                {
+                    elementText = elementText + ", catión.";
+                }
+                else if (element.Electrons > electrons)
+                {
+                    elementText = elementText + ", anión.";
+                }
             }
         }
-        Debug.Log(elementName);
-        elementLabel.SetText("Elemento: " + elementName);
 
+        Debug.Log(elementText);
+        elementLabel.SetText("Elemento: " + elementText);
     }
 
 }

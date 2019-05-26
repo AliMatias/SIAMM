@@ -50,84 +50,34 @@ public class DBManager : MonoBehaviour
         }
     }
 
-    public String GetElementFromParticles(int protons, int neutrons, int electrons)
+    //trae un elemento a partir de los protones
+    public ElementData GetElementFromProton(int protons)
     {
-        string element = null;
+        ElementData elementData = new ElementData();
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT name FROM element WHERE protons="
-                    + protons + " AND neutrons=" + neutrons 
-                    + " AND electrons=" + electrons + ";";
-                command.CommandText = sqlQuery;
-                using (IDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        element = reader.GetString(0);
-                    }
-                    dbConnection.Close();
-                    reader.Close();
-                }
-            }
-        }
-        return element;
-    }
-
-    /*Get Elemento valida par proton neutron*/
-    public String GetElementProtonNeutron(int protons, int neutrons)
-    {
-        string element = null;
-        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
-        {
-            dbConnection.Open();
-            using (IDbCommand command = dbConnection.CreateCommand())
-            {
-                string sqlQuery = "SELECT Nombre FROM ValidaElementos WHERE Protones="
-                    + protons + " AND Neutrones=" + neutrons + ";";
-               
-                command.CommandText = sqlQuery;
-                using (IDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        element = reader.GetString(0);
-                    }
-                    dbConnection.Close();
-                    reader.Close();
-                }
-            }
-        }
-        return element;
-    }
-
-
-    /*Get Elemento valida par proton electron*/
-    public String GetElementProtonElectron(int protons, int electron)
-    {
-        string element = null;
-        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
-        {
-            dbConnection.Open();
-            using (IDbCommand command = dbConnection.CreateCommand())
-            {
-                string sqlQuery = "SELECT Nombre FROM ValidaElementos WHERE Protones="
-                    + protons + " AND Electrones=" + electron + ";";
+                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones FROM ValidaElementos WHERE Protones="
+                    + protons + ";";
 
                 command.CommandText = sqlQuery;
                 using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        element = reader.GetString(0);
+                        elementData.Name = reader.GetString(0);
+                        elementData.Simbol = reader.GetString(1);
+                        elementData.Protons = reader.GetInt32(2);
+                        elementData.Neutrons = reader.GetInt32(3);
+                        elementData.Electrons = reader.GetInt32(4);
                     }
                     dbConnection.Close();
                     reader.Close();
                 }
             }
         }
-        return element;
+        return elementData;
     }
 }

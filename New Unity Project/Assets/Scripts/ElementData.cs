@@ -3,6 +3,7 @@
 public class ElementData
 {
     private string name;
+    private string simbol;
     private int protons;
     private int neutrons;
     private int electrons;
@@ -11,4 +12,5 @@ public class ElementData
     public int Protons { get => protons; set => protons = value; }
     public int Neutrons { get => neutrons; set => neutrons = value; }
     public int Electrons { get => electrons; set => electrons = value; }
+    public string Simbol { get => simbol; set => simbol = value; }
 }
