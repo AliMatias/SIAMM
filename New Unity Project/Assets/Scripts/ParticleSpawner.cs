@@ -119,11 +119,11 @@ public class ParticleSpawner : MonoBehaviour
                 }
                 if (element.Electrons < electrons)
                 {
-                    elementText = elementText + ", catión.";
+                    elementText = elementText + ", anión.";
                 }
                 else if (element.Electrons > electrons)
                 {
-                    elementText = elementText + ", anión.";
+                    elementText = elementText + ", catión.";
                 }
             }
         }
