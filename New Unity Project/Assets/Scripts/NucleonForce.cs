@@ -13,7 +13,7 @@ public class NucleonForce : MonoBehaviour
         float distance = direction.magnitude;
         if (distance == 0f)
             return;
-        Vector3 force = direction.normalized * 1.2f;
+        Vector3 force = direction.normalized * 1.4f;
         this.rigidbody.AddForce(force);
     }
 }

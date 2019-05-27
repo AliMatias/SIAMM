@@ -89,16 +89,47 @@ public class ParticleSpawner : MonoBehaviour
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
+    /*Metodo Valida si es un elemento de tabla periodica, si isotopo, cation-anion o propio*/
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
-        Debug.Log("protons: " + protons + " neutrons:" + neutrons + " electrons:" + electrons);
-        string elementName = DBManager.GetElementFromParticles(protons, neutrons, electrons);
-        if (elementName == null)
-        {
-            elementName = "no encontrado";
-        }
-        Debug.Log(elementName);
-        elementLabel.SetText("Elemento: " + elementName);
+        ElementData element = new ElementData();
+        string elementText = string.Empty;
 
+        Debug.Log("protones: " + protons + " neutrones:" + neutrons + " electrones:" + electrons);
+        //string elementName = DBManager.GetElementFromParticles(protons, neutrons, electrons);
+
+        //resetea valor a by default
+        if (protons == 0 && neutrons == 0 && electrons == 0)
+            elementText = "";
+        else
+        {
+            element = DBManager.GetElementFromProton(protons);
+
+            if (element == null || element.Name == null)
+            {
+                elementText = "no encontrado.";
+            }
+            else
+            {
+                elementText = element.Name + " (" + element.Simbol + ")";
+
+                if (element.Neutrons != neutrons)
+                {
+                    elementText = "isótopo de " + elementText;
+                }
+                if (element.Electrons < electrons)
+                {
+                    elementText = elementText + ", anión.";
+                }
+                else if (element.Electrons > electrons)
+                {
+                    elementText = elementText + ", catión.";
+                }
+            }
+        }
+
+        Debug.Log(elementText);
+        elementLabel.SetText("Elemento: " + elementText);
     }
+
 }
