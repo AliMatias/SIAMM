@@ -1,14 +1,20 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ScreenChanged : MonoBehaviour
 {
     #region Declaraciones
     public Animator animator;
     private int screenToLoad;
+    public Image image;
     #endregion
     
-    
+    void Start()
+    {
+        image.enabled = true;
+    }
+
     // Update is called once per frame
     void Update()
     {

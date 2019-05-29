@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 6134419}
   - component: {fileID: 6134418}
   - component: {fileID: 6134417}
+  - component: {fileID: 6134420}
   m_Layer: 0
   m_Name: Title
   m_TagString: Untagged
@@ -138,11 +139,13 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6134416}
-  m_Text: "SIAMM \nPROJECT"
+  m_Text: 'SIAMM
+
+    PROJECT'
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1
-  m_Anchor: 0
+  m_Anchor: 4
   m_Alignment: 1
   m_TabSize: 4
   m_FontSize: 140
@@ -197,12 +200,27 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6134416}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.27, y: 3.29, z: 0}
+  m_LocalPosition: {x: 0.01, y: 1.35, z: 0}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6134420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6134416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db629b5a32b4854497d9bc7561d6a7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  letterTime: 0.2
+  message: 
+  messageText: {fileID: 6134417}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -822,6 +840,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1735629407}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2054146680 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6818162120377278012, guid: 6de9ccdd48da62343887483284f27308,
+    type: 3}
+  m_PrefabInstance: {fileID: 6818162121315432435}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6818162121315432435
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -887,6 +917,16 @@ PrefabInstance:
     - target: {fileID: 6818162120992603190, guid: 6de9ccdd48da62343887483284f27308,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6818162120992603189, guid: 6de9ccdd48da62343887483284f27308,
+        type: 3}
+      propertyPath: image
+      value: 
+      objectReference: {fileID: 2054146680}
+    - target: {fileID: 6818162120377278012, guid: 6de9ccdd48da62343887483284f27308,
+        type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
