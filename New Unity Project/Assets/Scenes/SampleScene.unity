@@ -1165,7 +1165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c441c1bd7b48f1346a528afc89be53cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nucleonPrefabs:
+  particlePrefabs:
   - {fileID: 8711210005307981189, guid: 423b021134626b542b0812eafc55b0e8, type: 3}
   - {fileID: 1004922638053339815, guid: acd6c70f77d17da4c9ebba3242c45ca1, type: 3}
   - {fileID: 4171991230871867215, guid: af2ca0e70385dc64f8ca8036f3278a0b, type: 3}
