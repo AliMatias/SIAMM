@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 
+//clase normal que sirve de una especie de DTO
 public class ElementData
 {
     private string name;

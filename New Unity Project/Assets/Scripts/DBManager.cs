@@ -5,34 +5,42 @@ using System.Data;
 using System;
 using Mono.Data.Sqlite;
 
+//servicio de conexión con la base de datos.
 public class DBManager : MonoBehaviour
 {
     private string connectionString;
 
-    // Start is called before the first frame update
+    //al inciar, setea el path a la db
     void Start()
     {
+        //path donde se encuentra la base de datos, "Application.dataPath" es el path x default en donde guarda unity
         connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";
-        getAllElements();//valida HOY conexion ok con la base y trae tabla elementos
+        //valida HOY conexion ok con la base y trae tabla elementos
+        getAllElements();
     }
     
+    //trae todos los elementos de la tabla
     private void getAllElements()
     {
+        //usa interfaz de conexión para crear una conexión
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
+            //abre conexión
             dbConnection.Open();
+            //usa interfaz de comandos para crear un comando
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                //string sqlQuery = "SELECT * FROM element";
+                //armo mi query
                 string sqlQuery = "select Nombre, Protones, Neutrones, Electrones, Simbolo, Numero from ValidaElementos";
+                //le digo que es en formato texto
                 command.CommandText = sqlQuery;
+                //uso la interfaz de reader para ejecutar mi comando
                 using (IDataReader reader = command.ExecuteReader())
                 {
+                    //mientras haya algo para leer, lo lee
                     while (reader.Read())
                     {
-                        // string message = "Element: " + reader.GetString(1) + ". Protons: " + reader.GetInt32(2) +
-                        //    ". Neutrons: " + reader.GetInt32(3) + ". Electrons: " + reader.GetInt32(4) + ".";
-
+                        //arma un mensaje extrayendo la data del propio reader. Cada índice equivale a la posición en el select
                         string message = "Elemento: " + reader.GetString(0).ToString()                          
                             + ". Protones: " + reader.GetInt32(1).ToString() 
                             + ". Neutrones: " + reader.GetInt32(2).ToString() 
@@ -43,6 +51,7 @@ public class DBManager : MonoBehaviour
 
                         Debug.Log(message);
                     }
+                    //cierro conexión y reader, HACER SIEMPRE
                     dbConnection.Close();
                     reader.Close();
                 }
