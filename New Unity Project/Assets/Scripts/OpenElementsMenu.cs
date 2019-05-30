@@ -25,7 +25,7 @@ public class OpenElementsMenu : MonoBehaviour
             //obtengo el texto del botón
             Text buttonText = button.GetComponentInChildren<Text>();
             //y lo cambio según corresponda
-            if(opened)
+            if(!opened)
             {
                 buttonText.text = ">";
             }
