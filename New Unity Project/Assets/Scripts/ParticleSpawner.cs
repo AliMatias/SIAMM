@@ -208,6 +208,7 @@ public class ParticleSpawner : MonoBehaviour
     private void Delay(float delay)
     {
         float limitTime = Time.time + delay;
+        //si acá pongo un while Time.time < limitTime, se tilda el unity
         Debug.Log("time: " + Time.time + ". limit: " + limitTime);
         return;
     }
