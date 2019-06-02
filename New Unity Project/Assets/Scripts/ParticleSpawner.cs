@@ -156,4 +156,60 @@ public class ParticleSpawner : MonoBehaviour
         elementLabel.SetText("Elemento: " + elementText);
     }
 
+    //por ahora borra todas sus partículas y empieza a spawnear las nuevas hasta llegar a la cantidad indicada
+    //estoy hay que cambiarlo cuando se maneje con más de un átomo porque tiene que ser en el onCreate o algo así.
+    //y ya sabemos que van a estar las 3 partículas en 0
+    public void SpawnFromPeriodicTable()
+    {
+        //acá tendría que recibir el nombre por param y averiguar estos 3 valores en la db
+        int protons = 10;
+        int neutrons = 10;
+        int electrons = 10;
+        //chequea lo actual y lo borra
+        IterateCounterAndDeleteParticles(ref protonCounter, ref protonQueue);
+        IterateCounterAndDeleteParticles(ref neutronCounter, ref neutronQueue);
+        IterateCounterAndDeleteParticles(ref electronCounter, ref electronQueue);
+
+        IterateCounterAndCreateParticles(protons, neutrons, electrons);
+    }
+
+    private void IterateCounterAndDeleteParticles(ref int counter, ref Queue<GameObject> queue)
+    {
+        while(counter > 0)
+        {
+            GameObject toDelete = queue.Dequeue();
+            Destroy(toDelete);
+            counter--;
+        }
+    }
+
+    private void IterateCounterAndCreateParticles(int protons, int neutrons, int electrons)
+    {
+        while(protons > 0)
+        {
+            SpawnNucleon(true);
+            protons--;
+            Delay(0.5f);
+        }
+        while(neutrons > 0)
+        {
+            SpawnNucleon(false);
+            neutrons--;
+            Delay(0.5f);
+        }
+        while(electrons > 0)
+        {
+            SpawnElectron();
+            electrons--;
+            Delay(0.5f);
+        }
+    }
+    
+    private void Delay(float delay)
+    {
+        float limitTime = Time.time + delay;
+        Debug.Log("time: " + Time.time + ". limit: " + limitTime);
+        return;
+    }
+
 }
