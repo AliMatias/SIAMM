@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &2973013647369836022
+--- !u!1001 &7493732101486067963
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 171082391575801109, guid: 542049d9bff91dc4e9c236017ae65db3,
         type: 3}
       propertyPath: m_Name
-      value: MetalAlcalinoPrefab
+      value: ElementPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 2875330828932066517, guid: 542049d9bff91dc4e9c236017ae65db3,
         type: 3}
@@ -116,21 +116,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4385820789787708559, guid: 542049d9bff91dc4e9c236017ae65db3,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 0.2666667
-      objectReference: {fileID: 0}
-    - target: {fileID: 4385820789787708559, guid: 542049d9bff91dc4e9c236017ae65db3,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0.54524523
-      objectReference: {fileID: 0}
-    - target: {fileID: 4385820789787708559, guid: 542049d9bff91dc4e9c236017ae65db3,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.8392157
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 542049d9bff91dc4e9c236017ae65db3, type: 3}

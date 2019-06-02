@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 171082391575801109, guid: 542049d9bff91dc4e9c236017ae65db3,
         type: 3}
       propertyPath: m_Name
-      value: "Metallant\xE1nidoPrefab"
+      value: MetallantanidoPrefab
       objectReference: {fileID: 0}
     - target: {fileID: 2875330828932066517, guid: 542049d9bff91dc4e9c236017ae65db3,
         type: 3}
@@ -120,17 +120,17 @@ PrefabInstance:
     - target: {fileID: 4385820789787708559, guid: 542049d9bff91dc4e9c236017ae65db3,
         type: 3}
       propertyPath: m_Color.r
-      value: 0.4388693
+      value: 0.8018868
       objectReference: {fileID: 0}
     - target: {fileID: 4385820789787708559, guid: 542049d9bff91dc4e9c236017ae65db3,
         type: 3}
       propertyPath: m_Color.g
-      value: 0.6226415
+      value: 0.35933605
       objectReference: {fileID: 0}
     - target: {fileID: 4385820789787708559, guid: 542049d9bff91dc4e9c236017ae65db3,
         type: 3}
       propertyPath: m_Color.b
-      value: 0.20265219
+      value: 0.7774208
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 542049d9bff91dc4e9c236017ae65db3, type: 3}
