@@ -24,6 +24,7 @@ public class ParticleSpawner : MonoBehaviour
     private int neutronCounter = 0;
     private int electronCounter = 0;
 
+    #region spawn
     //crea un nucleon, true -> crea proton, false -> crea neutron
     public void SpawnNucleon(bool proton)
     {
@@ -37,7 +38,7 @@ public class ParticleSpawner : MonoBehaviour
         GameObject spawn = Instantiate<GameObject>(prefab, parent);
         
         //posicion random para que no queden todos en fila, aún no quedan bien
-        float randomNumber = Random.Range(0f, 0.2f);
+        float randomNumber = Random.Range(0f, 0.4f);
         Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
         spawn.transform.localPosition = randomPosition;
         
@@ -70,6 +71,9 @@ public class ParticleSpawner : MonoBehaviour
         //actualizo label
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
+#endregion
+
+    #region borradores
 
     //borrar neutron
     public void RemoveNeutron()
@@ -106,6 +110,7 @@ public class ParticleSpawner : MonoBehaviour
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
+#endregion
 
     /*Metodo Valida si es un elemento de tabla periodica, si es isotopo, y cation-anion*/
     private void UpdateElement(int protons, int neutrons, int electrons)
@@ -156,23 +161,38 @@ public class ParticleSpawner : MonoBehaviour
         elementLabel.SetText("Elemento: " + elementText);
     }
 
+    #region crear desde tabla periodica
     //por ahora borra todas sus partículas y empieza a spawnear las nuevas hasta llegar a la cantidad indicada
     //estoy hay que cambiarlo cuando se maneje con más de un átomo porque tiene que ser en el onCreate o algo así.
     //y ya sabemos que van a estar las 3 partículas en 0
-    public void SpawnFromPeriodicTable()
+    //Además, el elementName por ahora viene definido en el mètodo del botón
+    public void SpawnFromPeriodicTable(string elementName)
     {
-        //acá tendría que recibir el nombre por param y averiguar estos 3 valores en la db
-        int protons = 10;
-        int neutrons = 10;
-        int electrons = 10;
+        //nullcheck del nombre
+        if(IsNullOrEmpty(elementName))
+        {
+            return;
+        }
+
+        //obtengo la data del elemento de la DB
+        ElementData element = DBManager.GetElementFromName(elementName);
+
+        //nullcheck por si no encontró en la DB
+        if (IsNullOrEmpty(element))
+        {
+            UpdateElement(0, 0, 0);
+            return;
+        }
+
         //chequea lo actual y lo borra
         IterateCounterAndDeleteParticles(ref protonCounter, ref protonQueue);
         IterateCounterAndDeleteParticles(ref neutronCounter, ref neutronQueue);
         IterateCounterAndDeleteParticles(ref electronCounter, ref electronQueue);
-
-        IterateCounterAndCreateParticles(protons, neutrons, electrons);
+        //crea la cantidad de partículas indicadas
+        IterateCounterAndCreateParticles(element.Protons, element.Neutrons, element.Electrons);
     }
 
+    //le paso la lista y el contador correspondiente por referencia para hacer un solo método para las 3 partículas
     private void IterateCounterAndDeleteParticles(ref int counter, ref Queue<GameObject> queue)
     {
         while(counter > 0)
@@ -183,34 +203,51 @@ public class ParticleSpawner : MonoBehaviour
         }
     }
 
+    //Este método lanza las 3 co rutinas que spawnean las partículas indicadas por parámetro
     private void IterateCounterAndCreateParticles(int protons, int neutrons, int electrons)
     {
-        while(protons > 0)
-        {
-            SpawnNucleon(true);
-            protons--;
-            Delay(0.5f);
-        }
-        while(neutrons > 0)
-        {
-            SpawnNucleon(false);
-            neutrons--;
-            Delay(0.5f);
-        }
-        while(electrons > 0)
-        {
-            SpawnElectron();
-            electrons--;
-            Delay(0.5f);
-        }
+        //Empiezo las 3 co rutinas que se van a ejecutar en paralelo
+        StartCoroutine(SpawnGivenNumberOfNucleons(protons,true));
+        StartCoroutine(SpawnGivenNumberOfNucleons(neutrons, false));
+        StartCoroutine(SpawnGivenNumberOfElectrons(electrons));
     }
     
-    private void Delay(float delay)
+    //Co rutina que spawnea N nucleones (true = proton, false = neutron), cada X segundos
+    IEnumerator SpawnGivenNumberOfNucleons(int counter, bool proton)
     {
-        float limitTime = Time.time + delay;
-        //si acá pongo un while Time.time < limitTime, se tilda el unity
-        Debug.Log("time: " + Time.time + ". limit: " + limitTime);
-        return;
+        while (counter > 0)
+        {
+            SpawnNucleon(proton);
+            counter--;
+            //esta línea espera x segundos antes de seguir ejecutando
+            yield return new WaitForSeconds(0.25f);
+        }
     }
 
+    //Co rutina que spawnea N electrones cada X segundos
+    IEnumerator SpawnGivenNumberOfElectrons(int counter)
+    {
+        while (counter > 0)
+        {
+            SpawnElectron();
+            counter--;
+            //esta línea espera x segundos antes de seguir ejecutando
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+#endregion
+
+    private bool IsNullOrEmpty(string s)
+    {
+        if (s == null || s == "")
+            return true;
+        return false;
+    }
+
+    private bool IsNullOrEmpty(ElementData e)
+    {
+        if (e == null || e.Name == "")
+            return true;
+        return false;
+    }
 }

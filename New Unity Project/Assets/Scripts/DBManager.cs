@@ -89,4 +89,35 @@ public class DBManager : MonoBehaviour
         }
         return elementData;
     }
+
+    //trae un elemento a partir del nombre
+    public ElementData GetElementFromName(string name)
+    {
+        ElementData elementData = new ElementData();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones FROM ValidaElementos WHERE Nombre='"
+                    + name + "';";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        elementData.Name = reader.GetString(0);
+                        elementData.Simbol = reader.GetString(1);
+                        elementData.Protons = reader.GetInt32(2);
+                        elementData.Neutrons = reader.GetInt32(3);
+                        elementData.Electrons = reader.GetInt32(4);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return elementData;
+    }
 }
