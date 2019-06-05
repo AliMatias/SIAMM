@@ -368,7 +368,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1191bc81fd1d1542ba17693049f5b72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  edit: {fileID: 0}
+  input: {fileID: 1242469769}
+  spawner: {fileID: 999384585}
 --- !u!1 &170076733
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,15 +916,15 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 999384585}
-        m_MethodName: SpawnFromPeriodicTable
-        m_Mode: 5
+      - m_Target: {fileID: 142856688}
+        m_MethodName: Spawn
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Berilio
+          m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,

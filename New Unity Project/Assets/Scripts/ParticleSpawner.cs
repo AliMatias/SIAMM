@@ -174,16 +174,16 @@ public class ParticleSpawner : MonoBehaviour
         //nullcheck del nombre
         if(IsNullOrEmpty(elementName))
         {
+            Debug.Log("Element name null or empty");
             return;
         }
 
         //obtengo la data del elemento de la DB
         ElementData element = DBManager.GetElementFromName(elementName);
-
         //nullcheck por si no encontró en la DB
         if (IsNullOrEmpty(element))
         {
-            UpdateElement(0, 0, 0);
+            Debug.Log("Element not found.");
             return;
         }
 
@@ -253,7 +253,7 @@ public class ParticleSpawner : MonoBehaviour
     //nullcheck de ElementData, averiguar si existe alguna librería que ya haga esto.
     private bool IsNullOrEmpty(ElementData e)
     {
-        if (e == null || e.Name == "")
+        if (e == null || e.Name == null || e.Name == "")
             return true;
         return false;
     }

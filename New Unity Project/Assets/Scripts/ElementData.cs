@@ -12,4 +12,7 @@ public class ElementData
     public int Neutrons { get => neutrons; set => neutrons = value; }
     public int Electrons { get => electrons; set => electrons = value; }
     public string Simbol { get => simbol; set => simbol = value; }
+
+    public new string ToString => name + " (" + simbol + ") : protones: " + protons + ", neutrones: "
+            + neutrons + ", electrones: " + electrons + ".";
 }
