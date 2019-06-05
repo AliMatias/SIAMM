@@ -7,11 +7,13 @@ using UnityEngine.UI;
 //script que se encarga de spawnear las partículas, manejarlas y saber que estoy formando.
 public class ParticleSpawner : MonoBehaviour
 {
+    #region atributos
     //Lista de prefabs de partículas, posición 0->proton, 1->neutron, 2->electron
     public GameObject[] particlePrefabs;
     //objeto padre, que va a representar el átomo en sí
     [SerializeField]
     private Transform parent;
+    //objeto con el que interactúo para acceder a la DB
     public DBManager DBManager;
     //label que indica elemento en construcción.
     public TextMeshProUGUI elementLabel;
@@ -23,6 +25,8 @@ public class ParticleSpawner : MonoBehaviour
     private int protonCounter = 0;
     private int neutronCounter = 0;
     private int electronCounter = 0;
+#endregion
+
 
     #region spawn
     //crea un nucleon, true -> crea proton, false -> crea neutron
@@ -119,7 +123,6 @@ public class ParticleSpawner : MonoBehaviour
         string elementText = string.Empty;
 
         Debug.Log("protones: " + protons + " neutrones:" + neutrons + " electrones:" + electrons);
-        //string elementName = DBManager.GetElementFromParticles(protons, neutrons, electrons);
 
         //resetea valor a by default
         if (protons == 0 && neutrons == 0 && electrons == 0)
@@ -129,7 +132,7 @@ public class ParticleSpawner : MonoBehaviour
             //obtiene datos del elemento según cantidad de protones
             element = DBManager.GetElementFromProton(protons);
             //si es null o no lo encontré
-            if (element == null || element.Name == null)
+            if (IsNullOrEmpty(element))
             {
                 elementText = "no encontrado.";
             }
@@ -162,10 +165,10 @@ public class ParticleSpawner : MonoBehaviour
     }
 
     #region crear desde tabla periodica
-    //por ahora borra todas sus partículas y empieza a spawnear las nuevas hasta llegar a la cantidad indicada
-    //estoy hay que cambiarlo cuando se maneje con más de un átomo porque tiene que ser en el onCreate o algo así.
-    //y ya sabemos que van a estar las 3 partículas en 0
-    //Además, el elementName por ahora viene definido en el mètodo del botón
+    /*Por ahora borra todas sus partículas y empieza a spawnear las nuevas hasta llegar a la cantidad indicada
+    esto hay que cambiarlo cuando se maneje con más de un átomo porque tiene que ser en el onCreate o algo así.
+    y ya sabemos que van a estar las 3 partículas en 0
+    Además, el elementName por ahora viene definido en el mètodo del botón*/
     public void SpawnFromPeriodicTable(string elementName)
     {
         //nullcheck del nombre
@@ -184,7 +187,7 @@ public class ParticleSpawner : MonoBehaviour
             return;
         }
 
-        //chequea lo actual y lo borra
+        //chequea lo actual y lo borra, esto es lo que seguro hay que borrar más adelante
         IterateCounterAndDeleteParticles(ref protonCounter, ref protonQueue);
         IterateCounterAndDeleteParticles(ref neutronCounter, ref neutronQueue);
         IterateCounterAndDeleteParticles(ref electronCounter, ref electronQueue);
@@ -235,8 +238,11 @@ public class ParticleSpawner : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         }
     }
-#endregion
+    #endregion
 
+
+    #region nullchecks
+    //nullcheck de string, averiguar si existe alguna librería que ya haga esto.
     private bool IsNullOrEmpty(string s)
     {
         if (s == null || s == "")
@@ -244,10 +250,12 @@ public class ParticleSpawner : MonoBehaviour
         return false;
     }
 
+    //nullcheck de ElementData, averiguar si existe alguna librería que ya haga esto.
     private bool IsNullOrEmpty(ElementData e)
     {
         if (e == null || e.Name == "")
             return true;
         return false;
     }
+    #endregion
 }
