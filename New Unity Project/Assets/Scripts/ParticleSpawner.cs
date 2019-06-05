@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 //script que se encarga de spawnear las partículas, manejarlas y saber que estoy formando.
 public class ParticleSpawner : MonoBehaviour
@@ -116,7 +115,8 @@ public class ParticleSpawner : MonoBehaviour
     }
 #endregion
 
-    /*Metodo Valida si es un elemento de tabla periodica, si es isotopo, y cation-anion*/
+    /*Metodo Valida si es un elemento de tabla periodica, si es isotopo, y cation-anion
+     y luego lo escribe en el label del elemento*/
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
         ElementData element = new ElementData();

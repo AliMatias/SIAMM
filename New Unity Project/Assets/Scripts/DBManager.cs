@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Data;
-using System;
 using Mono.Data.Sqlite;
 
 //servicio de conexión con la base de datos.
