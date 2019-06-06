@@ -31,7 +31,7 @@ public class DBManager : MonoBehaviour
             using (IDbCommand command = dbConnection.CreateCommand())
             {
                 //armo mi query
-                string sqlQuery = "select Nombre, Protones, Neutrones, Electrones, Simbolo, Numero from ValidaElementos";
+                string sqlQuery = "select Nombre, Protones, Neutrones, Electrones, Simbolo, Numero from valida_elementos";
                 //le digo que es en formato texto
                 command.CommandText = sqlQuery;
                 //uso la interfaz de reader para ejecutar mi comando
@@ -68,7 +68,7 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones FROM ValidaElementos WHERE Protones="
+                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones FROM valida_elementos WHERE Protones="
                     + protons + ";";
 
                 command.CommandText = sqlQuery;
@@ -81,6 +81,37 @@ public class DBManager : MonoBehaviour
                         elementData.Protons = reader.GetInt32(2);
                         elementData.Neutrons = reader.GetInt32(3);
                         elementData.Electrons = reader.GetInt32(4);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return elementData;
+    }
+
+
+
+    //trae un elemento DE LA TABLA PERIODICA A PARTIR DEL NRO
+    public ElementTabPer GetElementFromNro(int nro)
+    {
+        ElementTabPer elementData = new ElementTabPer();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {            
+                string sqlQuery = "SELECT simbolo, peso_atomico, configuracion_electronica_abreviada FROM elementos_info_basica WHERE numero_atomico="
+                    + nro + ";";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        elementData.Simbol = reader.GetString(0);
+                        elementData.PesoAtomico = reader.GetFloat(1);
+                        elementData.ConfElectronica = reader.GetString(2);
                     }
                     dbConnection.Close();
                     reader.Close();
