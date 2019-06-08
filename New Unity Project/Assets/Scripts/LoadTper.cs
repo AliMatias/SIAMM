@@ -8,14 +8,23 @@ public class LoadTper : MonoBehaviour
 {
     private Button button;
     //tener en cuenta que este componente lo envia desde la interface! sino da error null pointer
-    public DBManager DBManager; 
+    public DBManager DBManager;
+
+    //estos parametros son estaticos en mi modelo 
+    private int row = 12;
+    private int col = 23;
 
     // Start is called before the first frame update
     void Start()
     {
+        RectTransform parent = gameObject.GetComponent<RectTransform>();
+
         GridLayoutGroup glg = this.GetComponent<GridLayoutGroup>();
 
-        //Loop through the rest of the child object
+        //rezise de acuerdo a resolucion
+        glg.cellSize = new Vector2(parent.rect.width / col, parent.rect.height / row);
+
+        //Recorro todas las celdas que tienen un game object
         for (int i = 0; i < glg.transform.childCount; i++)
         {
             button = glg.transform.GetChild(i).GetComponent<Button>();
@@ -23,7 +32,7 @@ public class LoadTper : MonoBehaviour
             //si no es NULL quiere decir que MAPEO un boton ahi tengo que ir a la base de datos
             if (button != null)
             {
-                Debug.Log(button.name);
+                //Debug.Log(button.name);
                 LoadData(button);
             }
         }
@@ -39,6 +48,7 @@ public class LoadTper : MonoBehaviour
 
         Text[] textosObj = elem.GetComponentsInChildren<Text>();
 
+        //recorro todos los game object que contiene el boton
         for (int j = 0; j < textosObj.Length; j++)
         {
             if (textosObj[j].name == "txtDistElect")
