@@ -12,7 +12,7 @@ public class ParticleSpawner : MonoBehaviour
     //objeto padre, que va a representar el átomo en sí
     [SerializeField]
     private Transform parent;
-    public DBManager DBManager;
+    private DBManager DBManager;
     //label que indica elemento en construcción.
     public TextMeshProUGUI elementLabel;
     //listas para controlar las partículas agregadas
@@ -23,6 +23,11 @@ public class ParticleSpawner : MonoBehaviour
     private int protonCounter = 0;
     private int neutronCounter = 0;
     private int electronCounter = 0;
+
+    private void Start()
+    {
+        DBManager = FindObjectOfType<DBManager>();
+    }
 
     //crea un nucleon, true -> crea proton, false -> crea neutron
     public void SpawnNucleon(bool proton)
