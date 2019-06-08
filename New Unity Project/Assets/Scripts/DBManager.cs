@@ -95,29 +95,34 @@ public class DBManager : MonoBehaviour
     //trae un elemento DE LA TABLA PERIODICA A PARTIR DEL NRO
     public ElementTabPer GetElementFromNro(int nro)
     {
-        ElementTabPer elementData = new ElementTabPer();
+        ElementTabPer elementTabPer = new ElementTabPer();
+        connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";//Data Source cannot be empty.  Use :memory: to open an in-memory database
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
             dbConnection.Open();
-            using (IDbCommand command = dbConnection.CreateCommand())
-            {            
-                string sqlQuery = "SELECT simbolo, peso_atomico, configuracion_electronica_abreviada FROM elementos_info_basica WHERE numero_atomico="
-                    + nro + ";";
 
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                //tener en cuenta los null sino tirara error de cast luego en el read del set
+                string sqlQuery = "SELECT simbolo, peso_atomico, CASE WHEN configuracion_electronica_abreviada IS NULL THEN 'n/a' ELSE configuracion_electronica_abreviada END, nombre FROM elementos_info_basica WHERE numero_atomico="
+                    + nro + ";";
+  
                 command.CommandText = sqlQuery;
                 using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        elementData.Simbol = reader.GetString(0);
-                        elementData.PesoAtomico = reader.GetFloat(1);
-                        elementData.ConfElectronica = reader.GetString(2);
+                        elementTabPer.Nroatomico = nro;
+                        elementTabPer.Simbol = reader.GetString(0);
+                        elementTabPer.PesoAtomico = reader.GetFloat(1);
+                        elementTabPer.ConfElectronica = reader.GetString(2);
+                        elementTabPer.Name = reader.GetString(3);
                     }
                     dbConnection.Close();
                     reader.Close();
                 }
             }
         }
-        return elementData;
+        return elementTabPer;
     }
 }
