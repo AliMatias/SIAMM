@@ -19,7 +19,10 @@ public class UIFader : MonoBehaviour
     public void FadeInAndOut()
     {
         if (uiElement.alpha == 0)
+        {
+            uiElement.gameObject.SetActive(true);
             FadeIn();
+        }
         else
             FadeOut();
     }
@@ -46,6 +49,10 @@ public class UIFader : MonoBehaviour
 
 
             yield return new WaitForEndOfFrame();
+        }
+        if (end == 0)
+        {
+            uiElement.gameObject.SetActive(false);
         }
     }
 }
