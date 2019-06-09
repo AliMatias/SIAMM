@@ -23,6 +23,47 @@ public class Atom: MonoBehaviour
     private int protonCounter = 0;
     private int neutronCounter = 0;
     private int electronCounter = 0;
+    //indicador de índice de átomo (posición en la lista de átomos del manager)
+    private int atomIndex;
+
+    #region getters and setters
+    public int AtomIndex
+    {
+        get
+        {
+            return atomIndex;
+        }
+
+        set
+        {
+            atomIndex = value;
+        }
+    }
+
+    public Queue<GameObject> ProtonQueue
+    {
+        get
+        {
+            return protonQueue;
+        }
+    }
+
+    public Queue<GameObject> NeutronQueue
+    {
+        get
+        {
+            return neutronQueue;
+        }
+    }
+
+    public Queue<GameObject> ElectronQueue
+    {
+        get
+        {
+            return electronQueue;
+        }
+    }
+#endregion
 
     //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
     private void Awake()
@@ -162,9 +203,10 @@ public class Atom: MonoBehaviour
         elementLabel.GetComponent<TextMesh>().text = elementText;
     }
 
+    //se lanza cuando se hace click al átomo
     public void OnMouseDown()
     {
-        Debug.Log("me clickeaste");
+        Debug.Log("clickeaste el átomo " + atomIndex);
     }
 
 }

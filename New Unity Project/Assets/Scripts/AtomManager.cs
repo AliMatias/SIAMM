@@ -12,6 +12,8 @@ public class AtomManager : MonoBehaviour
     //Lista de posiciones ocupadas/libres
     private List<Vector3> planePositions = new List<Vector3>();
     private List<bool> availablePositions = new List<bool>();
+    //indica el átomo seleccionad. (-1 -> ninguno)
+    private int selectedAtom = -1;
 
     private void Awake()
     {
@@ -39,6 +41,8 @@ public class AtomManager : MonoBehaviour
         spawnedAtom.transform.localPosition = position;
         //agrego a la lista
         atomsList.Add(spawnedAtom);
+        //asigno su índice a este átomo
+        spawnedAtom.AtomIndex = atomsList.Count - 1;
         //spawneo un protón
         spawnedAtom.SpawnNucleon(true);
     }
