@@ -162,4 +162,9 @@ public class Atom: MonoBehaviour
         elementLabel.GetComponent<TextMesh>().text = elementText;
     }
 
+    public void OnMouseDown()
+    {
+        Debug.Log("me clickeaste");
+    }
+
 }

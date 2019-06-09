@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2063773886461780177}
   - component: {fileID: 2063773886461780178}
+  - component: {fileID: 7783312751467102486}
   m_Layer: 0
   m_Name: Atom
   m_TagString: Untagged
@@ -50,6 +51,19 @@ MonoBehaviour:
   - {fileID: 4171991230871867215, guid: af2ca0e70385dc64f8ca8036f3278a0b, type: 3}
   parent: {fileID: 2063773886461780177}
   elementLabel: {fileID: 5101313304361824544}
+--- !u!135 &7783312751467102486
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2063773886461780179}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5101313304361824544
 GameObject:
   m_ObjectHideFlags: 0
