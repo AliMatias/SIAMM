@@ -11,7 +11,7 @@ public class NucleonForce : MonoBehaviour
     //este método se ejecuta cada un cierto tiempo.
     public void FixedUpdate()
     {
-        //obtengo la posición del padre. (átomo)
+        //obtengo la posición del padre. (Atom)
         Vector3 parentPosition = this.transform.parent.gameObject.transform.position;
         //calculo la dirección
         Vector3 direction = parentPosition - this.transform.position;

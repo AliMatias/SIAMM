@@ -6,7 +6,9 @@ public class ElectronOrbit : MonoBehaviour
     
     void FixedUpdate()
     {
-        //rota sobre el eje vertical
-        transform.RotateAround(Vector3.zero, Vector3.up, 90 * Time.deltaTime);
+        //obtengo la posición del padre (Atom)
+        Vector3 parentPosition = this.transform.parent.gameObject.transform.position;
+        //rota sobre el eje vertical de la posición del padre
+        transform.RotateAround(parentPosition, Vector3.up, 90 * Time.deltaTime);
     }
 }

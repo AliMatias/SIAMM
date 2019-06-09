@@ -717,6 +717,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 662182792}
+  - component: {fileID: 662182793}
   m_Layer: 0
   m_Name: AtomManager
   m_TagString: Untagged
@@ -732,12 +733,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 662182791}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2.56, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &662182793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 662182791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39445161687f71b469295291c1dc1f45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  atomPrefab: {fileID: 2063773886461780178, guid: 9889b42c9212eed47905e310f4b1c84b,
+    type: 3}
 --- !u!1 &678721628
 GameObject:
   m_ObjectHideFlags: 0
@@ -1743,7 +1758,7 @@ GameObject:
   - component: {fileID: 1376566123}
   - component: {fileID: 1376566122}
   m_Layer: 5
-  m_Name: Button
+  m_Name: AddAtomBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1764,10 +1779,10 @@ RectTransform:
   m_Father: {fileID: 1867241085}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -467.59, y: 107}
-  m_SizeDelta: {x: 90.873, y: 30}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 48.410004, y: -119}
+  m_SizeDelta: {x: 90.872986, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1376566122
 MonoBehaviour:
@@ -1808,7 +1823,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1376566123}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 662182793}
+        m_MethodName: NewAtom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1376566123
@@ -2871,6 +2897,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Atom
       objectReference: {fileID: 0}
+    - target: {fileID: 2063773886461780178, guid: 9889b42c9212eed47905e310f4b1c84b,
+        type: 3}
+      propertyPath: DBManager
+      value: 
+      objectReference: {fileID: 2057913869}
+    - target: {fileID: 2063773886461780178, guid: 9889b42c9212eed47905e310f4b1c84b,
+        type: 3}
+      propertyPath: elementLabel
+      value: 
+      objectReference: {fileID: 1012236550}
     - target: {fileID: 2063773886461780177, guid: 9889b42c9212eed47905e310f4b1c84b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2926,15 +2962,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2063773886461780178, guid: 9889b42c9212eed47905e310f4b1c84b,
-        type: 3}
-      propertyPath: DBManager
-      value: 
-      objectReference: {fileID: 2057913869}
-    - target: {fileID: 2063773886461780178, guid: 9889b42c9212eed47905e310f4b1c84b,
-        type: 3}
-      propertyPath: elementLabel
-      value: 
-      objectReference: {fileID: 1012236550}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9889b42c9212eed47905e310f4b1c84b, type: 3}

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 //script que se encarga de spawnear las partículas, manejarlas y saber que estoy formando.
-public class ParticleSpawner : MonoBehaviour
+public class Atom: MonoBehaviour
 {
     //Lista de prefabs de partículas, posición 0->proton, 1->neutron, 2->electron
     public GameObject[] particlePrefabs;
@@ -24,7 +24,8 @@ public class ParticleSpawner : MonoBehaviour
     private int neutronCounter = 0;
     private int electronCounter = 0;
 
-    private void Start()
+    //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
+    private void Awake()
     {
         DBManager = FindObjectOfType<DBManager>();
     }
@@ -68,7 +69,7 @@ public class ParticleSpawner : MonoBehaviour
         GameObject prefab = particlePrefabs[2];
         GameObject spawn = Instantiate<GameObject>(prefab, parent);
         //lo pongo a un radio de 1 en el eje X
-        spawn.transform.localPosition = new Vector3(1f,0f,0f);
+        spawn.transform.localPosition = new Vector3(0.75f,0f,0f);
         //agrego a la cola y aumento contador
         electronQueue.Enqueue(spawn);
         electronCounter++;
