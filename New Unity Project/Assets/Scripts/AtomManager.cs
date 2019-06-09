@@ -104,17 +104,28 @@ public class AtomManager : MonoBehaviour
             Debug.Log("Este átomo ya estaba seleccionado");
             return;
         }
-        Highlight(index);
+        if(selectedAtom != -1)
+            DeselectParticlesFromAtom(selectedAtom);
+        SelectParticlesFromAtom(index);
+        selectedAtom = index;
     }
 
-    private void Highlight(int index)
+    private void DeselectParticlesFromAtom(int index)
     {
         Atom atom = atomsList[index];
         Queue<GameObject> queue = atom.ProtonQueue;
-        Debug.Log(queue.Count);
+        foreach (GameObject obj in queue)
+        {
+            obj.GetComponent<HighlightObject>().StopHighlight();
+        }
+    }
+
+    private void SelectParticlesFromAtom(int index)
+    {
+        Atom atom = atomsList[index];
+        Queue<GameObject> queue = atom.ProtonQueue;
         foreach(GameObject obj in queue)
         {
-            Debug.Log("asdasd");
             obj.GetComponent<HighlightObject>().StartHighlight();
         }
     }
