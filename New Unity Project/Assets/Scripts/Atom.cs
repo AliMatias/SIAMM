@@ -59,7 +59,7 @@ public class Atom: MonoBehaviour
             neutronCounter++;
         }
         //actualizar el label que indica el elemento.
-        UpdateElement(protonCounter, neutronCounter, electronCounter);
+        //UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
     //crear un electron
