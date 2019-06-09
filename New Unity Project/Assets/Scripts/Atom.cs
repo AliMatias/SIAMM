@@ -13,6 +13,7 @@ public class Atom: MonoBehaviour
     [SerializeField]
     private Transform parent;
     private DBManager DBManager;
+    private AtomManager atomManager;
     //label que indica elemento en construcción.
     public GameObject elementLabel;
     //listas para controlar las partículas agregadas
@@ -69,6 +70,7 @@ public class Atom: MonoBehaviour
     private void Awake()
     {
         DBManager = FindObjectOfType<DBManager>();
+        atomManager = FindObjectOfType<AtomManager>();
     }
 
     //crea un nucleon, true -> crea proton, false -> crea neutron
@@ -207,6 +209,7 @@ public class Atom: MonoBehaviour
     public void OnMouseDown()
     {
         Debug.Log("clickeaste el átomo " + atomIndex);
+        atomManager.SelectAtom(atomIndex);
     }
 
 }
