@@ -6,13 +6,13 @@ using UnityEngine.UI;
 
 public class ElementName : MonoBehaviour
 {
-    private TextMeshProUGUI elementName;
+    private TextMesh elementName;
 
     //cambiar lo que dice el label
     public void ChangeElement(string name)
     {
         Debug.Log(name);
         Debug.Log(elementName.text);
-        elementName.SetText(name);
+        elementName.text = name;
     }
 }

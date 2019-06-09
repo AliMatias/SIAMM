@@ -21,11 +21,13 @@ public class AtomManager : MonoBehaviour
     //agregar nuevo átomo al espacio de trabajo
     public void NewAtom()
     {
+        //intento obtener una posición disponible random
         Vector3 position;
         try
         {
             position = ObtainRandomPosition();
         }
+        //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch(NoPositionsLeftException nple)
         {
             Debug.Log(nple.Message);

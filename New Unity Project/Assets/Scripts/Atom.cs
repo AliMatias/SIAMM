@@ -14,7 +14,7 @@ public class Atom: MonoBehaviour
     private Transform parent;
     private DBManager DBManager;
     //label que indica elemento en construcción.
-    public TextMeshProUGUI elementLabel;
+    public GameObject elementLabel;
     //listas para controlar las partículas agregadas
     private Queue<GameObject> protonQueue = new Queue<GameObject>();
     private Queue<GameObject> neutronQueue = new Queue<GameObject>();
@@ -59,7 +59,7 @@ public class Atom: MonoBehaviour
             neutronCounter++;
         }
         //actualizar el label que indica el elemento.
-        //UpdateElement(protonCounter, neutronCounter, electronCounter);
+        UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
     //crear un electron
@@ -132,7 +132,7 @@ public class Atom: MonoBehaviour
             //si es null o no lo encontré
             if (element == null || element.Name == null)
             {
-                elementText = "no encontrado.";
+                elementText = "Elemento no encontrado.";
             }
             else
             {
@@ -159,7 +159,7 @@ public class Atom: MonoBehaviour
         }
 
         Debug.Log(elementText);
-        elementLabel.SetText("Elemento: " + elementText);
+        elementLabel.GetComponent<TextMesh>().text = elementText;
     }
 
 }
