@@ -123,8 +123,8 @@ public class DBManager : MonoBehaviour
          return elementTabPer;
     }
   
-    //trae un elemento a partir del nombre
-    public ElementData GetElementFromName(string name)
+    //trae un elemento a partir del símbolo
+    public ElementData GetElementFromName(string simbol)
     {
         ElementData elementData = new ElementData();
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
@@ -132,8 +132,8 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT nombre, simbolo, protones, neutrones, electrones FROM valida_elementos WHERE nombre='"
-                    + name + "';";
+                string sqlQuery = "SELECT nombre, simbolo, protones, neutrones, electrones FROM valida_elementos WHERE simbolo='"
+                    + simbol + "';";
 
                 command.CommandText = sqlQuery;
                 using (IDataReader reader = command.ExecuteReader())

@@ -6,16 +6,18 @@ using UnityEngine.UI;
  * pero algo así va a hacer la tabla para llamar al spawner*/
 public class InputManager : MonoBehaviour
 {
-    [SerializeField]
-    private InputField input;
-    [SerializeField]
     private ParticleSpawner spawner;
+    public GameObject parent;
+
+    private void Awake()
+    {
+        spawner = FindObjectOfType<ParticleSpawner>();
+    }
 
     public void Spawn()
     {
-        //obtengo text del input field
-        string elementName = input.text;
         //no hago nullcheck, porque el método spawnFromPeriodicTable ya lo hace
-        spawner.SpawnFromPeriodicTable(elementName);
+        Text text = parent.GetComponentInChildren<Text>();
+        spawner.SpawnFromPeriodicTable(text.text);
     }
 }
