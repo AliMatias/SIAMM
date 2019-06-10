@@ -21,3 +21,6 @@ public class InputManager : MonoBehaviour
         spawner.SpawnFromPeriodicTable(text.text);
     }
 }
+
+
+
