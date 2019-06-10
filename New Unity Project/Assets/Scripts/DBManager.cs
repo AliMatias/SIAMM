@@ -88,12 +88,14 @@ public class DBManager : MonoBehaviour
     }
 
 
-
     //trae un elemento DE LA TABLA PERIODICA A PARTIR DEL NRO
     public ElementTabPer GetElementFromNro(int nro)
     {
         ElementTabPer elementTabPer = new ElementTabPer();
-        connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";//Data Source cannot be empty.  Use :memory: to open an in-memory database
+
+        //Data Source cannot be empty.  Use :memory: to open an in-memory database, esto luego se soluciona en el sprint 3
+        connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";
+
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
             dbConnection.Open();
@@ -122,7 +124,71 @@ public class DBManager : MonoBehaviour
         }
          return elementTabPer;
     }
-  
+
+
+
+    //trae la informacion basica de un elemento de la tabla periodica a partir de su numero atomico
+    public ElementInfoBasic GetElementInfoBasica(int nro)
+    {
+        ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
+
+        //Data Source cannot be empty.  Use :memory: to open an in-memory database, esto luego se soluciona en el sprint 3
+        connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";
+
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                //tener en cuenta los null sino tirara error de cast luego en el read del set
+                string sqlQuery = "SELECT numero_atomico, simbolo, nombre, peso_atomico, periodo,";
+                sqlQuery = sqlQuery + "CASE WHEN fase IS NULL THEN 'n/a' ELSE fase END,";
+                sqlQuery = sqlQuery + "CASE WHEN estructura_cristalina IS NULL THEN 'n/a' ELSE estructura_cristalina END,";
+                sqlQuery = sqlQuery + "CASE WHEN color IS NULL THEN 'n/a' ELSE color END,";
+                sqlQuery = sqlQuery + "CASE WHEN valencia IS NULL THEN 'n/a' ELSE valencia END,";
+                sqlQuery = sqlQuery + "CASE WHEN numeros_oxidacion IS NULL THEN 'n/a' ELSE numeros_oxidacion END,";
+                sqlQuery = sqlQuery + "--NO LA MUESTRA configuracion_electronica_abreviada,";
+                sqlQuery = sqlQuery + "CASE WHEN configuracion_electronica IS NULL THEN 'n/a' ELSE configuracion_electronica END,";
+                sqlQuery = sqlQuery + "caracteristicas,";
+                sqlQuery = sqlQuery + "CASE WHEN punto_fusion IS NULL THEN 'n/a' ELSE punto_fusion END,";
+                sqlQuery = sqlQuery + "CASE WHEN punto_ebullicion IS NULL THEN 'n/a' ELSE punto_ebullicion END,";
+                sqlQuery = sqlQuery + "resumen";
+                sqlQuery = sqlQuery + "FROM elementos_info_basica";
+                sqlQuery = sqlQuery + "WHERE numero_atomico ="
+                + nro + ";";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        elementInfoBasic.Nroatomico = nro;
+                        elementInfoBasic.Simbol = reader.GetString(1);
+                        elementInfoBasic.Name = reader.GetString(2);
+                        elementInfoBasic.PesoAtomico = reader.GetFloat(3);
+                        elementInfoBasic.Periodo = reader.GetInt32(4);
+                        elementInfoBasic.Fase = reader.GetString(5);
+                        elementInfoBasic.Estructura_cristalina = reader.GetString(6);
+                        elementInfoBasic.Color = reader.GetString(7);
+                        elementInfoBasic.Valencia = reader.GetInt32(8);
+                        elementInfoBasic.Numeros_oxidacion = reader.GetString(9);
+                        elementInfoBasic.ConfElectronica = reader.GetString(10);
+                        elementInfoBasic.Caracteristicas = reader.GetString(11);
+                        elementInfoBasic.Punto_fusion = reader.GetString(12);
+                        elementInfoBasic.Punto_ebullicion = reader.GetString(13);
+                        elementInfoBasic.Resumen = reader.GetString(14);
+                    }
+                
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return elementInfoBasic;
+    }
+
+
     //trae un elemento a partir del símbolo
     public ElementData GetElementFromName(string simbol)
     {

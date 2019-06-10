@@ -8,6 +8,8 @@ public class InputManager : MonoBehaviour
 {
     private ParticleSpawner spawner;
     public GameObject parent;
+    private LoadTper loadTPer;
+    private DBManager dbManager;
 
     private void Awake()
     {
@@ -20,6 +22,18 @@ public class InputManager : MonoBehaviour
         Text text = parent.GetComponentInChildren<Text>();
         spawner.SpawnFromPeriodicTable(text.text);
     }
+
+    public void GetInfoBasic()
+    {
+        int nroAtomico = loadTPer.getNroAtomicoId(parent.GetComponentInParent<Button>());
+        ElementInfoBasic el = new ElementInfoBasic();
+
+        el = dbManager.GetElementInfoBasica(nroAtomico);
+
+        Debug.Log("TRAIGO INFO!! " + el.Name);
+        
+    }
+
 }
 
 
