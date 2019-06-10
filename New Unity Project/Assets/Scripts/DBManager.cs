@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Data;
-using System;
 using Mono.Data.Sqlite;
 
 //servicio de conexión con la base de datos.
@@ -31,7 +28,7 @@ public class DBManager : MonoBehaviour
             using (IDbCommand command = dbConnection.CreateCommand())
             {
                 //armo mi query
-                string sqlQuery = "select Nombre, Protones, Neutrones, Electrones, Simbolo, Numero from ValidaElementos";
+                string sqlQuery = "select Nombre, Protones, Neutrones, Electrones, Simbolo, Numero from valida_elementos";
                 //le digo que es en formato texto
                 command.CommandText = sqlQuery;
                 //uso la interfaz de reader para ejecutar mi comando
@@ -68,8 +65,75 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones FROM ValidaElementos WHERE Protones="
+                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones FROM valida_elementos WHERE Protones="
                     + protons + ";";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        elementData.Name = reader.GetString(0);
+                        elementData.Simbol = reader.GetString(1);
+                        elementData.Protons = reader.GetInt32(2);
+                        elementData.Neutrons = reader.GetInt32(3);
+                        elementData.Electrons = reader.GetInt32(4);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return elementData;
+    }
+
+
+
+    //trae un elemento DE LA TABLA PERIODICA A PARTIR DEL NRO
+    public ElementTabPer GetElementFromNro(int nro)
+    {
+        ElementTabPer elementTabPer = new ElementTabPer();
+        connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";//Data Source cannot be empty.  Use :memory: to open an in-memory database
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                //tener en cuenta los null sino tirara error de cast luego en el read del set
+                string sqlQuery = "SELECT simbolo, peso_atomico, CASE WHEN configuracion_electronica_abreviada IS NULL THEN 'n/a' ELSE configuracion_electronica_abreviada END, nombre FROM elementos_info_basica WHERE numero_atomico="
+                    + nro + ";";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        elementTabPer.Nroatomico = nro;
+                        elementTabPer.Simbol = reader.GetString(0);
+                        elementTabPer.PesoAtomico = reader.GetFloat(1);
+                        elementTabPer.ConfElectronica = reader.GetString(2);
+                        elementTabPer.Name = reader.GetString(3);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+         return elementTabPer;
+    }
+  
+    //trae un elemento a partir del símbolo
+    public ElementData GetElementFromName(string simbol)
+    {
+        ElementData elementData = new ElementData();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT nombre, simbolo, protones, neutrones, electrones FROM valida_elementos WHERE simbolo='"
+                    + simbol + "';";
 
                 command.CommandText = sqlQuery;
                 using (IDataReader reader = command.ExecuteReader())

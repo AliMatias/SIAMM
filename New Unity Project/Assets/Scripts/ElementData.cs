@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-//clase normal que sirve de una especie de DTO
+﻿//clase normal que sirve de una especie de DTO
 public class ElementData
 {
     private string name;
@@ -14,4 +12,7 @@ public class ElementData
     public int Neutrons { get => neutrons; set => neutrons = value; }
     public int Electrons { get => electrons; set => electrons = value; }
     public string Simbol { get => simbol; set => simbol = value; }
+
+    public new string ToString => name + " (" + simbol + ") : protones: " + protons + ", neutrones: "
+            + neutrons + ", electrones: " + electrons + ".";
 }
