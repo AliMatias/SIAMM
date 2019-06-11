@@ -6,11 +6,76 @@ public class ElementTabPer
     private int nroatomico;
     private string confElectronica;
     private float pesoAtomico;
-    
-    public string Name {get => name; set => name = value;}
-    public string ConfElectronica {get => confElectronica; set => confElectronica = value;}
-    public int Nroatomico {get => nroatomico; set => nroatomico = value;}
-    public string Simbol {get => simbol; set => simbol = value;}
-    public float PesoAtomico{get => pesoAtomico; set => pesoAtomico = value; }
- }
+
+    #region Set & Get
+    public string Name
+    {
+        get
+        {
+            return name;
+        }
+
+        set
+        {
+            name = value;
+        }
+    }
+
+    public string Simbol
+    {
+        get
+        {
+            return simbol;
+        }
+
+        set
+        {
+            simbol = value;
+        }
+    }
+
+    public int Nroatomico
+    {
+        get
+        {
+            return nroatomico;
+        }
+
+        set
+        {
+            nroatomico = value;
+        }
+    }
+
+    public string ConfElectronica
+    {
+        get
+        {
+            return confElectronica;
+        }
+
+        set
+        {
+            confElectronica = value;
+        }
+    }
+
+    public float PesoAtomico
+    {
+        get
+        {
+            return pesoAtomico;
+        }
+
+        set
+        {
+            pesoAtomico = value;
+        }
+    }
+
+    #endregion
+
+
+
+}
 

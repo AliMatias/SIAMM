@@ -11,6 +11,7 @@ public class DBManager : MonoBehaviour
     void Start()
     {
         //path donde se encuentra la base de datos, "Application.dataPath" es el path x default en donde guarda unity
+        //  //Data Source cannot be empty.  Use :memory: to open an in-memory database 
         connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";
         //valida HOY conexion ok con la base y trae tabla elementos
         getAllElements();
@@ -93,9 +94,6 @@ public class DBManager : MonoBehaviour
     {
         ElementTabPer elementTabPer = new ElementTabPer();
 
-        //Data Source cannot be empty.  Use :memory: to open an in-memory database, esto luego se soluciona en el sprint 3
-        connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";
-
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
             dbConnection.Open();
@@ -131,9 +129,6 @@ public class DBManager : MonoBehaviour
     public ElementInfoBasic GetElementInfoBasica(string simbol)
     {
         ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
-
-        //Data Source cannot be empty.  Use :memory: to open an in-memory database, esto luego se soluciona en el sprint 3
-        connectionString = "URI=file:" + Application.dataPath + "/SIAMM.db";
 
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
