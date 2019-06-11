@@ -5,6 +5,7 @@ public class InputManager : MonoBehaviour
 {
     #region Atributos
     private ParticleSpawner spawner;
+    private UIFader UIFader;
     public GameObject parent;
     private LoadTper loadTPer;
     #endregion
@@ -14,6 +15,7 @@ public class InputManager : MonoBehaviour
     {
         spawner = FindObjectOfType<ParticleSpawner>();
         loadTPer = FindObjectOfType<LoadTper>();
+        UIFader = FindObjectOfType<UIFader>();
     }
 
     /*Va a crear un objeto elemento a partir de apretar el boton izq del mouse*/
@@ -25,6 +27,7 @@ public class InputManager : MonoBehaviour
         
         Text text = parent.GetComponentInChildren<Text>();
         spawner.SpawnFromPeriodicTable(text.text);
+        UIFader.FadeInAndOut();
     }
 
     /*va a ejecutar el proceso para mostrar informacion basica a partir de apretar el boton der del mouse*/
