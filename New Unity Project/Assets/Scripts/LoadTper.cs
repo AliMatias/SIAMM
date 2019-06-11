@@ -40,7 +40,6 @@ public class LoadTper : MonoBehaviour
 
     private void LoadData (Button elem)
     {
-
         ElementTabPer element = new ElementTabPer();
 
         //obtiene datos del elemento según cantidad de protones
@@ -75,4 +74,14 @@ public class LoadTper : MonoBehaviour
 
         return nroAtomico;
     }
+
+    public void LoadInfoBasica(string elementName)
+    {
+        ElementInfoBasic elementoInfoBasic = new ElementInfoBasic();
+
+        elementoInfoBasic = DBManager.GetElementInfoBasica(elementName);
+
+        Debug.Log("TRAIGO INFO!! " + elementoInfoBasic.Name);
+    }
+
 }

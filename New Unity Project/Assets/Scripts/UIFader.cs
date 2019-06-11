@@ -27,8 +27,6 @@ public class UIFader : MonoBehaviour
             FadeOut();
     }
 
-
-
     public IEnumerator fadeCanvasGroup(CanvasGroup cg, float start, float end, float lerpTime = 0.5f)
     {
         float _timeStartedLerping = Time.time;
@@ -47,9 +45,9 @@ public class UIFader : MonoBehaviour
 
             if (porcentajeComplete >= 1) break;
 
-
             yield return new WaitForEndOfFrame();
         }
+
         if (end == 0)
         {
             uiElement.gameObject.SetActive(false);

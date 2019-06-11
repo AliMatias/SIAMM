@@ -88,7 +88,7 @@ public class DBManager : MonoBehaviour
     }
 
 
-    //trae un elemento DE LA TABLA PERIODICA A PARTIR DEL NRO
+    //trae un elemento DE LA TABLA PERIODICA A PARTIR DEL NRO, para los BOTONES
     public ElementTabPer GetElementFromNro(int nro)
     {
         ElementTabPer elementTabPer = new ElementTabPer();
@@ -127,8 +127,8 @@ public class DBManager : MonoBehaviour
 
 
 
-    //trae la informacion basica de un elemento de la tabla periodica a partir de su numero atomico
-    public ElementInfoBasic GetElementInfoBasica(int nro)
+    //trae la informacion basica de un elemento de la tabla periodica a partir de su SIMBOLO
+    public ElementInfoBasic GetElementInfoBasica(string simbol)
     {
         ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
 
@@ -148,22 +148,23 @@ public class DBManager : MonoBehaviour
                 sqlQuery = sqlQuery + "CASE WHEN color IS NULL THEN 'n/a' ELSE color END,";
                 sqlQuery = sqlQuery + "CASE WHEN valencia IS NULL THEN 'n/a' ELSE valencia END,";
                 sqlQuery = sqlQuery + "CASE WHEN numeros_oxidacion IS NULL THEN 'n/a' ELSE numeros_oxidacion END,";
-                sqlQuery = sqlQuery + "--NO LA MUESTRA configuracion_electronica_abreviada,";
                 sqlQuery = sqlQuery + "CASE WHEN configuracion_electronica IS NULL THEN 'n/a' ELSE configuracion_electronica END,";
                 sqlQuery = sqlQuery + "caracteristicas,";
                 sqlQuery = sqlQuery + "CASE WHEN punto_fusion IS NULL THEN 'n/a' ELSE punto_fusion END,";
                 sqlQuery = sqlQuery + "CASE WHEN punto_ebullicion IS NULL THEN 'n/a' ELSE punto_ebullicion END,";
-                sqlQuery = sqlQuery + "resumen";
-                sqlQuery = sqlQuery + "FROM elementos_info_basica";
-                sqlQuery = sqlQuery + "WHERE numero_atomico ="
-                + nro + ";";
+                sqlQuery = sqlQuery + "resumen ";
+                sqlQuery = sqlQuery + "FROM elementos_info_basica ";
+                sqlQuery = sqlQuery + "WHERE simbolo='"
+                + simbol + "';";
+
+                Debug.Log(sqlQuery);
 
                 command.CommandText = sqlQuery;
                 using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        elementInfoBasic.Nroatomico = nro;
+                        elementInfoBasic.Nroatomico = reader.GetInt32(0);
                         elementInfoBasic.Simbol = reader.GetString(1);
                         elementInfoBasic.Name = reader.GetString(2);
                         elementInfoBasic.PesoAtomico = reader.GetFloat(3);

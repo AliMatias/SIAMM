@@ -9,11 +9,11 @@ public class InputManager : MonoBehaviour
     private ParticleSpawner spawner;
     public GameObject parent;
     private LoadTper loadTPer;
-    private DBManager dbManager;
 
     private void Awake()
     {
         spawner = FindObjectOfType<ParticleSpawner>();
+        loadTPer = FindObjectOfType<LoadTper>();
     }
 
     public void Spawn()
@@ -25,13 +25,8 @@ public class InputManager : MonoBehaviour
 
     public void GetInfoBasic()
     {
-        int nroAtomico = loadTPer.getNroAtomicoId(parent.GetComponentInParent<Button>());
-        ElementInfoBasic el = new ElementInfoBasic();
-
-        el = dbManager.GetElementInfoBasica(nroAtomico);
-
-        Debug.Log("TRAIGO INFO!! " + el.Name);
-        
+        Text text = parent.GetComponentInChildren<Text>();
+        loadTPer.LoadInfoBasica(text.text);
     }
 
 }
