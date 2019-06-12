@@ -8,6 +8,7 @@ public class InputManager : MonoBehaviour
     private UIFader UIFader;
     public GameObject parent;
     private LoadTper loadTPer;
+    private BasicInfoLoader BasicInfoLoader;
     #endregion
 
     /*Metodo para instanciar una clase en unity*/
@@ -16,6 +17,7 @@ public class InputManager : MonoBehaviour
         spawner = FindObjectOfType<ParticleSpawner>();
         loadTPer = FindObjectOfType<LoadTper>();
         UIFader = FindObjectOfType<UIFader>();
+        BasicInfoLoader = FindObjectOfType<BasicInfoLoader>();
     }
 
     /*Va a crear un objeto elemento a partir de apretar el boton izq del mouse*/
@@ -34,7 +36,8 @@ public class InputManager : MonoBehaviour
     public void GetInfoBasic()
     {
         Text text = parent.GetComponentInChildren<Text>();
-        loadTPer.LoadInfoBasica(text.text);
+        ElementInfoBasic elementInfo = loadTPer.LoadInfoBasica(text.text);
+        BasicInfoLoader.SetBasicInfo(elementInfo);
     }
 
 }
