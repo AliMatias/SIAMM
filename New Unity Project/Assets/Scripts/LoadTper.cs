@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+//Carga tabla periódica
 public class LoadTper : MonoBehaviour
 {
 
@@ -92,6 +93,7 @@ public class LoadTper : MonoBehaviour
         return nroAtomico;
     }
 
+    //trae de la DB la info básica
     public ElementInfoBasic LoadInfoBasica(string elementName)
     {
         ElementInfoBasic elementInfoBasic = new ElementInfoBasic();

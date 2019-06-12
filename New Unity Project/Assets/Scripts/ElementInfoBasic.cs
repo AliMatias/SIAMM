@@ -1,4 +1,5 @@
-﻿public class ElementInfoBasic 
+﻿//DTO de info básica
+public class ElementInfoBasic 
 {
     private int nroatomico;
     private string simbol;

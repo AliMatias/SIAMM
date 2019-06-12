@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Aparecer y desaparecer la tabla periódica
 public class UIFader : MonoBehaviour
 {
     public CanvasGroup uiElement;
