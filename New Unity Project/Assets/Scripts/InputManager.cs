@@ -25,17 +25,24 @@ public class InputManager : MonoBehaviour
     {
         /*no hago nullcheck, porque el método spawnFromPeriodicTable ya lo hace, ademas 
           no hace falta porque siempre va a existir un boton que contendra un objeto text, 
-          en este caso el objeto text del boton se esta trayendo el 1ro de la coleccion*/
-        
+          en este caso el objeto text del boton se esta trayendo el 1ro de la coleccion*/ 
         Text text = parent.GetComponentInChildren<Text>();
+
         spawner.SpawnFromPeriodicTable(text.text);
+
+        //aca se puede utilizar el metodo del fadeinout porque es el panel de la tabla que contiene el objeto CANVAS GROUP
         UIFader.FadeInAndOut();
     }
 
     /*va a ejecutar el proceso para mostrar informacion basica a partir de apretar el boton der del mouse*/
     public void GetInfoBasic()
     {
+
+        /*no hago nullcheck, porque el método spawnFromPeriodicTable ya lo hace, ademas 
+          no hace falta porque siempre va a existir un boton que contendra un objeto text, 
+          en este caso el objeto text del boton se esta trayendo el 1ro de la coleccion*/
         Text text = parent.GetComponentInChildren<Text>();
+
         ElementInfoBasic elementInfo = loadTPer.LoadInfoBasica(text.text);
         BasicInfoLoader.SetBasicInfo(elementInfo);
     }

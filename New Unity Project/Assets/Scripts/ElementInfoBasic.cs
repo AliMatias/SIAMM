@@ -18,201 +18,21 @@ public class ElementInfoBasic
     private string punto_ebullicion;
     private string resumen;
 
-    #region Get & Set
+    /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
+    public int Nroatomico { get => nroatomico; set => nroatomico = value; } 
+    public string Simbol    { get => simbol; set => simbol = value; } 
+    public string Name    { get => name; set => name = value; } 
+    public float PesoAtomico    { get => pesoAtomico; set => pesoAtomico = value; } 
+    public int Periodo    { get => periodo; set => periodo = value; } 
+    public string Fase { get => fase; set => fase = value; } 
+    public string EstructuraCristalina { get => estructura_cristalina; set => estructura_cristalina = value; } 
+    public string Color { get => color; set => color = value; } 
+    public int Valencia { get => valencia; set => valencia = value; } 
+    public string NumerosOxidacion { get => numeros_oxidacion; set => numeros_oxidacion = value; } 
+    public string ConfElectronica { get => confElectronica; set => confElectronica = value; } 
+    public string Caracteristicas { get => caracteristicas; set => caracteristicas = value; } 
+    public string PuntoFusion { get => punto_fusion; set => punto_fusion = value; } 
+    public string PuntoEbullicion { get => punto_ebullicion; set => punto_ebullicion = value; } 
+    public string Resumen { get => resumen; set => resumen = value; } 
 
-    public int Nroatomico
-    {
-        get
-        {
-            return nroatomico;
-        }
-
-        set
-        {
-            nroatomico = value;
-        }
-    }
-
-    public string Simbol
-    {
-        get
-        {
-            return simbol;
-        }
-
-        set
-        {
-            simbol = value;
-        }
-    }
-
-    public string Name
-    {
-        get
-        {
-            return name;
-        }
-
-        set
-        {
-            name = value;
-        }
-    }
-
-    public float PesoAtomico
-    {
-        get
-        {
-            return pesoAtomico;
-        }
-
-        set
-        {
-            pesoAtomico = value;
-        }
-    }
-
-    public int Periodo
-    {
-        get
-        {
-            return periodo;
-        }
-
-        set
-        {
-            periodo = value;
-        }
-    }
-
-    public string Fase
-    {
-        get
-        {
-            return fase;
-        }
-
-        set
-        {
-            fase = value;
-        }
-    }
-
-    public string Estructura_cristalina
-    {
-        get
-        {
-            return estructura_cristalina;
-        }
-
-        set
-        {
-            estructura_cristalina = value;
-        }
-    }
-
-    public string Color
-    {
-        get
-        {
-            return color;
-        }
-
-        set
-        {
-            color = value;
-        }
-    }
-
-    public int Valencia
-    {
-        get
-        {
-            return valencia;
-        }
-
-        set
-        {
-            valencia = value;
-        }
-    }
-
-    public string Numeros_oxidacion
-    {
-        get
-        {
-            return numeros_oxidacion;
-        }
-
-        set
-        {
-            numeros_oxidacion = value;
-        }
-    }
-
-    public string ConfElectronica
-    {
-        get
-        {
-            return confElectronica;
-        }
-
-        set
-        {
-            confElectronica = value;
-        }
-    }
-
-    public string Caracteristicas
-    {
-        get
-        {
-            return caracteristicas;
-        }
-
-        set
-        {
-            caracteristicas = value;
-        }
-    }
-
-    public string Punto_fusion
-    {
-        get
-        {
-            return punto_fusion;
-        }
-
-        set
-        {
-            punto_fusion = value;
-        }
-    }
-
-    public string Punto_ebullicion
-    {
-        get
-        {
-            return punto_ebullicion;
-        }
-
-        set
-        {
-            punto_ebullicion = value;
-        }
-    }
-
-    public string Resumen
-    {
-        get
-        {
-            return resumen;
-        }
-
-        set
-        {
-            resumen = value;
-        }
-    }
-    #endregion
 }

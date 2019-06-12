@@ -7,75 +7,12 @@ public class ElementTabPer
     private string confElectronica;
     private float pesoAtomico;
 
-    #region Set & Get
-    public string Name
-    {
-        get
-        {
-            return name;
-        }
+    /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
+    public string Name { get => name; set => name = value; }
+    public string Simbol { get => simbol; set => simbol = value; }
+    public int Nroatomico { get => nroatomico; set => nroatomico = value; }
+    public string ConfElectronica { get => confElectronica; set => confElectronica = value; }
+    public float PesoAtomico { get => pesoAtomico; set => pesoAtomico = value; }
 
-        set
-        {
-            name = value;
-        }
-    }
-
-    public string Simbol
-    {
-        get
-        {
-            return simbol;
-        }
-
-        set
-        {
-            simbol = value;
-        }
-    }
-
-    public int Nroatomico
-    {
-        get
-        {
-            return nroatomico;
-        }
-
-        set
-        {
-            nroatomico = value;
-        }
-    }
-
-    public string ConfElectronica
-    {
-        get
-        {
-            return confElectronica;
-        }
-
-        set
-        {
-            confElectronica = value;
-        }
-    }
-
-    public float PesoAtomico
-    {
-        get
-        {
-            return pesoAtomico;
-        }
-
-        set
-        {
-            pesoAtomico = value;
-        }
-    }
-
-    #endregion
-
-
-
-}
+ }
 

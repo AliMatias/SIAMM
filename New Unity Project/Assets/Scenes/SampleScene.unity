@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7754,7 +7754,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8207547, g: 0.7153774, b: 0.36779103, a: 0.6627451}
+  m_Color: {r: 0.6320754, g: 0.35714558, b: 0.020870427, a: 0.9490196}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7791,7 +7791,7 @@ GameObject:
   - component: {fileID: 678721630}
   - component: {fileID: 678721632}
   m_Layer: 5
-  m_Name: ElementsPanel
+  m_Name: InteractivePanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -22534,7 +22534,7 @@ GameObject:
   - component: {fileID: 1808473952}
   - component: {fileID: 1808473955}
   m_Layer: 5
-  m_Name: ElementsTableBtn
+  m_Name: InteractivePanelBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

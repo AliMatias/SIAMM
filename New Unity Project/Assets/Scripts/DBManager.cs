@@ -152,8 +152,6 @@ public class DBManager : MonoBehaviour
                 sqlQuery = sqlQuery + "WHERE simbolo='"
                 + simbol + "';";
 
-                Debug.Log(sqlQuery);
-
                 command.CommandText = sqlQuery;
                 using (IDataReader reader = command.ExecuteReader())
                 {
@@ -165,14 +163,14 @@ public class DBManager : MonoBehaviour
                         elementInfoBasic.PesoAtomico = reader.GetFloat(3);
                         elementInfoBasic.Periodo = reader.GetInt32(4);
                         elementInfoBasic.Fase = reader.GetString(5);
-                        elementInfoBasic.Estructura_cristalina = reader.GetString(6);
+                        elementInfoBasic.EstructuraCristalina= reader.GetString(6);
                         elementInfoBasic.Color = reader.GetString(7);
                         elementInfoBasic.Valencia = reader.GetInt32(8);
-                        elementInfoBasic.Numeros_oxidacion = reader.GetString(9);
+                        elementInfoBasic.NumerosOxidacion = reader.GetString(9);
                         elementInfoBasic.ConfElectronica = reader.GetString(10);
                         elementInfoBasic.Caracteristicas = reader.GetString(11);
-                        elementInfoBasic.Punto_fusion = reader.GetString(12);
-                        elementInfoBasic.Punto_ebullicion = reader.GetString(13);
+                        elementInfoBasic.PuntoFusion = reader.GetString(12);
+                        elementInfoBasic.PuntoEbullicion = reader.GetString(13);
                         elementInfoBasic.Resumen = reader.GetString(14);
                     }
                 
