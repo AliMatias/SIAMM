@@ -7,12 +7,14 @@ public class InputManager : MonoBehaviour
     private UIFader UIFader;
     public GameObject parent;
     private LoadTper loadTPer;
+    private BasicInfoLoader BasicInfoLoader;
 
     private void Awake()
     {
         spawner = FindObjectOfType<ParticleSpawner>();
         loadTPer = FindObjectOfType<LoadTper>();
         UIFader = FindObjectOfType<UIFader>();
+        BasicInfoLoader = FindObjectOfType<BasicInfoLoader>();
     }
 
     public void Spawn()
@@ -26,7 +28,8 @@ public class InputManager : MonoBehaviour
     public void GetInfoBasic()
     {
         Text text = parent.GetComponentInChildren<Text>();
-        loadTPer.LoadInfoBasica(text.text);
+        ElementInfoBasic elementInfo = loadTPer.LoadInfoBasica(text.text);
+        BasicInfoLoader.SetBasicInfo(elementInfo);
     }
 
 }

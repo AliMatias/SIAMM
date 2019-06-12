@@ -75,13 +75,13 @@ public class LoadTper : MonoBehaviour
         return nroAtomico;
     }
 
-    public void LoadInfoBasica(string elementName)
+    public ElementInfoBasic LoadInfoBasica(string elementName)
     {
-        ElementInfoBasic elementoInfoBasic = new ElementInfoBasic();
+        ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
 
-        elementoInfoBasic = DBManager.GetElementInfoBasica(elementName);
+        elementInfoBasic = DBManager.GetElementInfoBasica(elementName);
 
-        Debug.Log("TRAIGO INFO!! " + elementoInfoBasic.Name);
+        return elementInfoBasic;
     }
 
 }

@@ -213,7 +213,5 @@
             resumen = value;
         }
     }
-
+    #endregion
 }
-
-#endregion
