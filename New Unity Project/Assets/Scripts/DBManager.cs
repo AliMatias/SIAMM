@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Data;
 using Mono.Data.Sqlite;
+using System;
 
 //servicio de conexión con la base de datos.
 public class DBManager : MonoBehaviour
@@ -165,7 +166,7 @@ public class DBManager : MonoBehaviour
                         elementInfoBasic.Fase = reader.GetString(5);
                         elementInfoBasic.EstructuraCristalina= reader.GetString(6);
                         elementInfoBasic.Color = reader.GetString(7);
-                        elementInfoBasic.Valencia = reader.GetInt32(8);
+                        elementInfoBasic.Valencia = reader.GetString(8);
                         elementInfoBasic.NumerosOxidacion = reader.GetString(9);
                         elementInfoBasic.ConfElectronica = reader.GetString(10);
                         elementInfoBasic.Caracteristicas = reader.GetString(11);

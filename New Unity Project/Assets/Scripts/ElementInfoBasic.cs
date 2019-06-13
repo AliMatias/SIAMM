@@ -9,7 +9,7 @@ public class ElementInfoBasic
     private string fase;
     private string estructura_cristalina;
     private string color;
-    private int valencia;
+    private string valencia;
     private string numeros_oxidacion; 
     //configuracion_electronica_abreviada; 
     private string confElectronica;
@@ -27,7 +27,7 @@ public class ElementInfoBasic
     public string Fase { get => fase; set => fase = value; } 
     public string EstructuraCristalina { get => estructura_cristalina; set => estructura_cristalina = value; } 
     public string Color { get => color; set => color = value; } 
-    public int Valencia { get => valencia; set => valencia = value; } 
+    public string Valencia { get => valencia; set => valencia = value; } 
     public string NumerosOxidacion { get => numeros_oxidacion; set => numeros_oxidacion = value; } 
     public string ConfElectronica { get => confElectronica; set => confElectronica = value; } 
     public string Caracteristicas { get => caracteristicas; set => caracteristicas = value; } 
