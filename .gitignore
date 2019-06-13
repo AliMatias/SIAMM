@@ -36,8 +36,9 @@ sysinfo.txt
 *.unitypackage
 
 #vscode
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
+*.vscode/*
+*.vscode/settings.json
+*.vscode/tasks.json
+*.vscode/launch.json
+*.vscode/extensions.json
+New Unity Project/.vscode/settings.json
