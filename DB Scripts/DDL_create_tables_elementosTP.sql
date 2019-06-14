@@ -9,7 +9,7 @@ CREATE TABLE "elementos_info_basica"(
 	"fase" TEXT NULL,
 	"estructura_cristalina" TEXT NULL,
 	"color" TEXT NULL,
-	"valencia" INTEGER NULL,
+	"valencia" TEXT NULL,
 	"numeros_oxidacion" TEXT NULL,
 	"configuracion_electronica_abreviada" TEXT NULL,
 	"configuracion_electronica" TEXT NULL,
