@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
+﻿
 public class ElementTabPer
 {
     private string name;
@@ -12,11 +6,13 @@ public class ElementTabPer
     private int nroatomico;
     private string confElectronica;
     private float pesoAtomico;
-    
-    public string Name {get => name; set => name = value;}
-    public string ConfElectronica {get => confElectronica; set => confElectronica = value;}
-    public int Nroatomico {get => nroatomico; set => nroatomico = value;}
-    public string Simbol {get => simbol; set => simbol = value;}
-    public float PesoAtomico{get => pesoAtomico; set => pesoAtomico = value; }
+
+    /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
+    public string Name { get => name; set => name = value; }
+    public string Simbol { get => simbol; set => simbol = value; }
+    public int Nroatomico { get => nroatomico; set => nroatomico = value; }
+    public string ConfElectronica { get => confElectronica; set => confElectronica = value; }
+    public float PesoAtomico { get => pesoAtomico; set => pesoAtomico = value; }
+
  }
 

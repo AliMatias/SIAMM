@@ -1,23 +1,53 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-/* esto se va a borrar más adelante porque no se ingresa de un input
- * tanto el botón como el input también se van a borrar
- * pero algo así va a hacer la tabla para llamar al spawner*/
 public class InputManager : MonoBehaviour
 {
+    #region Atributos
     private ParticleSpawner spawner;
+    private UIFader UIFader;
     public GameObject parent;
+    private LoadTper loadTPer;
+    private BasicInfoLoader BasicInfoLoader;
+    #endregion
 
+    /*Metodo para instanciar una clase en unity*/
     private void Awake()
     {
         spawner = FindObjectOfType<ParticleSpawner>();
+        loadTPer = FindObjectOfType<LoadTper>();
+        UIFader = FindObjectOfType<UIFader>();
+        BasicInfoLoader = FindObjectOfType<BasicInfoLoader>();
     }
 
+    /*Va a crear un objeto elemento a partir de apretar el boton izq del mouse*/
     public void Spawn()
     {
-        //no hago nullcheck, porque el método spawnFromPeriodicTable ya lo hace
+        /*no hago nullcheck, porque el método spawnFromPeriodicTable ya lo hace, ademas 
+          no hace falta porque siempre va a existir un boton que contendra un objeto text, 
+          en este caso el objeto text del boton se esta trayendo el 1ro de la coleccion*/ 
         Text text = parent.GetComponentInChildren<Text>();
+
         spawner.SpawnFromPeriodicTable(text.text);
+
+        //aca se puede utilizar el metodo del fadeinout porque es el panel de la tabla que contiene el objeto CANVAS GROUP
+        UIFader.FadeInAndOut();
     }
+
+    /*va a ejecutar el proceso para mostrar informacion basica a partir de apretar el boton der del mouse*/
+    public void GetInfoBasic()
+    {
+
+        /*no hago nullcheck, porque el método spawnFromPeriodicTable ya lo hace, ademas 
+          no hace falta porque siempre va a existir un boton que contendra un objeto text, 
+          en este caso el objeto text del boton se esta trayendo el 1ro de la coleccion*/
+        Text text = parent.GetComponentInChildren<Text>();
+
+        ElementInfoBasic elementInfo = loadTPer.LoadInfoBasica(text.text);
+        BasicInfoLoader.SetBasicInfo(elementInfo);
+    }
+
 }
+
+
+

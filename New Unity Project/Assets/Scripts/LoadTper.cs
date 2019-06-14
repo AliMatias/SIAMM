@@ -4,25 +4,28 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+//Carga tabla periódica
 public class LoadTper : MonoBehaviour
 {
-    private Button button;
-    //tener en cuenta que este componente lo envia desde la interface! sino da error null pointer
-    public DBManager DBManager;
 
-    //estos parametros son estaticos en mi modelo 
+    #region atributos
+    private Button button;
+    private DBManager DBManager;
+    private GridLayoutGroup glg;
+    private RectTransform parent;
+    //estos parametros son estaticos en mi modelo! son estaticos
     private int row = 12;
     private int col = 23;
+
+    #endregion
 
     // Start is called before the first frame update
     void Start()
     {
-        RectTransform parent = gameObject.GetComponent<RectTransform>();
+        //instancio la clase de metodos sobre la base de datos
+        DBManager = FindObjectOfType<DBManager>();
 
-        GridLayoutGroup glg = this.GetComponent<GridLayoutGroup>();
-
-        //rezise de acuerdo a resolucion
-        glg.cellSize = new Vector2(parent.rect.width / col, parent.rect.height / row);
+        ResizeCells();
 
         //Recorro todas las celdas que tienen un game object
         for (int i = 0; i < glg.transform.childCount; i++)
@@ -32,23 +35,23 @@ public class LoadTper : MonoBehaviour
             //si no es NULL quiere decir que MAPEO un boton ahi tengo que ir a la base de datos
             if (button != null)
             {
-                //Debug.Log(button.name);
                 LoadData(button);
             }
         }
     }
 
+    /*Metodo para el seteo de los objetos TEXT de cada boton de la tabla periodica*/
     private void LoadData (Button elem)
     {
-
         ElementTabPer element = new ElementTabPer();
 
         //obtiene datos del elemento según cantidad de protones
         element = DBManager.GetElementFromNro(getNroAtomicoId(elem));
 
+        //obtengo la lista de objetos o coleccion de objetos de tipo TEXT que estan en los botones
         Text[] textosObj = elem.GetComponentsInChildren<Text>();
 
-        //recorro todos los game object que contiene el boton
+        //recorro todos los game object que contiene el boton, se podria hacer por orden de objetos, como estan creados en el boton
         for (int j = 0; j < textosObj.Length; j++)
         {
             if (textosObj[j].name == "txtDistElect")
@@ -60,7 +63,21 @@ public class LoadTper : MonoBehaviour
         }
     }
 
+    /*metodo para el dynamic size de las celdas del grid layout*/
+    private void ResizeCells()
+    {
+        //obtengo el objeto "rectangulo" para poder tomar las medias del PANEL!! ya que este script es componente del mismo
+        parent = gameObject.GetComponent<RectTransform>();
 
+        //obtengo la referencia al objeto grid layout -> el this es referencia sobre al PANEL
+        glg = this.GetComponent<GridLayoutGroup>();
+
+        //rezise de acuerdo a resolucion del PENEL! sobre el objeto grid layout
+        glg.cellSize = new Vector2(parent.rect.width / col, parent.rect.height / row);
+    }
+
+
+    /*Obtiene el nro atomico a partir del "string" que tiene en el boton como txtNroAtomico*/
     public int getNroAtomicoId (Button elem)
     {
         int nroAtomico = 0;
@@ -75,4 +92,15 @@ public class LoadTper : MonoBehaviour
 
         return nroAtomico;
     }
+
+    //trae de la DB la info básica
+    public ElementInfoBasic LoadInfoBasica(string elementName)
+    {
+        ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
+
+        elementInfoBasic = DBManager.GetElementInfoBasica(elementName);
+
+        return elementInfoBasic;
+    }
+
 }
