@@ -87,3 +87,11 @@ CREATE TABLE "valida_elementos"(
 	"protones" INTEGER NULL,
 	"neutrones" INTEGER NULL);
 
+
+CREATE TABLE "valida_isotopos"(
+	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	"numero_atomico" INTEGER NULL,
+	"numero_correlativo" INTEGER NULL,
+	"isotopo" TEXT NULL,
+	"numero_de_masa" INTEGER NULL,
+	"neutrones" INTEGER NULL);
