@@ -140,13 +140,13 @@ public class DBManager : MonoBehaviour
             {
                 //tener en cuenta los null sino tirara error de cast luego en el read del set
                 string sqlQuery = "SELECT numero_atomico, simbolo, nombre, peso_atomico, periodo,";
-                sqlQuery = sqlQuery + "CASE WHEN fase IS NULL THEN 'n/a' ELSE fase END,";
+                sqlQuery = sqlQuery + "CASE WHEN estado_natural IS NULL THEN 'n/a' ELSE estado_natural END,";
+                sqlQuery = sqlQuery + "clasificacion, clasificacion_grupo,";
                 sqlQuery = sqlQuery + "CASE WHEN estructura_cristalina IS NULL THEN 'n/a' ELSE estructura_cristalina END,";
                 sqlQuery = sqlQuery + "CASE WHEN color IS NULL THEN 'n/a' ELSE color END,";
                 sqlQuery = sqlQuery + "CASE WHEN valencia IS NULL THEN 'n/a' ELSE valencia END,";
                 sqlQuery = sqlQuery + "CASE WHEN numeros_oxidacion IS NULL THEN 'n/a' ELSE numeros_oxidacion END,";
                 sqlQuery = sqlQuery + "CASE WHEN configuracion_electronica IS NULL THEN 'n/a' ELSE configuracion_electronica END,";
-                sqlQuery = sqlQuery + "caracteristicas,";
                 sqlQuery = sqlQuery + "CASE WHEN punto_fusion IS NULL THEN 'n/a' ELSE punto_fusion END,";
                 sqlQuery = sqlQuery + "CASE WHEN punto_ebullicion IS NULL THEN 'n/a' ELSE punto_ebullicion END,";
                 sqlQuery = sqlQuery + "resumen ";
@@ -164,16 +164,17 @@ public class DBManager : MonoBehaviour
                         elementInfoBasic.Name = reader.GetString(2);
                         elementInfoBasic.PesoAtomico = reader.GetFloat(3);
                         elementInfoBasic.Periodo = reader.GetInt32(4);
-                        elementInfoBasic.Fase = reader.GetString(5);
-                        elementInfoBasic.EstructuraCristalina= reader.GetString(6);
-                        elementInfoBasic.Color = reader.GetString(7);
-                        elementInfoBasic.Valencia = reader.GetString(8);
-                        elementInfoBasic.NumerosOxidacion = reader.GetString(9);
-                        elementInfoBasic.ConfElectronica = reader.GetString(10);
-                        elementInfoBasic.Caracteristicas = reader.GetString(11);
-                        elementInfoBasic.PuntoFusion = reader.GetString(12);
-                        elementInfoBasic.PuntoEbullicion = reader.GetString(13);
-                        elementInfoBasic.Resumen = reader.GetString(14);
+                        elementInfoBasic.Clasificacion = reader.GetString(5);
+                        elementInfoBasic.Clasificacion_grupo = reader.GetString(6);
+                        elementInfoBasic.Estado_natural = reader.GetString(7);
+                        elementInfoBasic.EstructuraCristalina= reader.GetString(8);
+                        elementInfoBasic.Color = reader.GetString(9);
+                        elementInfoBasic.Valencia = reader.GetString(10);
+                        elementInfoBasic.NumerosOxidacion = reader.GetString(11);
+                        elementInfoBasic.ConfElectronica = reader.GetString(12);
+                        elementInfoBasic.PuntoFusion = reader.GetString(13);
+                        elementInfoBasic.PuntoEbullicion = reader.GetString(14);
+                        elementInfoBasic.Resumen = reader.GetString(15);
                     }
                 
                     dbConnection.Close();

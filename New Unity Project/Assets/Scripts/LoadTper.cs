@@ -78,7 +78,8 @@ public class LoadTper : MonoBehaviour
         glg.cellSize = new Vector2(parent.rect.width / col, parent.rect.height / row);
     }
 
-
+    /*metodo para el tamaño de las fuentes de los botones de la tabla periodica, se utiliza una proporcion de acuerdo
+    al tamaño ORIGINAL usado para el tamaño de una resoluion de pantalla de 15" */
     private void ResizeFont(Button elem)
     {
         /*si a x 50 y 50 (2500 area) es 22 font busco una proporcion aprox!!!*/

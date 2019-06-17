@@ -16329,6 +16329,7 @@ GameObject:
   - component: {fileID: 1316814764}
   - component: {fileID: 1316814763}
   - component: {fileID: 1316814762}
+  - component: {fileID: 1316814765}
   m_Layer: 5
   m_Name: TablaPeriodicaBtn
   m_TagString: Untagged
@@ -16446,6 +16447,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316814760}
   m_CullTransparentMesh: 0
+--- !u!114 &1316814765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316814760}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1573420865, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0.24207903, g: 0.47420457, b: 0.6037736, a: 0.5}
+  m_EffectDistance: {x: 2, y: 2}
+  m_UseGraphicAlpha: 1
 --- !u!1001 &1321357929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20710,6 +20726,7 @@ GameObject:
   - component: {fileID: 1701450065}
   - component: {fileID: 1701450064}
   - component: {fileID: 1701450063}
+  - component: {fileID: 1701450066}
   m_Layer: 5
   m_Name: AddProtonBtn
   m_TagString: Untagged
@@ -20827,6 +20844,25 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1701450061}
   m_CullTransparentMesh: 0
+--- !u!95 &1701450066
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1701450061}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9af84083f99b73045845defc724cdbaf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1702092816
 GameObject:
   m_ObjectHideFlags: 0
