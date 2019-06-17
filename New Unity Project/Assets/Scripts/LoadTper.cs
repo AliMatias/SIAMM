@@ -82,7 +82,7 @@ public class LoadTper : MonoBehaviour
     private void ResizeFont(Button elem)
     {
         /*si a x 50 y 50 (2500 area) es 22 font busco una proporcion aprox!!!*/
-        int xOriginal = 50;
+        int xOriginal = 60;
         int sizeActual;    
         int sizeProporcionCell = Convert.ToInt32(glg.cellSize.x);
 
@@ -97,7 +97,7 @@ public class LoadTper : MonoBehaviour
 
             textosObj[j].fontSize = (sizeProporcionCell * sizeActual) / xOriginal;
 
-            textosObj[j].fontSize = textosObj[j].fontSize - 1;
+            textosObj[j].fontSize = textosObj[j].fontSize;
         }
     }
 

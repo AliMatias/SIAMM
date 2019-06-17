@@ -67,7 +67,7 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones FROM valida_elementos WHERE Protones="
+                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones, Numero FROM valida_elementos WHERE Protones="
                     + protons + ";";
 
                 command.CommandText = sqlQuery;
@@ -80,6 +80,7 @@ public class DBManager : MonoBehaviour
                         elementData.Protons = reader.GetInt32(2);
                         elementData.Neutrons = reader.GetInt32(3);
                         elementData.Electrons = reader.GetInt32(4);
+                        elementData.Numero = reader.GetInt32(5);
                     }
                     dbConnection.Close();
                     reader.Close();
@@ -193,7 +194,7 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT nombre, simbolo, protones, neutrones, electrones FROM valida_elementos WHERE simbolo='"
+                string sqlQuery = "SELECT nombre, simbolo, protones, neutrones, electrones, numero FROM valida_elementos WHERE simbolo='"
                     + simbol + "';";
 
                 command.CommandText = sqlQuery;
@@ -206,6 +207,7 @@ public class DBManager : MonoBehaviour
                         elementData.Protons = reader.GetInt32(2);
                         elementData.Neutrons = reader.GetInt32(3);
                         elementData.Electrons = reader.GetInt32(4);
+                        elementData.Numero = reader.GetInt32(5);
                     }
                     dbConnection.Close();
                     reader.Close();
@@ -214,4 +216,36 @@ public class DBManager : MonoBehaviour
         }
         return elementData;
     }
+
+    //trae un elemento a partir de los protones
+    public ElementData GetIsotopo(int neutrones, int numeroAtomico)
+    {
+        ElementData elementData = new ElementData();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT isotopo FROM valida_isotopos WHERE neutrones="
+                    + neutrones + " AND numero_atomico=" + numeroAtomico + ";";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        elementData.Name = reader.GetString(0);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return elementData;
+    }
+
+
+
+
+
 }
