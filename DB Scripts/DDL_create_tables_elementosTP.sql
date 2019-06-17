@@ -22,6 +22,7 @@ CREATE TABLE "elementos_info_detalle"(
 	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	"numero_atomico" INTEGER NULL,
 	"isotopos_estables" TEXT NULL,
+	"isotopos_aplicaciones"	TEXT NULL,
 	"tipo_electrico" TEXT NULL,
 	"radiactivo" TEXT NULL,
 	"abundancia_corteza_terrestre" TEXT NULL,
@@ -95,3 +96,13 @@ CREATE TABLE "valida_isotopos"(
 	"isotopo" TEXT NULL,
 	"numero_de_masa" INTEGER NULL,
 	"neutrones" INTEGER NULL);
+
+
+CREATE TABLE "elementos_orbitas"(
+	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	"nro_orbita" INTEGER NULL,
+	"nombre_capa" TEXT NULL,
+	"max_electrones" INTEGER NULL);
+
+
+			
