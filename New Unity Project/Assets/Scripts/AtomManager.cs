@@ -61,9 +61,6 @@ public class AtomManager : MonoBehaviour
         {
             availablePositions.Add(true);
         }
-        //menos la primera, que es la que ocupa el átomo por defecto.
-        //esto se debe borrar cuando este átomo no este al principio
-        availablePositions[0] = false;
     } 
 
     //obtengo una posición random en el plano
@@ -115,44 +112,18 @@ public class AtomManager : MonoBehaviour
         selectedAtom = index;
     }
 
-    //para el brillo que indica selección en todas las partículas de este átomo
+    //quita el brillo al átomo seleccionado
     private void DeselectParticlesFromAtom(int index)
     {
         Atom atom = atomsList[index];
-        Queue<GameObject> queue = atom.ProtonQueue;
-        StopAllHighlights(queue);
-        queue = atom.NeutronQueue;
-        StopAllHighlights(queue);
-        queue = atom.ElectronQueue;
-        StopAllHighlights(queue);
+        atom.Deselect();
     }
 
-    //quita la ilumnación a todas las particulas de esta cola
-    private void StopAllHighlights(Queue<GameObject> queue){
-        foreach (GameObject obj in queue)
-        {
-            obj.GetComponent<HighlightObject>().StopHighlight();
-        }
-    }
-
-    //asigna el brillo que indica selección a todas las partículas de este átomo
+    //comienza el brillo en el átomo seleccionado
     private void SelectParticlesFromAtom(int index)
     {
         Atom atom = atomsList[index];
-        Queue<GameObject> queue = atom.ProtonQueue;
-        StartAllHighlights(queue);
-        queue = atom.NeutronQueue;
-        StartAllHighlights(queue);
-        queue = atom.ElectronQueue;
-        StartAllHighlights(queue);
-    }
-
-    //ilumina las partículas de esta cola
-    private void StartAllHighlights(Queue<GameObject> queue){
-        foreach(GameObject obj in queue)
-        {
-            obj.GetComponent<HighlightObject>().StartHighlight();
-        }
+        atom.Select();
     }
 
     //agregar la partícula indicada al átomo seleccionado

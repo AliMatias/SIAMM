@@ -28,9 +28,6 @@ public class Atom: MonoBehaviour
     private int atomIndex;
 
     public int AtomIndex { get => atomIndex; set => atomIndex = value; }
-    public Queue<GameObject> ProtonQueue { get => protonQueue; set => protonQueue = value; }
-    public Queue<GameObject> NeutronQueue { get => neutronQueue; set => neutronQueue = value; }
-    public Queue<GameObject> ElectronQueue { get => electronQueue; set => electronQueue = value; }
 
     //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
     private void Awake()
@@ -133,7 +130,7 @@ public class Atom: MonoBehaviour
 
         //resetea valor a by default
         if (protons == 0 && neutrons == 0 && electrons == 0)
-            elementText = "";
+            elementText = "Vacío";
         else
         {
             //obtiene datos del elemento según cantidad de protones
@@ -178,4 +175,33 @@ public class Atom: MonoBehaviour
         atomManager.SelectAtom(AtomIndex);
     }
 
+    //ilumina todas las partículas
+    public void Select(){
+        StartAllHighlights(protonQueue);
+        StartAllHighlights(neutronQueue);
+        StartAllHighlights(electronQueue);
+    }
+
+    //ilumina las partículas de esta cola
+    private void StartAllHighlights(Queue<GameObject> queue){
+        foreach(GameObject obj in queue)
+        {
+            obj.GetComponent<HighlightObject>().StartHighlight();
+        }
+    }
+
+    //quita la iluminación a todas las partículas
+    public void Deselect(){
+        StopAllHighlights(neutronQueue);
+        StopAllHighlights(protonQueue);
+        StopAllHighlights(electronQueue);
+    }
+
+    //quita la iluminación a todas las particulas de esta cola
+    private void StopAllHighlights(Queue<GameObject> queue){
+        foreach (GameObject obj in queue)
+        {
+            obj.GetComponent<HighlightObject>().StopHighlight();
+        }
+    }
 }
