@@ -97,36 +97,103 @@ public class AtomManager : MonoBehaviour
         return true;
     }
 
+    //seleccionar átomo
     public void SelectAtom(int index)
     {
+        //verifico si este átomo estaba seleccionado
         if(index == selectedAtom)
         {
             Debug.Log("Este átomo ya estaba seleccionado");
             return;
         }
+        //si habia uno seleccionado, lo des-selecciono
         if(selectedAtom != -1)
             DeselectParticlesFromAtom(selectedAtom);
+        //selecciono el nuevo
         SelectParticlesFromAtom(index);
+        //y obtengo su índice
         selectedAtom = index;
     }
 
+    //para el brillo que indica selección en todas las partículas de este átomo
     private void DeselectParticlesFromAtom(int index)
     {
         Atom atom = atomsList[index];
         Queue<GameObject> queue = atom.ProtonQueue;
+        StopAllHighlights(queue);
+        queue = atom.NeutronQueue;
+        StopAllHighlights(queue);
+        queue = atom.ElectronQueue;
+        StopAllHighlights(queue);
+    }
+
+    //quita la ilumnación a todas las particulas de esta cola
+    private void StopAllHighlights(Queue<GameObject> queue){
         foreach (GameObject obj in queue)
         {
             obj.GetComponent<HighlightObject>().StopHighlight();
         }
     }
 
+    //asigna el brillo que indica selección a todas las partículas de este átomo
     private void SelectParticlesFromAtom(int index)
     {
         Atom atom = atomsList[index];
         Queue<GameObject> queue = atom.ProtonQueue;
+        StartAllHighlights(queue);
+        queue = atom.NeutronQueue;
+        StartAllHighlights(queue);
+        queue = atom.ElectronQueue;
+        StartAllHighlights(queue);
+    }
+
+    //ilumina las partículas de esta cola
+    private void StartAllHighlights(Queue<GameObject> queue){
         foreach(GameObject obj in queue)
         {
             obj.GetComponent<HighlightObject>().StartHighlight();
+        }
+    }
+
+    //agregar la partícula indicada al átomo seleccionado
+    public void AddParticleToSelectedAtom(int particle){
+        if(selectedAtom==-1){
+            Debug.Log("No hay ningún átomo seleccionado");
+            return;
+        }
+        //agarro el átomo indicado de la lista
+        Atom atom = atomsList[selectedAtom];
+        if(particle==0){
+            atom.SpawnNucleon(true);
+        }else if (particle==1){
+            atom.SpawnNucleon(false);
+        }else if(particle ==2){
+            atom.SpawnElectron();
+        }else{
+            Debug.Log("Se ingreso un índice de partícula equivocado.");
+            Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
+            return;
+        }
+    }
+
+    //quitar del átomo seleccionado la partícula indicada
+    public void RemoveParticleFromSelectedAtom(int particle){
+        if(selectedAtom==-1){
+            Debug.Log("No hay ningún átomo seleccionado");
+            return;
+        }
+        //agarro el átomo de la lista
+        Atom atom = atomsList[selectedAtom];
+        if(particle==0){
+            atom.RemoveProton();
+        }else if (particle==1){
+            atom.RemoveNeutron();
+        }else if(particle ==2){
+            atom.RemoveElectron();
+        }else{
+            Debug.Log("Se ingreso un índice de partícula equivocado.");
+            Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
+            return;
         }
     }
 

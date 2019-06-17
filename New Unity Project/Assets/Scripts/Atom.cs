@@ -4,69 +4,35 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-//script que se encarga de spawnear las partículas, manejarlas y saber que estoy formando.
+//script que se encarga de spawnear las partÃ­culas, manejarlas y saber que estoy formando.
 public class Atom: MonoBehaviour
 {
-    //Lista de prefabs de partículas, posición 0->proton, 1->neutron, 2->electron
+    //Lista de prefabs de partÃ­culas, posiciÃ³n 0->proton, 1->neutron, 2->electron
     public GameObject[] particlePrefabs;
-    //objeto padre, que va a representar el átomo en sí
+    //objeto padre, que va a representar el Ã¡tomo en sÃ­
     [SerializeField]
     private Transform parent;
     private DBManager DBManager;
     private AtomManager atomManager;
-    //label que indica elemento en construcción.
+    //label que indica elemento en construcciÃ³n.
     public GameObject elementLabel;
-    //listas para controlar las partículas agregadas
+    //listas para controlar las partÃ­culas agregadas
     private Queue<GameObject> protonQueue = new Queue<GameObject>();
     private Queue<GameObject> neutronQueue = new Queue<GameObject>();
     private Queue<GameObject> electronQueue = new Queue<GameObject>();
-    //contadores de partículas
+    //contadores de partÃ­culas
     private int protonCounter = 0;
     private int neutronCounter = 0;
     private int electronCounter = 0;
-    //indicador de índice de átomo (posición en la lista de átomos del manager)
+    //indicador de Ã­ndice de Ã¡tomo (posiciÃ³n en la lista de Ã¡tomos del manager)
     private int atomIndex;
 
-    #region getters and setters
-    public int AtomIndex
-    {
-        get
-        {
-            return atomIndex;
-        }
+    public int AtomIndex { get => atomIndex; set => atomIndex = value; }
+    public Queue<GameObject> ProtonQueue { get => protonQueue; set => protonQueue = value; }
+    public Queue<GameObject> NeutronQueue { get => neutronQueue; set => neutronQueue = value; }
+    public Queue<GameObject> ElectronQueue { get => electronQueue; set => electronQueue = value; }
 
-        set
-        {
-            atomIndex = value;
-        }
-    }
-
-    public Queue<GameObject> ProtonQueue
-    {
-        get
-        {
-            return protonQueue;
-        }
-    }
-
-    public Queue<GameObject> NeutronQueue
-    {
-        get
-        {
-            return neutronQueue;
-        }
-    }
-
-    public Queue<GameObject> ElectronQueue
-    {
-        get
-        {
-            return electronQueue;
-        }
-    }
-#endregion
-
-    //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
+    //Seteo el dbmanager en el mÃ©todo awake, que se llama cuando se instancia el objeto
     private void Awake()
     {
         DBManager = FindObjectOfType<DBManager>();
@@ -85,12 +51,12 @@ public class Atom: MonoBehaviour
         GameObject prefab = particlePrefabs[index];
         GameObject spawn = Instantiate<GameObject>(prefab, parent);
         
-        //posicion random para que no queden todos en fila, aún no quedan bien
+        //posicion random para que no queden todos en fila, aÃºn no quedan bien
         float randomNumber = Random.Range(0f, 0.2f);
         Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
         spawn.transform.localPosition = randomPosition;
         
-        //encolar y aumentar contadores según partícula creada
+        //encolar y aumentar contadores segÃºn partÃ­cula creada
         if (proton)
         {
             protonQueue.Enqueue(spawn);
@@ -170,32 +136,32 @@ public class Atom: MonoBehaviour
             elementText = "";
         else
         {
-            //obtiene datos del elemento según cantidad de protones
+            //obtiene datos del elemento segÃºn cantidad de protones
             element = DBManager.GetElementFromProton(protons);
-            //si es null o no lo encontré
+            //si es null o no lo encontrÃ³
             if (element == null || element.Name == null)
             {
                 elementText = "Elemento no encontrado.";
             }
             else
             {
-                //seteo nombre y símbolo
+                //seteo nombre y sÃ­mbolo
                 elementText = element.Name + " (" + element.Simbol + ")";
 
-                //si no coinciden los neutrones es un isótopo de ese material (falta límites inf y sup)
+                //si no coinciden los neutrones es un isÃ³topo de ese material (falta lÃ­mites inf y sup)
                 if (element.Neutrons != neutrons)
                 {
-                    elementText = "isótopo de " + elementText;
+                    elementText = "isÃ³topo de " + elementText;
                 }
-                //si mi modelo tiene mas electrones que el de la tabla, es anión (-)
+                //si mi modelo tiene mas electrones que el de la tabla, es aniÃ³n (-)
                 if (element.Electrons < electrons)
                 {
-                    elementText = elementText + ", anión.";
+                    elementText = elementText + ", aniÃ³n.";
                 }
-                //sino, si el modelo tiene menos electrones que el de la tabla, es catión (+)
+                //sino, si el modelo tiene menos electrones que el de la tabla, es catiÃ³n (+)
                 else if (element.Electrons > electrons)
                 {
-                    elementText = elementText + ", catión.";
+                    elementText = elementText + ", catiÃ³n.";
                 }
                 //sino, significa que es la misma cantidad, y tiene carga neutra
             }
@@ -205,11 +171,11 @@ public class Atom: MonoBehaviour
         elementLabel.GetComponent<TextMesh>().text = elementText;
     }
 
-    //se lanza cuando se hace click al átomo
+    //se lanza cuando se hace click al Ã¡tomo
     public void OnMouseDown()
     {
-        Debug.Log("clickeaste el átomo " + atomIndex);
-        atomManager.SelectAtom(atomIndex);
+        Debug.Log("clickeaste el Ã¡tomo " + AtomIndex);
+        atomManager.SelectAtom(AtomIndex);
     }
 
 }
