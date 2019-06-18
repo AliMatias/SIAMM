@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -19,12 +20,20 @@ public class ParticleSpawner : MonoBehaviour
     //listas para controlar las partículas agregadas
     private Queue<GameObject> protonQueue = new Queue<GameObject>();
     private Queue<GameObject> neutronQueue = new Queue<GameObject>();
-    private Queue<GameObject> electronQueue = new Queue<GameObject>();
+
     //contadores de partículas
     private int protonCounter = 0;
     private int neutronCounter = 0;
     private int electronCounter = 0;
-#endregion
+
+    private bool allowElectronSpawn = true;
+
+    private Vector3 firstOrbitPosition = new Vector3(1f, 0f, 0f);
+    private Vector3 orbitOffset = new Vector3(0.5f, 0f, 0f);
+
+    private List<Orbit> orbits = new List<Orbit>();
+    Orbit lastOrbit;
+    #endregion
 
 
     #region spawn
@@ -39,12 +48,12 @@ public class ParticleSpawner : MonoBehaviour
         //selecciono el prefab y lo instancio
         GameObject prefab = particlePrefabs[index];
         GameObject spawn = Instantiate<GameObject>(prefab, parent);
-        
+
         //posicion random para que no queden todos en fila, aún no quedan bien
         float randomNumber = Random.Range(0f, 0.4f);
         Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
         spawn.transform.localPosition = randomPosition;
-        
+
         //encolar y aumentar contadores según partícula creada
         if (proton)
         {
@@ -63,18 +72,75 @@ public class ParticleSpawner : MonoBehaviour
     //crear un electron
     public void SpawnElectron()
     {
-        //selecciono el prefab y lo instancio
-        GameObject prefab = particlePrefabs[2];
-        GameObject spawn = Instantiate<GameObject>(prefab, parent);
-        //lo pongo a un radio de 1 en el eje X
-        spawn.transform.localPosition = new Vector3(1f,0f,0f);
-        //agrego a la cola y aumento contador
-        electronQueue.Enqueue(spawn);
-        electronCounter++;
+        // tomo la ultima orbita
+        lastOrbit = orbits.LastOrDefault();
+
+        // (worst name ever) si no hay o la ultima esta completa creo otra
+        AddNewOrbitIfLastIsCompleted();
+
+        if (allowElectronSpawn)
+        {
+            //selecciono el prefab y lo instancio
+            GameObject prefab = particlePrefabs[2];
+            GameObject spawn = Instantiate<GameObject>(prefab, parent);
+            spawn.transform.localPosition = lastOrbit.Position;
+            // agrego a la lista de electrones y aumento contador
+            lastOrbit.AddElectron(spawn);
+            electronCounter++;
+        }
         //actualizo label
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
-#endregion
+
+    /// <summary>
+    /// Agrega una nueva orbita a la lista si es la primera o si la ultima ya esta completa
+    /// </summary>
+    private void AddNewOrbitIfLastIsCompleted()
+    {
+        // crear nueva orbita si la ultima esta completa o si es la primera
+        if (orbits.Count == 0)
+        {
+            // crear primer orbita
+            CreateOrbit(1, firstOrbitPosition);
+        }
+        else
+        {
+            // verificar si se llego al maximo de electrones en la ultima orbita
+            if (lastOrbit.isCompleted())
+            {
+                int newOrbitNumber = lastOrbit.Number + 1;
+                Vector3 newOrbitPosition = firstOrbitPosition + (orbitOffset * (newOrbitNumber - 1));
+                Orbit orbit = CreateOrbit(newOrbitNumber, newOrbitPosition);
+                if (orbit == null)
+                {
+                    // se completaron todas las orbitas
+                    allowElectronSpawn = false;
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Crea una orbita correspondiente al numero recibido por parametro.
+    /// </summary>
+    /// <param name="number">Numero de orbita</param>
+    /// <param name="radius">Radio de orbita</param>
+    /// <returns>Nueva orbita | null</returns>
+    public Orbit CreateOrbit(int number, Vector3 radius)
+    {
+        OrbitData orbitData = DBManager.GetOrbitDataByNumber(number);
+
+        if (orbitData == null)
+        {
+            return null;
+        }
+
+        Orbit orbit = new Orbit(orbitData.Number, orbitData.Name, orbitData.MaxElectrons, radius);
+        orbits.Add(orbit);
+        lastOrbit = orbit;
+        return orbit;
+    }
+    #endregion
 
     #region borradores
 
@@ -105,15 +171,26 @@ public class ParticleSpawner : MonoBehaviour
     //borrar electron
     public void RemoveElectron()
     {
-        if (electronCounter != 0)
+        if (electronCounter > 0 && orbits.Count > 0)
         {
-            GameObject toDelete = electronQueue.Dequeue();
-            Destroy(toDelete);
-            electronCounter--;
+            GameObject toDelete = lastOrbit.ElectronList.LastOrDefault();
+            if (toDelete != null)
+            {
+                Destroy(toDelete);
+                lastOrbit.RemoveLastElectron();
+                if(lastOrbit.ElectronList.Count == 0)
+                {
+                    // si la orbita se queda sin electrones la elimino y tomo la anterior como ultima
+                    orbits.Remove(lastOrbit);
+                    lastOrbit = orbits.LastOrDefault();
+                }
+                electronCounter--;
+                allowElectronSpawn = true;
+            }
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
-#endregion
+    #endregion
 
     /*Metodo Valida si es un elemento de tabla periodica, si es isotopo, y cation-anion
      y luego lo escribe en el label del elemento*/
@@ -172,7 +249,7 @@ public class ParticleSpawner : MonoBehaviour
     public void SpawnFromPeriodicTable(string elementName)
     {
         //nullcheck del nombre
-        if(IsNullOrEmpty(elementName))
+        if (IsNullOrEmpty(elementName))
         {
             Debug.Log("Element name null or empty");
             return;
@@ -190,7 +267,7 @@ public class ParticleSpawner : MonoBehaviour
         //chequea lo actual y lo borra, esto es lo que seguro hay que borrar más adelante
         IterateCounterAndDeleteParticles(ref protonCounter, ref protonQueue);
         IterateCounterAndDeleteParticles(ref neutronCounter, ref neutronQueue);
-        IterateCounterAndDeleteParticles(ref electronCounter, ref electronQueue);
+        IterateCounterAndDeleteElectrons(ref electronCounter);
         //crea la cantidad de partículas indicadas
         IterateCounterAndCreateParticles(element.Protons, element.Neutrons, element.Electrons);
     }
@@ -198,7 +275,7 @@ public class ParticleSpawner : MonoBehaviour
     //le paso la lista y el contador correspondiente por referencia para hacer un solo método para las 3 partículas
     private void IterateCounterAndDeleteParticles(ref int counter, ref Queue<GameObject> queue)
     {
-        while(counter > 0)
+        while (counter > 0)
         {
             GameObject toDelete = queue.Dequeue();
             Destroy(toDelete);
@@ -206,15 +283,23 @@ public class ParticleSpawner : MonoBehaviour
         }
     }
 
+    private void IterateCounterAndDeleteElectrons(ref int counter)
+    {
+        while (counter > 0)
+        {
+            this.RemoveElectron();
+        }
+    }
+
     //Este método lanza las 3 co rutinas que spawnean las partículas indicadas por parámetro
     private void IterateCounterAndCreateParticles(int protons, int neutrons, int electrons)
     {
         //Empiezo las 3 co rutinas que se van a ejecutar en paralelo
-        StartCoroutine(SpawnGivenNumberOfNucleons(protons,true));
+        StartCoroutine(SpawnGivenNumberOfNucleons(protons, true));
         StartCoroutine(SpawnGivenNumberOfNucleons(neutrons, false));
         StartCoroutine(SpawnGivenNumberOfElectrons(electrons));
     }
-    
+
     //Co rutina que spawnea N nucleones (true = proton, false = neutron), cada X segundos
     IEnumerator SpawnGivenNumberOfNucleons(int counter, bool proton)
     {
