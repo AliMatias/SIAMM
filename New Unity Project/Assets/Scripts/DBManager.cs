@@ -215,6 +215,7 @@ public class DBManager : MonoBehaviour
         return elementData;
     }
 
+    [Obsolete]
     public OrbitData GetNextOrbitData(int orbitNumber)
     {
         OrbitData orbitData = null;
@@ -224,7 +225,7 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT nro_orbita, nombre_capa, max_electrones FROM orbitas WHERE nro_orbita ="
+                string sqlQuery = "SELECT nro_orbita, nombre_capa, max_electrones FROM elementos_orbitas WHERE nro_orbita ="
                     + nextOrbitNumber + ";";
 
                 command.CommandText = sqlQuery;
@@ -253,7 +254,7 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT nro_orbita, nombre_capa, max_electrones FROM orbitas WHERE nro_orbita ="
+                string sqlQuery = "SELECT nro_orbita, nombre_capa, max_electrones FROM elementos_orbitas WHERE nro_orbita ="
                     + orbitNumber + ";";
 
                 command.CommandText = sqlQuery;

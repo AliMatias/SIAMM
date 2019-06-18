@@ -29,6 +29,8 @@ public class ParticleSpawner : MonoBehaviour
     private bool allowElectronSpawn = true;
 
     private Vector3 firstOrbitPosition = new Vector3(1f, 0f, 0f);
+
+    // lo que aumenta el radio (x) segun cambie de orbita
     private Vector3 orbitOffset = new Vector3(0.5f, 0f, 0f);
 
     private List<Orbit> orbits = new List<Orbit>();
@@ -101,7 +103,7 @@ public class ParticleSpawner : MonoBehaviour
         if (orbits.Count == 0)
         {
             // crear primer orbita
-            CreateOrbit(1, firstOrbitPosition);
+            SpawnOrbit(1, firstOrbitPosition);
         }
         else
         {
@@ -110,7 +112,7 @@ public class ParticleSpawner : MonoBehaviour
             {
                 int newOrbitNumber = lastOrbit.Number + 1;
                 Vector3 newOrbitPosition = firstOrbitPosition + (orbitOffset * (newOrbitNumber - 1));
-                Orbit orbit = CreateOrbit(newOrbitNumber, newOrbitPosition);
+                Orbit orbit = SpawnOrbit(newOrbitNumber, newOrbitPosition);
                 if (orbit == null)
                 {
                     // se completaron todas las orbitas
@@ -124,9 +126,9 @@ public class ParticleSpawner : MonoBehaviour
     /// Crea una orbita correspondiente al numero recibido por parametro.
     /// </summary>
     /// <param name="number">Numero de orbita</param>
-    /// <param name="radius">Radio de orbita</param>
+    /// <param name="position">Posicion de orbita</param>
     /// <returns>Nueva orbita | null</returns>
-    public Orbit CreateOrbit(int number, Vector3 radius)
+    public Orbit SpawnOrbit(int number, Vector3 position)
     {
         OrbitData orbitData = DBManager.GetOrbitDataByNumber(number);
 
@@ -135,7 +137,13 @@ public class ParticleSpawner : MonoBehaviour
             return null;
         }
 
-        Orbit orbit = new Orbit(orbitData.Number, orbitData.Name, orbitData.MaxElectrons, radius);
+        // spawn orbita
+        GameObject circlePrefab = particlePrefabs[3];
+        GameObject circleSpawn = Instantiate<GameObject>(circlePrefab, parent);
+        circleSpawn.SendMessage("Create", position.x);
+
+        // crea orbita y la agrega al atomo
+        Orbit orbit = new Orbit(orbitData.Number, orbitData.Name, orbitData.MaxElectrons, position, circleSpawn);
         orbits.Add(orbit);
         lastOrbit = orbit;
         return orbit;
@@ -181,6 +189,7 @@ public class ParticleSpawner : MonoBehaviour
                 if(lastOrbit.ElectronList.Count == 0)
                 {
                     // si la orbita se queda sin electrones la elimino y tomo la anterior como ultima
+                    Destroy(lastOrbit.OrbitCircle);
                     orbits.Remove(lastOrbit);
                     lastOrbit = orbits.LastOrDefault();
                 }

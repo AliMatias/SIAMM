@@ -11,14 +11,16 @@ public class Orbit
     public int MaxElectrons { get; set; }
     public Vector3 Position { get; set; }
     public List<GameObject> ElectronList { get; }
+    public GameObject OrbitCircle { get; set; }
 
-    public Orbit(int number, string name, int maxElectrons, Vector3 position)
+    public Orbit(int number, string name, int maxElectrons, Vector3 position, GameObject orbitCircle)
     {
         Number = number;
         Name = name;
         MaxElectrons = maxElectrons;
         Position = position;
         ElectronList = new List<GameObject>();
+        OrbitCircle = orbitCircle;
     }
 
     public List<GameObject> AddElectron(GameObject electron)
