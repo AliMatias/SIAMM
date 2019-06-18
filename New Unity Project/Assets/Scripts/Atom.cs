@@ -207,6 +207,9 @@ public class Atom: MonoBehaviour
         }
     }
 
+    /*  cuando se destruye la instancia de este script, tengo que destruir
+    *   manualmente el gameObject al cual está asignado este script
+    */
     void OnDestroy()
     {
         Destroy(gameObject);

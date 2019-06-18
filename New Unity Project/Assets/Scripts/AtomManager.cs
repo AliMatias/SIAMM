@@ -180,11 +180,16 @@ public class AtomManager : MonoBehaviour
 
     //BORRAR átomo seleccionado.
     public void DeleteSelectedAtom(){
+        //primero lo encuentro
         Atom atom = FindAtomInList(selectedAtom);
+        //lo saco de la lista
         atomsList.Remove(atom);
+        //lo destruyo
         Destroy(atom);
+        //disponibilizo la posición denuevo
         availablePositions[selectedAtom] = true;
         Debug.Log("Se ha borrado el átomo " + selectedAtom);
+        //ahora no hay átomo seleccionado
         selectedAtom = -1;
     }
 
