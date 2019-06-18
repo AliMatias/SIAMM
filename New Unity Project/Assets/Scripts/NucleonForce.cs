@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 //script que aplica la fuerza a los nucleones que los mantiene pegados
 public class NucleonForce : MonoBehaviour

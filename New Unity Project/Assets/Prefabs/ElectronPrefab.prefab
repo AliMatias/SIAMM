@@ -24,6 +24,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ElectronPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 7416846440079107089, guid: 0052d38cfcc7a2840b3d4144d4b4ece3,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5a6c98710e1d63e45aaeb2291e435b81, type: 2}
     - target: {fileID: 8844282507547406996, guid: 0052d38cfcc7a2840b3d4144d4b4ece3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -79,11 +84,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7416846440079107089, guid: 0052d38cfcc7a2840b3d4144d4b4ece3,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 5a6c98710e1d63e45aaeb2291e435b81, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0052d38cfcc7a2840b3d4144d4b4ece3, type: 3}
 --- !u!1 &4171991230871867215 stripped
