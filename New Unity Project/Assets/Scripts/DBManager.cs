@@ -67,7 +67,7 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones FROM valida_elementos WHERE Protones="
+                string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones, Numero FROM valida_elementos WHERE Protones="
                     + protons + ";";
 
                 command.CommandText = sqlQuery;
@@ -80,6 +80,7 @@ public class DBManager : MonoBehaviour
                         elementData.Protons = reader.GetInt32(2);
                         elementData.Neutrons = reader.GetInt32(3);
                         elementData.Electrons = reader.GetInt32(4);
+                        elementData.Numero = reader.GetInt32(5);
                     }
                     dbConnection.Close();
                     reader.Close();
@@ -139,13 +140,13 @@ public class DBManager : MonoBehaviour
             {
                 //tener en cuenta los null sino tirara error de cast luego en el read del set
                 string sqlQuery = "SELECT numero_atomico, simbolo, nombre, peso_atomico, periodo,";
-                sqlQuery = sqlQuery + "CASE WHEN fase IS NULL THEN 'n/a' ELSE fase END,";
+                sqlQuery = sqlQuery + "CASE WHEN estado_natural IS NULL THEN 'n/a' ELSE estado_natural END,";
+                sqlQuery = sqlQuery + "clasificacion, clasificacion_grupo,";
                 sqlQuery = sqlQuery + "CASE WHEN estructura_cristalina IS NULL THEN 'n/a' ELSE estructura_cristalina END,";
                 sqlQuery = sqlQuery + "CASE WHEN color IS NULL THEN 'n/a' ELSE color END,";
                 sqlQuery = sqlQuery + "CASE WHEN valencia IS NULL THEN 'n/a' ELSE valencia END,";
                 sqlQuery = sqlQuery + "CASE WHEN numeros_oxidacion IS NULL THEN 'n/a' ELSE numeros_oxidacion END,";
                 sqlQuery = sqlQuery + "CASE WHEN configuracion_electronica IS NULL THEN 'n/a' ELSE configuracion_electronica END,";
-                sqlQuery = sqlQuery + "caracteristicas,";
                 sqlQuery = sqlQuery + "CASE WHEN punto_fusion IS NULL THEN 'n/a' ELSE punto_fusion END,";
                 sqlQuery = sqlQuery + "CASE WHEN punto_ebullicion IS NULL THEN 'n/a' ELSE punto_ebullicion END,";
                 sqlQuery = sqlQuery + "resumen ";
@@ -163,16 +164,17 @@ public class DBManager : MonoBehaviour
                         elementInfoBasic.Name = reader.GetString(2);
                         elementInfoBasic.PesoAtomico = reader.GetFloat(3);
                         elementInfoBasic.Periodo = reader.GetInt32(4);
-                        elementInfoBasic.Fase = reader.GetString(5);
-                        elementInfoBasic.EstructuraCristalina= reader.GetString(6);
-                        elementInfoBasic.Color = reader.GetString(7);
-                        elementInfoBasic.Valencia = reader.GetString(8);
-                        elementInfoBasic.NumerosOxidacion = reader.GetString(9);
-                        elementInfoBasic.ConfElectronica = reader.GetString(10);
-                        elementInfoBasic.Caracteristicas = reader.GetString(11);
-                        elementInfoBasic.PuntoFusion = reader.GetString(12);
-                        elementInfoBasic.PuntoEbullicion = reader.GetString(13);
-                        elementInfoBasic.Resumen = reader.GetString(14);
+                        elementInfoBasic.Clasificacion = reader.GetString(5);
+                        elementInfoBasic.Clasificacion_grupo = reader.GetString(6);
+                        elementInfoBasic.Estado_natural = reader.GetString(7);
+                        elementInfoBasic.EstructuraCristalina= reader.GetString(8);
+                        elementInfoBasic.Color = reader.GetString(9);
+                        elementInfoBasic.Valencia = reader.GetString(10);
+                        elementInfoBasic.NumerosOxidacion = reader.GetString(11);
+                        elementInfoBasic.ConfElectronica = reader.GetString(12);
+                        elementInfoBasic.PuntoFusion = reader.GetString(13);
+                        elementInfoBasic.PuntoEbullicion = reader.GetString(14);
+                        elementInfoBasic.Resumen = reader.GetString(15);
                     }
                 
                     dbConnection.Close();
@@ -193,7 +195,7 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT nombre, simbolo, protones, neutrones, electrones FROM valida_elementos WHERE simbolo='"
+                string sqlQuery = "SELECT nombre, simbolo, protones, neutrones, electrones, numero FROM valida_elementos WHERE simbolo='"
                     + simbol + "';";
 
                 command.CommandText = sqlQuery;
@@ -206,6 +208,7 @@ public class DBManager : MonoBehaviour
                         elementData.Protons = reader.GetInt32(2);
                         elementData.Neutrons = reader.GetInt32(3);
                         elementData.Electrons = reader.GetInt32(4);
+                        elementData.Numero = reader.GetInt32(5);
                     }
                     dbConnection.Close();
                     reader.Close();
@@ -214,4 +217,36 @@ public class DBManager : MonoBehaviour
         }
         return elementData;
     }
+
+    //trae un elemento a partir de los protones
+    public ElementData GetIsotopo(int neutrones, int numeroAtomico)
+    {
+        ElementData elementData = new ElementData();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT isotopo FROM valida_isotopos WHERE neutrones="
+                    + neutrones + " AND numero_atomico=" + numeroAtomico + ";";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        elementData.Name = reader.GetString(0);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return elementData;
+    }
+
+
+
+
+
 }

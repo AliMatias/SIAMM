@@ -6,7 +6,9 @@ CREATE TABLE "elementos_info_basica"(
 	"nombre" TEXT NULL,
 	"peso_atomico" REAL NULL,
 	"periodo" INTEGER NULL,
-	"fase" TEXT NULL,
+	"clasificacion"	TEXT NULL,
+	"clasificacion_grupo" TEXT NULL,
+	"estado_natural" TEXT NULL,
 	"estructura_cristalina" TEXT NULL,
 	"color" TEXT NULL,
 	"valencia" TEXT NULL,
@@ -22,6 +24,7 @@ CREATE TABLE "elementos_info_detalle"(
 	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	"numero_atomico" INTEGER NULL,
 	"isotopos_estables" TEXT NULL,
+	"isotopos_aplicaciones"	TEXT NULL,
 	"tipo_electrico" TEXT NULL,
 	"radiactivo" TEXT NULL,
 	"abundancia_corteza_terrestre" TEXT NULL,
@@ -87,3 +90,21 @@ CREATE TABLE "valida_elementos"(
 	"protones" INTEGER NULL,
 	"neutrones" INTEGER NULL);
 
+
+CREATE TABLE "valida_isotopos"(
+	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	"numero_atomico" INTEGER NULL,
+	"numero_correlativo" INTEGER NULL,
+	"isotopo" TEXT NULL,
+	"numero_de_masa" INTEGER NULL,
+	"neutrones" INTEGER NULL);
+
+
+CREATE TABLE "elementos_orbitas"(
+	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	"nro_orbita" INTEGER NULL,
+	"nombre_capa" TEXT NULL,
+	"max_electrones" INTEGER NULL);
+
+
+			

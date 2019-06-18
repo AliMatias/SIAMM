@@ -120,6 +120,7 @@ public class ParticleSpawner : MonoBehaviour
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
         ElementData element = new ElementData();
+        ElementData elementIsotopo = new ElementData();
         string elementText = string.Empty;
 
         Debug.Log("protones: " + protons + " neutrones:" + neutrons + " electrones:" + electrons);
@@ -144,7 +145,17 @@ public class ParticleSpawner : MonoBehaviour
                 //si no coinciden los neutrones es un isótopo de ese material (falta límites inf y sup)
                 if (element.Neutrons != neutrons)
                 {
-                    elementText = "isótopo de " + elementText;
+                    //valido que isotopo es sino existe se informa NO ENCONTRADO
+                    elementIsotopo = DBManager.GetIsotopo(neutrons, element.Numero);
+
+                    if (IsNullOrEmpty(elementIsotopo))
+                    {
+                        elementText = "no encontrado.";
+                    }
+                    else
+                    {
+                        elementText = "isótopo (" + elementIsotopo.Name + ") de " + elementText;
+                    }
                 }
                 //si mi modelo tiene mas electrones que el de la tabla, es anión (-)
                 if (element.Electrons < electrons)

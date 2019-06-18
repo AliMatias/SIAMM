@@ -20,13 +20,46 @@ public class BasicInfoLoader : MonoBehaviour
     //setea la info básica y muestra el panel
     public void SetBasicInfo(ElementInfoBasic elementInfoBasic)
     {
-        //acá están hardcodeadas las posiciones, ver si hay una manera mas linda de hacerlo
-        texts[0].text = "Nombre: " + elementInfoBasic.Name;
-        texts[1].text = "Nro atómico: " + elementInfoBasic.Nroatomico;
-        texts[2].text = "Símbolo: " + elementInfoBasic.Simbol;
-        texts[3].text = "Peso atómico: " + elementInfoBasic.PesoAtomico;
-        texts[4].text = "Período: " + elementInfoBasic.Periodo;
-        texts[5].text = "Color: " + elementInfoBasic.Color;
+        foreach (TextMeshProUGUI a in texts)
+        {
+
+            if (a.name == "txtNombre")
+                a.text = "Nombre: " + elementInfoBasic.Name;
+            if (a.name == "txtNroAtomico")
+            {
+                a.text = "Nro atómico: " + elementInfoBasic.Nroatomico;
+                //aca cargaria la foto del elemento
+            }
+            if (a.name == "txtSimbol")
+                a.text = "Símbolo: " + elementInfoBasic.Simbol;
+            if (a.name == "txtPeso")
+                a.text = "Peso atómico: " + elementInfoBasic.PesoAtomico;
+            if (a.name == "txtPeriodo")
+                a.text = "Período: " + elementInfoBasic.Periodo;
+            if (a.name == "txtColor")
+                a.text = "Color: " + elementInfoBasic.Color;
+            if (a.name == "txtClasificacion")
+                a.text = "Clasificacion: " + elementInfoBasic.Clasificacion;
+            if (a.name == "txtClasificacionGrupo")
+                a.text = "Clasificacion Grupo: " + elementInfoBasic.Clasificacion_grupo;
+            if (a.name == "txtValencia")
+                a.text = "Valencia: " + elementInfoBasic.Valencia;
+            if (a.name == "txtEstadoNatural")
+                a.text = "Estado Natural: " + elementInfoBasic.Estado_natural;
+            if (a.name == "txtEstructuraCrist")
+            {
+                a.text = "Estructura Cristalina: " + elementInfoBasic.EstructuraCristalina;
+                //aca luego cargaria la foto..
+            }
+            if (a.name == "txtNroOxi")
+                a.text = "Números Oxidacion: " + elementInfoBasic.NumerosOxidacion;
+            if (a.name == "txtConfElectronica")
+                a.text = "Configuración Electronica: " + elementInfoBasic.ConfElectronica;
+            if (a.name == "txtPtoFusion")
+                a.text = "Punto de Fusión: " + elementInfoBasic.PuntoFusion;
+            if (a.name == "txtPtoEbullicion")
+                a.text = "Punto de Ebullicón: " + elementInfoBasic.PuntoEbullicion;
+        }
 
         panel.SetActive(true);
     }
