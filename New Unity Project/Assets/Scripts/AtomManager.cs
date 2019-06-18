@@ -52,12 +52,10 @@ public class AtomManager : MonoBehaviour
     //seteo las posibles posiciones, por ahora hardcodeadas
     private void LoadPositions()
     {
-        planePositions.Add(new Vector3(-2.8f, 3, 0));
-        planePositions.Add(new Vector3(0, 3, 0));
-        planePositions.Add(new Vector3(2.8f, 3, 0));
-        planePositions.Add(new Vector3(-2.8f, 1, 0));
-        planePositions.Add(new Vector3(0, 1, 0));
-        planePositions.Add(new Vector3(2.8f, 1, 0));
+        planePositions.Add(new Vector3(-2, 3, 0));
+        planePositions.Add(new Vector3(2, 3, 0));
+        planePositions.Add(new Vector3(-2, 1, 0));
+        planePositions.Add(new Vector3(2, 1, 0));
         //todas están disponibles al principio
         foreach (Vector3 position in planePositions)
         {
