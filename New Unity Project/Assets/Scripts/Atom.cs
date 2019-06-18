@@ -283,7 +283,7 @@ public class Atom: MonoBehaviour
         elementLabel.GetComponent<TextMesh>().color = new Color(240,0,0);
         StartAllHighlights(protonQueue);
         StartAllHighlights(neutronQueue);
-        StartAllHighlights(electronQueue);
+        //StartAllHighlights(electronQueue);
     }
 
     //ilumina las partículas de esta cola
@@ -299,7 +299,7 @@ public class Atom: MonoBehaviour
         elementLabel.GetComponent<TextMesh>().color = new Color(255,255,255);
         StopAllHighlights(neutronQueue);
         StopAllHighlights(protonQueue);
-        StopAllHighlights(electronQueue);
+        //StopAllHighlights(electronQueue);
     }
 
     //quita la iluminación a todas las particulas de esta cola
