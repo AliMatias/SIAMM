@@ -177,6 +177,7 @@ public class Atom: MonoBehaviour
 
     //ilumina todas las partículas
     public void Select(){
+        elementLabel.GetComponent<TextMesh>().color = new Color(240,0,0);
         StartAllHighlights(protonQueue);
         StartAllHighlights(neutronQueue);
         StartAllHighlights(electronQueue);
@@ -192,6 +193,7 @@ public class Atom: MonoBehaviour
 
     //quita la iluminación a todas las partículas
     public void Deselect(){
+        elementLabel.GetComponent<TextMesh>().color = new Color(255,255,255);
         StopAllHighlights(neutronQueue);
         StopAllHighlights(protonQueue);
         StopAllHighlights(electronQueue);
@@ -203,5 +205,10 @@ public class Atom: MonoBehaviour
         {
             obj.GetComponent<HighlightObject>().StopHighlight();
         }
+    }
+
+    void OnDestroy()
+    {
+        Destroy(gameObject);
     }
 }

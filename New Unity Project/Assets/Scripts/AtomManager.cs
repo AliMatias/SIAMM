@@ -12,7 +12,7 @@ public class AtomManager : MonoBehaviour
     //Lista de posiciones ocupadas/libres
     private List<Vector3> planePositions = new List<Vector3>();
     private List<bool> availablePositions = new List<bool>();
-    //indica el átomo seleccionad. (-1 -> ninguno)
+    //indica el átomo seleccionado. (-1 -> ninguno)
     private int selectedAtom = -1;
 
     private void Awake()
@@ -24,10 +24,10 @@ public class AtomManager : MonoBehaviour
     public void NewAtom()
     {
         //intento obtener una posición disponible random
-        Vector3 position;
+        int position;
         try
         {
-            position = ObtainRandomPosition();
+            position = ObtainRandomPositionIndex();
         }
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch(NoPositionsLeftException nple)
@@ -38,11 +38,11 @@ public class AtomManager : MonoBehaviour
         //instancio
         Atom spawnedAtom = Instantiate<Atom>(atomPrefab);
         //asigno random position
-        spawnedAtom.transform.localPosition = position;
+        spawnedAtom.transform.localPosition = planePositions[position];
         //agrego a la lista
         atomsList.Add(spawnedAtom);
         //asigno su índice a este átomo
-        spawnedAtom.AtomIndex = atomsList.Count - 1;
+        spawnedAtom.AtomIndex = position;
         //spawneo un protón
         spawnedAtom.SpawnNucleon(true);
     }
@@ -64,7 +64,7 @@ public class AtomManager : MonoBehaviour
     } 
 
     //obtengo una posición random en el plano
-    private Vector3 ObtainRandomPosition()
+    private int ObtainRandomPositionIndex()
     {
         //si no hay mas disponibles tiro exception
         if (NoPositionsLeft())
@@ -77,10 +77,9 @@ public class AtomManager : MonoBehaviour
             if (availablePositions[randomIndex])
             {
                 availablePositions[randomIndex] = false;
-                return planePositions[randomIndex];
+                return randomIndex;
             }
         }
-
     }
 
     //chequeo si hay posiciones disponibles
@@ -112,17 +111,28 @@ public class AtomManager : MonoBehaviour
         selectedAtom = index;
     }
 
+    //ya que el índice del átomo depende de la posición, 
+    //necesito recorrer la lista para encontrarlo
+    private Atom FindAtomInList(int index){
+        foreach(Atom atom in atomsList){
+            if(atom.AtomIndex == index){
+                return atom;
+            }
+        }
+        return null;
+    }
+
     //quita el brillo al átomo seleccionado
     private void DeselectParticlesFromAtom(int index)
     {
-        Atom atom = atomsList[index];
+        Atom atom = FindAtomInList(index);
         atom.Deselect();
     }
 
     //comienza el brillo en el átomo seleccionado
     private void SelectParticlesFromAtom(int index)
     {
-        Atom atom = atomsList[index];
+        Atom atom = FindAtomInList(index);
         atom.Select();
     }
 
@@ -133,7 +143,7 @@ public class AtomManager : MonoBehaviour
             return;
         }
         //agarro el átomo indicado de la lista
-        Atom atom = atomsList[selectedAtom];
+        Atom atom = FindAtomInList(selectedAtom);
         if(particle==0){
             atom.SpawnNucleon(true);
         }else if (particle==1){
@@ -154,7 +164,7 @@ public class AtomManager : MonoBehaviour
             return;
         }
         //agarro el átomo de la lista
-        Atom atom = atomsList[selectedAtom];
+        Atom atom = FindAtomInList(selectedAtom);
         if(particle==0){
             atom.RemoveProton();
         }else if (particle==1){
@@ -166,6 +176,16 @@ public class AtomManager : MonoBehaviour
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
             return;
         }
+    }
+
+    //BORRAR átomo seleccionado.
+    public void DeleteSelectedAtom(){
+        Atom atom = FindAtomInList(selectedAtom);
+        atomsList.Remove(atom);
+        Destroy(atom);
+        availablePositions[selectedAtom] = true;
+        Debug.Log("Se ha borrado el átomo " + selectedAtom);
+        selectedAtom = -1;
     }
 
 }
