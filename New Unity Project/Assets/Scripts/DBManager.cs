@@ -245,8 +245,63 @@ public class DBManager : MonoBehaviour
         return elementData;
     }
 
+    [Obsolete]
+    public OrbitData GetNextOrbitData(int orbitNumber)
+    {
+        OrbitData orbitData = null;
+        int nextOrbitNumber = orbitNumber + 1;
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT nro_orbita, nombre_capa, max_electrones FROM elementos_orbitas WHERE nro_orbita ="
+                    + nextOrbitNumber + ";";
 
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int number = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        int maxElectrons = reader.GetInt32(2);
+                        orbitData = new OrbitData(number, name, maxElectrons);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return orbitData;
+    }
 
+    public OrbitData GetOrbitDataByNumber(int orbitNumber)
+    {
+        OrbitData orbitData = null;
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT nro_orbita, nombre_capa, max_electrones FROM elementos_orbitas WHERE nro_orbita ="
+                    + orbitNumber + ";";
 
-
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int number = reader.GetInt32(0);
+                        string name = reader.GetString(1);
+                        int maxElectrons = reader.GetInt32(2);
+                        orbitData = new OrbitData(number, name, maxElectrons);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return orbitData;
+    }
 }
