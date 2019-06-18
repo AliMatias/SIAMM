@@ -4,27 +4,29 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 
-//script que se encarga de spawnear las partículas, manejarlas y saber que estoy formando.
-public class ParticleSpawner : MonoBehaviour
+//script que se encarga de spawnear las partÃ­culas, manejarlas y saber que estoy formando.
+public class Atom: MonoBehaviour
 {
     #region atributos
-    //Lista de prefabs de partículas, posición 0->proton, 1->neutron, 2->electron
+    //Lista de prefabs de partÃ­culas, posiciÃ³n 0->proton, 1->neutron, 2->electron
     public GameObject[] particlePrefabs;
-    //objeto padre, que va a representar el átomo en sí
+    //objeto padre, que va a representar el Ã¡tomo en sÃ­
     [SerializeField]
     private Transform parent;
-    //objeto con el que interactúo para acceder a la DB
-    public DBManager DBManager;
-    //label que indica elemento en construcción.
-    public TextMeshProUGUI elementLabel;
-    //listas para controlar las partículas agregadas
+    //objeto con el que interactÃºo para acceder a la DB
+    private DBManager DBManager;
+    private AtomManager atomManager;
+    //label que indica elemento en construcciÃ³n.
+    public GameObject elementLabel;
+    //listas para controlar las partÃ­culas agregadas
     private Queue<GameObject> protonQueue = new Queue<GameObject>();
     private Queue<GameObject> neutronQueue = new Queue<GameObject>();
-
-    //contadores de partículas
+    //contadores de partÃ­culas
     private int protonCounter = 0;
     private int neutronCounter = 0;
     private int electronCounter = 0;
+    //indicador de Ã­ndice de Ã¡tomo (posiciÃ³n en la lista de Ã¡tomos del manager)
+    private int atomIndex;
 
     private bool allowElectronSpawn = true;
 
@@ -37,6 +39,14 @@ public class ParticleSpawner : MonoBehaviour
     Orbit lastOrbit;
     #endregion
 
+    public int AtomIndex { get => atomIndex; set => atomIndex = value; }
+
+    //Seteo el dbmanager en el mÃ©todo awake, que se llama cuando se instancia el objeto
+    private void Awake()
+    {
+        DBManager = FindObjectOfType<DBManager>();
+        atomManager = FindObjectOfType<AtomManager>();
+    }
 
     #region spawn
     //crea un nucleon, true -> crea proton, false -> crea neutron
@@ -50,13 +60,13 @@ public class ParticleSpawner : MonoBehaviour
         //selecciono el prefab y lo instancio
         GameObject prefab = particlePrefabs[index];
         GameObject spawn = Instantiate<GameObject>(prefab, parent);
-
-        //posicion random para que no queden todos en fila, aún no quedan bien
+        
+        //posicion random para que no queden todos en fila, aÃºn no quedan bien
         float randomNumber = Random.Range(0f, 0.4f);
         Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
         spawn.transform.localPosition = randomPosition;
-
-        //encolar y aumentar contadores según partícula creada
+        
+        //encolar y aumentar contadores segÃºn partÃ­cula creada
         if (proton)
         {
             protonQueue.Enqueue(spawn);
@@ -213,22 +223,22 @@ public class ParticleSpawner : MonoBehaviour
 
         //resetea valor a by default
         if (protons == 0 && neutrons == 0 && electrons == 0)
-            elementText = "";
+            elementText = "VacÃ­o";
         else
         {
-            //obtiene datos del elemento según cantidad de protones
+            //obtiene datos del elemento segÃºn cantidad de protones
             element = DBManager.GetElementFromProton(protons);
-            //si es null o no lo encontré
+            //si es null o no lo encontrÃ³
             if (IsNullOrEmpty(element))
             {
-                elementText = "no encontrado.";
+                elementText = "Elemento no encontrado.";
             }
             else
             {
-                //seteo nombre y símbolo
+                //seteo nombre y sÃ­mbolo
                 elementText = element.Name + " (" + element.Simbol + ")";
 
-                //si no coinciden los neutrones es un isótopo de ese material (falta límites inf y sup)
+                //si no coinciden los neutrones es un isÃ³topo de ese material (falta lÃ­mites inf y sup)
                 if (element.Neutrons != neutrons)
                 {
                     //valido que isotopo es sino existe se informa NO ENCONTRADO
@@ -240,32 +250,76 @@ public class ParticleSpawner : MonoBehaviour
                     }
                     else
                     {
-                        elementText = "isótopo (" + elementIsotopo.Name + ") de " + elementText;
+                        elementText = "isÃ³topo (" + elementIsotopo.Name + ") de " + elementText;
                     }
                 }
-                //si mi modelo tiene mas electrones que el de la tabla, es anión (-)
+                //si mi modelo tiene mas electrones que el de la tabla, es aniÃ³n (-)
                 if (element.Electrons < electrons)
                 {
-                    elementText = elementText + ", anión.";
+                    elementText = elementText + ", aniÃ³n.";
                 }
-                //sino, si el modelo tiene menos electrones que el de la tabla, es catión (+)
+                //sino, si el modelo tiene menos electrones que el de la tabla, es catiÃ³n (+)
                 else if (element.Electrons > electrons)
                 {
-                    elementText = elementText + ", catión.";
+                    elementText = elementText + ", catiÃ³n.";
                 }
                 //sino, significa que es la misma cantidad, y tiene carga neutra
             }
         }
 
         Debug.Log(elementText);
-        elementLabel.SetText("Elemento: " + elementText);
+        elementLabel.GetComponent<TextMesh>().text = elementText;
+    }
+
+    //se lanza cuando se hace click al Ã¡tomo
+    public void OnMouseDown()
+    {
+        Debug.Log("clickeaste el Ã¡tomo " + AtomIndex);
+        atomManager.SelectAtom(AtomIndex);
+    }
+
+    //ilumina todas las partÃ­culas
+    public void Select(){
+        elementLabel.GetComponent<TextMesh>().color = new Color(240,0,0);
+        StartAllHighlights(protonQueue);
+        StartAllHighlights(neutronQueue);
+        //StartAllHighlights(electronQueue);
+    }
+
+    //ilumina las partÃ­culas de esta cola
+    private void StartAllHighlights(Queue<GameObject> queue){
+        foreach(GameObject obj in queue)
+        {
+            obj.GetComponent<HighlightObject>().StartHighlight();
+        }
+    }
+
+    //quita la iluminaciÃ³n a todas las partÃ­culas
+    public void Deselect(){
+        elementLabel.GetComponent<TextMesh>().color = new Color(255,255,255);
+        StopAllHighlights(neutronQueue);
+        StopAllHighlights(protonQueue);
+        //StopAllHighlights(electronQueue);
+    }
+
+    //quita la iluminaciÃ³n a todas las particulas de esta cola
+    private void StopAllHighlights(Queue<GameObject> queue){
+        foreach (GameObject obj in queue)
+        {
+            obj.GetComponent<HighlightObject>().StopHighlight();
+        }
+    }
+
+    /*  cuando se destruye la instancia de este script, tengo que destruir
+    *   manualmente el gameObject al cual estÃ¡ asignado este script
+    */
+    void OnDestroy()
+    {
+        Destroy(gameObject);
     }
 
     #region crear desde tabla periodica
-    /*Por ahora borra todas sus partículas y empieza a spawnear las nuevas hasta llegar a la cantidad indicada
-    esto hay que cambiarlo cuando se maneje con más de un átomo porque tiene que ser en el onCreate o algo así.
-    y ya sabemos que van a estar las 3 partículas en 0
-    Además, el elementName por ahora viene definido en el mètodo del botón*/
+    /*Crea tantas partÃ­culas como tiene el elemento indicado*/
     public void SpawnFromPeriodicTable(string elementName)
     {
         //nullcheck del nombre
@@ -277,41 +331,17 @@ public class ParticleSpawner : MonoBehaviour
 
         //obtengo la data del elemento de la DB
         ElementData element = DBManager.GetElementFromName(elementName);
-        //nullcheck por si no encontró en la DB
+        //nullcheck por si no encontrÃ³ en la DB
         if (IsNullOrEmpty(element))
         {
             Debug.Log("Element not found.");
             return;
         }
-
-        //chequea lo actual y lo borra, esto es lo que seguro hay que borrar más adelante
-        IterateCounterAndDeleteParticles(ref protonCounter, ref protonQueue);
-        IterateCounterAndDeleteParticles(ref neutronCounter, ref neutronQueue);
-        IterateCounterAndDeleteElectrons(ref electronCounter);
-        //crea la cantidad de partículas indicadas
+        //crea la cantidad de partÃ­culas indicadas
         IterateCounterAndCreateParticles(element.Protons, element.Neutrons, element.Electrons);
     }
 
-    //le paso la lista y el contador correspondiente por referencia para hacer un solo método para las 3 partículas
-    private void IterateCounterAndDeleteParticles(ref int counter, ref Queue<GameObject> queue)
-    {
-        while (counter > 0)
-        {
-            GameObject toDelete = queue.Dequeue();
-            Destroy(toDelete);
-            counter--;
-        }
-    }
-
-    private void IterateCounterAndDeleteElectrons(ref int counter)
-    {
-        while (counter > 0)
-        {
-            this.RemoveElectron();
-        }
-    }
-
-    //Este método lanza las 3 co rutinas que spawnean las partículas indicadas por parámetro
+    //Este mÃ©todo lanza las 3 co rutinas que spawnean las partÃ­culas indicadas por parÃ¡metro
     private void IterateCounterAndCreateParticles(int protons, int neutrons, int electrons)
     {
         //Empiezo las 3 co rutinas que se van a ejecutar en paralelo
@@ -327,7 +357,7 @@ public class ParticleSpawner : MonoBehaviour
         {
             SpawnNucleon(proton);
             counter--;
-            //esta línea espera x segundos antes de seguir ejecutando
+            //esta lÃ­nea espera x segundos antes de seguir ejecutando
             yield return new WaitForSeconds(0.25f);
         }
     }
@@ -339,7 +369,7 @@ public class ParticleSpawner : MonoBehaviour
         {
             SpawnElectron();
             counter--;
-            //esta línea espera x segundos antes de seguir ejecutando
+            //esta lÃ­nea espera x segundos antes de seguir ejecutando
             yield return new WaitForSeconds(0.5f);
         }
     }
@@ -347,7 +377,7 @@ public class ParticleSpawner : MonoBehaviour
 
 
     #region nullchecks
-    //nullcheck de string, averiguar si existe alguna librería que ya haga esto.
+    //nullcheck de string, averiguar si existe alguna librerÃ­a que ya haga esto.
     private bool IsNullOrEmpty(string s)
     {
         if (s == null || s == "")
@@ -355,7 +385,7 @@ public class ParticleSpawner : MonoBehaviour
         return false;
     }
 
-    //nullcheck de ElementData, averiguar si existe alguna librería que ya haga esto.
+    //nullcheck de ElementData, averiguar si existe alguna librerÃ­a que ya haga esto.
     private bool IsNullOrEmpty(ElementData e)
     {
         if (e == null || e.Name == null || e.Name == "")

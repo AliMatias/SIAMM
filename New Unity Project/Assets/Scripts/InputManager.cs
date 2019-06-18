@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class InputManager : MonoBehaviour
 {
     #region Atributos
-    private ParticleSpawner spawner;
+    private AtomManager atomManager;
     private UIFader UIFader;
     public GameObject parent;
     private LoadTper loadTPer;
@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
     /*Metodo para instanciar una clase en unity*/
     private void Awake()
     {
-        spawner = FindObjectOfType<ParticleSpawner>();
+        atomManager = FindObjectOfType<AtomManager>();
         loadTPer = FindObjectOfType<LoadTper>();
         UIFader = FindObjectOfType<UIFader>();
         BasicInfoLoader = FindObjectOfType<BasicInfoLoader>();
@@ -28,7 +28,7 @@ public class InputManager : MonoBehaviour
           en este caso el objeto text del boton se esta trayendo el 1ro de la coleccion*/ 
         Text text = parent.GetComponentInChildren<Text>();
 
-        spawner.SpawnFromPeriodicTable(text.text);
+        atomManager.SpawnFromPeriodicTable(text.text);
 
         //aca se puede utilizar el metodo del fadeinout porque es el panel de la tabla que contiene el objeto CANVAS GROUP
         UIFader.FadeInAndOut();

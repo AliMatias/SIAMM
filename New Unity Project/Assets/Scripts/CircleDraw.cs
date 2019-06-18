@@ -30,14 +30,15 @@ public class CircleDraw : MonoBehaviour
         LineDrawer.widthCurve = AnimationCurve.Linear(0, 0.01f, 0, 0f);
 
         // obtiene la posicion y del padre
-        float y = transform.parent.localPosition.y;
+        Vector3 parentLocalPosition = transform.parent.localPosition;
+        float y = parentLocalPosition.y;
 
         // dibuja los puntos del circulo
         for (int i = 0; i < Size; i++)
         {
             Theta += (2.0f * Mathf.PI * ThetaScale);
-            float x = radius * Mathf.Cos(Theta);
-            float z = radius * Mathf.Sin(Theta);
+            float x = radius * Mathf.Cos(Theta) + parentLocalPosition.x;
+            float z = radius * Mathf.Sin(Theta) + parentLocalPosition.z;
             LineDrawer.SetPosition(i, new Vector3(x, y, z));
         }
     }

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7416846440079107089}
   - component: {fileID: 1462808600422126941}
   - component: {fileID: 8330583132440504054}
+  - component: {fileID: 7738470415582906703}
   m_Layer: 0
   m_Name: ParticlePrefab
   m_TagString: Untagged
@@ -108,3 +109,17 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7738470415582906703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8924188638573327977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef09f0388c1ad5c4db6913e941591110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationTime: 1
+  threshold: 2.5
