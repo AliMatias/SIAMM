@@ -35,6 +35,7 @@ public class LoadTper : MonoBehaviour
             //si no es NULL quiere decir que MAPEO un boton ahi tengo que ir a la base de datos
             if (button != null)
             {
+                ResizeFont(button);
                 LoadData(button);
             }
         }
@@ -44,16 +45,17 @@ public class LoadTper : MonoBehaviour
     private void LoadData (Button elem)
     {
         ElementTabPer element = new ElementTabPer();
-
+       
         //obtiene datos del elemento según cantidad de protones
         element = DBManager.GetElementFromNro(getNroAtomicoId(elem));
 
         //obtengo la lista de objetos o coleccion de objetos de tipo TEXT que estan en los botones
         Text[] textosObj = elem.GetComponentsInChildren<Text>();
-
+       
         //recorro todos los game object que contiene el boton, se podria hacer por orden de objetos, como estan creados en el boton
         for (int j = 0; j < textosObj.Length; j++)
         {
+
             if (textosObj[j].name == "txtDistElect")
                 textosObj[j].text = element.ConfElectronica;
             if (textosObj[j].name == "txtPeso")
@@ -76,6 +78,29 @@ public class LoadTper : MonoBehaviour
         glg.cellSize = new Vector2(parent.rect.width / col, parent.rect.height / row);
     }
 
+    /*metodo para el tamaño de las fuentes de los botones de la tabla periodica, se utiliza una proporcion de acuerdo
+    al tamaño ORIGINAL usado para el tamaño de una resoluion de pantalla de 15" */
+    private void ResizeFont(Button elem)
+    {
+        /*si a x 50 y 50 (2500 area) es 22 font busco una proporcion aprox!!!*/
+        int xOriginal = 60;
+        int sizeActual;    
+        int sizeProporcionCell = Convert.ToInt32(glg.cellSize.x);
+
+        //obtengo la lista de objetos o coleccion de objetos de tipo TEXT que estan en los botones
+        Text[] textosObj = elem.GetComponentsInChildren<Text>();
+
+        //recorro todos los game object que contiene el boton, se podria hacer por orden de objetos, como estan creados en el boton
+        for (int j = 0; j < textosObj.Length; j++)
+        {
+
+            sizeActual = textosObj[j].fontSize;
+
+            textosObj[j].fontSize = (sizeProporcionCell * sizeActual) / xOriginal;
+
+            textosObj[j].fontSize = textosObj[j].fontSize;
+        }
+    }
 
     /*Obtiene el nro atomico a partir del "string" que tiene en el boton como txtNroAtomico*/
     public int getNroAtomicoId (Button elem)
