@@ -21,7 +21,7 @@ public class AtomManager : MonoBehaviour
     }
 
     //agregar nuevo átomo al espacio de trabajo
-    public void NewAtom()
+    public void NewAtom(bool withProton)
     {
         //intento obtener una posición disponible random
         int position;
@@ -43,8 +43,10 @@ public class AtomManager : MonoBehaviour
         atomsList.Add(spawnedAtom);
         //asigno su índice a este átomo
         spawnedAtom.AtomIndex = position;
-        //spawneo un protón
-        spawnedAtom.SpawnNucleon(true);
+        //si dice que lo spawnee con un proton, lo hago
+        if(withProton){
+            spawnedAtom.SpawnNucleon(true);
+        }
     }
 
     //seteo las posibles posiciones, por ahora hardcodeadas
@@ -195,6 +197,19 @@ public class AtomManager : MonoBehaviour
         Debug.Log("Se ha borrado el átomo " + selectedAtom);
         //ahora no hay átomo seleccionado
         selectedAtom = -1;
+    }
+
+    //spawnear átomo seleccionado en la tabla periódica
+    public void SpawnFromPeriodicTable(string elementName){
+        int oldAtomsCount = atomsList.Count;
+        NewAtom(false);
+        int newAtomsCount = atomsList.Count;
+        if(oldAtomsCount < newAtomsCount){
+            Atom newAtom = atomsList[newAtomsCount-1];
+            newAtom.SpawnFromPeriodicTable(elementName);
+        }else{
+            Debug.Log("No hay más lugar para crear un nuevo átomo.");
+        }
     }
 
 }

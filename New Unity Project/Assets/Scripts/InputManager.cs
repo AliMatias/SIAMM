@@ -28,7 +28,7 @@ public class InputManager : MonoBehaviour
           en este caso el objeto text del boton se esta trayendo el 1ro de la coleccion*/ 
         Text text = parent.GetComponentInChildren<Text>();
 
-        //atomManager.SpawnFromPeriodicTable(text.text);
+        atomManager.SpawnFromPeriodicTable(text.text);
 
         //aca se puede utilizar el metodo del fadeinout porque es el panel de la tabla que contiene el objeto CANVAS GROUP
         UIFader.FadeInAndOut();

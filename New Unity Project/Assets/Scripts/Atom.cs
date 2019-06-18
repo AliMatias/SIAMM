@@ -319,10 +319,7 @@ public class Atom: MonoBehaviour
     }
 
     #region crear desde tabla periodica
-    /*Por ahora borra todas sus partículas y empieza a spawnear las nuevas hasta llegar a la cantidad indicada
-    esto hay que cambiarlo cuando se maneje con más de un átomo porque tiene que ser en el onCreate o algo así.
-    y ya sabemos que van a estar las 3 partículas en 0
-    Además, el elementName por ahora viene definido en el método del botón*/
+    /*Crea tantas partículas como tiene el elemento indicado*/
     public void SpawnFromPeriodicTable(string elementName)
     {
         //nullcheck del nombre
@@ -340,35 +337,11 @@ public class Atom: MonoBehaviour
             Debug.Log("Element not found.");
             return;
         }
-
-        //chequea lo actual y lo borra, esto es lo que seguro hay que borrar más adelante
-        IterateCounterAndDeleteParticles(ref protonCounter, ref protonQueue);
-        IterateCounterAndDeleteParticles(ref neutronCounter, ref neutronQueue);
-        IterateCounterAndDeleteElectrons(ref electronCounter);
         //crea la cantidad de partículas indicadas
         IterateCounterAndCreateParticles(element.Protons, element.Neutrons, element.Electrons);
     }
 
-    //le paso la lista y el contador correspondiente por referencia para hacer un solo método para las 3 partículas
-    private void IterateCounterAndDeleteParticles(ref int counter, ref Queue<GameObject> queue)
-    {
-        while (counter > 0)
-        {
-            GameObject toDelete = queue.Dequeue();
-            Destroy(toDelete);
-            counter--;
-        }
-    }
-
-    private void IterateCounterAndDeleteElectrons(ref int counter)
-    {
-        while (counter > 0)
-        {
-            this.RemoveElectron();
-        }
-    }
-
-    //Este m�todo lanza las 3 co rutinas que spawnean las partículas indicadas por parámetro
+    //Este método lanza las 3 co rutinas que spawnean las partículas indicadas por parámetro
     private void IterateCounterAndCreateParticles(int protons, int neutrons, int electrons)
     {
         //Empiezo las 3 co rutinas que se van a ejecutar en paralelo
