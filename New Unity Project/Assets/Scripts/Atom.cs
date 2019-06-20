@@ -30,10 +30,10 @@ public class Atom: MonoBehaviour
 
     private bool allowElectronSpawn = true;
 
-    private Vector3 firstOrbitPosition = new Vector3(1f, 0f, 0f);
+    private Vector3 firstOrbitPosition = new Vector3(0.5f, 0f, 0f);
 
     // lo que aumenta el radio (x) segun cambie de orbita
-    private Vector3 orbitOffset = new Vector3(0.5f, 0f, 0f);
+    private Vector3 orbitOffset = new Vector3(0.2f, 0f, 0f);
 
     private List<Orbit> orbits = new List<Orbit>();
     Orbit lastOrbit;
