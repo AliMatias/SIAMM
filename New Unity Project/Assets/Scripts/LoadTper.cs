@@ -82,10 +82,12 @@ public class LoadTper : MonoBehaviour
     al tamaño ORIGINAL usado para el tamaño de una resoluion de pantalla de 15" */
     private void ResizeFont(Button elem)
     {
-        /*si a x 50 y 50 (2500 area) es 22 font busco una proporcion aprox!!!*/
-        int xOriginal = 60;
+        /*busco una proporcion aprox!!!*/
+        int xOriginal = 70;
         int sizeActual;    
         int sizeProporcionCell = Convert.ToInt32(glg.cellSize.x);
+
+        elem.GetComponent<RectTransform>().sizeDelta = new Vector2(glg.cellSize.y, glg.cellSize.x);
 
         //obtengo la lista de objetos o coleccion de objetos de tipo TEXT que estan en los botones
         Text[] textosObj = elem.GetComponentsInChildren<Text>();
@@ -93,12 +95,8 @@ public class LoadTper : MonoBehaviour
         //recorro todos los game object que contiene el boton, se podria hacer por orden de objetos, como estan creados en el boton
         for (int j = 0; j < textosObj.Length; j++)
         {
-
             sizeActual = textosObj[j].fontSize;
-
             textosObj[j].fontSize = (sizeProporcionCell * sizeActual) / xOriginal;
-
-            textosObj[j].fontSize = textosObj[j].fontSize;
         }
     }
 
