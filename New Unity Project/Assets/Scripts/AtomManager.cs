@@ -18,14 +18,13 @@ public class AtomManager : MonoBehaviour
     private bool combineMode = false;
     //lista que indica elementos seleccionados en modo combinación
     private List<int> selectedAtoms = new List<int>();
-    //manager que controla la UI
-    private UIManager UIManager;
+
+    public List<int> SelectedAtoms { get => selectedAtoms; set => selectedAtoms = value; }
 
     //este método se ejecuta cuando se instancia este un objeto de esta clase
     private void Awake()
     {
         LoadPositions();
-        UIManager = FindObjectOfType<UIManager>();
     }
 
     //cambia entre modo combinación o normal
@@ -44,7 +43,6 @@ public class AtomManager : MonoBehaviour
                 selectedAtoms.Add(lastSelectedAtom);
             }
         }
-        UIManager.SwitchCombineMode(combineMode);
     }
 
 
