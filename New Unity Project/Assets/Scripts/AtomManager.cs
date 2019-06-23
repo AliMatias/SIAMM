@@ -19,6 +19,8 @@ public class AtomManager : MonoBehaviour
     //lista que indica elementos seleccionados en modo combinación
     private List<int> selectedAtoms = new List<int>();
 
+    //esto està porque lo necesita el "combination manager"
+    //seguro cuando busque la combinaciòn posta, va a necesitar otra cosa, no esto.
     public List<int> SelectedAtoms { get => selectedAtoms; set => selectedAtoms = value; }
 
     //este método se ejecuta cuando se instancia este un objeto de esta clase
@@ -31,7 +33,7 @@ public class AtomManager : MonoBehaviour
     public void SwitchCombineMode(){
         combineMode = !combineMode;
         if(!combineMode){
-            //si no estoy en modo combinación quito las selecciones de todos
+            //si estoy saliendo del modo combinación quito las selecciones de todos
             foreach (int index in selectedAtoms){
                 DeselectParticlesFromAtom(index);
             }
