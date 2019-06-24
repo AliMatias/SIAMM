@@ -430,18 +430,18 @@ public class Book : MonoBehaviour {
     {
         if (currentPage > 0 && currentPage <= bookPages.Length)
         {
-            if (currentPage == 0)
-            {
-                foreach (GameObject a in panel)
-                {
-                    if (a.name == "Hoja1")
-                        a.gameObject.SetActive(true);
-                    if (a.name == "Hoja3")
-                        a.gameObject.SetActive(false);
-                    if (a.name == "Hoja5")
-                        a.gameObject.SetActive(false);
-                }
-            }
+            //if (currentPage == 0)
+            //{
+            //    foreach (GameObject a in panel)
+            //    {
+            //        if (a.name == "Hoja1")
+            //            a.gameObject.SetActive(true);
+            //        if (a.name == "Hoja3")
+            //            a.gameObject.SetActive(false);
+            //        if (a.name == "Hoja5")
+            //            a.gameObject.SetActive(false);
+            //    }
+            //}
 
             if (currentPage == 2)
             {
