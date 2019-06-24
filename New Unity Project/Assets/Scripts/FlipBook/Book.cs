@@ -9,6 +9,8 @@ public enum FlipMode
 }
 [ExecuteInEditMode]
 public class Book : MonoBehaviour {
+
+    #region Atributos
     public Canvas canvas;
     [SerializeField]
     RectTransform BookPanel;
@@ -18,29 +20,7 @@ public class Book : MonoBehaviour {
     public bool enableShadowEffect=true;
     //represent the index of the sprite shown in the right page
     public int currentPage = 0;
-    
-    //atributos propios para manejar una lista de paneles
-    public GameObject[] panel;
-
-    public int TotalPageCount
-    {
-        get { return bookPages.Length; }
-    }
-    public Vector3 EndBottomLeft
-    {
-        get { return ebl; }
-    }
-    public Vector3 EndBottomRight
-    {
-        get { return ebr; }
-    }
-    public float Height
-    {
-        get
-        {
-            return BookPanel.rect.height ; 
-        }
-    }
+   
     public Image ClippingPlane;
     public Image NextPageClip;
     public Image Shadow;
@@ -66,6 +46,33 @@ public class Book : MonoBehaviour {
     bool pageDragging = false;
     //current flip mode
     FlipMode mode;
+    
+    //atributos propios para manejar una lista de paneles
+    public GameObject[] panel;
+
+    #endregion
+
+    #region Get_Set
+    public int TotalPageCount
+    {
+        get { return bookPages.Length; }
+    }
+    public Vector3 EndBottomLeft
+    {
+        get { return ebl; }
+    }
+    public Vector3 EndBottomRight
+    {
+        get { return ebr; }
+    }
+    public float Height
+    {
+        get
+        {
+            return BookPanel.rect.height;
+        }
+    }
+#endregion
 
     void Start()
     {
@@ -94,6 +101,7 @@ public class Book : MonoBehaviour {
         NextPageClip.rectTransform.sizeDelta = new Vector2(scaledPageWidth, scaledPageHeight + scaledPageWidth * 0.6f);
     }
 
+    #region Metodos Principales
     public Vector3 transformPoint(Vector3 global)
     {
         Vector2 localPos = BookPanel.InverseTransformPoint(global);
@@ -327,10 +335,13 @@ public class Book : MonoBehaviour {
         }
     }
     Coroutine currentCoroutine;
-    void UpdateSprites()
+
+    //metodo para actualizar las paginas del libro
+    public void UpdateSprites()
     {
         LeftNext.sprite= (currentPage > 0 && currentPage <= bookPages.Length) ? bookPages[currentPage-1] : background;
         RightNext.sprite=(currentPage>=0 &&currentPage<bookPages.Length) ? bookPages[currentPage] : background;
+        
         //llamado a metodo propio
         ManagerPanels();
     }
@@ -410,6 +421,9 @@ public class Book : MonoBehaviour {
         if (onFinish != null)
             onFinish();
     }
+    #endregion
+
+    #region Manejo Paneles
 
     /*metodo para poder manejar la logica de los paneles*/
     private void ManagerPanels()
@@ -499,6 +513,6 @@ public class Book : MonoBehaviour {
         }
     }
 
-
+    #endregion
 
 }

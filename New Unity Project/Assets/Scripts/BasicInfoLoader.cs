@@ -11,6 +11,9 @@ public class BasicInfoLoader : MonoBehaviour
     //array de textos a modificar
     private TextMeshProUGUI[] texts;
 
+    //book asignado por interface
+    public Book FlipBookActivo;
+
     private void Awake()
     {
         //obtengo array de textos para después modificar en todos los hijos del panel padre busca
@@ -70,6 +73,11 @@ public class BasicInfoLoader : MonoBehaviour
     //Cierra panel de info básica
     public void CloseBasicInfoPanel()
     {
+        //desactivo el panel principal
         panel.SetActive(false);
+        //reseteo de variables del flip BOOK porque sino quedaba en la pagina que habia dejado aunque venga otro nuevo elemento
+        FlipBookActivo.currentPage = 0;
+        //metodo que se hizo publico para poder manejar la actulizacion de los sprite sin tener que interactuar con un drag o boton sobre el book
+        FlipBookActivo.UpdateSprites();
     }
 }
