@@ -13,7 +13,8 @@ public class BasicInfoLoader : MonoBehaviour
 
     private void Awake()
     {
-        //obtengo array de textos para después modificar
+        //obtengo array de textos para después modificar en todos los hijos del panel padre busca
+        //no importa si tengo como en este caso panel de panel...
        texts = panel.GetComponentsInChildren<TextMeshProUGUI>();
     }
 
@@ -24,7 +25,7 @@ public class BasicInfoLoader : MonoBehaviour
         {
 
             if (a.name == "txtNombre")
-                a.text = "Nombre: " + elementInfoBasic.Name;
+                a.text = elementInfoBasic.Name;
             if (a.name == "txtNroAtomico")
             {
                 a.text = "Nro atómico: " + elementInfoBasic.Nroatomico;
@@ -39,9 +40,9 @@ public class BasicInfoLoader : MonoBehaviour
             if (a.name == "txtColor")
                 a.text = "Color: " + elementInfoBasic.Color;
             if (a.name == "txtClasificacion")
-                a.text = "Clasificacion: " + elementInfoBasic.Clasificacion;
+                a.text = "Clasificación: " + elementInfoBasic.Clasificacion;
             if (a.name == "txtClasificacionGrupo")
-                a.text = "Clasificacion Grupo: " + elementInfoBasic.Clasificacion_grupo;
+                a.text = "Clasificación Grupo: " + elementInfoBasic.Clasificacion_grupo;
             if (a.name == "txtValencia")
                 a.text = "Valencia: " + elementInfoBasic.Valencia;
             if (a.name == "txtEstadoNatural")
@@ -52,15 +53,17 @@ public class BasicInfoLoader : MonoBehaviour
                 //aca luego cargaria la foto..
             }
             if (a.name == "txtNroOxi")
-                a.text = "Números Oxidacion: " + elementInfoBasic.NumerosOxidacion;
+                a.text = "Números Oxidación: " + elementInfoBasic.NumerosOxidacion;
             if (a.name == "txtConfElectronica")
-                a.text = "Configuración Electronica: " + elementInfoBasic.ConfElectronica;
+                a.text = "Configuración Electrónica: " + elementInfoBasic.ConfElectronica;
             if (a.name == "txtPtoFusion")
                 a.text = "Punto de Fusión: " + elementInfoBasic.PuntoFusion;
             if (a.name == "txtPtoEbullicion")
                 a.text = "Punto de Ebullicón: " + elementInfoBasic.PuntoEbullicion;
-        }
+            if (a.name == "txtResumen")
+                a.text = elementInfoBasic.Resumen;
 
+        }
         panel.SetActive(true);
     }
 
