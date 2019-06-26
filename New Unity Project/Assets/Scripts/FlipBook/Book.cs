@@ -428,12 +428,16 @@ public class Book : MonoBehaviour {
     /*metodo para poder manejar la logica de los paneles*/
     private void ManagerPanels()
     {
+        //hojas lado derecho
         if (currentPage > 0 && currentPage <= bookPages.Length)
         {
+            //estado inicial!!!! aca se configura todo
             //if (currentPage == 0)
             //{
             //    foreach (GameObject a in panel)
             //    {
+            //        if (a.name == "Portada")
+            //            a.gameObject.SetActive(true);
             //        if (a.name == "Hoja1")
             //            a.gameObject.SetActive(true);
             //        if (a.name == "Hoja3")
@@ -476,12 +480,12 @@ public class Book : MonoBehaviour {
             {
                 foreach (GameObject a in panel)
                 {
+                    if (a.name == "Portada")
+                        a.gameObject.SetActive(true);
                     if (a.name == "Hoja1")
                         a.gameObject.SetActive(true);
-
                     if (a.name == "Hoja2")
-                            a.gameObject.SetActive(false);
-
+                        a.gameObject.SetActive(false);
                     if (a.name == "Hoja3")
                         a.gameObject.SetActive(false);
                 }
@@ -491,6 +495,10 @@ public class Book : MonoBehaviour {
             {
                 foreach (GameObject a in panel)
                 {
+
+                    if (a.name == "Portada")
+                        a.gameObject.SetActive(false);
+
                     if (a.name == "Hoja2")
                         a.gameObject.SetActive(true);
 
@@ -511,6 +519,26 @@ public class Book : MonoBehaviour {
             //    }
             //}
         }
+    }
+
+    public void OnBtnResumen()
+    {
+        //salto a la pagina 2
+        currentPage = 2;
+
+        //activo los paneles necesarios
+        foreach (GameObject a in panel)
+        {
+            if (a.name == "Portada")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja1")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja2")
+                a.gameObject.SetActive(true);
+            if (a.name == "Hoja3")
+                a.gameObject.SetActive(true);
+        }
+
     }
 
     #endregion
