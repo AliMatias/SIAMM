@@ -114,8 +114,6 @@ public class Book : MonoBehaviour {
         {
             UpdateBook();
         }
-        //Debug.Log("mouse local pos:" + transformPoint(Input.mousePosition));
-        //Debug.Log("mouse  pos:" + Input.mousePosition);
     }
     public void UpdateBook()
     {
