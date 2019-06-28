@@ -73,7 +73,7 @@ public class AtomManager : MonoBehaviour
         spawnedAtom.AtomIndex = position;
         //si dice que lo spawnee con un proton, lo hago
         if(withProton){
-            spawnedAtom.SpawnNucleon(true);
+            spawnedAtom.SpawnNucleon(true, false);
         }
     }
 
@@ -151,7 +151,7 @@ public class AtomManager : MonoBehaviour
 
     //ya que el índice del átomo depende de la posición, 
     //necesito recorrer la lista para encontrarlo
-    private Atom FindAtomInList(int index){
+    public Atom FindAtomInList(int index){
         foreach(Atom atom in atomsList){
             if(atom.AtomIndex == index){
                 return atom;
@@ -183,11 +183,11 @@ public class AtomManager : MonoBehaviour
         //agarro el átomo indicado de la lista
         Atom atom = FindAtomInList(lastSelectedAtom);
         if(particle==0){
-            atom.SpawnNucleon(true);
+            atom.SpawnNucleon(true, false);
         }else if (particle==1){
-            atom.SpawnNucleon(false);
+            atom.SpawnNucleon(false, false);
         }else if(particle ==2){
-            atom.SpawnElectron();
+            atom.SpawnElectron(false);
         }else{
             Debug.Log("Se ingreso un índice de partícula equivocado.");
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");

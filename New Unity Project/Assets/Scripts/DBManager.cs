@@ -2,6 +2,7 @@
 using System.Data;
 using Mono.Data.Sqlite;
 using System;
+using System.Collections.Generic;
 
 //servicio de conexión con la base de datos.
 public class DBManager : MonoBehaviour
@@ -245,37 +246,6 @@ public class DBManager : MonoBehaviour
         return elementData;
     }
 
-    [Obsolete]
-    public OrbitData GetNextOrbitData(int orbitNumber)
-    {
-        OrbitData orbitData = null;
-        int nextOrbitNumber = orbitNumber + 1;
-        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
-        {
-            dbConnection.Open();
-            using (IDbCommand command = dbConnection.CreateCommand())
-            {
-                string sqlQuery = "SELECT nro_orbita, nombre_capa, max_electrones FROM elementos_orbitas WHERE nro_orbita ="
-                    + nextOrbitNumber + ";";
-
-                command.CommandText = sqlQuery;
-                using (IDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        int number = reader.GetInt32(0);
-                        string name = reader.GetString(1);
-                        int maxElectrons = reader.GetInt32(2);
-                        orbitData = new OrbitData(number, name, maxElectrons);
-                    }
-                    dbConnection.Close();
-                    reader.Close();
-                }
-            }
-        }
-        return orbitData;
-    }
-
     public OrbitData GetOrbitDataByNumber(int orbitNumber)
     {
         OrbitData orbitData = null;
@@ -303,5 +273,88 @@ public class DBManager : MonoBehaviour
             }
         }
         return orbitData;
+    }
+
+    public List<int> GetMoleculesByAtomNumberAndQuantity(int atomNumber, int quantity)
+    {
+        List<int> posiblesMoleculas = new List<int>();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT id_molecula FROM moleculas_mapping_element WHERE id_elemento="
+                    + atomNumber + " AND cantidad=" + quantity + ";";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        posiblesMoleculas.Add(reader.GetInt32(0));
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return posiblesMoleculas;
+    }
+
+    public MoleculeData GetMoleculeById(int moleculaId)
+    {
+        MoleculeData moleculeData = null;
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " + 
+                    "FROM moleculas_lista WHERE id="+ moleculaId + ";";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        string formula = reader.GetString(0);
+                        string systematicNm = reader.GetString(1);
+                        string stockNm = reader.GetString(2);
+                        string traditionalNm = reader.GetString(3);
+                        moleculeData = new MoleculeData(formula, systematicNm, stockNm, traditionalNm);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return moleculeData;
+    }
+
+    public int GetUniqueElementCountInMoleculeById(int moleculaId)
+    {
+        int elementCount = 0;
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT count(1) FROM moleculas_mapping_element " +
+                    "WHERE id_molecula=" + moleculaId +
+                    " GROUP BY id_molecula;";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        elementCount = reader.GetInt32(0);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return elementCount;
     }
 }
