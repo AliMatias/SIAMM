@@ -25,6 +25,9 @@ public class Atom: MonoBehaviour
     private int protonCounter = 0;
     private int neutronCounter = 0;
     private int electronCounter = 0;
+
+    // indica si fue creado desde la tabla periodica o desde un boton
+    private bool fromTabla = false;
     //indicador de índice de átomo (posición en la lista de átomos del manager)
     private int atomIndex;
 
@@ -40,6 +43,7 @@ public class Atom: MonoBehaviour
     #endregion
 
     public int AtomIndex { get => atomIndex; set => atomIndex = value; }
+    public int ElementNumber { get; set; }
 
     //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
     private void Awake()
@@ -50,7 +54,7 @@ public class Atom: MonoBehaviour
 
     #region spawn
     //crea un nucleon, true -> crea proton, false -> crea neutron
-    public void SpawnNucleon(bool proton)
+    public void SpawnNucleon(bool proton, bool fromTabla)
     {
         int index = 1;
         if (proton)
@@ -77,17 +81,21 @@ public class Atom: MonoBehaviour
             neutronQueue.Enqueue(spawn);
             neutronCounter++;
         }
+
+        // indica si fue creado con el boton o desde la tabla
+        this.fromTabla = fromTabla;
+
         //actualizar el label que indica el elemento.
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
     //crear un electron
-    public void SpawnElectron()
+    public void SpawnElectron(bool fromTabla)
     {
         // tomo la ultima orbita
         lastOrbit = orbits.LastOrDefault();
 
-        // (worst name ever) si no hay o la ultima esta completa creo otra
+        // si no hay o la ultima esta completa creo otra
         AddNewOrbitIfLastIsCompleted();
 
         if (allowElectronSpawn)
@@ -100,6 +108,9 @@ public class Atom: MonoBehaviour
             lastOrbit.AddElectron(spawn);
             electronCounter++;
         }
+        // indica si fue creado con el boton o desde la tabla
+        this.fromTabla = fromTabla;
+
         //actualizo label
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
@@ -232,11 +243,19 @@ public class Atom: MonoBehaviour
             if (IsNullOrEmpty(element))
             {
                 elementText = "Elemento no encontrado.";
+                if (!fromTabla)
+                {
+                    ElementNumber = 0;
+                }
             }
             else
             {
-                //seteo nombre y símbolo
+                //seteo nombre, símbolo y numero
                 elementText = element.Name + " (" + element.Simbol + ")";
+                if (!fromTabla)
+                {
+                    ElementNumber = element.Numero;
+                }
 
                 //si no coinciden los neutrones es un isótopo de ese material (falta límites inf y sup)
                 if (element.Neutrons != neutrons)
@@ -247,6 +266,10 @@ public class Atom: MonoBehaviour
                     if (IsNullOrEmpty(elementIsotopo))
                     {
                         elementText = "no encontrado.";
+                        if (!fromTabla)
+                        {
+                            ElementNumber = 0;
+                        }
                     }
                     else
                     {
@@ -338,6 +361,8 @@ public class Atom: MonoBehaviour
             return;
         }
         //crea la cantidad de partículas indicadas
+        ElementNumber = element.Numero;
+        fromTabla = true;
         IterateCounterAndCreateParticles(element.Protons, element.Neutrons, element.Electrons);
     }
 
@@ -355,7 +380,7 @@ public class Atom: MonoBehaviour
     {
         while (counter > 0)
         {
-            SpawnNucleon(proton);
+            SpawnNucleon(proton, true);
             counter--;
             //esta línea espera x segundos antes de seguir ejecutando
             yield return new WaitForSeconds(0.25f);
@@ -367,7 +392,7 @@ public class Atom: MonoBehaviour
     {
         while (counter > 0)
         {
-            SpawnElectron();
+            SpawnElectron(true);
             counter--;
             //esta línea espera x segundos antes de seguir ejecutando
             yield return new WaitForSeconds(0.5f);
