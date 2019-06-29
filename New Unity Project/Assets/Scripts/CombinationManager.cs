@@ -13,6 +13,8 @@ public class CombinationManager : MonoBehaviour
     private DBManager DBManager;
     public Button combineButton;
     public Button combineModeButton;
+    private bool showPopUp = false;
+    private string popUpMessage = "";
 
     void Awake()
     {
@@ -91,34 +93,66 @@ public class CombinationManager : MonoBehaviour
                         if (elementCount == combinedElements.ToList().Count)
                         {
                             MoleculeData moleculeData = DBManager.GetMoleculeById(moleculaId);
-                            Debug.Log("Molecula Formada: " + moleculeData.ToString);
+                            showPopUp = true;
+                            popUpMessage = "Molécula Formada: " + moleculeData.ToString;
                             found = true;
                             break;
                         }
                     }
                     if(!found)
                     {
-                        Debug.Log("No se encontro ninguna combinacion posible");
+                        showPopUp = true;
+                        popUpMessage = ("No se encontró ninguna combinación posible");
                     }
                 } 
                 else
                 {
-                    Debug.Log("No se encontro ninguna combinacion posible");
+                    showPopUp = true;
+                    popUpMessage = "No se encontró ninguna combinación posible";
                 }
             }
             else
             {
-                Debug.Log("No se encontraron moleculas que contengan esos atomos");
+                showPopUp = true;
+                popUpMessage = "No se encontraron moléculas que contengan esos átomos";
             }
         }
         else
         {
-            Debug.Log("No hay atomos validos seleccionados");
+            showPopUp = true;
+            popUpMessage = "No hay átomos válidos seleccionados";
         }
     }
 
     static List<int> Intersect(List<List<int>> lists)
     {
         return lists.Aggregate((previousList, nextList) => previousList.Intersect(nextList).ToList());
+    }
+
+    // Codigo para el pop up con el resultado de la combinacion,
+    // despues se tendra que eliminar y cambiar por el modelo de la molecula.
+    // Aunque se podria separar en una clase y reutilizar para mostrar mensajes en la aplicacion en general
+    void OnGUI()
+    {
+        if (showPopUp)
+        {
+            // Arma el pop up
+            GUI.Window(0, new Rect((Screen.width / 2) - 150, (Screen.height / 2) - 75
+                   , 300, 150), ShowGUI, "SIAMM - Combinar átomos");
+
+        }
+    }
+
+    void ShowGUI(int windowID)
+    {
+        // Label que muestra mensaje
+        GUI.Label(new Rect(65, 40, 200, 50), popUpMessage);
+
+        // Boton OK para cerrar
+        if (GUI.Button(new Rect(50, 100, 75, 30), "OK"))
+        {
+            showPopUp = false;
+        }
+
     }
 }
