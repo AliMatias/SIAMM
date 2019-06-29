@@ -5,10 +5,12 @@ public class InputManager : MonoBehaviour
 {
     #region Atributos
     private AtomManager atomManager;
-    private UIFader UIFader;
-    public GameObject parent;
+    private UIFader UIFader;  
     private LoadTper loadTPer;
     private BasicInfoLoader BasicInfoLoader;
+    //asigna por interfaz
+    public GameObject parent;
+    public Button buttonPref;
     #endregion
 
     /*Metodo para instanciar una clase en unity*/
@@ -44,6 +46,11 @@ public class InputManager : MonoBehaviour
         Text text = parent.GetComponentInChildren<Text>();
 
         ElementInfoBasic elementInfo = loadTPer.LoadInfoBasica(text.text);
+        
+        //envio el boton que fue presionado para obtener luego su diseño
+        BasicInfoLoader.ButtonimgTPER = buttonPref;
+
+        //llamo al metodo que carga la info en los text box del panel
         BasicInfoLoader.SetBasicInfo(elementInfo);
     }
 
