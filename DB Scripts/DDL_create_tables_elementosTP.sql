@@ -64,7 +64,7 @@ CREATE TABLE "elementos_info_detalle"(
 	"radio_van_der_waals" TEXT NULL,
 	"radio_atomico_en_angstroms" REAL NULL,
 	"radio_covalente_en_angstroms" REAL NULL,
-	"radio_van-der_waals_en_angstroms" REAL NULL,
+	"radio_van_der_waals_en_angstroms" REAL NULL,
 	"modulo_young" TEXT NULL,
 	"nombres_alotropicos" TEXT NULL,
 	"energias_de_ionizacion" TEXT NULL);

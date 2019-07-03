@@ -41,6 +41,7 @@ public class LoadTper : MonoBehaviour
         }
     }
 
+    #region Metodos
     /*Metodo para el seteo de los objetos TEXT de cada boton de la tabla periodica*/
     private void LoadData (Button elem)
     {
@@ -117,13 +118,24 @@ public class LoadTper : MonoBehaviour
     }
 
     //trae de la DB la info básica
-    public ElementInfoBasic LoadInfoBasica(string elementName)
+    public ElementInfoBasic LoadInfoBasica(int nroAtomico)
     {
         ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
 
-        elementInfoBasic = DBManager.GetElementInfoBasica(elementName);
+        elementInfoBasic = DBManager.GetElementInfoBasica(nroAtomico);
 
         return elementInfoBasic;
     }
 
+    //trae de la DB la info detallada que complementa a la basica
+    public ElementInfoDetail LoadInfoDeatail(int nroAtomico)
+    {
+        ElementInfoDetail elementInfoDetail = new ElementInfoDetail();
+
+        elementInfoDetail = DBManager.GetElementInfoDetail(nroAtomico);
+
+        return elementInfoDetail;
+    }
+
+    #endregion
 }

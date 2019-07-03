@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
-using System;
 
 /*Carga la info básica de los elementos*/
 public class BasicInfoLoader : MonoBehaviour
@@ -21,6 +20,7 @@ public class BasicInfoLoader : MonoBehaviour
 
     public Sprite[] estructCristalina;
     private Image[] estCristInBook;
+
     #endregion
 
     private void Awake()
@@ -33,6 +33,8 @@ public class BasicInfoLoader : MonoBehaviour
         //obtengo las fotos del panel las que haya
         estCristInBook = panel.GetComponentsInChildren<Image>();
     }
+
+    #region Metodos 
 
     //setea la info básica y muestra el panel
     public void SetBasicInfo(ElementInfoBasic elementInfoBasic)
@@ -80,6 +82,8 @@ public class BasicInfoLoader : MonoBehaviour
                 a.text = elementInfoBasic.Resumen;
 
         }
+
+        //ACTIVA EL PANEL PRINCIPAL DE LA TABLA PERIODICA
         panel.SetActive(true);
     }
 
@@ -102,40 +106,23 @@ public class BasicInfoLoader : MonoBehaviour
         string nro = "";
         string peso = "";
         string dist = "";
-        int tamNombre = 0;
-        int tamNro = 0;
-        int tamDist = 0;
-        int tamPeso = 0;
 
         Text[] textosObjLlamados = buttonimg.GetComponentsInChildren<Text>();
         Color color = buttonimg.GetComponent<Image>().color;
 
         foreach (Text origen in textosObjLlamados)
         {
-            if (origen.name == "txtNombre")
-            {
-                nombre = origen.text;
-                tamNombre = origen.fontSize;
-            }
-            if (origen.name == "txtPeso")
-            {
-                peso = origen.text;
-                tamPeso = origen.fontSize;
-            }
-            if (origen.name == "txtNroAtomico")
-            {
-                nro = origen.text;
-                tamNro = origen.fontSize;
-            }
-            if (origen.name == "txtDistElect")
-            {
+            if (origen.name == "txtNombre")            
+                nombre = origen.text;    
+            if (origen.name == "txtPeso")           
+                peso = origen.text;   
+            if (origen.name == "txtNroAtomico")           
+                nro = origen.text;           
+            if (origen.name == "txtDistElect")        
                 dist = origen.text;
-                tamDist = origen.fontSize;
-            }
         }
-        ///////////////////////////////////
+        
         //asigno a destino
-
         foreach (Button a in btnInBook)
         {
             //solo al boton prefact
@@ -144,56 +131,25 @@ public class BasicInfoLoader : MonoBehaviour
                 //obtengo la lista de objetos o coleccion de objetos de tipo TEXT que estan en los botones
                 Text[] textosObj = a.GetComponentsInChildren<Text>();
 
+                //los tamaños de fuente se manejan directo por interface con los layout
                 foreach (Text destino in textosObj)
                 {
-                    if (destino.name == "txtNombre")
-                    {
-                        destino.text = nombre;
-                        //destino.fontSize = tamNombre;
-                    }
-                    if (destino.name == "txtPeso")
-                    {
-                        destino.text = peso;
-                        //destino.fontSize = tamPeso;
-                    }
-                    if (destino.name == "txtNroAtomico")
-                    {
-                        destino.text = nro;
-                       //destino.fontSize = tamNro;
-                    }
+                    if (destino.name == "txtNombre")                   
+                        destino.text = nombre;             
+                    if (destino.name == "txtPeso")                   
+                        destino.text = peso;                
+                    if (destino.name == "txtNroAtomico")                    
+                        destino.text = nro;                 
                     if (destino.name == "txtDistElect")
-                    {
-                        destino.text = dist;
-                       //destino.fontSize = tamDist;
-                    }
+                        destino.text = dist;                  
                 }
 
                 a.GetComponent<Image>().color = color;
-                //ResizeFont(a);
             }
         }
     }
 
-    //metodo para el tamaño actual del boton para este panel del book (por el momento no se usa)
-    private void ResizeFont(Button elem)
-    {
-        /*busco una proporcion aprox!!!*/
-        int xOriginal = 90;
-        int sizeActual;
-        int sizeProporcionCell = Convert.ToInt32(elem.GetComponent<RectTransform>().rect.height);
-
-        //obtengo la lista de objetos o coleccion de objetos de tipo TEXT que estan en los botones
-        Text[] textosObj = elem.GetComponentsInChildren<Text>();
-
-        //recorro todos los game object que contiene el boton, se podria hacer por orden de objetos, como estan creados en el boton
-        for (int j = 0; j < textosObj.Length; j++)
-        {
-            sizeActual = textosObj[j].fontSize;
-            textosObj[j].fontSize = (sizeProporcionCell * sizeActual) / xOriginal;
-        }
-    }
-
-    //como es informacion estatica se utiliza enviando los sprites por interface
+    //como es informacion estatica se utiliza enviando los sprites por interface (POR AHORA) se podria hacer por codigo 
     private void setImageEstCrist(string nombre)
     {
         foreach (Image a in estCristInBook)
@@ -229,4 +185,6 @@ public class BasicInfoLoader : MonoBehaviour
             }
         }
     }
+
+    #endregion
 }

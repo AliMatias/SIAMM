@@ -6,6 +6,7 @@ public class MoleculeData
     public string StockNomenclature { get; set; }
     public string TraditionalNomenclature { get; set; }
 
+    //constructor
     public MoleculeData(string Formula, string SystematicNomenclature, string StockNomenclature, string TraditionalNomenclature)
     {
         this.Formula = Formula;
