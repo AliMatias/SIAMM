@@ -11,6 +11,7 @@ public class CombinationManager : MonoBehaviour
     private bool combineMode = false;
     private AtomManager atomManager;
     private DBManager DBManager;
+    private MoleculeManager moleculeManager;
     public Button combineButton;
     public Button combineModeButton;
     private bool showPopUp = false;
@@ -20,6 +21,7 @@ public class CombinationManager : MonoBehaviour
     {
         atomManager = FindObjectOfType<AtomManager>();
         DBManager = FindObjectOfType<DBManager>();
+        moleculeManager = FindObjectOfType<MoleculeManager>();
         //encuentro y asigno a mi lista los botones a apagar
         GameObject[] btns = GameObject.FindGameObjectsWithTag("toToggle");
         foreach (GameObject btn in btns)
@@ -93,9 +95,12 @@ public class CombinationManager : MonoBehaviour
                         if (elementCount == combinedElements.ToList().Count)
                         {
                             MoleculeData moleculeData = DBManager.GetMoleculeById(moleculaId);
+                            List<AtomInMolPositionData> atomsPosition = DBManager.GetElementPositions(moleculaId);
                             showPopUp = true;
                             popUpMessage = "Molécula Formada: " + moleculeData.ToString;
                             found = true;
+                            DeleteCombinedAtoms(selectedAtoms);
+                            SpawnMolecule(atomsPosition);
                             break;
                         }
                     }
@@ -154,5 +159,19 @@ public class CombinationManager : MonoBehaviour
             showPopUp = false;
         }
 
+    }
+
+    //Borrar del espacio de trabajo, los átomos seleccionados.
+    private void DeleteCombinedAtoms(List<int> selectedAtoms)
+    {
+        foreach(int atom in selectedAtoms)
+        {
+            atomManager.DeleteAtom(atom);
+        }
+    }
+
+    private void SpawnMolecule(List<AtomInMolPositionData> atomsPosition)
+    {
+        moleculeManager.SpawnMolecule(atomsPosition);
     }
 }

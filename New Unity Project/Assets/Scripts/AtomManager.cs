@@ -23,6 +23,8 @@ public class AtomManager : MonoBehaviour
     //seguro cuando busque la combinaciòn posta, va a necesitar otra cosa, no esto.
     public List<int> SelectedAtoms { get => selectedAtoms; set => selectedAtoms = value; }
 
+    public List<Vector3> PlanePositions { get => planePositions; set => planePositions = value; }
+
     //este método se ejecuta cuando se instancia este un objeto de esta clase
     private void Awake()
     {
@@ -92,7 +94,7 @@ public class AtomManager : MonoBehaviour
     } 
 
     //obtengo una posición random en el plano
-    private int ObtainRandomPositionIndex()
+    public int ObtainRandomPositionIndex()
     {
         //si no hay mas disponibles tiro exception
         if (NoPositionsLeft())
@@ -222,17 +224,23 @@ public class AtomManager : MonoBehaviour
             Debug.Log("No hay ningún átomo seleccionado");
             return;
         }
+        DeleteAtom(lastSelectedAtom);
+        //ahora no hay átomo seleccionado
+        lastSelectedAtom = -1;
+    }
+
+    //BORRAR átomo
+    public void DeleteAtom(int index)
+    {
         //primero lo encuentro
-        Atom atom = FindAtomInList(lastSelectedAtom);
+        Atom atom = FindAtomInList(index);
         //lo saco de la lista
         atomsList.Remove(atom);
         //lo destruyo
         Destroy(atom);
         //disponibilizo la posición denuevo
-        availablePositions[lastSelectedAtom] = true;
-        Debug.Log("Se ha borrado el átomo " + lastSelectedAtom);
-        //ahora no hay átomo seleccionado
-        lastSelectedAtom = -1;
+        availablePositions[index] = true;
+        Debug.Log("Se ha borrado el átomo " + index);
     }
 
     //spawnear átomo seleccionado en la tabla periódica

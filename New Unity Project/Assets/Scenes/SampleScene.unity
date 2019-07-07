@@ -2830,6 +2830,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &178319667
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178319669}
+  - component: {fileID: 178319668}
+  m_Layer: 0
+  m_Name: MoleculeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &178319668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178319667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8df9788a994c6f0469f94c4b7fac2f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moleculePrefab: {fileID: 5884106466144234100, guid: b1193075ab6a59e45bc5919e5c66e3ab,
+    type: 3}
+  materials:
+  - {fileID: 2100000, guid: 379a204c06a4665449a690c1e06740dd, type: 2}
+  - {fileID: 2100000, guid: 83ba8877bbf0ed14486872f902238a79, type: 2}
+  - {fileID: 2100000, guid: 8a3df085cfd84c445a3934ff8447beb5, type: 2}
+  - {fileID: 2100000, guid: 5dfdbb3156bebfe46b3a91ba5862e6b9, type: 2}
+  - {fileID: 2100000, guid: cbbb5c7dc2faf784cac82ea3cd09290c, type: 2}
+  - {fileID: 2100000, guid: 925e7579f1bcfa84782b55815605023e, type: 2}
+  - {fileID: 2100000, guid: f5f2365aa2c6be3478afba64eead5b23, type: 2}
+  - {fileID: 2100000, guid: 5252d8a3a1a8d5b4cbfd4e17fb64bcc1, type: 2}
+  - {fileID: 2100000, guid: 6b1c4c903757b464bac73e4540be3153, type: 2}
+  - {fileID: 2100000, guid: 9dadcddef005d434483bdcf82bfb60de, type: 2}
+  - {fileID: 2100000, guid: add993c18e6768045a942860ddc85b00, type: 2}
+--- !u!4 &178319669
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 178319667}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &199154619
 PrefabInstance:
   m_ObjectHideFlags: 0
