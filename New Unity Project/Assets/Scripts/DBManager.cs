@@ -21,7 +21,7 @@ public class DBManager : MonoBehaviour
         getAllElements();
     }
 
-    #region Metodos DB
+    #region Metodos DB querys
 
     //trae todos los elementos de la tabla
     private void getAllElements()
@@ -177,6 +177,9 @@ public class DBManager : MonoBehaviour
                         elementInfoBasic.PuntoFusion = reader.GetString(13);
                         elementInfoBasic.PuntoEbullicion = reader.GetString(14);
                         elementInfoBasic.Resumen = reader.GetString(15);
+
+                        Debug.Log("numeros_oxidacion" + reader.GetString(11));
+                        Debug.Log(elementInfoBasic.NumerosOxidacion);
                     }
                 
                     dbConnection.Close();
@@ -365,7 +368,7 @@ public class DBManager : MonoBehaviour
     //trae la info detallada a partir de un nro atomico entero
     public ElementInfoDetail GetElementInfoDetail(int nroAtomico)
     {
-        ElementInfoDetail elementInfoDetail = null;
+        ElementInfoDetail elementInfoDetail = new ElementInfoDetail(); 
         SqliteDataReader reader = null;
 
         try
@@ -386,30 +389,24 @@ public class DBManager : MonoBehaviour
             + nroAtomico + ";";
 
             this.dbCommand = getCMD(sqlQuery);
-
+       
             reader = EjecutaConsultaSql(this.dbConnection, this.dbCommand);
 
             while (reader.Read())
             {
-                //elementInfoDetail = new (reader.GetInt32(0),
-                //elementInfoBasic.Simbol = reader.GetString(1);
-                //elementInfoBasic.Name = reader.GetString(2);
-                //elementInfoBasic.PesoAtomico = reader.GetFloat(3);
-                //elementInfoBasic.Periodo = reader.GetInt32(4);
-                //elementInfoBasic.Clasificacion = reader.GetString(5);
-                //elementInfoBasic.Clasificacion_grupo = reader.GetString(6);
-                //elementInfoBasic.Estado_natural = reader.GetString(7);
-                //elementInfoBasic.EstructuraCristalina = reader.GetString(8);
-                //elementInfoBasic.Color = reader.GetString(9);
-                //elementInfoBasic.Valencia = reader.GetString(10);
-                //elementInfoBasic.NumerosOxidacion = reader.GetString(11);
-                //elementInfoBasic.ConfElectronica = reader.GetString(12);
-                //elementInfoBasic.PuntoFusion = reader.GetString(13);
-                //elementInfoBasic.PuntoEbullicion = reader.GetString(14);
-                //elementInfoBasic.Resumen = reader.GetString(15);
-
+                elementInfoDetail = new ElementInfoDetail(nroAtomico, SafeGetString(reader, 1),
+                   SafeGetString(reader, 2), SafeGetString(reader, 3), SafeGetString(reader, 4), SafeGetString(reader, 5),
+                   SafeGetString(reader, 6), SafeGetString(reader, 7), SafeGetString(reader, 8), SafeGetString(reader, 9),
+                   SafeGetString(reader, 10), SafeGetString(reader, 11), SafeGetString(reader, 12), SafeGetString(reader, 13),
+                   SafeGetString(reader, 14), reader.GetFloat(15), SafeGetString(reader, 16), SafeGetString(reader, 17),
+                   SafeGetString(reader, 18), SafeGetString(reader, 19), reader.GetFloat(20), SafeGetString(reader, 21),
+                   SafeGetString(reader, 22), SafeGetString(reader, 23), SafeGetString(reader, 24), SafeGetString(reader, 25),
+                   SafeGetString(reader, 26), SafeGetString(reader, 27), reader.GetFloat(28), SafeGetString(reader, 29),
+                   SafeGetString(reader, 30), reader.GetFloat(31), SafeGetString(reader, 32), SafeGetString(reader, 33),
+                   SafeGetString(reader, 34), SafeGetString(reader, 35), SafeGetString(reader, 36), reader.GetFloat(37),
+                   SafeGetString(reader, 38), SafeGetString(reader, 39), reader.GetFloat(40), reader.GetFloat(41),
+                   reader.GetFloat(42), SafeGetString(reader, 43), SafeGetString(reader, 44), SafeGetString(reader, 45));
             }
-
         }
         catch (Exception e)
         {
@@ -425,9 +422,9 @@ public class DBManager : MonoBehaviour
 
         return elementInfoDetail;
     }
+    #endregion
 
-
-
+    #region Metodos Especial DB
     //METODO PRINCIPAL GENERAL DE APERTURA DE CONECCIONES
     public SqliteConnection openCon(String connectionString)
     {
@@ -444,8 +441,14 @@ public class DBManager : MonoBehaviour
         return con;
     }
 
-    #endregion
+    public string SafeGetString(SqliteDataReader reader, int colIndex)
+    {
+        if (!reader.IsDBNull(colIndex))
+            return reader.GetString(colIndex);
+        return string.Empty;
+    }
 
+    #endregion
 
     #region SqlLiteDbConnection
 

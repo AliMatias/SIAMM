@@ -1,4 +1,6 @@
-﻿//DTO de info detallada
+﻿using System;
+
+//DTO de info detallada
 public class ElementInfoDetail
 {
     public int nroatomico { get; set; }
@@ -16,12 +18,12 @@ public class ElementInfoDetail
     public string presion_critica { get; set; }
     public string temperatura_critica { get; set; }
     public string conductividad_electrica { get; set; } 
-    public float densidad { get; set; }
+    public Nullable<float> densidad { get; set; }
     public string radio_covalente { get; set; }
     public string afinidad_electronica { get; set; }
     public string punto_curie { get; set; }
     public string modo_decaimiento { get; set; } 
-    public float electronegatividad { get; set; }
+    public Nullable<float> electronegatividad { get; set; }
     public string densidadliquida { get; set; }
     public string constante_red { get; set; }
     public string multiplicidad_atomica_gas { get; set; }
@@ -29,21 +31,21 @@ public class ElementInfoDetail
     public string calor_de_vaporizacion { get; set; }
     public string tipo_magnetico { get; set; }
     public string susceptibilidad_magnetica { get; set; } 
-    public float volumen_molar { get; set; }
+    public Nullable<float> volumen_molar { get; set; }
     public string radio_poisson { get; set; }
     public string numeros_cuanticos { get; set; } 
-    public float indice_refractivo { get; set; }
+    public Nullable<float> indice_refractivo { get; set; }
     public string resistividad { get; set; }
     public string conductividad_termica { get; set; }
     public string punto_superconductividad { get; set; }
     public string expansion_termica { get; set; }
     public string velocidad_sonido { get; set; } 
-    public float numero_grupos_espaciales { get; set; }
+    public Nullable<float> numero_grupos_espaciales { get; set; }
     public string nombre_grupo_espacial { get; set; }
     public string radio_van_der_waals { get; set; } 
-    public float radio_atomico_en_angstroms { get; set; }
-    public float radio_covalente_en_angstroms { get; set; }
-    public float radio_van_der_waals_en_angstroms { get; set; }
+    public Nullable<float> radio_atomico_en_angstroms { get; set; }
+    public Nullable<float> radio_covalente_en_angstroms { get; set; }
+    public Nullable<float> radio_van_der_waals_en_angstroms { get; set; }
     public string modulo_young { get; set; }
     public string nombres_alotropicos { get; set; }
     public string energias_de_ionizacion { get; set; }
@@ -51,7 +53,7 @@ public class ElementInfoDetail
     //constructor
     public ElementInfoDetail() { }
 
-    public ElementInfoDetail(int nroatomico, string isotopos_estables, string isotopos_aplicaciones, string tipo_electrico, string radiactivo, string abundancia_corteza_terrestre, string descubrimiento, string descubierto_por, string angulos_de_red, string vida_media, string modulo_compresibilidad, string dureza_brinell, string presion_critica, string temperatura_critica, string conductividad_electrica, float densidad, string radio_covalente, string afinidad_electronica, string punto_curie, string modo_decaimiento, float electronegatividad, string densidadliquida, string constante_red, string multiplicidad_atomica_gas, string calor_de_fusion, string calor_de_vaporizacion, string tipo_magnetico, string susceptibilidad_magnetica, float volumen_molar, string radio_poisson, string numeros_cuanticos, float indice_refractivo, string resistividad, string conductividad_termica, string punto_superconductividad, string expansion_termica, string velocidad_sonido, float numero_grupos_espaciales, string nombre_grupo_espacial, string radio_van_der_waals, float radio_atomico_en_angstroms, float radio_covalente_en_angstroms, float radio_van_der_waals_en_angstroms, string modulo_young, string nombres_alotropicos, string energias_de_ionizacion)
+    public ElementInfoDetail(int nroatomico, string isotopos_estables, string isotopos_aplicaciones, string tipo_electrico, string radiactivo, string abundancia_corteza_terrestre, string descubrimiento, string descubierto_por, string angulos_de_red, string vida_media, string modulo_compresibilidad, string dureza_brinell, string presion_critica, string temperatura_critica, string conductividad_electrica, Nullable<float> densidad, string radio_covalente, string afinidad_electronica, string punto_curie, string modo_decaimiento, Nullable<float> electronegatividad, string densidadliquida, string constante_red, string multiplicidad_atomica_gas, string calor_de_fusion, string calor_de_vaporizacion, string tipo_magnetico, string susceptibilidad_magnetica, Nullable<float> volumen_molar, string radio_poisson, string numeros_cuanticos, Nullable<float> indice_refractivo, string resistividad, string conductividad_termica, string punto_superconductividad, string expansion_termica, string velocidad_sonido, Nullable<float> numero_grupos_espaciales, string nombre_grupo_espacial, string radio_van_der_waals, Nullable<float> radio_atomico_en_angstroms, Nullable<float> radio_covalente_en_angstroms, Nullable<float> radio_van_der_waals_en_angstroms, string modulo_young, string nombres_alotropicos, string energias_de_ionizacion)
     {
         this.nroatomico = nroatomico;
         this.isotopos_estables = isotopos_estables;

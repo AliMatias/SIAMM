@@ -429,22 +429,6 @@ public class Book : MonoBehaviour {
         //hojas lado derecho
         if (currentPage > 0 && currentPage <= bookPages.Length)
         {
-            //estado inicial!!!! aca se configura todo
-            //if (currentPage == 0)
-            //{
-            //    foreach (GameObject a in panel)
-            //    {
-            //        if (a.name == "Portada")
-            //            a.gameObject.SetActive(true);
-            //        if (a.name == "Hoja1")
-            //            a.gameObject.SetActive(true);
-            //        if (a.name == "Hoja3")
-            //            a.gameObject.SetActive(false);
-            //        if (a.name == "Hoja5")
-            //            a.gameObject.SetActive(false);
-            //    }
-            //}
-
             if (currentPage == 2)
             {
                 foreach (GameObject a in panel)
@@ -455,20 +439,60 @@ public class Book : MonoBehaviour {
                         a.gameObject.SetActive(true);
                     if (a.name == "Hoja5")
                         a.gameObject.SetActive(false);
+                    if (a.name == "Hoja7")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja9")
+                        a.gameObject.SetActive(false);
                 }
             }
-            //else if (currentPage == 4)
-            //{
-            //    foreach (GameObject a in panel)
-            //    {
-            //        if (a.name == "Hoja1")
-            //            a.SetActive(false);
-            //        if (a.name == "Hoja3")
-            //            a.SetActive(false);
-            //        if (a.name == "Hoja5")
-            //            a.SetActive(true);
-            //    }
-            //}
+            else if (currentPage == 4)
+            {
+                foreach (GameObject a in panel)
+                {
+                    if (a.name == "Hoja1")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja3")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja5")
+                        a.gameObject.SetActive(true);
+                    if (a.name == "Hoja7")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja9")
+                        a.gameObject.SetActive(false);
+                }
+            }
+            else if (currentPage == 6)
+            {
+                foreach (GameObject a in panel)
+                {
+                    if (a.name == "Hoja1")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja3")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja5")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja7")
+                        a.gameObject.SetActive(true);
+                    if (a.name == "Hoja9")
+                        a.gameObject.SetActive(false);
+                }
+            }
+            else if (currentPage == 8)
+            {
+                foreach (GameObject a in panel)
+                {
+                    if (a.name == "Hoja1")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja3")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja5")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja7")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja9")
+                        a.gameObject.SetActive(true);
+                }
+            }
         }
 
         if (currentPage >= 0 && currentPage < bookPages.Length)
@@ -486,39 +510,89 @@ public class Book : MonoBehaviour {
                         a.gameObject.SetActive(false);
                     if (a.name == "Hoja3")
                         a.gameObject.SetActive(false);
+                    if (a.name == "Hoja4")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja5")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja6")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja7")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja8")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja9")
+                        a.gameObject.SetActive(false);
+
                 }
             }
-
             else if (currentPage == 2)
             {
                 foreach (GameObject a in panel)
                 {
-
                     if (a.name == "Portada")
                         a.gameObject.SetActive(false);
-
                     if (a.name == "Hoja2")
                         a.gameObject.SetActive(true);
-
                     if (a.name == "Hoja4")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja6")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja8")
                         a.gameObject.SetActive(false);
                 }
             }
-
-            //else if (currentPage == 4)
-            //{
-            //    foreach (GameObject a in panel)
-            //    {
-            //        if (a.name == "Hoja2")
-            //            a.SetActive(false);
-
-            //        if (a.name == "Hoja4")
-            //            a.SetActive(true);
-            //    }
-            //}
+            else if (currentPage == 4)
+            {
+                foreach (GameObject a in panel)
+                {
+                    if (a.name == "Portada")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja2")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja4")
+                        a.gameObject.SetActive(true);
+                    if (a.name == "Hoja6")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja8")
+                        a.gameObject.SetActive(false);
+                }
+            }
+            else if (currentPage == 6)
+            {
+                foreach (GameObject a in panel)
+                {
+                    if (a.name == "Portada")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja2")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja4")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja6")
+                        a.gameObject.SetActive(true);
+                    if (a.name == "Hoja8")
+                        a.gameObject.SetActive(false);
+                }
+            }
+            else if (currentPage == 8)
+            {
+                foreach (GameObject a in panel)
+                {
+                    if (a.name == "Portada")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja2")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja4")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja6")
+                        a.gameObject.SetActive(false);
+                    if (a.name == "Hoja8")
+                        a.gameObject.SetActive(true);
+                }
+            }
         }
     }
 
+    //Metodo para controlar los indices!
     public void OnBtnResumen()
     {
         //salto a la pagina 2
@@ -535,9 +609,55 @@ public class Book : MonoBehaviour {
                 a.gameObject.SetActive(true);
             if (a.name == "Hoja3")
                 a.gameObject.SetActive(true);
+            if (a.name == "Hoja4")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja5")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja6")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja7")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja8")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja9")
+                a.gameObject.SetActive(false);
         }
 
     }
+
+
+    public void OnBtnDeteail()
+    {
+        //salto a la pagina 2
+        currentPage = 4;
+
+        //activo los paneles necesarios
+        foreach (GameObject a in panel)
+        {
+            if (a.name == "Portada")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja1")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja2")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja3")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja4")
+                a.gameObject.SetActive(true);
+            if (a.name == "Hoja5")
+                a.gameObject.SetActive(true);
+            if (a.name == "Hoja6")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja7")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja8")
+                a.gameObject.SetActive(false);
+            if (a.name == "Hoja9")
+                a.gameObject.SetActive(false);
+        }
+
+    }
+
 
     #endregion
 
