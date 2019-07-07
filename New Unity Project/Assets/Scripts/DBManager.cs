@@ -133,7 +133,7 @@ public class DBManager : MonoBehaviour
     public ElementInfoBasic GetElementInfoBasica(int nroAtomico)
     {
         ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
-
+  
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
             dbConnection.Open();
@@ -177,11 +177,8 @@ public class DBManager : MonoBehaviour
                         elementInfoBasic.PuntoFusion = reader.GetString(13);
                         elementInfoBasic.PuntoEbullicion = reader.GetString(14);
                         elementInfoBasic.Resumen = reader.GetString(15);
-
-                        Debug.Log("numeros_oxidacion" + reader.GetString(11));
-                        Debug.Log(elementInfoBasic.NumerosOxidacion);
                     }
-                
+
                     dbConnection.Close();
                     reader.Close();
                 }
@@ -398,16 +395,16 @@ public class DBManager : MonoBehaviour
                    SafeGetString(reader, 2), SafeGetString(reader, 3), SafeGetString(reader, 4), SafeGetString(reader, 5),
                    SafeGetString(reader, 6), SafeGetString(reader, 7), SafeGetString(reader, 8), SafeGetString(reader, 9),
                    SafeGetString(reader, 10), SafeGetString(reader, 11), SafeGetString(reader, 12), SafeGetString(reader, 13),
-                   SafeGetString(reader, 14), reader.GetFloat(15), SafeGetString(reader, 16), SafeGetString(reader, 17),
-                   SafeGetString(reader, 18), SafeGetString(reader, 19), reader.GetFloat(20), SafeGetString(reader, 21),
+                   SafeGetString(reader, 14), SafeGetFloat(reader, 15), SafeGetString(reader, 16), SafeGetString(reader, 17),
+                   SafeGetString(reader, 18), SafeGetString(reader, 19), SafeGetFloat(reader, 20), SafeGetString(reader, 21),
                    SafeGetString(reader, 22), SafeGetString(reader, 23), SafeGetString(reader, 24), SafeGetString(reader, 25),
-                   SafeGetString(reader, 26), SafeGetString(reader, 27), reader.GetFloat(28), SafeGetString(reader, 29),
-                   SafeGetString(reader, 30), reader.GetFloat(31), SafeGetString(reader, 32), SafeGetString(reader, 33),
-                   SafeGetString(reader, 34), SafeGetString(reader, 35), SafeGetString(reader, 36), reader.GetFloat(37),
-                   SafeGetString(reader, 38), SafeGetString(reader, 39), reader.GetFloat(40), reader.GetFloat(41),
-                   reader.GetFloat(42), SafeGetString(reader, 43), SafeGetString(reader, 44), SafeGetString(reader, 45));
+                   SafeGetString(reader, 26), SafeGetString(reader, 27), SafeGetFloat(reader, 28), SafeGetString(reader, 29),
+                   SafeGetString(reader, 30), SafeGetFloat(reader, 31), SafeGetString(reader, 32), SafeGetString(reader, 33),
+                   SafeGetString(reader, 34), SafeGetString(reader, 35), SafeGetString(reader, 36), SafeGetFloat(reader, 37),
+                   SafeGetString(reader, 38), SafeGetString(reader, 39), SafeGetFloat(reader, 40), SafeGetFloat(reader, 41),
+                   SafeGetFloat(reader, 42), SafeGetString(reader, 43), SafeGetString(reader, 44), SafeGetString(reader, 45));
             }
-        }
+        } 
         catch (Exception e)
         {
             throw e;
@@ -446,6 +443,13 @@ public class DBManager : MonoBehaviour
         if (!reader.IsDBNull(colIndex))
             return reader.GetString(colIndex);
         return string.Empty;
+    }
+
+    public Nullable<float> SafeGetFloat(SqliteDataReader reader, int colIndex)
+    {
+        if (!reader.IsDBNull(colIndex))
+            return reader.GetFloat(colIndex);
+        return null;//el null del c#
     }
 
     #endregion
