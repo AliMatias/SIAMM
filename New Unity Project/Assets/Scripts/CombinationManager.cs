@@ -100,7 +100,7 @@ public class CombinationManager : MonoBehaviour
                             popUpMessage = "Molécula Formada: " + moleculeData.ToString;
                             found = true;
                             DeleteCombinedAtoms(selectedAtoms);
-                            SpawnMolecule(atomsPosition);
+                            SpawnMolecule(atomsPosition, moleculeData.ToString);
                             break;
                         }
                     }
@@ -170,8 +170,8 @@ public class CombinationManager : MonoBehaviour
         }
     }
 
-    private void SpawnMolecule(List<AtomInMolPositionData> atomsPosition)
+    private void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name)
     {
-        moleculeManager.SpawnMolecule(atomsPosition);
+        moleculeManager.SpawnMolecule(atomsPosition, name);
     }
 }

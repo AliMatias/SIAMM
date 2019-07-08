@@ -22,7 +22,8 @@ public class MoleculeManager : MonoBehaviour
         IntializeCategoryDictionary();
     }
 
-    public void SpawnMolecule(List<AtomInMolPositionData> atomsPosition)
+    //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom")
+    public void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name)
     {
         //intento obtener una posición disponible random
         int position;
@@ -36,26 +37,33 @@ public class MoleculeManager : MonoBehaviour
             Debug.Log(nple.Message);
             return;
         }
+        //instancio la molécula, y seteo posición
         Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
         newMolecule.transform.localPosition = atomManager.PlanePositions[position];
         molecules.Add(newMolecule);
-        //spawneo todos los átomos
+        //seteo nombre
+        newMolecule.SetMoleculeName(name);
+        //spawneo todos sus átomos
         foreach (AtomInMolPositionData pos in atomsPosition)
         {
+            //query a la tabla de elementos para obtener clasificación_grupo
             ElementTabPer element = dBManager.GetElementFromNro(pos.ElementId);
+            //obtengo el material según la clasif
             Material mat = materials[GetMaterialIndexFromDictionary(element.ClasificacionGrupo)];
             newMolecule.SpawnAtom(pos, mat);
         }
         //y despues sus conexiones una vez que esten todos posicionados
         foreach(AtomInMolPositionData atom in atomsPosition)
         {
+            //si es que tiene alguna
             if(atom.ConnectedTo > 0)
             {
-                newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo);
+                newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType);
             }
         }
     }
 
+    //diccionario de categoría_grupo -> material
     private void IntializeCategoryDictionary()
     {
         categories.Add("Sin Grupo", 0);
@@ -71,6 +79,7 @@ public class MoleculeManager : MonoBehaviour
         categories.Add("Actinido", 10);
     }
 
+    //método para obtener el material
     private int GetMaterialIndexFromDictionary(string cat)
     {
         return categories[cat];

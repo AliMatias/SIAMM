@@ -29,6 +29,7 @@ public class AtomManager : MonoBehaviour
     private void Awake()
     {
         LoadPositions();
+        
     }
 
     //cambia entre modo combinación o normal
