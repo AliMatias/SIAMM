@@ -22,5 +22,14 @@ CREATE TABLE "moleculas_mapping_element"(
     FOREIGN KEY (id_elemento)
     REFERENCES valida_elementos(id));
 
-
+CREATE TABLE "moleculas_posicion3D_element"(
+	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	"id_molecula" INTEGER,
+	"id_elemento" INTEGER,
+	"posX" INTEGER,
+	"posY" INTEGER,
+	"posZ" INTEGER,
+	"escala" INTEGER,
+	"conexion" INTEGER NULL,
+	"tipo_conexion" INTEGER NULL);
 
