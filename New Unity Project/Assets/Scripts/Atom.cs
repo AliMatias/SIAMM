@@ -230,8 +230,6 @@ public class Atom: MonoBehaviour
         ElementData elementIsotopo = new ElementData();
         string elementText = string.Empty;
 
-        Debug.Log("protones: " + protons + " neutrones:" + neutrons + " electrones:" + electrons);
-
         //resetea valor a by default
         if (protons == 0 && neutrons == 0 && electrons == 0)
             elementText = "Vacío";
@@ -290,7 +288,6 @@ public class Atom: MonoBehaviour
             }
         }
 
-        Debug.Log(elementText);
         elementLabel.GetComponent<TextMesh>().text = elementText;
     }
 
