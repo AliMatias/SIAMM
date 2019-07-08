@@ -39,11 +39,20 @@ public class MoleculeManager : MonoBehaviour
         Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
         newMolecule.transform.localPosition = atomManager.PlanePositions[position];
         molecules.Add(newMolecule);
-        foreach(AtomInMolPositionData pos in atomsPosition)
+        //spawneo todos los átomos
+        foreach (AtomInMolPositionData pos in atomsPosition)
         {
             ElementTabPer element = dBManager.GetElementFromNro(pos.ElementId);
             Material mat = materials[GetMaterialIndexFromDictionary(element.ClasificacionGrupo)];
             newMolecule.SpawnAtom(pos, mat);
+        }
+        //y despues sus conexiones una vez que esten todos posicionados
+        foreach(AtomInMolPositionData atom in atomsPosition)
+        {
+            if(atom.ConnectedTo > 0)
+            {
+                newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo);
+            }
         }
     }
 
