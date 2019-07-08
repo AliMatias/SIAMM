@@ -6,6 +6,7 @@ public class ElementTabPer
     private int nroatomico;
     private string confElectronica;
     private float pesoAtomico;
+    private string clasificacionGrupo;
 
     /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
     public string Name { get => name; set => name = value; }
@@ -13,6 +14,7 @@ public class ElementTabPer
     public int Nroatomico { get => nroatomico; set => nroatomico = value; }
     public string ConfElectronica { get => confElectronica; set => confElectronica = value; }
     public float PesoAtomico { get => pesoAtomico; set => pesoAtomico = value; }
+    public string ClasificacionGrupo { get => clasificacionGrupo; set => clasificacionGrupo = value; }
 
- }
+}
 
