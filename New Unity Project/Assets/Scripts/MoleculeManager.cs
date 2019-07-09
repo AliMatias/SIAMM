@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MoleculeManager : MonoBehaviour
 {
-    private AtomManager atomManager;
+    private PositionManager positionManager = PositionManager.Instance;
     private DBManager dBManager;
     //prefab de molécula
     public Molecule moleculePrefab;
@@ -17,7 +17,6 @@ public class MoleculeManager : MonoBehaviour
 
     private void Awake()
     {
-        atomManager = FindObjectOfType<AtomManager>();
         dBManager = FindObjectOfType<DBManager>();
         IntializeCategoryDictionary();
     }
@@ -29,7 +28,7 @@ public class MoleculeManager : MonoBehaviour
         int position;
         try
         {
-            position = atomManager.ObtainRandomPositionIndex();
+            position = positionManager.ObtainRandomPositionIndex();
         }
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch (NoPositionsLeftException nple)
@@ -39,7 +38,7 @@ public class MoleculeManager : MonoBehaviour
         }
         //instancio la molécula, y seteo posición
         Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
-        newMolecule.transform.localPosition = atomManager.PlanePositions[position];
+        newMolecule.transform.localPosition = positionManager.PlanePositions[position];
         molecules.Add(newMolecule);
         //seteo nombre
         newMolecule.SetMoleculeName(name);
