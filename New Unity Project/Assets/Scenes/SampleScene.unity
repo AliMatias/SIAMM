@@ -7640,7 +7640,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1807429813}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999889
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -13991,7 +13991,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -71.524994, y: 0.000011699423}
+  m_AnchoredPosition: {x: -71.525024, y: 0.000011699423}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896579102
@@ -14195,17 +14195,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 912694310}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1443194356}
-  m_Father: {fileID: 1867241085}
-  m_RootOrder: 17
+  m_Father: {fileID: 1862442987}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -41.799988, y: -20}
+  m_AnchoredPosition: {x: -39, y: -222}
   m_SizeDelta: {x: 75.5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &912694312
@@ -14248,8 +14248,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: LoadMolecule
+      - m_Target: {fileID: 1862442993}
+        m_MethodName: AddMolecule
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21607,8 +21607,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -124.9, y: -20}
-  m_SizeDelta: {x: 80.3, y: 30}
+  m_AnchoredPosition: {x: -85.025055, y: -20.500015}
+  m_SizeDelta: {x: 160.1, y: 29}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1426982679
 MonoBehaviour:
@@ -28040,6 +28040,7 @@ RectTransform:
   - {fileID: 1651764255}
   - {fileID: 462717837}
   - {fileID: 1405784351}
+  - {fileID: 912694311}
   m_Father: {fileID: 1867241085}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -28138,7 +28139,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1862442986}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -28343,7 +28344,6 @@ RectTransform:
   - {fileID: 1091349500}
   - {fileID: 1862442987}
   - {fileID: 1426982678}
-  - {fileID: 912694311}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -30292,7 +30292,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Mol\xE9culas"
+  m_Text: "Lista de Mol\xE9culas"
 --- !u!222 &2077327327
 CanvasRenderer:
   m_ObjectHideFlags: 0

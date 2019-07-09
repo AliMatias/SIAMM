@@ -9,13 +9,19 @@ public class PopulateMoleculeList : MonoBehaviour
     public GameObject moleculeItem;
     public GameObject content;
 
+    private MoleculeManager moleculeManager;
     private DBManager DBManager;
+
     private List<MoleculeData> moleculeList = new List<MoleculeData>();
     public MoleculeData SelectedMolecule { get; set; } = null;
 
     void Start()
     {
+        // arranca oculto y desactivado
+        gameObject.GetComponent<CanvasGroup>().alpha = 0;
+        gameObject.SetActive(false);
         DBManager = FindObjectOfType<DBManager>();
+        moleculeManager = FindObjectOfType<MoleculeManager>();
         moleculeList = DBManager.GetAllMolecules();
         // cargo todas las moleculas a la lista
         foreach (MoleculeData molecule in moleculeList)
@@ -61,6 +67,15 @@ public class PopulateMoleculeList : MonoBehaviour
         {
             SelectedMolecule = molecule;
             selectedItem.GetComponentInChildren<TextMeshProUGUI>().color = Color.blue;
+        }
+    }
+
+    public void AddMolecule()
+    {
+        if (SelectedMolecule != null)
+        {
+            List<AtomInMolPositionData> atomsPosition = DBManager.GetElementPositions(SelectedMolecule.Id);
+            moleculeManager.SpawnMolecule(atomsPosition, SelectedMolecule.ToString);
         }
     }
 }

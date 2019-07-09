@@ -16,6 +16,6 @@ public class MoleculeData
         this.TraditionalNomenclature = TraditionalNomenclature;
     }
 
-    public new string ToString => "[Molecula " + Id + "]: " + TraditionalNomenclature + " (" + Formula + ").";
+    public new string ToString => "[Molecula]: " + TraditionalNomenclature + " (" + Formula + ").";
 
 }
