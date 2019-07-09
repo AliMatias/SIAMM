@@ -9,25 +9,17 @@ public class AtomManager : MonoBehaviour
     private Atom atomPrefab;
     //lista que maneja los átomos en pantalla
     private List<Atom> atomsList = new List<Atom>();
-    //Lista de posiciones ocupadas/libres
-    private List<Vector3> planePositions = new List<Vector3>();
-    private List<bool> availablePositions = new List<bool>();
     //indica el último átomo seleccionado. (-1 -> ninguno)
     private int lastSelectedAtom = -1;
     //booleano que indica si el modo combinación está activo
     private bool combineMode = false;
     //lista que indica elementos seleccionados en modo combinación
     private List<int> selectedAtoms = new List<int>();
+    private PositionManager positionManager = PositionManager.Instance;
 
     //esto està porque lo necesita el "combination manager"
     //seguro cuando busque la combinaciòn posta, va a necesitar otra cosa, no esto.
     public List<int> SelectedAtoms { get => selectedAtoms; set => selectedAtoms = value; }
-
-    //este método se ejecuta cuando se instancia este un objeto de esta clase
-    private void Awake()
-    {
-        LoadPositions();
-    }
 
     //cambia entre modo combinación o normal
     public void SwitchCombineMode(){
@@ -55,7 +47,7 @@ public class AtomManager : MonoBehaviour
         int position;
         try
         {
-            position = ObtainRandomPositionIndex();
+            position = positionManager.ObtainRandomPositionIndex();
         }
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch(NoPositionsLeftException nple)
@@ -66,7 +58,7 @@ public class AtomManager : MonoBehaviour
         //instancio
         Atom spawnedAtom = Instantiate<Atom>(atomPrefab);
         //asigno random position
-        spawnedAtom.transform.localPosition = planePositions[position];
+        spawnedAtom.transform.localPosition = positionManager.PlanePositions[position];
         //agrego a la lista
         atomsList.Add(spawnedAtom);
         //asigno su índice a este átomo
@@ -75,50 +67,6 @@ public class AtomManager : MonoBehaviour
         if(withProton){
             spawnedAtom.SpawnNucleon(true, false);
         }
-    }
-
-    //seteo las posibles posiciones, por ahora hardcodeadas
-    private void LoadPositions()
-    {
-        planePositions.Add(new Vector3(-2, 3, 0));
-        planePositions.Add(new Vector3(2, 3, 0));
-        planePositions.Add(new Vector3(-2, 1, 0));
-        planePositions.Add(new Vector3(2, 1, 0));
-        //todas están disponibles al principio
-        foreach (Vector3 position in planePositions)
-        {
-            availablePositions.Add(true);
-        }
-    } 
-
-    //obtengo una posición random en el plano
-    private int ObtainRandomPositionIndex()
-    {
-        //si no hay mas disponibles tiro exception
-        if (NoPositionsLeft())
-            throw (new NoPositionsLeftException("No hay más posiciones disponibles"));
-        int positions = availablePositions.Count;
-        while (true)
-        {
-            //obtengo posición random hasta encontrar una libre
-            int randomIndex = Random.Range(0, positions);
-            if (availablePositions[randomIndex])
-            {
-                availablePositions[randomIndex] = false;
-                return randomIndex;
-            }
-        }
-    }
-
-    //chequeo si hay posiciones disponibles
-    private bool NoPositionsLeft()
-    {
-        foreach(bool available in availablePositions)
-        {
-            if (available)
-                return false;
-        }
-        return true;
     }
 
     //seleccionar átomo
@@ -222,17 +170,23 @@ public class AtomManager : MonoBehaviour
             Debug.Log("No hay ningún átomo seleccionado");
             return;
         }
+        DeleteAtom(lastSelectedAtom);
+        //ahora no hay átomo seleccionado
+        lastSelectedAtom = -1;
+    }
+
+    //BORRAR átomo
+    public void DeleteAtom(int index)
+    {
         //primero lo encuentro
-        Atom atom = FindAtomInList(lastSelectedAtom);
+        Atom atom = FindAtomInList(index);
         //lo saco de la lista
         atomsList.Remove(atom);
         //lo destruyo
         Destroy(atom);
         //disponibilizo la posición denuevo
-        availablePositions[lastSelectedAtom] = true;
-        Debug.Log("Se ha borrado el átomo " + lastSelectedAtom);
-        //ahora no hay átomo seleccionado
-        lastSelectedAtom = -1;
+        positionManager.AvailablePositions[index] = true;
+        Debug.Log("Se ha borrado el átomo " + index);
     }
 
     //spawnear átomo seleccionado en la tabla periódica

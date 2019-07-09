@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Data;
-using Mono.Data.Sqlite;
-using System;
+﻿using Mono.Data.Sqlite;
 using System.Collections.Generic;
+using System.Data;
+using UnityEngine;
 
 //servicio de conexión con la base de datos.
 public class DBManager : MonoBehaviour
@@ -12,7 +11,7 @@ public class DBManager : MonoBehaviour
     private SqliteCommand dbCommand;
 
     //al inciar, setea el path a la db
-    void Start()
+    void Awake()
     {
         //path donde se encuentra la base de datos, "Application.dataPath" es el path x default en donde guarda unity
         //  //Data Source cannot be empty.  Use :memory: to open an in-memory database 
@@ -45,12 +44,12 @@ public class DBManager : MonoBehaviour
                     while (reader.Read())
                     {
                         //arma un mensaje extrayendo la data del propio reader. Cada índice equivale a la posición en el select
-                        string message = "Elemento: " + reader.GetString(0).ToString()                          
-                            + ". Protones: " + reader.GetInt32(1).ToString() 
-                            + ". Neutrones: " + reader.GetInt32(2).ToString() 
-                            + ". Electrones: " + reader.GetInt32(3).ToString() 
-                            + ". Simbolo: " + reader.GetString(4).ToString() 
-                            + ". Numero Atomico: " + reader.GetInt32(5).ToString() 
+                        string message = "Elemento: " + reader.GetString(0).ToString()
+                            + ". Protones: " + reader.GetInt32(1).ToString()
+                            + ". Neutrones: " + reader.GetInt32(2).ToString()
+                            + ". Electrones: " + reader.GetInt32(3).ToString()
+                            + ". Simbolo: " + reader.GetString(4).ToString()
+                            + ". Numero Atomico: " + reader.GetInt32(5).ToString()
                             + ".";
 
                         Debug.Log(message);
@@ -107,7 +106,9 @@ public class DBManager : MonoBehaviour
             using (IDbCommand command = dbConnection.CreateCommand())
             {
                 //tener en cuenta los null sino tirara error de cast luego en el read del set
-                string sqlQuery = "SELECT simbolo, peso_atomico, CASE WHEN configuracion_electronica_abreviada IS NULL THEN 'n/a' ELSE configuracion_electronica_abreviada END, nombre FROM elementos_info_basica WHERE numero_atomico="
+                string sqlQuery = "SELECT simbolo, peso_atomico, CASE WHEN configuracion_electronica_abreviada " +
+                    "IS NULL THEN 'n/a' ELSE configuracion_electronica_abreviada END, nombre, clasificacion_grupo " +
+                    "FROM elementos_info_basica WHERE numero_atomico="
                     + nro + ";";
 
                 command.CommandText = sqlQuery;
@@ -120,13 +121,14 @@ public class DBManager : MonoBehaviour
                         elementTabPer.PesoAtomico = reader.GetFloat(1);
                         elementTabPer.ConfElectronica = reader.GetString(2);
                         elementTabPer.Name = reader.GetString(3);
+                        elementTabPer.ClasificacionGrupo = reader.GetString(4);
                     }
                     dbConnection.Close();
                     reader.Close();
                 }
             }
         }
-         return elementTabPer;
+        return elementTabPer;
     }
 
     //trae la informacion basica de un elemento de la tabla periodica a partir de su SIMBOLO
@@ -169,7 +171,7 @@ public class DBManager : MonoBehaviour
                         elementInfoBasic.Clasificacion = reader.GetString(5);
                         elementInfoBasic.Clasificacion_grupo = reader.GetString(6);
                         elementInfoBasic.Estado_natural = reader.GetString(7);
-                        elementInfoBasic.EstructuraCristalina= reader.GetString(8);
+                        elementInfoBasic.EstructuraCristalina = reader.GetString(8);
                         elementInfoBasic.Color = reader.GetString(9);
                         elementInfoBasic.Valencia = reader.GetString(10);
                         elementInfoBasic.NumerosOxidacion = reader.GetString(11);
@@ -312,19 +314,20 @@ public class DBManager : MonoBehaviour
             dbConnection.Open();
             using (IDbCommand command = dbConnection.CreateCommand())
             {
-                string sqlQuery = "SELECT formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " + 
-                    "FROM moleculas_lista WHERE id="+ moleculaId + ";";
+                string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " +
+                    "FROM moleculas_lista WHERE id=" + moleculaId + ";";
 
                 command.CommandText = sqlQuery;
                 using (IDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        string formula = reader.GetString(0);
-                        string systematicNm = reader.GetString(1);
-                        string stockNm = reader.GetString(2);
-                        string traditionalNm = reader.GetString(3);
-                        moleculeData = new MoleculeData(formula, systematicNm, stockNm, traditionalNm);
+                        int id = reader.GetInt32(0);
+                        string formula = reader.GetString(1);
+                        string systematicNm = reader.GetString(2);
+                        string stockNm = reader.GetString(3);
+                        string traditionalNm = reader.GetString(4);
+                        moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm);
                     }
                     dbConnection.Close();
                     reader.Close();
@@ -503,4 +506,69 @@ public class DBManager : MonoBehaviour
     }
     #endregion
 
+    public List<AtomInMolPositionData> GetElementPositions(int inputMoleculeId){
+        List<AtomInMolPositionData> atomPositions = new List<AtomInMolPositionData>();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT * from moleculas_posicion3D_element where id_molecula=" + inputMoleculeId;
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        int moleculeId = reader.GetInt32(1);
+                        int elementId = reader.GetInt32(2);
+                        float posX = reader.GetFloat(3);
+                        float posY = reader.GetFloat(4);
+                        float posZ = reader.GetFloat(5);
+                        float scale = reader.GetFloat(6);
+                        int connectedTo = reader.GetInt32(7);
+                        int connectionType = reader.GetInt32(8);
+                        atomPositions.Add(new AtomInMolPositionData(id, moleculeId, elementId, posX, 
+                            posY, posZ, scale, connectedTo, connectionType));                  
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return atomPositions;
+    }
+
+    public List<MoleculeData> GetAllMolecules()
+    {
+        List<MoleculeData> molecules = new List<MoleculeData>();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " +
+                    "FROM moleculas_lista;";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string formula = reader.GetString(1);
+                        string systematicNm = reader.GetString(2);
+                        string stockNm = reader.GetString(3);
+                        string traditionalNm = reader.GetString(4);
+                        MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm);
+                        molecules.Add(moleculeData);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return molecules;
+    }
 }

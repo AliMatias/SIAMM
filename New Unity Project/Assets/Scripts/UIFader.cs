@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //Aparecer y desaparecer la tabla periódica
@@ -12,10 +11,28 @@ public class UIFader : MonoBehaviour
         StartCoroutine(fadeCanvasGroup(uiElement, uiElement.alpha, 1));
     }
 
+    /**
+    * Override para especificar que elemento mostrar
+    */
+    public void FadeIn(CanvasGroup canvasGroup)
+    {
+        StartCoroutine(fadeCanvasGroup(canvasGroup, canvasGroup.alpha, 1));
+    }
+
+
     public void FadeOut()
     {
         //Inicia una corutina (thread) para el efecto sobre el panel
         StartCoroutine(fadeCanvasGroup(uiElement, uiElement.alpha, 0));
+    }
+
+    /**
+    * Override para especificar que elemento ocultar
+    */
+    public void FadeOut(CanvasGroup canvasGroup)
+    {
+        //Inicia una corutina (thread) para el efecto sobre el panel
+        StartCoroutine(fadeCanvasGroup(canvasGroup, canvasGroup.alpha, 0));
     }
 
     /*activa el panel que en la interface esta desactivado por defecto y lanza el fade segun corresponda*/
@@ -28,6 +45,20 @@ public class UIFader : MonoBehaviour
         }
         else
             FadeOut();
+    }
+
+    /**
+     * Override para especificar que elemento ocultar/mostrar
+     */
+    public void FadeInAndOut(CanvasGroup canvasGroup)
+    {
+        if (canvasGroup.alpha == 0)
+        {
+            canvasGroup.gameObject.SetActive(true);
+            FadeIn(canvasGroup);
+        }
+        else
+            FadeOut(canvasGroup);
     }
 
     /*metodo para generar el efecto de fade in and out*/
@@ -55,7 +86,7 @@ public class UIFader : MonoBehaviour
 
         if (end == 0)
         {
-            uiElement.gameObject.SetActive(false);
+            cg.gameObject.SetActive(false);
         }
     }
 }

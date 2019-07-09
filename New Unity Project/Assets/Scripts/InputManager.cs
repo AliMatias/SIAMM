@@ -24,6 +24,8 @@ public class InputManager : MonoBehaviour
         atomManager = FindObjectOfType<AtomManager>();
         loadTPer = FindObjectOfType<LoadTper>();
         UIFader = FindObjectOfType<UIFader>();
+        // seteo el CanvasGroup (tabla periodica) que voy a ocultar cuando llame al UIFader.FadeInAndOut
+        // UIFader.uiElement = parent.transform.parent.gameObject.GetComponent<CanvasGroup>();
         BasicInfoLoader = FindObjectOfType<BasicInfoLoader>();
         DetailInfoLoader = FindObjectOfType<DetailInfoLoader>();
     }
@@ -41,7 +43,8 @@ public class InputManager : MonoBehaviour
         atomManager.SpawnFromPeriodicTable(text.text);
 
         //aca se puede utilizar el metodo del fadeinout porque es el panel de la tabla que contiene el objeto CANVAS GROUP
-        UIFader.FadeInAndOut();
+        CanvasGroup tablaPeriodicaPanel = parent.transform.parent.gameObject.GetComponent<CanvasGroup>();
+        UIFader.FadeInAndOut(tablaPeriodicaPanel);
     }
 
     /*va a ejecutar el proceso para mostrar informacion basica a partir de apretar el boton der del mouse*/
