@@ -84,7 +84,7 @@ public class LoadTper : MonoBehaviour
     private void ResizeFont(Button elem)
     {
         /*busco una proporcion aprox!!!*/
-        int xOriginal = 70;
+        int xOriginal = 65;
         int sizeActual;    
         int sizeProporcionCell = Convert.ToInt32(glg.cellSize.x);
 

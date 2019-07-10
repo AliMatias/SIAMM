@@ -144,9 +144,9 @@ public class DBManager : MonoBehaviour
             using (IDbCommand command = dbConnection.CreateCommand())
             {
                 //tener en cuenta los null sino tirara error de cast luego en el read del set
-                string sqlQuery = "SELECT numero_atomico, simbolo, nombre, peso_atomico, periodo,";
-                sqlQuery = sqlQuery + "CASE WHEN estado_natural IS NULL THEN 'n/a' ELSE estado_natural END,";
+                string sqlQuery = "SELECT numero_atomico, simbolo, nombre, peso_atomico, periodo,";               
                 sqlQuery = sqlQuery + "clasificacion, clasificacion_grupo,";
+                sqlQuery = sqlQuery + "CASE WHEN estado_natural IS NULL THEN 'n/a' ELSE estado_natural END,";
                 sqlQuery = sqlQuery + "CASE WHEN estructura_cristalina IS NULL THEN 'n/a' ELSE estructura_cristalina END,";
                 sqlQuery = sqlQuery + "CASE WHEN color IS NULL THEN 'n/a' ELSE color END,";
                 sqlQuery = sqlQuery + "CASE WHEN valencia IS NULL THEN 'n/a' ELSE valencia END,";
@@ -423,6 +423,74 @@ public class DBManager : MonoBehaviour
 
         return elementInfoDetail;
     }
+
+    public List<AtomInMolPositionData> GetElementPositions(int inputMoleculeId)
+    {
+        List<AtomInMolPositionData> atomPositions = new List<AtomInMolPositionData>();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT * from moleculas_posicion3D_element where id_molecula=" + inputMoleculeId;
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        int moleculeId = reader.GetInt32(1);
+                        int elementId = reader.GetInt32(2);
+                        float posX = reader.GetFloat(3);
+                        float posY = reader.GetFloat(4);
+                        float posZ = reader.GetFloat(5);
+                        float scale = reader.GetFloat(6);
+                        int connectedTo = reader.GetInt32(7);
+                        int connectionType = reader.GetInt32(8);
+                        atomPositions.Add(new AtomInMolPositionData(id, moleculeId, elementId, posX,
+                            posY, posZ, scale, connectedTo, connectionType));
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return atomPositions;
+    }
+
+    public List<MoleculeData> GetAllMolecules()
+    {
+        List<MoleculeData> molecules = new List<MoleculeData>();
+        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
+        {
+            dbConnection.Open();
+            using (IDbCommand command = dbConnection.CreateCommand())
+            {
+                string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " +
+                    "FROM moleculas_lista;";
+
+                command.CommandText = sqlQuery;
+                using (IDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        int id = reader.GetInt32(0);
+                        string formula = reader.GetString(1);
+                        string systematicNm = reader.GetString(2);
+                        string stockNm = reader.GetString(3);
+                        string traditionalNm = reader.GetString(4);
+                        MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm);
+                        molecules.Add(moleculeData);
+                    }
+                    dbConnection.Close();
+                    reader.Close();
+                }
+            }
+        }
+        return molecules;
+    }
+
     #endregion
 
     #region Metodos Especial DB
@@ -507,69 +575,5 @@ public class DBManager : MonoBehaviour
     }
     #endregion
 
-    public List<AtomInMolPositionData> GetElementPositions(int inputMoleculeId){
-        List<AtomInMolPositionData> atomPositions = new List<AtomInMolPositionData>();
-        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
-        {
-            dbConnection.Open();
-            using (IDbCommand command = dbConnection.CreateCommand())
-            {
-                string sqlQuery = "SELECT * from moleculas_posicion3D_element where id_molecula=" + inputMoleculeId;
-
-                command.CommandText = sqlQuery;
-                using (IDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        int id = reader.GetInt32(0);
-                        int moleculeId = reader.GetInt32(1);
-                        int elementId = reader.GetInt32(2);
-                        float posX = reader.GetFloat(3);
-                        float posY = reader.GetFloat(4);
-                        float posZ = reader.GetFloat(5);
-                        float scale = reader.GetFloat(6);
-                        int connectedTo = reader.GetInt32(7);
-                        int connectionType = reader.GetInt32(8);
-                        atomPositions.Add(new AtomInMolPositionData(id, moleculeId, elementId, posX, 
-                            posY, posZ, scale, connectedTo, connectionType));                  
-                    }
-                    dbConnection.Close();
-                    reader.Close();
-                }
-            }
-        }
-        return atomPositions;
-    }
-
-    public List<MoleculeData> GetAllMolecules()
-    {
-        List<MoleculeData> molecules = new List<MoleculeData>();
-        using (IDbConnection dbConnection = new SqliteConnection(connectionString))
-        {
-            dbConnection.Open();
-            using (IDbCommand command = dbConnection.CreateCommand())
-            {
-                string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " +
-                    "FROM moleculas_lista;";
-
-                command.CommandText = sqlQuery;
-                using (IDataReader reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        int id = reader.GetInt32(0);
-                        string formula = reader.GetString(1);
-                        string systematicNm = reader.GetString(2);
-                        string stockNm = reader.GetString(3);
-                        string traditionalNm = reader.GetString(4);
-                        MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm);
-                        molecules.Add(moleculeData);
-                    }
-                    dbConnection.Close();
-                    reader.Close();
-                }
-            }
-        }
-        return molecules;
-    }
+   
 }
