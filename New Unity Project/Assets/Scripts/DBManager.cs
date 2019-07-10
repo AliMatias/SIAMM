@@ -1,4 +1,5 @@
 ﻿using Mono.Data.Sqlite;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
@@ -7,6 +8,8 @@ using UnityEngine;
 public class DBManager : MonoBehaviour
 {
     private string connectionString;
+    private SqliteConnection dbConnection;
+    private SqliteCommand dbCommand;
 
     //al inciar, setea el path a la db
     void Awake()
@@ -17,6 +20,8 @@ public class DBManager : MonoBehaviour
         //valida HOY conexion ok con la base y trae tabla elementos
         getAllElements();
     }
+
+    #region Metodos DB querys
 
     //trae todos los elementos de la tabla
     private void getAllElements()
@@ -128,10 +133,10 @@ public class DBManager : MonoBehaviour
     }
 
     //trae la informacion basica de un elemento de la tabla periodica a partir de su SIMBOLO
-    public ElementInfoBasic GetElementInfoBasica(string simbol)
+    public ElementInfoBasic GetElementInfoBasica(int nroAtomico)
     {
         ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
-
+  
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
             dbConnection.Open();
@@ -139,9 +144,9 @@ public class DBManager : MonoBehaviour
             using (IDbCommand command = dbConnection.CreateCommand())
             {
                 //tener en cuenta los null sino tirara error de cast luego en el read del set
-                string sqlQuery = "SELECT numero_atomico, simbolo, nombre, peso_atomico, periodo,";
-                sqlQuery = sqlQuery + "CASE WHEN estado_natural IS NULL THEN 'n/a' ELSE estado_natural END,";
+                string sqlQuery = "SELECT numero_atomico, simbolo, nombre, peso_atomico, periodo,";               
                 sqlQuery = sqlQuery + "clasificacion, clasificacion_grupo,";
+                sqlQuery = sqlQuery + "CASE WHEN estado_natural IS NULL THEN 'n/a' ELSE estado_natural END,";
                 sqlQuery = sqlQuery + "CASE WHEN estructura_cristalina IS NULL THEN 'n/a' ELSE estructura_cristalina END,";
                 sqlQuery = sqlQuery + "CASE WHEN color IS NULL THEN 'n/a' ELSE color END,";
                 sqlQuery = sqlQuery + "CASE WHEN valencia IS NULL THEN 'n/a' ELSE valencia END,";
@@ -151,8 +156,8 @@ public class DBManager : MonoBehaviour
                 sqlQuery = sqlQuery + "CASE WHEN punto_ebullicion IS NULL THEN 'n/a' ELSE punto_ebullicion END,";
                 sqlQuery = sqlQuery + "resumen ";
                 sqlQuery = sqlQuery + "FROM elementos_info_basica ";
-                sqlQuery = sqlQuery + "WHERE simbolo='"
-                + simbol + "';";
+                sqlQuery = sqlQuery + "WHERE numero_atomico='"
+                + nroAtomico + "';";
 
                 command.CommandText = sqlQuery;
                 using (IDataReader reader = command.ExecuteReader())
@@ -244,6 +249,7 @@ public class DBManager : MonoBehaviour
         return elementData;
     }
 
+    //trae de acuerdo a la orbita la cantidad maxima de electrones
     public OrbitData GetOrbitDataByNumber(int orbitNumber)
     {
         OrbitData orbitData = null;
@@ -273,6 +279,7 @@ public class DBManager : MonoBehaviour
         return orbitData;
     }
 
+    //
     public List<int> GetMoleculesByAtomNumberAndQuantity(int atomNumber, int quantity)
     {
         List<int> posiblesMoleculas = new List<int>();
@@ -299,6 +306,7 @@ public class DBManager : MonoBehaviour
         return posiblesMoleculas;
     }
 
+    //trae los datos de una molecula en particular
     public MoleculeData GetMoleculeById(int moleculaId)
     {
         MoleculeData moleculeData = null;
@@ -330,6 +338,7 @@ public class DBManager : MonoBehaviour
         return moleculeData;
     }
 
+    //
     public int GetUniqueElementCountInMoleculeById(int moleculaId)
     {
         int elementCount = 0;
@@ -357,7 +366,66 @@ public class DBManager : MonoBehaviour
         return elementCount;
     }
 
-    public List<AtomInMolPositionData> GetElementPositions(int inputMoleculeId){
+    //trae la info detallada a partir de un nro atomico entero
+    public ElementInfoDetail GetElementInfoDetail(int nroAtomico)
+    {
+        ElementInfoDetail elementInfoDetail = new ElementInfoDetail(); 
+        SqliteDataReader reader = null;
+
+        try
+        {
+
+            this.dbConnection = openCon(this.connectionString);
+
+            //tener en cuenta los null sino tirara error de cast luego en el read del set    
+            string sqlQuery = "SELECT numero_atomico, isotopos_estables, isotopos_aplicaciones, tipo_electrico, radiactivo, abundancia_corteza_terrestre, descubrimiento,";
+            sqlQuery = sqlQuery + "descubierto_por, angulos_de_red, vida_media, modulo_compresibilidad, dureza_brinell, presion_critica, temperatura_critica, conductividad_electrica,";
+            sqlQuery = sqlQuery + "densidad, radio_covalente, afinidad_electronica, punto_curie, modo_decaimiento, electronegatividad, densidadliquida, constante_red,";
+            sqlQuery = sqlQuery + "multiplicidad_atomica_gas, calor_de_fusion, calor_de_vaporizacion, tipo_magnetico, susceptibilidad_magnetica, volumen_molar,";
+            sqlQuery = sqlQuery + "radio_poisson, numeros_cuanticos, indice_refractivo, resistividad, conductividad_termica, punto_superconductividad, expansion_termica,";
+            sqlQuery = sqlQuery + "velocidad_sonido, numero_grupos_espaciales, nombre_grupo_espacial, radio_van_der_waals, radio_atomico_en_angstroms,";
+            sqlQuery = sqlQuery + "radio_covalente_en_angstroms, radio_van_der_waals_en_angstroms, modulo_young, nombres_alotropicos, energias_de_ionizacion ";
+            sqlQuery = sqlQuery + "FROM elementos_info_detalle ";
+            sqlQuery = sqlQuery + "WHERE numero_atomico="
+            + nroAtomico + ";";
+
+            this.dbCommand = getCMD(sqlQuery);
+       
+            reader = EjecutaConsultaSql(this.dbConnection, this.dbCommand);
+
+            while (reader.Read())
+            {
+                elementInfoDetail = new ElementInfoDetail(nroAtomico, SafeGetString(reader, 1),
+                   SafeGetString(reader, 2), SafeGetString(reader, 3), SafeGetString(reader, 4), SafeGetString(reader, 5),
+                   SafeGetString(reader, 6), SafeGetString(reader, 7), SafeGetString(reader, 8), SafeGetString(reader, 9),
+                   SafeGetString(reader, 10), SafeGetString(reader, 11), SafeGetString(reader, 12), SafeGetString(reader, 13),
+                   SafeGetString(reader, 14), SafeGetFloat(reader, 15), SafeGetString(reader, 16), SafeGetString(reader, 17),
+                   SafeGetString(reader, 18), SafeGetString(reader, 19), SafeGetFloat(reader, 20), SafeGetString(reader, 21),
+                   SafeGetString(reader, 22), SafeGetString(reader, 23), SafeGetString(reader, 24), SafeGetString(reader, 25),
+                   SafeGetString(reader, 26), SafeGetString(reader, 27), SafeGetFloat(reader, 28), SafeGetString(reader, 29),
+                   SafeGetString(reader, 30), SafeGetFloat(reader, 31), SafeGetString(reader, 32), SafeGetString(reader, 33),
+                   SafeGetString(reader, 34), SafeGetString(reader, 35), SafeGetString(reader, 36), SafeGetFloat(reader, 37),
+                   SafeGetString(reader, 38), SafeGetString(reader, 39), SafeGetFloat(reader, 40), SafeGetFloat(reader, 41),
+                   SafeGetFloat(reader, 42), SafeGetString(reader, 43), SafeGetString(reader, 44), SafeGetString(reader, 45));
+            }
+        } 
+        catch (Exception e)
+        {
+            throw e;
+        }
+
+        finally
+        {        
+            if (reader != null)
+                reader.Close();
+            this.dbConnection.Close();
+        }
+
+        return elementInfoDetail;
+    }
+
+    public List<AtomInMolPositionData> GetElementPositions(int inputMoleculeId)
+    {
         List<AtomInMolPositionData> atomPositions = new List<AtomInMolPositionData>();
         using (IDbConnection dbConnection = new SqliteConnection(connectionString))
         {
@@ -380,8 +448,8 @@ public class DBManager : MonoBehaviour
                         float scale = reader.GetFloat(6);
                         int connectedTo = reader.GetInt32(7);
                         int connectionType = reader.GetInt32(8);
-                        atomPositions.Add(new AtomInMolPositionData(id, moleculeId, elementId, posX, 
-                            posY, posZ, scale, connectedTo, connectionType));                  
+                        atomPositions.Add(new AtomInMolPositionData(id, moleculeId, elementId, posX,
+                            posY, posZ, scale, connectedTo, connectionType));
                     }
                     dbConnection.Close();
                     reader.Close();
@@ -422,4 +490,90 @@ public class DBManager : MonoBehaviour
         }
         return molecules;
     }
+
+    #endregion
+
+    #region Metodos Especial DB
+    //METODO PRINCIPAL GENERAL DE APERTURA DE CONECCIONES
+    public SqliteConnection openCon(String connectionString)
+    {
+        SqliteConnection con = new SqliteConnection();
+        try
+        {
+            con = GetCnxDB(connectionString);
+            con.Open();
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        return con;
+    }
+
+    public string SafeGetString(SqliteDataReader reader, int colIndex)
+    {
+        if (!reader.IsDBNull(colIndex))
+            return reader.GetString(colIndex);
+        return string.Empty;
+    }
+
+    public Nullable<float> SafeGetFloat(SqliteDataReader reader, int colIndex)
+    {
+        if (!reader.IsDBNull(colIndex))
+            return reader.GetFloat(colIndex);
+        return null;//el null del c#
+    }
+
+    #endregion
+
+    #region SqlLiteDbConnection
+
+    public SqliteConnection GetCnxDB(String datoDb)
+    {
+        SqliteConnection cn = new SqliteConnection();
+        try
+        {
+            cn.ConnectionString = datoDb;
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        return cn;
+    }
+
+
+    #endregion
+
+    #region SqlLiteDbCommands
+    public SqliteCommand getCMD(String script)
+    {
+
+        SqliteCommand aCommand = new SqliteCommand();
+        aCommand.CommandText = script;
+        aCommand.CommandType = CommandType.Text;
+
+        return aCommand;
+    }
+    #endregion
+
+    #region SqlConnectionCMDExec
+    /*
+     * Execute SQL query
+     */
+    public SqliteDataReader EjecutaConsultaSql(SqliteConnection cnparam, SqliteCommand cmd)
+    {
+        try
+        {
+            cmd.Connection = cnparam;
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        return cmd.ExecuteReader();
+    }
+    #endregion
+
+   
 }
