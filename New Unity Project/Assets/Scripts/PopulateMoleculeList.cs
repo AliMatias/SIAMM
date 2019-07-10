@@ -99,7 +99,7 @@ public class PopulateMoleculeList : MonoBehaviour
      * Elimina el contenido de la lista y la vuelve a popular con las moleculas filtradas
      * Solo filtra por nomenclatura tradicional (ej. "Agua") o formula molecular (ej. "H2O")
      * Es case insensitive e ignora tildes.
-     * Permite que escribir al "oxido" encuentre moléculas como "Óxido cuproso (Cu2O)".
+     * Permite que al escribir "oxido" encuentre moléculas como "Óxido cuproso (Cu2O)".
      * Es llamado con el evento OnValueChanged del InputField de la lista de moleculas
      * Busca mientras el usuario escribe
      */
