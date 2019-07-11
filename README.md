@@ -1,6 +1,6 @@
 # SIAMM - Simulación Interactiva de Átomos, Moléculas y Materiales
 
-SIAMM es una  plataforma educativa que permite al usuario tanto ampliar sus conocimientos como experimentar y obtener información sobre la formación, composición y distribución de átomos, moléculas y materiales, permitiendo interactuar con los mismos mediante un entorno 3D.
+SIAMM es una  plataforma educativa que permite al estudiante de química tanto ampliar sus conocimientos como experimentar y obtener información sobre la formación, composición y distribución de átomos, moléculas y materiales, permitiendo interactuar con los mismos mediante un entorno 3D.
 
 ## Requerimientos
 * WIP
