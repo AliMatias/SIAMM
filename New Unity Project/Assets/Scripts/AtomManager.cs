@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AtomManager : MonoBehaviour
 {
@@ -17,16 +18,20 @@ public class AtomManager : MonoBehaviour
     private List<int> selectedAtoms = new List<int>();
     private PositionManager positionManager = PositionManager.Instance;
     //lista de botones relevantes para los átomos
-    private GameObject[] atomButtons;
+    private List<Button> atomButtons = new List<Button>();
     [SerializeField]
-    private GameObject plusAtomButton;
+    private Button plusAtomButton;
 
     //esto està porque lo necesita el "combination manager"
     //seguro cuando busque la combinaciòn posta, va a necesitar otra cosa, no esto.
     public List<int> SelectedAtoms { get => selectedAtoms; set => selectedAtoms = value; }
 
     private void Awake(){
-        atomButtons = GameObject.FindGameObjectsWithTag("atomToggle");
+        GameObject[] buttons = GameObject.FindGameObjectsWithTag("toToggle");
+        foreach(GameObject btn in buttons)
+        {
+            atomButtons.Add(btn.GetComponent<Button>());
+        }
         activateDeactivateAtomButtons();
     }
 
@@ -217,11 +222,11 @@ public class AtomManager : MonoBehaviour
     //activa-desactiva botones de acuerdo a la cant de átomos
     private void activateDeactivateAtomButtons(){
         bool status = true;
-        if(atomsList.Count.equals(0)){
+        if(atomsList.Count == 0){
             status = false;
         }
 
-        foreach(GameObject btn in atomButtons){
+        foreach(Button btn in atomButtons){
             btn.interactable = status;
         }
 
