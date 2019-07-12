@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AtomManager : MonoBehaviour
 {
@@ -16,10 +17,23 @@ public class AtomManager : MonoBehaviour
     //lista que indica elementos seleccionados en modo combinación
     private List<int> selectedAtoms = new List<int>();
     private PositionManager positionManager = PositionManager.Instance;
+    //lista de botones relevantes para los átomos
+    private List<Button> atomButtons = new List<Button>();
+    [SerializeField]
+    private Button plusAtomButton;
 
     //esto està porque lo necesita el "combination manager"
     //seguro cuando busque la combinaciòn posta, va a necesitar otra cosa, no esto.
     public List<int> SelectedAtoms { get => selectedAtoms; set => selectedAtoms = value; }
+
+    private void Awake(){
+        GameObject[] buttons = GameObject.FindGameObjectsWithTag("toToggle");
+        foreach(GameObject btn in buttons)
+        {
+            atomButtons.Add(btn.GetComponent<Button>());
+        }
+        activateDeactivateAtomButtons();
+    }
 
     //cambia entre modo combinación o normal
     public void SwitchCombineMode(){
@@ -67,6 +81,7 @@ public class AtomManager : MonoBehaviour
         if(withProton){
             spawnedAtom.SpawnNucleon(true, false);
         }
+        activateDeactivateAtomButtons();
     }
 
     //seleccionar átomo
@@ -187,6 +202,7 @@ public class AtomManager : MonoBehaviour
         //disponibilizo la posición denuevo
         positionManager.AvailablePositions[index] = true;
         Debug.Log("Se ha borrado el átomo " + index);
+        activateDeactivateAtomButtons();
     }
 
     //spawnear átomo seleccionado en la tabla periódica
@@ -199,6 +215,25 @@ public class AtomManager : MonoBehaviour
             newAtom.SpawnFromPeriodicTable(elementName);
         }else{
             Debug.Log("No hay más lugar para crear un nuevo átomo.");
+        }
+        activateDeactivateAtomButtons();
+    }
+
+    //activa-desactiva botones de acuerdo a la cant de átomos
+    private void activateDeactivateAtomButtons(){
+        bool status = true;
+        if(atomsList.Count == 0){
+            status = false;
+        }
+
+        foreach(Button btn in atomButtons){
+            btn.interactable = status;
+        }
+
+        if(positionManager.NoPositionsLeft()){
+            plusAtomButton.interactable = false;
+        }else{
+            plusAtomButton.interactable = true;
         }
     }
 

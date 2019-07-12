@@ -62,7 +62,7 @@ public class PositionManager
     }
 
     //chequeo si hay posiciones disponibles
-    private bool NoPositionsLeft()
+    public bool NoPositionsLeft()
     {
         foreach (bool available in AvailablePositions)
         {
