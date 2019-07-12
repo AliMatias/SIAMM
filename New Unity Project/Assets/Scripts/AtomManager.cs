@@ -18,6 +18,7 @@ public class AtomManager : MonoBehaviour
     private PositionManager positionManager = PositionManager.Instance;
     //lista de botones relevantes para los átomos
     private GameObject[] atomButtons;
+    [SerializeField]
     private GameObject plusAtomButton;
 
     //esto està porque lo necesita el "combination manager"
