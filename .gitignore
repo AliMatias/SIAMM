@@ -42,3 +42,5 @@ sysinfo.txt
 *.vscode/launch.json
 *.vscode/extensions.json
 New Unity Project/.vscode/settings.json
+New Unity Project/Assets/Scenes/SampleScene.unity.orig.meta
+*.orig
