@@ -35,7 +35,6 @@ public class LoadTper : MonoBehaviour
             //si no es NULL quiere decir que MAPEO un boton ahi tengo que ir a la base de datos
             if (button != null)
             {
-                ResizeFont(button);
                 LoadData(button);
             }
         }

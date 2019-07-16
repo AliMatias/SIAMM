@@ -524,6 +524,12 @@ public class DBManager : MonoBehaviour
         return null;//el null del c#
     }
 
+    public Nullable<int> SafeGetInt(SqliteDataReader reader, int colIndex)
+    {
+        if (!reader.IsDBNull(colIndex))
+            return reader.GetInt32(colIndex);
+        return null;//el null del c#
+    }
     #endregion
 
     #region SqlLiteDbConnection
