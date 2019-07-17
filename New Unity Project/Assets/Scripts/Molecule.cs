@@ -14,6 +14,10 @@ public class Molecule : MonoBehaviour
     public Transform parent;
     //label que indica nombre de molécula
     public GameObject moleculeLabel;
+    //indice que indica posición+
+    private int moleculeIndex;
+
+    public int MoleculeIndex { get => moleculeIndex; set => moleculeIndex = value; }
 
     //spawnear un átomo 
     public void SpawnAtom(AtomInMolPositionData positionData, Material mat)

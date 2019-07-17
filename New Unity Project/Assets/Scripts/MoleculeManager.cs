@@ -39,6 +39,7 @@ public class MoleculeManager : MonoBehaviour
         //instancio la molécula, y seteo posición
         Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
         newMolecule.transform.localPosition = positionManager.PlanePositions[position];
+        newMolecule.MoleculeIndex = position;
         molecules.Add(newMolecule);
         //seteo nombre
         newMolecule.SetMoleculeName(name);
@@ -82,5 +83,17 @@ public class MoleculeManager : MonoBehaviour
     private int GetMaterialIndexFromDictionary(string cat)
     {
         return categories[cat];
+    }
+
+    private Molecule FindMoleculeInList(int index)
+    {
+        foreach(Molecule molecule in molecules)
+        {
+            if(molecule.MoleculeIndex == index)
+            {
+                return molecule;
+            }
+        }
+        return null;
     }
 }
