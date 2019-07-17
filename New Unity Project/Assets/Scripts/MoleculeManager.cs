@@ -5,7 +5,7 @@ using UnityEngine;
 public class MoleculeManager : MonoBehaviour
 {
     private PositionManager positionManager = PositionManager.Instance;
-    private DBManager dBManager;
+    private QryElementos qryElement;
     //prefab de molécula
     public Molecule moleculePrefab;
     //lista de moléculas
@@ -17,7 +17,7 @@ public class MoleculeManager : MonoBehaviour
 
     private void Awake()
     {
-        dBManager = FindObjectOfType<DBManager>();
+        qryElement = new QryElementos();
         IntializeCategoryDictionary();
     }
 
@@ -46,7 +46,7 @@ public class MoleculeManager : MonoBehaviour
         foreach (AtomInMolPositionData pos in atomsPosition)
         {
             //query a la tabla de elementos para obtener clasificación_grupo
-            ElementTabPer element = dBManager.GetElementFromNro(pos.ElementId);
+            ElementTabPer element = qryElement.GetElementFromNro(pos.ElementId);
             //obtengo el material según la clasif
             Material mat = materials[GetMaterialIndexFromDictionary(element.ClasificacionGrupo)];
             newMolecule.SpawnAtom(pos, mat);

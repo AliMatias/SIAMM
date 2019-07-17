@@ -10,7 +10,7 @@ public class CombinationManager : MonoBehaviour
     private List<Button> buttonsToToggle = new List<Button>();
     private bool combineMode = false;
     private AtomManager atomManager;
-    private DBManager DBManager;
+    private QryMoleculas qryMolecule;
     private MoleculeManager moleculeManager;
     public Button combineButton;
     public Button combineModeButton;
@@ -20,7 +20,7 @@ public class CombinationManager : MonoBehaviour
     void Awake()
     {
         atomManager = FindObjectOfType<AtomManager>();
-        DBManager = FindObjectOfType<DBManager>();
+        qryMolecule = new QryMoleculas();
         moleculeManager = FindObjectOfType<MoleculeManager>();
         //encuentro y asigno a mi lista los botones a apagar
         GameObject[] btns = GameObject.FindGameObjectsWithTag("toToggle");
@@ -79,7 +79,7 @@ public class CombinationManager : MonoBehaviour
 
             foreach ((int elementId, int count) in combinedElements)
             {
-                List<int> molecules = DBManager.GetMoleculesByAtomNumberAndQuantity(elementId, count);
+                List<int> molecules = qryMolecule.GetMoleculesByAtomNumberAndQuantity(elementId, count);
                 possibleCombinations.Add(molecules);
             }
 
@@ -91,11 +91,11 @@ public class CombinationManager : MonoBehaviour
                     bool found = false;
                     foreach(int moleculaId in intersection)
                     {
-                        int elementCount = DBManager.GetUniqueElementCountInMoleculeById(moleculaId);
+                        int elementCount = qryMolecule.GetUniqueElementCountInMoleculeById(moleculaId);
                         if (elementCount == combinedElements.ToList().Count)
                         {
-                            MoleculeData moleculeData = DBManager.GetMoleculeById(moleculaId);
-                            List<AtomInMolPositionData> atomsPosition = DBManager.GetElementPositions(moleculaId);
+                            MoleculeData moleculeData = qryMolecule.GetMoleculeById(moleculaId);
+                            List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(moleculaId);
                             showPopUp = true;
                             popUpMessage = "Molécula Formada: " + moleculeData.ToString;
                             found = true;

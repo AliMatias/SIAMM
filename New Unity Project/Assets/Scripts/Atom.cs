@@ -14,7 +14,7 @@ public class Atom: MonoBehaviour
     [SerializeField]
     private Transform parent;
     //objeto con el que interactúo para acceder a la DB
-    private DBManager DBManager;
+    private QryElementos qryElement;
     private AtomManager atomManager;
     //label que indica elemento en construcción.
     public GameObject elementLabel;
@@ -48,7 +48,7 @@ public class Atom: MonoBehaviour
     //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
     private void Awake()
     {
-        DBManager = FindObjectOfType<DBManager>();
+        qryElement = new QryElementos();
         atomManager = FindObjectOfType<AtomManager>();
     }
 
@@ -151,7 +151,7 @@ public class Atom: MonoBehaviour
     /// <returns>Nueva orbita | null</returns>
     public Orbit SpawnOrbit(int number, Vector3 position)
     {
-        OrbitData orbitData = DBManager.GetOrbitDataByNumber(number);
+        OrbitData orbitData = qryElement.GetOrbitDataByNumber(number);
 
         if (orbitData == null)
         {
@@ -236,7 +236,7 @@ public class Atom: MonoBehaviour
         else
         {
             //obtiene datos del elemento según cantidad de protones
-            element = DBManager.GetElementFromProton(protons);
+            element = qryElement.GetElementFromProton(protons);
             //si es null o no lo encontró
             if (IsNullOrEmpty(element))
             {
@@ -259,7 +259,7 @@ public class Atom: MonoBehaviour
                 if (element.Neutrons != neutrons)
                 {
                     //valido que isotopo es sino existe se informa NO ENCONTRADO
-                    elementIsotopo = DBManager.GetIsotopo(neutrons, element.Numero);
+                    elementIsotopo = qryElement.GetIsotopo(neutrons, element.Numero);
 
                     if (IsNullOrEmpty(elementIsotopo))
                     {
@@ -350,7 +350,7 @@ public class Atom: MonoBehaviour
         }
 
         //obtengo la data del elemento de la DB
-        ElementData element = DBManager.GetElementFromName(elementName);
+        ElementData element = qryElement.GetElementFromName(elementName);
         //nullcheck por si no encontró en la DB
         if (IsNullOrEmpty(element))
         {

@@ -13,7 +13,7 @@ public class PopulateMoleculeList : MonoBehaviour
     public GameObject content;
 
     private MoleculeManager moleculeManager;
-    private DBManager DBManager;
+    private QryMoleculas qryMolecule;
 
     private InputField inputFilter;
 
@@ -27,9 +27,9 @@ public class PopulateMoleculeList : MonoBehaviour
         gameObject.SetActive(false);
 
         inputFilter = gameObject.GetComponentInChildren<InputField>();
-        DBManager = FindObjectOfType<DBManager>();
+        qryMolecule = new QryMoleculas();
         moleculeManager = FindObjectOfType<MoleculeManager>();
-        moleculeList = DBManager.GetAllMolecules();
+        moleculeList = qryMolecule.GetAllMolecules();
         // cargo todas las moleculas a la lista
         foreach (MoleculeData molecule in moleculeList)
         {
@@ -90,7 +90,7 @@ public class PopulateMoleculeList : MonoBehaviour
     {
         if (SelectedMolecule != null)
         {
-            List<AtomInMolPositionData> atomsPosition = DBManager.GetElementPositions(SelectedMolecule.Id);
+            List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(SelectedMolecule.Id);
             moleculeManager.SpawnMolecule(atomsPosition, SelectedMolecule.ToString);
         }
     }

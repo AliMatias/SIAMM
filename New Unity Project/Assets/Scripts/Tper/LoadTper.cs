@@ -10,21 +10,19 @@ public class LoadTper : MonoBehaviour
 
     #region atributos
     private Button button;
-    private DBManager DBManager;
+    private QryElementos qryElement;
     private GridLayoutGroup glg;
     private RectTransform parent;
     //estos parametros son estaticos en mi modelo! son estaticos
     private int row = 12;
     private int col = 23;
-
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         //instancio la clase de metodos sobre la base de datos
-        DBManager = FindObjectOfType<DBManager>();
-
+        qryElement = new QryElementos();
         ResizeCells();
 
         //Recorro todas las celdas que tienen un game object
@@ -45,9 +43,9 @@ public class LoadTper : MonoBehaviour
     private void LoadData (Button elem)
     {
         ElementTabPer element = new ElementTabPer();
-       
+      
         //obtiene datos del elemento según cantidad de protones
-        element = DBManager.GetElementFromNro(getNroAtomicoId(elem));
+        element = qryElement.GetElementFromNro(getNroAtomicoId(elem));
 
         //obtengo la lista de objetos o coleccion de objetos de tipo TEXT que estan en los botones
         Text[] textosObj = elem.GetComponentsInChildren<Text>();
@@ -121,7 +119,7 @@ public class LoadTper : MonoBehaviour
     {
         ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
 
-        elementInfoBasic = DBManager.GetElementInfoBasica(nroAtomico);
+        elementInfoBasic = qryElement.GetElementInfoBasica(nroAtomico);
 
         return elementInfoBasic;
     }
@@ -131,7 +129,7 @@ public class LoadTper : MonoBehaviour
     {
         ElementInfoDetail elementInfoDetail = new ElementInfoDetail();
 
-        elementInfoDetail = DBManager.GetElementInfoDetail(nroAtomico);
+        elementInfoDetail = qryElement.GetElementInfoDetail(nroAtomico);
 
         return elementInfoDetail;
     }
