@@ -22,6 +22,8 @@ public class AtomManager : MonoBehaviour
     [SerializeField]
     private Button plusAtomButton;
 
+    private UIPopup popup;
+
     //esto està porque lo necesita el "combination manager"
     //seguro cuando busque la combinaciòn posta, va a necesitar otra cosa, no esto.
     public List<int> SelectedAtoms { get => selectedAtoms; set => selectedAtoms = value; }
@@ -33,6 +35,8 @@ public class AtomManager : MonoBehaviour
             atomButtons.Add(btn.GetComponent<Button>());
         }
         activateDeactivateAtomButtons();
+
+        popup = FindObjectOfType<UIPopup>();
     }
 
     //cambia entre modo combinación o normal
@@ -66,6 +70,7 @@ public class AtomManager : MonoBehaviour
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch(NoPositionsLeftException nple)
         {
+            //no va popup -> consultar si no se deberia mostrar error
             Debug.Log(nple.Message);
             return;
         }
@@ -92,6 +97,8 @@ public class AtomManager : MonoBehaviour
         if(selectedAtoms.IndexOf(index) != -1 || lastSelectedAtom == index)
         {
             Debug.Log("Este átomo ya estaba seleccionado. Se quitará la selección");
+            popup.MostrarPopUp("Manager Átomo", "Este átomo ya estaba seleccionado. Se quitará la selección");
+
             DeselectParticlesFromAtom(index);
             lastSelectedAtom = -1;
             if(combineMode){
@@ -141,6 +148,8 @@ public class AtomManager : MonoBehaviour
     public void AddParticleToSelectedAtom(int particle){
         if(lastSelectedAtom==-1){
             Debug.Log("No hay ningún átomo seleccionado");
+            popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");
+   
             return;
         }
         //agarro el átomo indicado de la lista
@@ -152,6 +161,7 @@ public class AtomManager : MonoBehaviour
         }else if(particle ==2){
             atom.SpawnElectron(false);
         }else{
+            //no va popup
             Debug.Log("Se ingreso un índice de partícula equivocado.");
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
             return;
@@ -162,6 +172,8 @@ public class AtomManager : MonoBehaviour
     public void RemoveParticleFromSelectedAtom(int particle){
         if(lastSelectedAtom==-1){
             Debug.Log("No hay ningún átomo seleccionado");
+            popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");
+   
             return;
         }
         //agarro el átomo de la lista
@@ -173,6 +185,7 @@ public class AtomManager : MonoBehaviour
         }else if(particle ==2){
             atom.RemoveElectron();
         }else{
+            //no va popup
             Debug.Log("Se ingreso un índice de partícula equivocado.");
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
             return;
@@ -183,6 +196,8 @@ public class AtomManager : MonoBehaviour
     public void DeleteSelectedAtom(){
         if(lastSelectedAtom==-1){
             Debug.Log("No hay ningún átomo seleccionado");
+            popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");
+    
             return;
         }
         DeleteAtom(lastSelectedAtom);
@@ -201,7 +216,10 @@ public class AtomManager : MonoBehaviour
         Destroy(atom);
         //disponibilizo la posición denuevo
         positionManager.AvailablePositions[index] = true;
+
+        //no va popup
         Debug.Log("Se ha borrado el átomo " + index);
+
         activateDeactivateAtomButtons();
     }
 
@@ -215,6 +233,7 @@ public class AtomManager : MonoBehaviour
             newAtom.SpawnFromPeriodicTable(elementName);
         }else{
             Debug.Log("No hay más lugar para crear un nuevo átomo.");
+            popup.MostrarPopUp("Manager Átomo", "No hay más lugar para crear un nuevo átomo");
         }
         activateDeactivateAtomButtons();
     }

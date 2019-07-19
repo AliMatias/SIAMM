@@ -53,6 +53,7 @@ public class PopulateMoleculeList : MonoBehaviour
             () =>
             {
                 SelectMolecule(molecule, itemList);
+                //no va popup
                 Debug.Log("Clicked: " + molecule.ToString);
             }
         );

@@ -40,15 +40,20 @@ public class Atom: MonoBehaviour
 
     private List<Orbit> orbits = new List<Orbit>();
     Orbit lastOrbit;
+
+    private int elementNumber;
+
+    private UIPopup popup;
     #endregion
 
     public int AtomIndex { get => atomIndex; set => atomIndex = value; }
-    public int ElementNumber { get; set; }
+    public int ElementNumber { get => elementNumber; set => elementNumber = value; }
 
     //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
     private void Awake()
     {
         qryElement = new QryElementos();
+        popup = FindObjectOfType<UIPopup>();
         atomManager = FindObjectOfType<AtomManager>();
     }
 
@@ -294,6 +299,7 @@ public class Atom: MonoBehaviour
     //se lanza cuando se hace click al átomo
     public void OnMouseDown()
     {
+        //no va popup
         Debug.Log("clickeaste el átomo " + AtomIndex);
         atomManager.SelectAtom(AtomIndex);
     }
@@ -346,6 +352,7 @@ public class Atom: MonoBehaviour
         if (IsNullOrEmpty(elementName))
         {
             Debug.Log("Element name null or empty");
+            popup.MostrarPopUp("Spawn Atomo Tabla Periodica","Nombre del Elemento no existe");
             return;
         }
 
@@ -355,6 +362,7 @@ public class Atom: MonoBehaviour
         if (IsNullOrEmpty(element))
         {
             Debug.Log("Element not found.");
+            popup.MostrarPopUp("Spawn Atomo Tabla Periodica", "Elemento no existente");
             return;
         }
         //crea la cantidad de partículas indicadas

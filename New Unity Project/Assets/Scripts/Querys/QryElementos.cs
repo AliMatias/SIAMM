@@ -40,6 +40,7 @@ public class QryElementos : MonoBehaviour
                     + ". Numero Atomico: " + reader.GetInt32(5).ToString()
                     + ".";
 
+                //esta salida queda por consola no hace falta popup
                 Debug.Log(message);
             }
         }

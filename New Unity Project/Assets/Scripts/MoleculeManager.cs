@@ -33,6 +33,7 @@ public class MoleculeManager : MonoBehaviour
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch (NoPositionsLeftException nple)
         {
+            //no va popup -> preguntar si no se deberia mostrar mensaje
             Debug.Log(nple.Message);
             return;
         }
