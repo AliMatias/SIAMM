@@ -6,6 +6,8 @@ public class Molecule : MonoBehaviour
 {
     //lista de átomos
     private List<GameObject> atoms = new List<GameObject>();
+    //lista de conexiones
+    private List<GameObject> connections = new List<GameObject>();
     //lista con data de átomos
     private List<AtomInMolPositionData> atomsData = new List<AtomInMolPositionData>();
     //prefabs y parent
@@ -89,10 +91,48 @@ public class Molecule : MonoBehaviour
         //tamaño
         float distance = Vector3.Distance(positionFrom, positionTo);
         newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f);
+        connections.Add(newConnection);
     }
 
     public void SetMoleculeName(string name)
     {
         moleculeLabel.GetComponent<TextMesh>().text = name;
+    }
+    
+    //se lanza cuando se hace click a la molécula
+    public void OnMouseDown()
+    {
+        Debug.Log("clickeaste la molécula " + MoleculeIndex);
+        //TODO: llamar mètodo de selecciòn para esta molécula en el seleccion manager que se tiene que crear
+    }
+
+    public void Select()
+    {
+        moleculeLabel.GetComponent<TextMesh>().color = new Color(240, 0, 0);
+        StartAllHighlights(atoms);
+        StartAllHighlights(connections);
+    }
+
+    public void Deselect()
+    {
+        moleculeLabel.GetComponent<TextMesh>().color = new Color(255, 255, 255);
+        StopAllHighlights(atoms);
+        StopAllHighlights(connections);
+    }
+
+    private void StartAllHighlights(List<GameObject> list)
+    {
+        foreach(GameObject obj in list)
+        {
+            obj.GetComponent<HighlightObject>().StartHighlight();
+        }
+    }
+
+    private void StopAllHighlights(List<GameObject> list)
+    {
+        foreach (GameObject obj in list)
+        {
+            obj.GetComponent<HighlightObject>().StopHighlight();
+        }
     }
 }
