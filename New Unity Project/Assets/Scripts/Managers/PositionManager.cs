@@ -47,7 +47,10 @@ public class PositionManager
     {
         //si no hay mas disponibles tiro exception
         if (NoPositionsLeft())
+        {
+            Debug.Log("Arrojo excepcion: No hay más posiciones disponibles");
             throw (new NoPositionsLeftException("No hay más posiciones disponibles"));
+        }
         int positions = AvailablePositions.Count;
         while (true)
         {

@@ -106,11 +106,10 @@ public class QryElementos : MonoBehaviour
 
         try
         {
-            //tener en cuenta los null sino tirara error de cast luego en el read del set
-            string sqlQuery = "SELECT simbolo, peso_atomico, CASE WHEN configuracion_electronica_abreviada " +
-            "IS NULL THEN 'n/a' ELSE configuracion_electronica_abreviada END, nombre, clasificacion_grupo " +
-            "FROM elementos_info_basica WHERE numero_atomico="
-            + nro + ";";
+           string sqlQuery = "SELECT simbolo, peso_atomico, configuracion_electronica_abreviada, " +
+           "nombre, clasificacion_grupo " +
+           "FROM elementos_info_basica WHERE numero_atomico="
+           + nro + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
             dbConnection = dBManager.openCon();
@@ -121,7 +120,7 @@ public class QryElementos : MonoBehaviour
                 elementTabPer.Nroatomico = nro;
                 elementTabPer.Simbol = reader.GetString(0);
                 elementTabPer.PesoAtomico = reader.GetFloat(1);
-                elementTabPer.ConfElectronica = reader.GetString(2);
+                elementTabPer.ConfElectronica = dBManager.SafeGetString(reader, 2);
                 elementTabPer.Name = reader.GetString(3);
                 elementTabPer.ClasificacionGrupo = reader.GetString(4);
             }

@@ -23,6 +23,7 @@ public class DBManager : MonoBehaviour
     private void checkDB()
     {
         SqliteConnection dbConnection = null;
+
         try
         {
             dbConnection = openCon();
@@ -39,9 +40,15 @@ public class DBManager : MonoBehaviour
         SqliteDataReader reader = null;
         SqliteCommand dbCommand = null;
 
-        dbCommand = getCMD(Query);
-
-        reader = EjecutaConsultaSql(con, dbCommand);
+        try
+        {
+            dbCommand = getCMD(Query);
+            reader = EjecutaConsultaSql(con, dbCommand);
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
 
         return reader;
     }
@@ -49,17 +56,25 @@ public class DBManager : MonoBehaviour
 
     public void ManageClosing(SqliteConnection con, SqliteDataReader reader)
     {
-        if (reader != null)
+        try
+        {
+            if (reader != null)
             reader.Close();
 
-        if (con != null)
-            con.Close();
+            if (con != null)
+                con.Close();
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
     }
 
     //METODO PRINCIPAL GENERAL DE APERTURA DE CONECCIONES
     public SqliteConnection openCon(String connectionString)
     {
         SqliteConnection con = new SqliteConnection();
+
         try
         {
             con = GetCnxDB(connectionString);
@@ -76,6 +91,7 @@ public class DBManager : MonoBehaviour
     public SqliteConnection openCon()
     {
         SqliteConnection con = new SqliteConnection();
+
         try
         {
             con = GetCnxDB(this.connectionString);
