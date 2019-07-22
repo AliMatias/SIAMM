@@ -43,6 +43,7 @@ public class Atom: MonoBehaviour
 
     private int elementNumber;
 
+    //allcocate la clase popup para mostrar mensajes
     private UIPopup popup;
     #endregion
 
@@ -276,7 +277,7 @@ public class Atom: MonoBehaviour
                     }
                     else
                     {
-                        elementText = "isótopo (" + elementIsotopo.Name + ") de " + elementText;
+                        elementText = "Isótopo (" + elementIsotopo.Name + ") de " + elementText;
                     }
                 }
                 //si mi modelo tiene mas electrones que el de la tabla, es anión (-)
@@ -353,7 +354,8 @@ public class Atom: MonoBehaviour
         {
             Debug.Log("Element name null or empty");
             popup.MostrarPopUp("Spawn Atomo Tabla Periodica","Nombre del Elemento no existe");
-            return;
+            throw (new System.Exception("Elemento no existente en la Base de Datos"));
+            //return;
         }
 
         //obtengo la data del elemento de la DB
@@ -362,8 +364,9 @@ public class Atom: MonoBehaviour
         if (IsNullOrEmpty(element))
         {
             Debug.Log("Element not found.");
-            popup.MostrarPopUp("Spawn Atomo Tabla Periodica", "Elemento no existente");
-            return;
+            popup.MostrarPopUp("Spawn Atomo Tabla Periodica", "Elemento no existente en la Base de Datos");
+            throw (new System.Exception("Elemento no existente en la Base de Datos"));
+            //return;
         }
         //crea la cantidad de partículas indicadas
         ElementNumber = element.Numero;

@@ -5,10 +5,12 @@ using UnityEngine;
 public class QryElementos : MonoBehaviour
 {
     private DBManager dBManager = null;
+    private UIPopup popup = null;
 
     public QryElementos()
     {
         dBManager = FindObjectOfType<DBManager>();
+        popup = FindObjectOfType<UIPopup>();
     }
 
     #region Metodos Exec Querys & Management
@@ -46,6 +48,8 @@ public class QryElementos : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log("Error en Metodo getAllElements");
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Todos los Elementos de la Tabla Periodica");
             throw e;
         }
         finally
@@ -86,6 +90,8 @@ public class QryElementos : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log("Error en Metodo GetElementFromProton");
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Elementos-Protones");
             throw e;
         }
         finally
@@ -127,15 +133,13 @@ public class QryElementos : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log("Error en Metodo GetElementFromNro");
+            popup.MostrarPopUp("Elementos Qry DB", "Error obteniendo Elemento desde Identificador");
             throw e;
         }
         finally
         {
-            if (reader != null)
-                reader.Close();
-
-            if (dbConnection != null)
-                dbConnection.Close();
+            dBManager.ManageClosing(dbConnection, reader);
         }
 
         return elementTabPer;
@@ -171,6 +175,8 @@ public class QryElementos : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log("Error en Metodo GetElementFromName");
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Elemento desde Nombre Simbolo");
             throw e;
         }
         finally
@@ -181,7 +187,7 @@ public class QryElementos : MonoBehaviour
         return elementData;
     }
 
-    //trae un elemento a partir de los protones
+    //trae un elemento isotopo a partir del nro atomico del elemento
     public ElementData GetIsotopo(int neutrones, int numeroAtomico)
     {
         ElementData elementData = new ElementData();
@@ -206,6 +212,8 @@ public class QryElementos : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log("Error en Metodo GetIsotopo");
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Isotopo");
             throw e;
         }
         finally
@@ -244,6 +252,8 @@ public class QryElementos : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log("Error en Metodo GetOrbitDataByNumber");
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Orbitas");
             throw e;
         }
         finally
@@ -265,17 +275,16 @@ public class QryElementos : MonoBehaviour
         
         try
         {
-            //tener en cuenta los null sino tirara error de cast luego en el read del set  -->>> ACORDARSE DE CAMBIAR!!!
             string sqlQuery = "SELECT numero_atomico, simbolo, nombre, peso_atomico, periodo,";
             sqlQuery = sqlQuery + "clasificacion, clasificacion_grupo,";
-            sqlQuery = sqlQuery + "CASE WHEN estado_natural IS NULL THEN 'n/a' ELSE estado_natural END,";
-            sqlQuery = sqlQuery + "CASE WHEN estructura_cristalina IS NULL THEN 'n/a' ELSE estructura_cristalina END,";
-            sqlQuery = sqlQuery + "CASE WHEN color IS NULL THEN 'n/a' ELSE color END,";
-            sqlQuery = sqlQuery + "CASE WHEN valencia IS NULL THEN 'n/a' ELSE valencia END,";
-            sqlQuery = sqlQuery + "CASE WHEN numeros_oxidacion IS NULL THEN 'n/a' ELSE numeros_oxidacion END,";
-            sqlQuery = sqlQuery + "CASE WHEN configuracion_electronica IS NULL THEN 'n/a' ELSE configuracion_electronica END,";
-            sqlQuery = sqlQuery + "CASE WHEN punto_fusion IS NULL THEN 'n/a' ELSE punto_fusion END,";
-            sqlQuery = sqlQuery + "CASE WHEN punto_ebullicion IS NULL THEN 'n/a' ELSE punto_ebullicion END,";
+            sqlQuery = sqlQuery + "estado_natural,";
+            sqlQuery = sqlQuery + "estructura_cristalina,";
+            sqlQuery = sqlQuery + "color,";
+            sqlQuery = sqlQuery + "valencia,";
+            sqlQuery = sqlQuery + "numeros_oxidacion,";
+            sqlQuery = sqlQuery + "configuracion_electronica,";
+            sqlQuery = sqlQuery + "punto_fusion,";
+            sqlQuery = sqlQuery + "punto_ebullicion,";
             sqlQuery = sqlQuery + "resumen ";
             sqlQuery = sqlQuery + "FROM elementos_info_basica ";
             sqlQuery = sqlQuery + "WHERE numero_atomico='"
@@ -294,19 +303,21 @@ public class QryElementos : MonoBehaviour
                 elementInfoBasic.Periodo = reader.GetInt32(4);
                 elementInfoBasic.Clasificacion = reader.GetString(5);
                 elementInfoBasic.Clasificacion_grupo = reader.GetString(6);
-                elementInfoBasic.Estado_natural = reader.GetString(7);
-                elementInfoBasic.EstructuraCristalina = reader.GetString(8);
-                elementInfoBasic.Color = reader.GetString(9);
-                elementInfoBasic.Valencia = reader.GetString(10);
-                elementInfoBasic.NumerosOxidacion = reader.GetString(11);
-                elementInfoBasic.ConfElectronica = reader.GetString(12);
-                elementInfoBasic.PuntoFusion = reader.GetString(13);
-                elementInfoBasic.PuntoEbullicion = reader.GetString(14);
+                elementInfoBasic.Estado_natural = dBManager.SafeGetString(reader, 7);
+                elementInfoBasic.EstructuraCristalina = dBManager.SafeGetString(reader, 8);
+                elementInfoBasic.Color = dBManager.SafeGetString(reader, 9);
+                elementInfoBasic.Valencia = dBManager.SafeGetString(reader, 10);
+                elementInfoBasic.NumerosOxidacion = dBManager.SafeGetString(reader, 11);
+                elementInfoBasic.ConfElectronica = dBManager.SafeGetString(reader, 12);
+                elementInfoBasic.PuntoFusion = dBManager.SafeGetString(reader, 13);
+                elementInfoBasic.PuntoEbullicion = dBManager.SafeGetString(reader, 14);
                 elementInfoBasic.Resumen = reader.GetString(15);
             }
         }
         catch (Exception e)
         {
+            Debug.Log("Error en Metodo GetElementInfoBasica");
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Informacion Basica de Elementos Quimicos");
             throw e;
         }
         finally
@@ -362,6 +373,8 @@ public class QryElementos : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.Log("Error en Metodo GetElementInfoDetail");
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Informacion Detallada de Elementos Quimicos");
             throw e;
         }
         finally

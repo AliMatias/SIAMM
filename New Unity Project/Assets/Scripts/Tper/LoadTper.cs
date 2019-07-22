@@ -55,7 +55,7 @@ public class LoadTper : MonoBehaviour
         {
 
             if (textosObj[j].name == "txtDistElect")
-                textosObj[j].text = element.ConfElectronica;
+                textosObj[j].text = managerNullables(element.ConfElectronica);
             if (textosObj[j].name == "txtPeso")
                 textosObj[j].text = Convert.ToString(element.PesoAtomico);
             if (textosObj[j].name == "txtNombre")
@@ -134,5 +134,11 @@ public class LoadTper : MonoBehaviour
         return elementInfoDetail;
     }
 
+    private string managerNullables(String valor)
+    {
+        if (valor == null || valor == "" || valor == string.Empty)
+            return "n/a";
+        return valor;
+    }
     #endregion
 }

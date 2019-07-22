@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class AtomManager : MonoBehaviour
 {
@@ -148,8 +149,7 @@ public class AtomManager : MonoBehaviour
     public void AddParticleToSelectedAtom(int particle){
         if(lastSelectedAtom==-1){
             Debug.Log("No hay ningún átomo seleccionado");
-            popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");
-   
+            popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");   
             return;
         }
         //agarro el átomo indicado de la lista
@@ -224,14 +224,27 @@ public class AtomManager : MonoBehaviour
     }
 
     //spawnear átomo seleccionado en la tabla periódica
-    public void SpawnFromPeriodicTable(string elementName){
+    public void SpawnFromPeriodicTable(string elementName)
+    {
         int oldAtomsCount = atomsList.Count;
         NewAtom(false);
         int newAtomsCount = atomsList.Count;
-        if(oldAtomsCount < newAtomsCount){
+
+        if (oldAtomsCount < newAtomsCount)
+        {
             Atom newAtom = atomsList[newAtomsCount-1];
-            newAtom.SpawnFromPeriodicTable(elementName);
-        }else{
+            try
+            {
+                newAtom.SpawnFromPeriodicTable(elementName);
+            } 
+            catch(Exception)
+            {
+                //hubo un error y no tiene que GUARDAR la posicion la tiene que liberar como ELIMINAR ATOMO
+                Debug.Log("Se libera Posicion tomada, porque dio error al intentar spawn");
+            }
+        }
+        else
+        {
             Debug.Log("No hay más lugar para crear un nuevo átomo.");
             popup.MostrarPopUp("Manager Átomo", "No hay más lugar para crear un nuevo átomo");
         }
@@ -239,7 +252,8 @@ public class AtomManager : MonoBehaviour
     }
 
     //activa-desactiva botones de acuerdo a la cant de átomos
-    private void activateDeactivateAtomButtons(){
+    private void activateDeactivateAtomButtons()
+    {
         bool status = true;
         if(atomsList.Count == 0){
             status = false;
