@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using System;
 
 //script que se encarga de spawnear las partículas, manejarlas y saber que estoy formando.
 public class Atom: MonoBehaviour
@@ -53,7 +54,10 @@ public class Atom: MonoBehaviour
     //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
     private void Awake()
     {
-        qryElement = new QryElementos();
+        GameObject go = new GameObject();
+        go.AddComponent<QryElementos>();
+        qryElement = go.GetComponent<QryElementos>();
+
         popup = FindObjectOfType<UIPopup>();
         atomManager = FindObjectOfType<AtomManager>();
     }
@@ -72,7 +76,7 @@ public class Atom: MonoBehaviour
         GameObject spawn = Instantiate<GameObject>(prefab, parent);
         
         //posicion random para que no queden todos en fila, aún no quedan bien
-        float randomNumber = Random.Range(0f, 0.4f);
+        float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
         Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
         spawn.transform.localPosition = randomPosition;
         
@@ -157,7 +161,17 @@ public class Atom: MonoBehaviour
     /// <returns>Nueva orbita | null</returns>
     public Orbit SpawnOrbit(int number, Vector3 position)
     {
-        OrbitData orbitData = qryElement.GetOrbitDataByNumber(number);
+        OrbitData orbitData = new OrbitData();
+
+        try
+        {
+            orbitData = qryElement.GetOrbitDataByNumber(number);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Atom Class :: Ocurrio un error al buscar Orbitas: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Orbitas");
+        }
 
         if (orbitData == null)
         {
@@ -242,7 +256,17 @@ public class Atom: MonoBehaviour
         else
         {
             //obtiene datos del elemento según cantidad de protones
-            element = qryElement.GetElementFromProton(protons);
+            try
+            {
+                element = qryElement.GetElementFromProton(protons);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Atom Class :: Ocurrio un error al buscar Elementos-Protones: " + e.Message);
+                popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Elementos-Protones");
+                return;
+            }
+
             //si es null o no lo encontró
             if (IsNullOrEmpty(element))
             {
@@ -265,7 +289,18 @@ public class Atom: MonoBehaviour
                 if (element.Neutrons != neutrons)
                 {
                     //valido que isotopo es sino existe se informa NO ENCONTRADO
-                    elementIsotopo = qryElement.GetIsotopo(neutrons, element.Numero);
+                    try
+                    {
+                        elementIsotopo = qryElement.GetIsotopo(neutrons, element.Numero);
+                    }
+                    catch (Exception e)
+                    {
+                        Debug.LogError("Atom class :: Ocurrio un error al buscar Isotopo: " + e.Message);
+                        popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Isotopo");
+                        return;
+                    }
+
+
 
                     if (IsNullOrEmpty(elementIsotopo))
                     {
@@ -354,18 +389,28 @@ public class Atom: MonoBehaviour
         {
             Debug.Log("Element name null or empty");
             popup.MostrarPopUp("Spawn Atomo Tabla Periodica","Nombre del Elemento no existe");
-            throw (new System.Exception("Elemento no existente en la Base de Datos"));
-            //return;
+            throw (new SpawnException("Elemento no existente en la Base de Datos"));
         }
 
         //obtengo la data del elemento de la DB
-        ElementData element = qryElement.GetElementFromName(elementName);
+        ElementData element = new ElementData();
+        try
+        {
+            element = qryElement.GetElementFromName(elementName);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Atom Class :: Ocurrio un error al buscar Elemento desde Nombre Simbolo: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Elemento desde Nombre Simbolo");
+            return;
+        }
+
         //nullcheck por si no encontró en la DB
         if (IsNullOrEmpty(element))
         {
             Debug.Log("Element not found.");
             popup.MostrarPopUp("Spawn Atomo Tabla Periodica", "Elemento no existente en la Base de Datos");
-            throw (new System.Exception("Elemento no existente en la Base de Datos"));
+            throw (new SpawnException("Elemento no existente en la Base de Datos"));
             //return;
         }
         //crea la cantidad de partículas indicadas
@@ -407,7 +452,6 @@ public class Atom: MonoBehaviour
         }
     }
     #endregion
-
 
     #region nullchecks
     //nullcheck de string, averiguar si existe alguna librería que ya haga esto.

@@ -16,13 +16,18 @@ public class LoadTper : MonoBehaviour
     //estos parametros son estaticos en mi modelo! son estaticos
     private int row = 12;
     private int col = 23;
+    private UIPopup popup;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         //instancio la clase de metodos sobre la base de datos
-        qryElement = new QryElementos();
+        GameObject go = new GameObject();
+        go.AddComponent<QryElementos>();
+        qryElement = go.GetComponent<QryElementos>();
+
+        popup = FindObjectOfType<UIPopup>();
         ResizeCells();
 
         //Recorro todas las celdas que tienen un game object
@@ -45,7 +50,16 @@ public class LoadTper : MonoBehaviour
         ElementTabPer element = new ElementTabPer();
       
         //obtiene datos del elemento según cantidad de protones
-        element = qryElement.GetElementFromNro(getNroAtomicoId(elem));
+        try
+        {
+            element = qryElement.GetElementFromNro(getNroAtomicoId(elem));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("LoadTPer :: Ocurrio un error al buscar Elemento desde Identificador: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error obteniendo Elemento desde Identificador");
+            return;
+        }
 
         //obtengo la lista de objetos o coleccion de objetos de tipo TEXT que estan en los botones
         Text[] textosObj = elem.GetComponentsInChildren<Text>();
@@ -118,8 +132,15 @@ public class LoadTper : MonoBehaviour
     public ElementInfoBasic LoadInfoBasica(int nroAtomico)
     {
         ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
-
-        elementInfoBasic = qryElement.GetElementInfoBasica(nroAtomico);
+        try
+        {
+            elementInfoBasic = qryElement.GetElementInfoBasica(nroAtomico);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("LoadTper :: Ocurrio un error al buscar Informacion Basica: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Informacion Basica de Elementos Quimicos");
+        }
 
         return elementInfoBasic;
     }
@@ -127,9 +148,16 @@ public class LoadTper : MonoBehaviour
     //trae de la DB la info detallada que complementa a la basica
     public ElementInfoDetail LoadInfoDeatail(int nroAtomico)
     {
-        ElementInfoDetail elementInfoDetail = new ElementInfoDetail();
-
-        elementInfoDetail = qryElement.GetElementInfoDetail(nroAtomico);
+        ElementInfoDetail elementInfoDetail = new ElementInfoDetail();    
+        try
+        {
+            elementInfoDetail = qryElement.GetElementInfoDetail(nroAtomico);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("LoadTper :: Ocurrio un error al buscar Informacion Detalla: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Informacion Detallada de Elementos Quimicos");
+        }
 
         return elementInfoDetail;
     }

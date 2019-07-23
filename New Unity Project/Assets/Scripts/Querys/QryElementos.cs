@@ -5,12 +5,10 @@ using UnityEngine;
 public class QryElementos : MonoBehaviour
 {
     private DBManager dBManager = null;
-    private UIPopup popup = null;
 
-    public QryElementos()
+    private void Awake()
     {
         dBManager = FindObjectOfType<DBManager>();
-        popup = FindObjectOfType<UIPopup>();
     }
 
     #region Metodos Exec Querys & Management
@@ -48,16 +46,12 @@ public class QryElementos : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Error en Metodo getAllElements");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Todos los Elementos de la Tabla Periodica");
             throw e;
         }
         finally
         {
             dBManager.ManageClosing(dbConnection, reader);
-        }     
-            
-        
+        }           
     }
 
     //trae un elemento a partir de los protones
@@ -89,9 +83,7 @@ public class QryElementos : MonoBehaviour
 
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetElementFromProton");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Elementos-Protones");
+        {    
             throw e;
         }
         finally
@@ -133,8 +125,6 @@ public class QryElementos : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Error en Metodo GetElementFromNro");
-            popup.MostrarPopUp("Elementos Qry DB", "Error obteniendo Elemento desde Identificador");
             throw e;
         }
         finally
@@ -174,9 +164,7 @@ public class QryElementos : MonoBehaviour
 
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetElementFromName");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Elemento desde Nombre Simbolo");
+        {        
             throw e;
         }
         finally
@@ -211,9 +199,7 @@ public class QryElementos : MonoBehaviour
                 
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetIsotopo");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Isotopo");
+        { 
             throw e;
         }
         finally
@@ -251,9 +237,7 @@ public class QryElementos : MonoBehaviour
                  
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetOrbitDataByNumber");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Orbitas");
+        {       
             throw e;
         }
         finally
@@ -315,9 +299,7 @@ public class QryElementos : MonoBehaviour
             }
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetElementInfoBasica");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Informacion Basica de Elementos Quimicos");
+        {         
             throw e;
         }
         finally
@@ -372,9 +354,7 @@ public class QryElementos : MonoBehaviour
             }
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetElementInfoDetail");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Informacion Detallada de Elementos Quimicos");
+        {         
             throw e;
         }
         finally

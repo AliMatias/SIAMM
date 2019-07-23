@@ -20,16 +20,34 @@ public class PopulateMoleculeList : MonoBehaviour
     private List<MoleculeData> moleculeList = new List<MoleculeData>();
     public MoleculeData SelectedMolecule { get; set; } = null;
 
+    private UIPopup popup = null;
+
     void Start()
     {
         // arranca oculto y desactivado
         gameObject.GetComponent<CanvasGroup>().alpha = 0;
         gameObject.SetActive(false);
 
+        popup = FindObjectOfType<UIPopup>();
         inputFilter = gameObject.GetComponentInChildren<InputField>();
-        qryMolecule = new QryMoleculas();
+
+        GameObject go = new GameObject();
+        go.AddComponent<QryMoleculas>();
+        qryMolecule = go.GetComponent<QryMoleculas>();
+
         moleculeManager = FindObjectOfType<MoleculeManager>();
-        moleculeList = qryMolecule.GetAllMolecules();
+        
+        try
+        {
+            moleculeList = qryMolecule.GetAllMolecules();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("PopulateMoleculeList :: Ocurrio un error al buscar Todas las Moleculas de la Base: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Todas las Moleculas de la Base");
+            return;
+        }
+
         // cargo todas las moleculas a la lista
         foreach (MoleculeData molecule in moleculeList)
         {

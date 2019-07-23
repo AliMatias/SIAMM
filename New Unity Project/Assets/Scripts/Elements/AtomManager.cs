@@ -97,9 +97,7 @@ public class AtomManager : MonoBehaviour
         //ya sea si esta en la lista o si fue el último seleccionado
         if(selectedAtoms.IndexOf(index) != -1 || lastSelectedAtom == index)
         {
-            Debug.Log("Este átomo ya estaba seleccionado. Se quitará la selección");
-            popup.MostrarPopUp("Manager Átomo", "Este átomo ya estaba seleccionado. Se quitará la selección");
-
+            //Este átomo ya estaba seleccionado. Se quitará la selección        
             DeselectParticlesFromAtom(index);
             lastSelectedAtom = -1;
             if(combineMode){
@@ -237,9 +235,9 @@ public class AtomManager : MonoBehaviour
             {
                 newAtom.SpawnFromPeriodicTable(elementName);
             } 
-            catch(Exception)
+            catch(SpawnException)
             {
-                //hubo un error y no tiene que GUARDAR la posicion la tiene que liberar como ELIMINAR ATOMO
+                //hubo un error y no tiene que GUARDAR la posicion la tiene que liberar como ELIMINAR ATOMO (a completar)
                 Debug.Log("Se libera Posicion tomada, porque dio error al intentar spawn");
             }
         }

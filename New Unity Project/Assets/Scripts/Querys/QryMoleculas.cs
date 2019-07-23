@@ -6,12 +6,10 @@ using UnityEngine;
 public class QryMoleculas : MonoBehaviour
 {
     private DBManager dBManager = null;
-    private UIPopup popup = null;
 
-    public QryMoleculas()
+    private void Awake()
     {
         dBManager = FindObjectOfType<DBManager>();
-        popup = FindObjectOfType<UIPopup>();
     }
 
     #region Metodos Exec Querys & Management
@@ -41,8 +39,6 @@ public class QryMoleculas : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.Log("Error en Metodo GetMoleculesByAtomNumberAndQuantity");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Moleculas, cantidad de elementos");
             throw e;
         }
         finally
@@ -83,9 +79,7 @@ public class QryMoleculas : MonoBehaviour
 
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetMoleculeById");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Identificador de Molecula");
+        {            
             throw e;
         }
         finally
@@ -121,9 +115,7 @@ public class QryMoleculas : MonoBehaviour
                
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetUniqueElementCountInMoleculeById");
-            popup.MostrarPopUp("Elementos Qry DB", "Error obteniendo Elementos Componentes de una Molecula");
+        {   
             throw e;
         }
         finally
@@ -168,9 +160,7 @@ public class QryMoleculas : MonoBehaviour
                 
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetElementPositions");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo posiciones de los Elementos Quimicos");
+        {            
             throw e;
         }
         finally
@@ -211,9 +201,7 @@ public class QryMoleculas : MonoBehaviour
 
         }
         catch (Exception e)
-        {
-            Debug.Log("Error en Metodo GetAllMolecules");
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Todas las Moleculas de la Base");
+        {   
             throw e;
         }
         finally

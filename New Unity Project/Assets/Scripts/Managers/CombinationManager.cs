@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 //Esta clase se va a encargar de desactivar y activar los diferentes elementos de la UI cuando corresponda
 public class CombinationManager : MonoBehaviour
@@ -20,7 +21,11 @@ public class CombinationManager : MonoBehaviour
     {
         atomManager = FindObjectOfType<AtomManager>();
         popup = FindObjectOfType<UIPopup>();
-        qryMolecule = new QryMoleculas();
+
+        GameObject go = new GameObject();
+        go.AddComponent<QryMoleculas>();
+        qryMolecule = go.GetComponent<QryMoleculas>();
+
         moleculeManager = FindObjectOfType<MoleculeManager>();
         //encuentro y asigno a mi lista los botones a apagar
         GameObject[] btns = GameObject.FindGameObjectsWithTag("toToggle");
@@ -79,8 +84,18 @@ public class CombinationManager : MonoBehaviour
 
             foreach ((int elementId, int count) in combinedElements)
             {
-                List<int> molecules = qryMolecule.GetMoleculesByAtomNumberAndQuantity(elementId, count);
-                possibleCombinations.Add(molecules);
+                List<int> molecules = new List<int>();
+                try
+                {
+                    molecules = qryMolecule.GetMoleculesByAtomNumberAndQuantity(elementId, count);
+                    possibleCombinations.Add(molecules);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("CombinationManager :: Ocurrio un error al buscar moleculas por elemento y cantidad: " + e.Message);
+                    popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo moleculas por elemento y cantidad");
+                    return;
+                }
             }
 
             if (possibleCombinations != null && possibleCombinations.Count > 0)
@@ -91,12 +106,46 @@ public class CombinationManager : MonoBehaviour
                     bool found = false;
                     foreach(int moleculaId in intersection)
                     {
-                        int elementCount = qryMolecule.GetUniqueElementCountInMoleculeById(moleculaId);
+                        int elementCount;
+                        try
+                        {
+                            elementCount = qryMolecule.GetUniqueElementCountInMoleculeById(moleculaId);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogError("CombinationManager :: Ocurrio un error al buscar Elementos Componentes de una Molecula: " + e.Message);
+                            popup.MostrarPopUp("Elementos Qry DB", "Error obteniendo Elementos Componentes de una Molecula");
+                            return;
+                        }
+
+
                         if (elementCount == combinedElements.ToList().Count)
                         {
-                            MoleculeData moleculeData = qryMolecule.GetMoleculeById(moleculaId);
-                            List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(moleculaId);
-                    
+                            MoleculeData moleculeData = null;
+                            try
+                            {
+                                moleculeData = qryMolecule.GetMoleculeById(moleculaId);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError("CombinationManager :: Ocurrio un error al buscar Identificador de Molecula: " + e.Message);
+                                popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Identificador de Molecula");
+                                return;
+                            }
+
+                            List<AtomInMolPositionData> atomsPosition;
+                            try
+                            {
+                                atomsPosition = qryMolecule.GetElementPositions(moleculaId);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError("CombinationManager :: Ocurrio un error al buscar posiciones de los Elementos Quimico: " + e.Message);
+                                popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo posiciones de los Elementos Quimicos");
+                                return;
+                            }
+
+                            //exito! muestro por pantalla 
                             popup.MostrarPopUp("Manager Combinación", "Molécula Formada: " + moleculeData.ToString);
 
                             found = true;
