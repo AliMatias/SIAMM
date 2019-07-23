@@ -13,12 +13,14 @@ public class PopulateMoleculeList : MonoBehaviour
     public GameObject content;
 
     private MoleculeManager moleculeManager;
-    private DBManager DBManager;
+    private QryMoleculas qryMolecule;
 
     private InputField inputFilter;
 
     private List<MoleculeData> moleculeList = new List<MoleculeData>();
     public MoleculeData SelectedMolecule { get; set; } = null;
+
+    private UIPopup popup = null;
 
     void Start()
     {
@@ -26,10 +28,26 @@ public class PopulateMoleculeList : MonoBehaviour
         gameObject.GetComponent<CanvasGroup>().alpha = 0;
         gameObject.SetActive(false);
 
+        popup = FindObjectOfType<UIPopup>();
         inputFilter = gameObject.GetComponentInChildren<InputField>();
-        DBManager = FindObjectOfType<DBManager>();
+
+        GameObject go = new GameObject();
+        go.AddComponent<QryMoleculas>();
+        qryMolecule = go.GetComponent<QryMoleculas>();
+
         moleculeManager = FindObjectOfType<MoleculeManager>();
-        moleculeList = DBManager.GetAllMolecules();
+        
+        try
+        {
+            moleculeList = qryMolecule.GetAllMolecules();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("PopulateMoleculeList :: Ocurrio un error al buscar Todas las Moleculas de la Base: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Todas las Moleculas de la Base");
+            return;
+        }
+
         // cargo todas las moleculas a la lista
         foreach (MoleculeData molecule in moleculeList)
         {
@@ -53,6 +71,7 @@ public class PopulateMoleculeList : MonoBehaviour
             () =>
             {
                 SelectMolecule(molecule, itemList);
+                //no va popup
                 Debug.Log("Clicked: " + molecule.ToString);
             }
         );
@@ -90,7 +109,7 @@ public class PopulateMoleculeList : MonoBehaviour
     {
         if (SelectedMolecule != null)
         {
-            List<AtomInMolPositionData> atomsPosition = DBManager.GetElementPositions(SelectedMolecule.Id);
+            List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(SelectedMolecule.Id);
             moleculeManager.SpawnMolecule(atomsPosition, SelectedMolecule.ToString);
         }
     }

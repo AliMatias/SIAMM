@@ -2,6 +2,7 @@
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 //Esta clase se va a encargar de desactivar y activar los diferentes elementos de la UI cuando corresponda
 public class CombinationManager : MonoBehaviour
@@ -10,17 +11,21 @@ public class CombinationManager : MonoBehaviour
     private List<Button> buttonsToToggle = new List<Button>();
     private bool combineMode = false;
     private AtomManager atomManager;
-    private DBManager DBManager;
+    private QryMoleculas qryMolecule;
     private MoleculeManager moleculeManager;
     public Button combineButton;
     public Button combineModeButton;
-    private bool showPopUp = false;
-    private string popUpMessage = "";
+    private UIPopup popup;
 
     void Awake()
     {
         atomManager = FindObjectOfType<AtomManager>();
-        DBManager = FindObjectOfType<DBManager>();
+        popup = FindObjectOfType<UIPopup>();
+
+        GameObject go = new GameObject();
+        go.AddComponent<QryMoleculas>();
+        qryMolecule = go.GetComponent<QryMoleculas>();
+
         moleculeManager = FindObjectOfType<MoleculeManager>();
         //encuentro y asigno a mi lista los botones a apagar
         GameObject[] btns = GameObject.FindGameObjectsWithTag("toToggle");
@@ -79,8 +84,18 @@ public class CombinationManager : MonoBehaviour
 
             foreach ((int elementId, int count) in combinedElements)
             {
-                List<int> molecules = DBManager.GetMoleculesByAtomNumberAndQuantity(elementId, count);
-                possibleCombinations.Add(molecules);
+                List<int> molecules = new List<int>();
+                try
+                {
+                    molecules = qryMolecule.GetMoleculesByAtomNumberAndQuantity(elementId, count);
+                    possibleCombinations.Add(molecules);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("CombinationManager :: Ocurrio un error al buscar moleculas por elemento y cantidad: " + e.Message);
+                    popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo moleculas por elemento y cantidad");
+                    return;
+                }
             }
 
             if (possibleCombinations != null && possibleCombinations.Count > 0)
@@ -91,13 +106,48 @@ public class CombinationManager : MonoBehaviour
                     bool found = false;
                     foreach(int moleculaId in intersection)
                     {
-                        int elementCount = DBManager.GetUniqueElementCountInMoleculeById(moleculaId);
+                        int elementCount;
+                        try
+                        {
+                            elementCount = qryMolecule.GetUniqueElementCountInMoleculeById(moleculaId);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.LogError("CombinationManager :: Ocurrio un error al buscar Elementos Componentes de una Molecula: " + e.Message);
+                            popup.MostrarPopUp("Elementos Qry DB", "Error obteniendo Elementos Componentes de una Molecula");
+                            return;
+                        }
+
+
                         if (elementCount == combinedElements.ToList().Count)
                         {
-                            MoleculeData moleculeData = DBManager.GetMoleculeById(moleculaId);
-                            List<AtomInMolPositionData> atomsPosition = DBManager.GetElementPositions(moleculaId);
-                            showPopUp = true;
-                            popUpMessage = "Molécula Formada: " + moleculeData.ToString;
+                            MoleculeData moleculeData = null;
+                            try
+                            {
+                                moleculeData = qryMolecule.GetMoleculeById(moleculaId);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError("CombinationManager :: Ocurrio un error al buscar Identificador de Molecula: " + e.Message);
+                                popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Identificador de Molecula");
+                                return;
+                            }
+
+                            List<AtomInMolPositionData> atomsPosition;
+                            try
+                            {
+                                atomsPosition = qryMolecule.GetElementPositions(moleculaId);
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.LogError("CombinationManager :: Ocurrio un error al buscar posiciones de los Elementos Quimico: " + e.Message);
+                                popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo posiciones de los Elementos Quimicos");
+                                return;
+                            }
+
+                            //exito! muestro por pantalla 
+                            popup.MostrarPopUp("Manager Combinación", "Molécula Formada: " + moleculeData.ToString);
+
                             found = true;
                             DeleteCombinedAtoms(selectedAtoms);
                             SpawnMolecule(atomsPosition, moleculeData.ToString);
@@ -106,59 +156,29 @@ public class CombinationManager : MonoBehaviour
                     }
                     if(!found)
                     {
-                        showPopUp = true;
-                        popUpMessage = ("No se encontró ninguna combinación posible");
+                        popup.MostrarPopUp("Manager Combinación", "No se encontró ninguna combinación posible");
                     }
                 } 
                 else
                 {
-                    showPopUp = true;
-                    popUpMessage = "No se encontró ninguna combinación posible";
+                    popup.MostrarPopUp("Manager Combinación", "No se encontró ninguna combinación posible");
                 }
             }
             else
             {
-                showPopUp = true;
-                popUpMessage = "No se encontraron moléculas que contengan esos átomos";
+                popup.MostrarPopUp("Manager Combinación", "No se encontraron moléculas que contengan esos átomos");
             }
         }
         else
         {
-            showPopUp = true;
-            popUpMessage = "No hay átomos válidos seleccionados";
+            popup.MostrarPopUp("Manager Combinación", "No hay átomos válidos seleccionados");
         }
     }
+
 
     static List<int> Intersect(List<List<int>> lists)
     {
         return lists.Aggregate((previousList, nextList) => previousList.Intersect(nextList).ToList());
-    }
-
-    // Codigo para el pop up con el resultado de la combinacion,
-    // despues se tendra que eliminar y cambiar por el modelo de la molecula.
-    // Aunque se podria separar en una clase y reutilizar para mostrar mensajes en la aplicacion en general
-    void OnGUI()
-    {
-        if (showPopUp)
-        {
-            // Arma el pop up
-            GUI.Window(0, new Rect((Screen.width / 2) - 150, (Screen.height / 2) - 75
-                   , 300, 150), ShowGUI, "SIAMM - Combinar átomos");
-
-        }
-    }
-
-    void ShowGUI(int windowID)
-    {
-        // Label que muestra mensaje
-        GUI.Label(new Rect(65, 40, 200, 50), popUpMessage);
-
-        // Boton OK para cerrar
-        if (GUI.Button(new Rect(50, 100, 75, 30), "OK"))
-        {
-            showPopUp = false;
-        }
-
     }
 
     //Borrar del espacio de trabajo, los átomos seleccionados.

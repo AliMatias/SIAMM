@@ -10,21 +10,24 @@ public class LoadTper : MonoBehaviour
 
     #region atributos
     private Button button;
-    private DBManager DBManager;
+    private QryElementos qryElement;
     private GridLayoutGroup glg;
     private RectTransform parent;
     //estos parametros son estaticos en mi modelo! son estaticos
     private int row = 12;
     private int col = 23;
-
+    private UIPopup popup;
     #endregion
 
     // Start is called before the first frame update
     void Start()
     {
         //instancio la clase de metodos sobre la base de datos
-        DBManager = FindObjectOfType<DBManager>();
+        GameObject go = new GameObject();
+        go.AddComponent<QryElementos>();
+        qryElement = go.GetComponent<QryElementos>();
 
+        popup = FindObjectOfType<UIPopup>();
         ResizeCells();
 
         //Recorro todas las celdas que tienen un game object
@@ -35,7 +38,6 @@ public class LoadTper : MonoBehaviour
             //si no es NULL quiere decir que MAPEO un boton ahi tengo que ir a la base de datos
             if (button != null)
             {
-                ResizeFont(button);
                 LoadData(button);
             }
         }
@@ -46,9 +48,18 @@ public class LoadTper : MonoBehaviour
     private void LoadData (Button elem)
     {
         ElementTabPer element = new ElementTabPer();
-       
+      
         //obtiene datos del elemento según cantidad de protones
-        element = DBManager.GetElementFromNro(getNroAtomicoId(elem));
+        try
+        {
+            element = qryElement.GetElementFromNro(getNroAtomicoId(elem));
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("LoadTPer :: Ocurrio un error al buscar Elemento desde Identificador: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error obteniendo Elemento desde Identificador");
+            return;
+        }
 
         //obtengo la lista de objetos o coleccion de objetos de tipo TEXT que estan en los botones
         Text[] textosObj = elem.GetComponentsInChildren<Text>();
@@ -58,7 +69,7 @@ public class LoadTper : MonoBehaviour
         {
 
             if (textosObj[j].name == "txtDistElect")
-                textosObj[j].text = element.ConfElectronica;
+                textosObj[j].text = managerNullables(element.ConfElectronica);
             if (textosObj[j].name == "txtPeso")
                 textosObj[j].text = Convert.ToString(element.PesoAtomico);
             if (textosObj[j].name == "txtNombre")
@@ -121,8 +132,15 @@ public class LoadTper : MonoBehaviour
     public ElementInfoBasic LoadInfoBasica(int nroAtomico)
     {
         ElementInfoBasic elementInfoBasic = new ElementInfoBasic();
-
-        elementInfoBasic = DBManager.GetElementInfoBasica(nroAtomico);
+        try
+        {
+            elementInfoBasic = qryElement.GetElementInfoBasica(nroAtomico);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("LoadTper :: Ocurrio un error al buscar Informacion Basica: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Informacion Basica de Elementos Quimicos");
+        }
 
         return elementInfoBasic;
     }
@@ -130,12 +148,25 @@ public class LoadTper : MonoBehaviour
     //trae de la DB la info detallada que complementa a la basica
     public ElementInfoDetail LoadInfoDeatail(int nroAtomico)
     {
-        ElementInfoDetail elementInfoDetail = new ElementInfoDetail();
-
-        elementInfoDetail = DBManager.GetElementInfoDetail(nroAtomico);
+        ElementInfoDetail elementInfoDetail = new ElementInfoDetail();    
+        try
+        {
+            elementInfoDetail = qryElement.GetElementInfoDetail(nroAtomico);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("LoadTper :: Ocurrio un error al buscar Informacion Detalla: " + e.Message);
+            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Informacion Detallada de Elementos Quimicos");
+        }
 
         return elementInfoDetail;
     }
 
+    private string managerNullables(String valor)
+    {
+        if (valor == null || valor == "" || valor == string.Empty)
+            return "n/a";
+        return valor;
+    }
     #endregion
 }

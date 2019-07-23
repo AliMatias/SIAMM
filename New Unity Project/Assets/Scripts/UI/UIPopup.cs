@@ -13,8 +13,10 @@ public class UIPopup : MonoBehaviour
     public string PopUpMessage { get => popUpMessage; set => popUpMessage = value; }
     public string PopUpTitle { get => popUpTitle; set => popUpTitle = value; }
 
-    public void MostrarPopUp()
+    public void MostrarPopUp(string title, string message)
     {
+        PopUpTitle = title;
+        PopUpMessage = message;
         showPopUp = true;
     }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 
 public class AtomManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class AtomManager : MonoBehaviour
     [SerializeField]
     private Button plusAtomButton;
 
+    private UIPopup popup;
+
     //esto està porque lo necesita el "combination manager"
     //seguro cuando busque la combinaciòn posta, va a necesitar otra cosa, no esto.
     public List<int> SelectedAtoms { get => selectedAtoms; set => selectedAtoms = value; }
@@ -33,6 +36,8 @@ public class AtomManager : MonoBehaviour
             atomButtons.Add(btn.GetComponent<Button>());
         }
         activateDeactivateAtomButtons();
+
+        popup = FindObjectOfType<UIPopup>();
     }
 
     //cambia entre modo combinación o normal
@@ -66,6 +71,7 @@ public class AtomManager : MonoBehaviour
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch(NoPositionsLeftException nple)
         {
+            //no va popup -> consultar si no se deberia mostrar error
             Debug.Log(nple.Message);
             return;
         }
@@ -91,7 +97,7 @@ public class AtomManager : MonoBehaviour
         //ya sea si esta en la lista o si fue el último seleccionado
         if(selectedAtoms.IndexOf(index) != -1 || lastSelectedAtom == index)
         {
-            Debug.Log("Este átomo ya estaba seleccionado. Se quitará la selección");
+            //Este átomo ya estaba seleccionado. Se quitará la selección        
             DeselectParticlesFromAtom(index);
             lastSelectedAtom = -1;
             if(combineMode){
@@ -141,6 +147,7 @@ public class AtomManager : MonoBehaviour
     public void AddParticleToSelectedAtom(int particle){
         if(lastSelectedAtom==-1){
             Debug.Log("No hay ningún átomo seleccionado");
+            popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");   
             return;
         }
         //agarro el átomo indicado de la lista
@@ -152,6 +159,7 @@ public class AtomManager : MonoBehaviour
         }else if(particle ==2){
             atom.SpawnElectron(false);
         }else{
+            //no va popup
             Debug.Log("Se ingreso un índice de partícula equivocado.");
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
             return;
@@ -162,6 +170,8 @@ public class AtomManager : MonoBehaviour
     public void RemoveParticleFromSelectedAtom(int particle){
         if(lastSelectedAtom==-1){
             Debug.Log("No hay ningún átomo seleccionado");
+            popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");
+   
             return;
         }
         //agarro el átomo de la lista
@@ -173,6 +183,7 @@ public class AtomManager : MonoBehaviour
         }else if(particle ==2){
             atom.RemoveElectron();
         }else{
+            //no va popup
             Debug.Log("Se ingreso un índice de partícula equivocado.");
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
             return;
@@ -183,6 +194,8 @@ public class AtomManager : MonoBehaviour
     public void DeleteSelectedAtom(){
         if(lastSelectedAtom==-1){
             Debug.Log("No hay ningún átomo seleccionado");
+            popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");
+    
             return;
         }
         DeleteAtom(lastSelectedAtom);
@@ -201,26 +214,44 @@ public class AtomManager : MonoBehaviour
         Destroy(atom);
         //disponibilizo la posición denuevo
         positionManager.AvailablePositions[index] = true;
+
+        //no va popup
         Debug.Log("Se ha borrado el átomo " + index);
+
         activateDeactivateAtomButtons();
     }
 
     //spawnear átomo seleccionado en la tabla periódica
-    public void SpawnFromPeriodicTable(string elementName){
+    public void SpawnFromPeriodicTable(string elementName)
+    {
         int oldAtomsCount = atomsList.Count;
         NewAtom(false);
         int newAtomsCount = atomsList.Count;
-        if(oldAtomsCount < newAtomsCount){
+
+        if (oldAtomsCount < newAtomsCount)
+        {
             Atom newAtom = atomsList[newAtomsCount-1];
-            newAtom.SpawnFromPeriodicTable(elementName);
-        }else{
+            try
+            {
+                newAtom.SpawnFromPeriodicTable(elementName);
+            } 
+            catch(SpawnException)
+            {
+                //hubo un error y no tiene que GUARDAR la posicion la tiene que liberar como ELIMINAR ATOMO (a completar)
+                Debug.Log("Se libera Posicion tomada, porque dio error al intentar spawn");
+            }
+        }
+        else
+        {
             Debug.Log("No hay más lugar para crear un nuevo átomo.");
+            popup.MostrarPopUp("Manager Átomo", "No hay más lugar para crear un nuevo átomo");
         }
         activateDeactivateAtomButtons();
     }
 
     //activa-desactiva botones de acuerdo a la cant de átomos
-    private void activateDeactivateAtomButtons(){
+    private void activateDeactivateAtomButtons()
+    {
         bool status = true;
         if(atomsList.Count == 0){
             status = false;
