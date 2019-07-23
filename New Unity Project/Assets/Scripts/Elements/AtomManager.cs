@@ -97,7 +97,6 @@ public class AtomManager : MonoBehaviour
         //ya sea si esta en la lista o si fue el último seleccionado
         if(selectedAtoms.IndexOf(index) != -1 || lastSelectedAtom == index)
         {
-            Debug.Log("Este átomo ya estaba seleccionado. Se quitará la selección");
 
             DeselectParticlesFromAtom(index);
             lastSelectedAtom = -1;
