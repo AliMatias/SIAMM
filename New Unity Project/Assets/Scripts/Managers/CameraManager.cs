@@ -9,12 +9,22 @@ public class CameraManager : MonoBehaviour
     // Velocidad con la que se hace zoom
     private float zoomSpeed = 500.0f;
 
+    // Posicion y rotacion inicial de la camara
+    private Vector3 initialPosition;
+    private Quaternion initialRotation;
+
     private Vector3 lastMousePosition;
     private bool isPanning;
     private bool isRotating;
 
     // Velocidad con la que se mueve la camara con el teclado
     private float moveSpeed = 10.0f;
+
+    void Start()
+    {
+        initialPosition = transform.position;
+        initialRotation = transform.rotation;
+    }
 
     void Update()
     {
@@ -31,7 +41,6 @@ public class CameraManager : MonoBehaviour
         }
 
         ManageKeyboardInput();
-
         lastMousePosition = Input.mousePosition;
     }
 
@@ -40,7 +49,7 @@ public class CameraManager : MonoBehaviour
      */
     private void ManageKeyboardInput()
     {
-        //Keyboard commands
+        // Keyboard commands
         Vector3 moveDirection = GetDirectionInput();
         moveDirection = moveDirection * moveSpeed * Time.deltaTime;
         transform.Translate(moveDirection);
@@ -67,6 +76,13 @@ public class CameraManager : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             moveDirection += new Vector3(1, 0, 0);
+        }
+
+        // Resetea camara a la posicion inicial
+        if (Input.GetKey(KeyCode.R))
+        {
+            transform.SetPositionAndRotation(initialPosition, initialRotation);
+            return Vector3.zero;
         }
         return moveDirection;
     }
