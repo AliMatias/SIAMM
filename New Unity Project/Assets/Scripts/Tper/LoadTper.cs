@@ -12,9 +12,6 @@ public class LoadTper : MonoBehaviour
     private Button button;
     private QryElementos qryElement;
     private GridLayoutGroup glg;
-    //estos parametros son estaticos en mi modelo! son estaticos
-    private int row = 12;
-    private int col = 23;
     private UIPopup popup;
     #endregion
 
