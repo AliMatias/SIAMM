@@ -85,10 +85,10 @@ public class Molecule : MonoBehaviour
         //tamaño
         float distance = Vector3.Distance(positionFrom, positionTo);
               
-        if (lineType == 0)
+        if (lineType == 1)
             //no importa la escala del prefab aca setea
             newConnection.transform.localScale = new Vector3(0.05f, distance / 2, 0.05f);
-        else if (lineType == 1)
+        else if (lineType == 2)
             newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f); //ESTA sera para la UNIONICA (la que no tiene coneccion y quedamos con el profesor de mostrarla finita)
     }
 
