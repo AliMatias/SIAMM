@@ -19,4 +19,5 @@ public class MoleculeData
 
     public new string ToString => "[Molecula]: " + TraditionalNomenclature + " (" + Formula + ").";
 
+    public string ToStringToList => TraditionalNomenclature + " (" + Formula + ")";
 }

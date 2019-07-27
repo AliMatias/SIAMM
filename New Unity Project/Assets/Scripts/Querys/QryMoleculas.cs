@@ -154,8 +154,9 @@ public class QryMoleculas : MonoBehaviour
                 float scale = reader.GetFloat(6);
                 int connectedTo = reader.GetInt32(7);
                 int connectionType = reader.GetInt32(8);
+                int lineType = reader.GetInt32(9);
                 atomPositions.Add(new AtomInMolPositionData(id, moleculeId, elementId, posX,
-                    posY, posZ, scale, connectedTo, connectionType));
+                    posY, posZ, scale, connectedTo, connectionType, lineType));
             }
                 
         }

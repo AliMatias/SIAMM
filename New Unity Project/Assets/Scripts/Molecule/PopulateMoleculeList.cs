@@ -64,7 +64,8 @@ public class PopulateMoleculeList : MonoBehaviour
         var itemList = Instantiate(moleculeItem);
         itemList.transform.parent = content.transform;
         itemList.transform.localPosition = Vector3.zero;
-        itemList.GetComponentInChildren<TextMeshProUGUI>().text = molecule.Formula;
+        //mostrara la formula + tradicional nom
+        itemList.GetComponentInChildren<TextMeshProUGUI>().text = molecule.ToStringToList;
 
         // le agrega comportamiento al componente button del texto seleccionado
         itemList.GetComponent<Button>().onClick.AddListener(

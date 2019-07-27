@@ -45,7 +45,7 @@ public class Molecule : MonoBehaviour
 
     //spawnea una conexión entre dos átomos
     //type => 1-> simple, 2-> doble, 3-> triple
-    public void SpawnConnection(int from, int to, int type)
+    public void SpawnConnection(int from, int to, int type, int lineType)
     {
         //obtengo el índice de los átomos de acuerdo al índice de la data
         int indexAtomFrom = atomsData.FindIndex(d => d.Id.Equals(from));
@@ -55,13 +55,13 @@ public class Molecule : MonoBehaviour
         //posición
         Vector3 positionFrom = atomFrom.transform.localPosition;
         Vector3 positionTo = atomTo.transform.localPosition;
-        SpawnConnection(positionFrom, positionTo);
+        SpawnConnection(positionFrom, positionTo, lineType);
         //si es mayor a uno significa que necesito agregar 1 a 0.025 + en X
         if (type > 1)
         {
             positionFrom.x += 0.025f;
             positionTo.x += 0.025f;
-            SpawnConnection(positionFrom, positionTo);
+            SpawnConnection(positionFrom, positionTo, lineType);
         }
         //y si es igual a 3 significa que agrego la anterior y una mas a 0.025 - en X
         //-0.05 porque ya se movió 0.025 a la derecha y ahora se tiene q mover el doble a la izq
@@ -69,11 +69,11 @@ public class Molecule : MonoBehaviour
         {
             positionFrom.x -= 0.05f;
             positionTo.x -= 0.05f;
-            SpawnConnection(positionFrom, positionTo);
+            SpawnConnection(positionFrom, positionTo, lineType);
         }
     }
 
-    private void SpawnConnection(Vector3 positionFrom, Vector3 positionTo)
+    private void SpawnConnection(Vector3 positionFrom, Vector3 positionTo, int lineType)
     {
         GameObject newConnection = Instantiate<GameObject>(connectionPrefab, parent);
         newConnection.transform.localPosition = (positionFrom + positionTo) / 2.0f;
@@ -84,7 +84,12 @@ public class Molecule : MonoBehaviour
         newConnection.transform.rotation = new Quaternion(rotation.x, rotation.y, rotation.z, 0);
         //tamaño
         float distance = Vector3.Distance(positionFrom, positionTo);
-        newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f);
+              
+        if (lineType == 1)
+            //no importa la escala del prefab aca setea
+            newConnection.transform.localScale = new Vector3(0.05f, distance / 2, 0.05f);
+        else if (lineType == 2)
+            newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f); //ESTA sera para la UNIONICA (la que no tiene coneccion y quedamos con el profesor de mostrarla finita)
     }
 
     public void SetMoleculeName(string name)

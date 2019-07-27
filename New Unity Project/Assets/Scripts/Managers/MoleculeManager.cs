@@ -75,7 +75,7 @@ public class MoleculeManager : MonoBehaviour
             //si es que tiene alguna
             if(atom.ConnectedTo > 0)
             {
-                newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType);
+                newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType, atom.LineType);//por ej aca 1 seria comun 2 podria ser unionica
             }
         }
     }
