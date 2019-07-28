@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class MoleculeManager : MonoBehaviour
 {
     private PositionManager positionManager = PositionManager.Instance;
-    private DBManager dBManager;
+    private QryElementos qryElement;
     //prefab de molécula
     public Molecule moleculePrefab;
     //lista de moléculas
@@ -14,10 +15,15 @@ public class MoleculeManager : MonoBehaviour
     public Material[] materials;
     //diccionario que mapea categoría de la tabla, con posición en array de materiales
     private Dictionary<string, int> categories = new Dictionary<string, int>();
+    private UIPopup popup;
 
     private void Awake()
     {
-        dBManager = FindObjectOfType<DBManager>();
+        GameObject go = new GameObject();
+        go.AddComponent<QryElementos>();
+        qryElement = go.GetComponent<QryElementos>();
+
+        popup = FindObjectOfType<UIPopup>();
         IntializeCategoryDictionary();
     }
 
@@ -33,6 +39,7 @@ public class MoleculeManager : MonoBehaviour
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch (NoPositionsLeftException nple)
         {
+            //no va popup -> preguntar si no se deberia mostrar mensaje
             Debug.Log(nple.Message);
             return;
         }
@@ -47,7 +54,18 @@ public class MoleculeManager : MonoBehaviour
         foreach (AtomInMolPositionData pos in atomsPosition)
         {
             //query a la tabla de elementos para obtener clasificación_grupo
-            ElementTabPer element = dBManager.GetElementFromNro(pos.ElementId);
+            ElementTabPer element = new ElementTabPer();
+            try
+            {
+                element = qryElement.GetElementFromNro(pos.ElementId);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("MoleculeManager :: Ocurrio un error al buscar Elemento desde Identificador: " + e.Message);
+                popup.MostrarPopUp("Elementos Qry DB", "Error obteniendo Elemento desde Identificador");
+                return;
+            }
+
             //obtengo el material según la clasif
             Material mat = materials[GetMaterialIndexFromDictionary(element.ClasificacionGrupo)];
             newMolecule.SpawnAtom(pos, mat);
@@ -58,7 +76,7 @@ public class MoleculeManager : MonoBehaviour
             //si es que tiene alguna
             if(atom.ConnectedTo > 0)
             {
-                newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType);
+                newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType, atom.LineType);//por ej aca 1 seria comun 2 podria ser unionica
             }
         }
     }

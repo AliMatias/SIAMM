@@ -31,5 +31,6 @@ CREATE TABLE "moleculas_posicion3D_element"(
 	"posZ" INTEGER,
 	"escala" INTEGER,
 	"conexion" INTEGER NULL,
-	"tipo_conexion" INTEGER NULL);
+	"tipo_conexion" INTEGER NULL
+	"tipo_linea" INTEGER NULL);
 

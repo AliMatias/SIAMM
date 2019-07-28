@@ -53,7 +53,7 @@ public class InputManager : MonoBehaviour
         nroAtomico = getNroAtomicoId();
 
         //llamo para completar la info detallada
-        ElementInfoDetail elementInfoDet = loadTPer.LoadInfoDeatail(nroAtomico); //prueba
+        ElementInfoDetail elementInfoDet = loadTPer.LoadInfoDeatail(nroAtomico);
         DetailInfoLoader.SetDetailInfo(elementInfoDet);
      
         //envio el boton que fue presionado para obtener luego su diseño
