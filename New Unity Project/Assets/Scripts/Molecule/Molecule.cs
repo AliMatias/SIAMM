@@ -90,12 +90,17 @@ public class Molecule : MonoBehaviour
         newConnection.transform.rotation = new Quaternion(rotation.x, rotation.y, rotation.z, 0);
         //tamaño
         float distance = Vector3.Distance(positionFrom, positionTo);
-              
-        if (lineType == 1)
-            //no importa la escala del prefab aca setea
+
+        if (lineType == 2)
+        {
+            // ESTA sera para la UNIONICA (la que no tiene coneccion y quedamos con el profesor de mostrarla finita)
+            newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f);    
+        }
+        else // lineType == 1
+        {
+            // no importa la escala del prefab aca setea
             newConnection.transform.localScale = new Vector3(0.05f, distance / 2, 0.05f);
-        else if (lineType == 2)
-            newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f); //ESTA sera para la UNIONICA (la que no tiene coneccion y quedamos con el profesor de mostrarla finita)
+        }
         connections.Add(newConnection);
     }
 
