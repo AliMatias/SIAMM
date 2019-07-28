@@ -111,7 +111,7 @@ public class PopulateMoleculeList : MonoBehaviour
         if (SelectedMolecule != null)
         {
             List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(SelectedMolecule.Id);
-            moleculeManager.SpawnMolecule(atomsPosition, SelectedMolecule.ToString);
+            moleculeManager.SpawnMolecule(atomsPosition, SelectedMolecule.ToStringToList);
         }
     }
 

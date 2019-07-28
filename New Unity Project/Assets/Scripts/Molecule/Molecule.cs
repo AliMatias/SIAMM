@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Molecule : MonoBehaviour
 {
+    private MoleculeManager moleculeManager;
     //lista de átomos
     private List<GameObject> atoms = new List<GameObject>();
     //lista de conexiones
@@ -20,6 +21,11 @@ public class Molecule : MonoBehaviour
     private int moleculeIndex;
 
     public int MoleculeIndex { get => moleculeIndex; set => moleculeIndex = value; }
+
+    private void Awake()
+    {
+        moleculeManager = FindObjectOfType<MoleculeManager>();
+    }
 
     //spawnear un átomo 
     public void SpawnAtom(AtomInMolPositionData positionData, Material mat)
@@ -47,6 +53,14 @@ public class Molecule : MonoBehaviour
         parent.Rotate(0, 0.15f, 0);
         //y el label al revés
         moleculeLabel.transform.Rotate(0, -0.15f, 0);
+    }
+
+    /*  cuando se destruye la instancia de este script, tengo que destruir
+    *   manualmente el gameObject al cual está asignado este script
+    */
+    void OnDestroy()
+    {
+        Destroy(gameObject);
     }
 
     //spawnea una conexión entre dos átomos
@@ -113,7 +127,7 @@ public class Molecule : MonoBehaviour
     public void OnMouseDown()
     {
         Debug.Log("clickeaste la molécula " + MoleculeIndex);
-        //TODO: llamar mètodo de selecciòn para esta molécula en el seleccion manager que se tiene que crear
+        moleculeManager.SelectMolecule(MoleculeIndex);
     }
 
     public void Select()

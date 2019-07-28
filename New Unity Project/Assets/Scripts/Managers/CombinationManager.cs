@@ -154,7 +154,7 @@ public class CombinationManager : MonoBehaviour
 
                             found = true;
                             DeleteCombinedAtoms(selectedAtoms);
-                            SpawnMolecule(atomsPosition, moleculeData.ToString);
+                            SpawnMolecule(atomsPosition, moleculeData.ToStringToList);
                             break;
                         }
                     }

@@ -23,6 +23,8 @@ public class AtomManager : MonoBehaviour
 
     private UIPopup popup;
 
+    public List<Atom> AtomsList { get => atomsList; }
+
     private void Awake(){
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("toToggle");
         foreach(GameObject btn in buttons)
@@ -71,7 +73,7 @@ public class AtomManager : MonoBehaviour
     public void SelectAtom(int index)
     {
         Atom selectedAtom = FindAtomInList(index);
-        selectionManager.SelectObject(selectedAtom, atomsList);
+        selectionManager.SelectObject(selectedAtom);
     }
 
     //ya que el índice del átomo depende de la posición, 
@@ -83,13 +85,6 @@ public class AtomManager : MonoBehaviour
             }
         }
         return null;
-    }
-
-    //quita el brillo al átomo seleccionado
-    private void DeselectParticlesFromAtom(int index)
-    {
-        Atom atom = FindAtomInList(index);
-        atom.Deselect();
     }
 
     //comienza el brillo en el átomo seleccionado
@@ -237,14 +232,6 @@ public class AtomManager : MonoBehaviour
         }
     }
 
-    public void DeselectAll()
-    {      
-        foreach (int index in GetSelectedAtoms())
-        {
-            DeselectParticlesFromAtom(index);
-        }
-    }
-    
     public List<int> GetSelectedAtoms()
     {
         List<int> selectedAtoms = new List<int>();
