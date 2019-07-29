@@ -80,35 +80,20 @@ public class LoadTper : MonoBehaviour
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         AddEventTriggerListener(trigger, EventTriggerType.PointerEnter, ShowTextToolTip);
         AddEventTriggerListener(trigger, EventTriggerType.PointerExit, ExitTextToolTip);
-    }
 
 
-    //Callback function delegada que ejecutara el trigger event
-    void ShowTextToolTip(BaseEventData eventData)
-    {
-        PointerEventData pointerEventData = (PointerEventData)eventData;
-        Debug.Log("Click: pointerEventData=" + pointerEventData);
-
-        toolTipText.text = "Click Izquierdo: Agregar Átomo \n\n";
-        toolTipText.text = toolTipText.text + "Click Derecho: Informacion del Átomo";
-    }
-
-    //Callback function delegada que ejecutara el trigger event
-    void ExitTextToolTip(BaseEventData eventData)
-    {
-        PointerEventData pointerEventData = (PointerEventData)eventData;
-        Debug.Log("Click: pointerEventData=" + pointerEventData);
-
-        toolTipText.text = "";
-    }
-
-    public static void AddEventTriggerListener(EventTrigger trigger,  EventTriggerType eventType, System.Action<BaseEventData> callback)
-    {
+        trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = eventType;
-        entry.callback = new EventTrigger.TriggerEvent();
-        entry.callback.AddListener(new UnityEngine.Events.UnityAction<BaseEventData>(callback));
+        entry.eventID = EventTriggerType.PointerEnter;
+        entry.callback.AddListener((eventData) => { UITooltipPrefab.showToolTipstatic(element.Name); });
         trigger.triggers.Add(entry);
+
+        EventTrigger.Entry entry2 = new EventTrigger.Entry();
+        entry2.eventID = EventTriggerType.PointerExit;
+        entry2.callback.AddListener((eventData) => { UITooltipPrefab.hideToolTipstatic(); });
+        trigger.triggers.Add(entry2);
+
+
     }
 
     /*Obtiene el nro atomico a partir del "string" que tiene en el boton como txtNroAtomico*/
@@ -168,4 +153,37 @@ public class LoadTper : MonoBehaviour
         return valor;
     }
     #endregion
+
+
+
+
+    //Callback function delegada que ejecutara el trigger event
+    void ShowTextToolTip(BaseEventData eventData)
+    {
+        PointerEventData pointerEventData = (PointerEventData)eventData;
+        Debug.Log("Click: pointerEventData=" + pointerEventData);
+
+        toolTipText.text = "Click Izquierdo: Agregar Átomo \n\n";
+        toolTipText.text = toolTipText.text + "Click Derecho: Informacion del Átomo";
+    }
+
+    //Callback function delegada que ejecutara el trigger event
+    void ExitTextToolTip(BaseEventData eventData)
+    {
+        PointerEventData pointerEventData = (PointerEventData)eventData;
+        Debug.Log("Click: pointerEventData=" + pointerEventData);
+
+        toolTipText.text = "";
+    }
+
+    public static void AddEventTriggerListener(EventTrigger trigger, EventTriggerType eventType, System.Action<BaseEventData> callback)
+    {
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = eventType;
+        entry.callback = new EventTrigger.TriggerEvent();
+        entry.callback.AddListener(new UnityEngine.Events.UnityAction<BaseEventData>(callback));
+        trigger.triggers.Add(entry);
+    }
+
+
 }
