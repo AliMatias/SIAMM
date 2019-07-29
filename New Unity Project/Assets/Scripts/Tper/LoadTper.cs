@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
 
 //Carga tabla periódica
 public class LoadTper : MonoBehaviour
@@ -13,6 +14,8 @@ public class LoadTper : MonoBehaviour
     private QryElementos qryElement;
     private GridLayoutGroup glg;
     private UIPopup popup;
+    public Text toolTipText;//viene el canvas principal
+    private EventTrigger trigger;
     #endregion
 
     // Start is called before the first frame update
@@ -72,6 +75,40 @@ public class LoadTper : MonoBehaviour
             if (textosObj[j].name == "txtNombre")
                 textosObj[j].text = element.Simbol;
         }
+
+        //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips
+        trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
+        AddEventTriggerListener(trigger, EventTriggerType.PointerEnter, ShowTextToolTip);
+        AddEventTriggerListener(trigger, EventTriggerType.PointerExit, ExitTextToolTip);
+    }
+
+
+    //Callback function delegada que ejecutara el trigger event
+    void ShowTextToolTip(BaseEventData eventData)
+    {
+        PointerEventData pointerEventData = (PointerEventData)eventData;
+        Debug.Log("Click: pointerEventData=" + pointerEventData);
+
+        toolTipText.text = "Click Izquierdo: Agregar Átomo \n\n";
+        toolTipText.text = toolTipText.text + "Click Derecho: Informacion del Átomo";
+    }
+
+    //Callback function delegada que ejecutara el trigger event
+    void ExitTextToolTip(BaseEventData eventData)
+    {
+        PointerEventData pointerEventData = (PointerEventData)eventData;
+        Debug.Log("Click: pointerEventData=" + pointerEventData);
+
+        toolTipText.text = "";
+    }
+
+    public static void AddEventTriggerListener(EventTrigger trigger,  EventTriggerType eventType, System.Action<BaseEventData> callback)
+    {
+        EventTrigger.Entry entry = new EventTrigger.Entry();
+        entry.eventID = eventType;
+        entry.callback = new EventTrigger.TriggerEvent();
+        entry.callback.AddListener(new UnityEngine.Events.UnityAction<BaseEventData>(callback));
+        trigger.triggers.Add(entry);
     }
 
     /*Obtiene el nro atomico a partir del "string" que tiene en el boton como txtNroAtomico*/

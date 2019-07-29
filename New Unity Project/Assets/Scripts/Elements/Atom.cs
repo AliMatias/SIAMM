@@ -247,7 +247,7 @@ public class Atom: MonoBehaviour
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
         ElementData element = new ElementData();
-        ElementData elementIsotopo = new ElementData();
+        IsotopoData elementIsotopo = new IsotopoData();
         string elementText = string.Empty;
 
         //resetea valor a by default
@@ -312,18 +312,29 @@ public class Atom: MonoBehaviour
                     }
                     else
                     {
-                        elementText = "Isótopo (" + elementIsotopo.Name + ") de " + elementText;
+                        if (elementIsotopo.Estable == 1)
+                            elementText = "Isótopo (" + elementIsotopo.Name + ") de " + elementText + "\nMasa: " + elementIsotopo.Masa;
+                        else
+                            elementText = "Isótopo (" + elementIsotopo.Name + ") de " + elementText + "\nInestable" + "\nMasa: " + elementIsotopo.Masa;
                     }
                 }
+
+
                 //si mi modelo tiene mas electrones que el de la tabla, es anión (-)
                 if (element.Electrons < electrons)
                 {
-                    elementText = elementText + ", anión.";
+                    if ((element.Electrons + element.MaxElectronsGana) >= electrons)
+                        elementText = elementText + ", anión.";
+                    else
+                        elementText = "no encontrado.";
                 }
                 //sino, si el modelo tiene menos electrones que el de la tabla, es catión (+)
                 else if (element.Electrons > electrons)
                 {
-                    elementText = elementText + ", catión.";
+                    if ((element.Electrons - element.MaxElectronsPierde) <= electrons)
+                        elementText = elementText + ", catión.";
+                    else
+                        elementText = "no encontrado.";
                 }
                 //sino, significa que es la misma cantidad, y tiene carga neutra
             }
@@ -464,6 +475,15 @@ public class Atom: MonoBehaviour
 
     //nullcheck de ElementData, averiguar si existe alguna librería que ya haga esto.
     private bool IsNullOrEmpty(ElementData e)
+    {
+        if (e == null || e.Name == null || e.Name == "")
+            return true;
+        return false;
+    }
+
+
+    //nullcheck de ElementData, averiguar si existe alguna librería que ya haga esto.
+    private bool IsNullOrEmpty(IsotopoData e)
     {
         if (e == null || e.Name == null || e.Name == "")
             return true;
