@@ -242,12 +242,10 @@ public class Atom: MonoBehaviour
     }
     #endregion
 
-    /*Metodo Valida si es un elemento de tabla periodica, si es isotopo, y cation-anion
-     y luego lo escribe en el label del elemento*/
+    /*Metodo que escribe en el label del elemento de acuerdo al tipo*/
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
-        ElementData element = new ElementData();
-        IsotopoData elementIsotopo = new IsotopoData();
+        ElementData element = new ElementData();    
         string elementText = string.Empty;
 
         //resetea valor a by default
@@ -267,80 +265,90 @@ public class Atom: MonoBehaviour
                 return;
             }
 
-            //si es null o no lo encontró
-            if (IsNullOrEmpty(element))
-            {
-                elementText = "Elemento no encontrado.";
-                if (!fromTabla)
-                {
-                    ElementNumber = 0;
-                }
-            }
-            else
-            {
-                //seteo nombre, símbolo y numero
-                elementText = element.Name + " (" + element.Simbol + ")";
-                if (!fromTabla)
-                {
-                    ElementNumber = element.Numero;
-                }
-
-                //si no coinciden los neutrones es un isótopo de ese material (falta límites inf y sup)
-                if (element.Neutrons != neutrons)
-                {
-                    //valido que isotopo es sino existe se informa NO ENCONTRADO
-                    try
-                    {
-                        elementIsotopo = qryElement.GetIsotopo(neutrons, element.Numero);
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError("Atom class :: Ocurrio un error al buscar Isotopo: " + e.Message);
-                        popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Isotopo");
-                        return;
-                    }
-
-
-
-                    if (IsNullOrEmpty(elementIsotopo))
-                    {
-                        elementText = "no encontrado.";
-                        if (!fromTabla)
-                        {
-                            ElementNumber = 0;
-                        }
-                    }
-                    else
-                    {
-                        if (elementIsotopo.Estable == 1)
-                            elementText = "Isótopo (" + elementIsotopo.Name + ") de " + elementText + "\nMasa: " + elementIsotopo.Masa;
-                        else
-                            elementText = "Isótopo (" + elementIsotopo.Name + ") de " + elementText + "\nInestable" + "\nMasa: " + elementIsotopo.Masa;
-                    }
-                }
-
-
-                //si mi modelo tiene mas electrones que el de la tabla, es anión (-)
-                if (element.Electrons < electrons)
-                {
-                    if ((element.Electrons + element.MaxElectronsGana) >= electrons)
-                        elementText = elementText + ", anión.";
-                    else
-                        elementText = "no encontrado.";
-                }
-                //sino, si el modelo tiene menos electrones que el de la tabla, es catión (+)
-                else if (element.Electrons > electrons)
-                {
-                    if ((element.Electrons - element.MaxElectronsPierde) <= electrons)
-                        elementText = elementText + ", catión.";
-                    else
-                        elementText = "no encontrado.";
-                }
-                //sino, significa que es la misma cantidad, y tiene carga neutra
-            }
+            elementText = checkElementType(element,protons, neutrons, electrons);
         }
 
         elementLabel.GetComponent<TextMesh>().text = elementText;
+    }
+
+    /*Metodo Valida si es un elemento de tabla periodica, si es isotopo, y cation-anion
+     y luego lo escribe en el label del elemento*/
+    private string checkElementType (ElementData element, int protons, int neutrons, int electrons)
+    {
+        string elementText = string.Empty;
+        IsotopoData elementIsotopo = new IsotopoData();
+
+        //si es null o no lo encontró
+        if (IsNullOrEmpty(element))
+        {
+            elementText = "Elemento no encontrado.";
+            if (!fromTabla)
+            {
+                ElementNumber = 0;
+            }
+        }
+        else
+        {
+            //seteo nombre, símbolo y numero
+            elementText = element.Name + " (" + element.Simbol + ")";
+            if (!fromTabla)
+            {
+                ElementNumber = element.Numero;
+            }
+
+            //si no coinciden los neutrones es un isótopo de ese material (falta límites inf y sup)
+            if (element.Neutrons != neutrons)
+            {
+                //valido que isotopo es sino existe se informa NO ENCONTRADO
+                try
+                {
+                    elementIsotopo = qryElement.GetIsotopo(neutrons, element.Numero);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Atom class :: Ocurrio un error al buscar Isotopo: " + e.Message);
+                    popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Isotopo");           
+                }
+
+                if (IsNullOrEmpty(elementIsotopo))
+                {
+                    elementText = "no encontrado.";
+                    if (!fromTabla)
+                    {
+                        ElementNumber = 0;
+                    }
+                }
+                else
+                {
+                    //valida si el isotopo es estable o no y cambiara el label
+                    if (elementIsotopo.Estable == 1)
+                        elementText = "Isótopo (" + elementIsotopo.Name + ") de " + elementText + "\nMasa: " + elementIsotopo.Masa;
+                    else
+                        elementText = "Isótopo (" + elementIsotopo.Name + ") de " + elementText + "\nInestable" + "\nMasa: " + elementIsotopo.Masa;
+                }
+            }
+
+
+            //si mi modelo tiene mas electrones que el de la tabla, es anión (-)
+            if (element.Electrons < electrons)
+            {
+                if ((element.Electrons + element.MaxElectronsGana) >= electrons)
+                    elementText = elementText + ", anión.";
+                else
+                    elementText = "no encontrado.";
+            }
+            //sino, si el modelo tiene menos electrones que el de la tabla, es catión (+)
+            else if (element.Electrons > electrons)
+            {
+                if ((element.Electrons - element.MaxElectronsPierde) <= electrons)
+                    elementText = elementText + ", catión.";
+                else
+                    elementText = "no encontrado.";
+            }
+            //sino, significa que es la misma cantidad, y tiene carga neutra
+        }
+
+        return elementText;
     }
 
     //se lanza cuando se hace click al átomo

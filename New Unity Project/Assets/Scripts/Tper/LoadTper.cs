@@ -14,7 +14,6 @@ public class LoadTper : MonoBehaviour
     private QryElementos qryElement;
     private GridLayoutGroup glg;
     private UIPopup popup;
-    public Text toolTipText;//viene el canvas principal
     private EventTrigger trigger;
     #endregion
 
@@ -78,22 +77,17 @@ public class LoadTper : MonoBehaviour
 
         //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
-        AddEventTriggerListener(trigger, EventTriggerType.PointerEnter, ShowTextToolTip);
-        AddEventTriggerListener(trigger, EventTriggerType.PointerExit, ExitTextToolTip);
+        //setea metodos static para agregar tooltip
+        UIToolTipText.showToolTipstaticPointerEnter(elem, trigger);
+        UIToolTipText.hideToolTipstaticPointerExit(elem, trigger);
+        //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
+        UIToolTipText.hideToolTipstaticPointerClick(elem, trigger);
 
-
-        trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = EventTriggerType.PointerEnter;
-        entry.callback.AddListener((eventData) => { UITooltipPrefab.showToolTipstatic(element.Name); });
-        trigger.triggers.Add(entry);
-
-        EventTrigger.Entry entry2 = new EventTrigger.Entry();
-        entry2.eventID = EventTriggerType.PointerExit;
-        entry2.callback.AddListener((eventData) => { UITooltipPrefab.hideToolTipstatic(); });
-        trigger.triggers.Add(entry2);
-
-
+        //setea metodos static para agregar tooltip
+        UITooltip.showToolTipstaticPointerEnter(element.Name, elem, trigger);
+        UITooltip.hideToolTipstaticPointerExit(elem, trigger);
+        //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
+        UITooltip.hideToolTipstaticPointerClick(elem, trigger);
     }
 
     /*Obtiene el nro atomico a partir del "string" que tiene en el boton como txtNroAtomico*/
@@ -153,37 +147,4 @@ public class LoadTper : MonoBehaviour
         return valor;
     }
     #endregion
-
-
-
-
-    //Callback function delegada que ejecutara el trigger event
-    void ShowTextToolTip(BaseEventData eventData)
-    {
-        PointerEventData pointerEventData = (PointerEventData)eventData;
-        Debug.Log("Click: pointerEventData=" + pointerEventData);
-
-        toolTipText.text = "Click Izquierdo: Agregar Átomo \n\n";
-        toolTipText.text = toolTipText.text + "Click Derecho: Informacion del Átomo";
-    }
-
-    //Callback function delegada que ejecutara el trigger event
-    void ExitTextToolTip(BaseEventData eventData)
-    {
-        PointerEventData pointerEventData = (PointerEventData)eventData;
-        Debug.Log("Click: pointerEventData=" + pointerEventData);
-
-        toolTipText.text = "";
-    }
-
-    public static void AddEventTriggerListener(EventTrigger trigger, EventTriggerType eventType, System.Action<BaseEventData> callback)
-    {
-        EventTrigger.Entry entry = new EventTrigger.Entry();
-        entry.eventID = eventType;
-        entry.callback = new EventTrigger.TriggerEvent();
-        entry.callback.AddListener(new UnityEngine.Events.UnityAction<BaseEventData>(callback));
-        trigger.triggers.Add(entry);
-    }
-
-
 }
