@@ -27,21 +27,29 @@ public class Molecule : MonoBehaviour
         moleculeManager = FindObjectOfType<MoleculeManager>();
     }
 
-    //spawnear un átomo 
+    // spawnear un átomo 
     public void SpawnAtom(AtomInMolPositionData positionData, Material mat)
     {
-        //obtengo la posición de la data
+        // obtengo la posición de la data
         Vector3 position = new Vector3(positionData.XPos, positionData.YPos, positionData.ZPos);
-        //lo creo
-        GameObject spawn = Instantiate<GameObject>(atomPrefab, parent);
-        //seteo posición
-        spawn.transform.localPosition = position;
-        //seteo tamaño
+        // creo una copia del prefab
+        GameObject tempPrefab = Instantiate<GameObject>(atomPrefab);
+        
+        // seteo el material 
+        // (necesario setear el material antes de instanciar el objeto
+        //  para que el highlight tome el normalColor correcto)
+        tempPrefab.GetComponent<Renderer>().material = mat;
+        
+        // seteo posición
+        tempPrefab.transform.localPosition = position;
+        // seteo tamaño
         Vector3 scale = new Vector3(positionData.Scale, positionData.Scale, positionData.Scale);
-        spawn.transform.localScale = scale;
-        //seteo material
-        spawn.GetComponent<Renderer>().material = mat;
-        //lo agrego a las listas
+        tempPrefab.transform.localScale = scale;
+
+        // lo creo y borro la copia del prefab
+        GameObject spawn = Instantiate<GameObject>(tempPrefab, parent);
+        Destroy(tempPrefab);
+        // lo agrego a las listas
         atoms.Add(spawn);
         atomsData.Add(positionData);
     }
