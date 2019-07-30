@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
@@ -11,13 +12,10 @@ public class AtomManager : MonoBehaviour
     private Atom atomPrefab;
     //lista que maneja los átomos en pantalla
     private List<Atom> atomsList = new List<Atom>();
-    //indica el último átomo seleccionado. (-1 -> ninguno)
-    private int lastSelectedAtom = -1;
     //booleano que indica si el modo combinación está activo
     private bool combineMode = false;
-    //lista que indica elementos seleccionados en modo combinación
-    private List<int> selectedAtoms = new List<int>();
     private PositionManager positionManager = PositionManager.Instance;
+    private SelectionManager selectionManager;
     //lista de botones relevantes para los átomos
     private List<Button> atomButtons = new List<Button>();
     [SerializeField]
@@ -25,9 +23,7 @@ public class AtomManager : MonoBehaviour
 
     private UIPopup popup;
 
-    //esto està porque lo necesita el "combination manager"
-    //seguro cuando busque la combinaciòn posta, va a necesitar otra cosa, no esto.
-    public List<int> SelectedAtoms { get => selectedAtoms; set => selectedAtoms = value; }
+    public List<Atom> AtomsList { get => atomsList; }
 
     private void Awake(){
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("toToggle");
@@ -38,26 +34,8 @@ public class AtomManager : MonoBehaviour
         activateDeactivateAtomButtons();
 
         popup = FindObjectOfType<UIPopup>();
+        selectionManager = FindObjectOfType<SelectionManager>();
     }
-
-    //cambia entre modo combinación o normal
-    public void SwitchCombineMode(){
-        combineMode = !combineMode;
-        if(!combineMode){
-            //si estoy saliendo del modo combinación quito las selecciones de todos
-            foreach (int index in selectedAtoms){
-                DeselectParticlesFromAtom(index);
-            }
-            selectedAtoms = new List<int>();
-            lastSelectedAtom = -1;
-        }else{
-            //si entré al modo combinación, necesito agregar el seleccionado a la lista (si hay uno)
-            if(lastSelectedAtom!=-1){
-                selectedAtoms.Add(lastSelectedAtom);
-            }
-        }
-    }
-
 
     //agregar nuevo átomo al espacio de trabajo
     public void NewAtom(bool withProton)
@@ -87,35 +65,15 @@ public class AtomManager : MonoBehaviour
         if(withProton){
             spawnedAtom.SpawnNucleon(true, false);
         }
+        SelectAtom(spawnedAtom.AtomIndex);
         activateDeactivateAtomButtons();
     }
 
     //seleccionar átomo
     public void SelectAtom(int index)
     {
-        //verifico si este átomo estaba seleccionado
-        //ya sea si esta en la lista o si fue el último seleccionado
-        if(selectedAtoms.IndexOf(index) != -1 || lastSelectedAtom == index)
-        {
-            //Este átomo ya estaba seleccionado. Se quitará la selección        
-            DeselectParticlesFromAtom(index);
-            lastSelectedAtom = -1;
-            if(combineMode){
-                selectedAtoms.Remove(index);
-            }
-            return;
-        }
-        //si habia uno seleccionado, lo des-selecciono
-        if(lastSelectedAtom != -1 && !combineMode){
-            DeselectParticlesFromAtom(lastSelectedAtom);
-        }
-        //selecciono el nuevo
-        SelectParticlesFromAtom(index);
-        //y obtengo su índice
-        lastSelectedAtom = index;
-        if(combineMode){
-            selectedAtoms.Add(index);
-        }
+        Atom selectedAtom = FindAtomInList(index);
+        selectionManager.SelectObject(selectedAtom);
     }
 
     //ya que el índice del átomo depende de la posición, 
@@ -129,13 +87,6 @@ public class AtomManager : MonoBehaviour
         return null;
     }
 
-    //quita el brillo al átomo seleccionado
-    private void DeselectParticlesFromAtom(int index)
-    {
-        Atom atom = FindAtomInList(index);
-        atom.Deselect();
-    }
-
     //comienza el brillo en el átomo seleccionado
     private void SelectParticlesFromAtom(int index)
     {
@@ -145,13 +96,17 @@ public class AtomManager : MonoBehaviour
 
     //agregar la partícula indicada al átomo seleccionado
     public void AddParticleToSelectedAtom(int particle){
-        if(lastSelectedAtom==-1){
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        Atom atom = selectedObjects.Count > 0 ?
+            FindAtomInList(selectedObjects.Last()) :
+            null;
+
+        if (atom == null) {
             Debug.Log("No hay ningún átomo seleccionado");
             popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");   
             return;
         }
         //agarro el átomo indicado de la lista
-        Atom atom = FindAtomInList(lastSelectedAtom);
         if(particle==0){
             atom.SpawnNucleon(true, false);
         }else if (particle==1){
@@ -168,14 +123,19 @@ public class AtomManager : MonoBehaviour
 
     //quitar del átomo seleccionado la partícula indicada
     public void RemoveParticleFromSelectedAtom(int particle){
-        if(lastSelectedAtom==-1){
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        Atom atom = selectedObjects.Count > 0 ?
+            FindAtomInList(selectedObjects.Last()) :
+            null;
+
+        if (atom == null)
+        {
             Debug.Log("No hay ningún átomo seleccionado");
             popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");
    
             return;
         }
         //agarro el átomo de la lista
-        Atom atom = FindAtomInList(lastSelectedAtom);
         if(particle==0){
             atom.RemoveProton();
         }else if (particle==1){
@@ -192,24 +152,28 @@ public class AtomManager : MonoBehaviour
 
     //BORRAR átomo seleccionado.
     public void DeleteSelectedAtom(){
-        if(lastSelectedAtom==-1){
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        Atom atom = selectedObjects.Count > 0 ?
+            FindAtomInList(selectedObjects.Last()) :
+            null;
+
+        if (atom == null)
+        { 
             Debug.Log("No hay ningún átomo seleccionado");
             popup.MostrarPopUp("Manager Átomo", "No hay ningún átomo seleccionado");
     
             return;
         }
-        DeleteAtom(lastSelectedAtom);
-        //ahora no hay átomo seleccionado
-        lastSelectedAtom = -1;
+        DeleteAtom(atom.AtomIndex);
     }
 
     //BORRAR átomo
     public void DeleteAtom(int index)
     {
-        //primero lo encuentro
         Atom atom = FindAtomInList(index);
         //lo saco de la lista
         atomsList.Remove(atom);
+        selectionManager.RemoveObject(index);
         //lo destruyo
         Destroy(atom);
         //disponibilizo la posición denuevo
@@ -268,4 +232,18 @@ public class AtomManager : MonoBehaviour
         }
     }
 
+    public List<int> GetSelectedAtoms()
+    {
+        List<int> selectedAtoms = new List<int>();
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        foreach (int index in selectedObjects)
+        {
+            Atom atom = FindAtomInList(index);
+            if (atom != null)
+            {
+                selectedAtoms.Add(index);
+            }
+        }
+        return selectedAtoms;
+    }
 }

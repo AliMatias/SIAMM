@@ -13,9 +13,12 @@ public class CombinationManager : MonoBehaviour
     private AtomManager atomManager;
     private QryMoleculas qryMolecule;
     private MoleculeManager moleculeManager;
+    private SelectionManager selectionManager;
     public Button combineButton;
     public Button combineModeButton;
     private UIPopup popup;
+
+    public bool CombineMode { get => combineMode; }
 
     void Awake()
     {
@@ -27,6 +30,7 @@ public class CombinationManager : MonoBehaviour
         qryMolecule = go.GetComponent<QryMoleculas>();
 
         moleculeManager = FindObjectOfType<MoleculeManager>();
+        selectionManager = FindObjectOfType<SelectionManager>();
         //encuentro y asigno a mi lista los botones a apagar
         GameObject[] btns = GameObject.FindGameObjectsWithTag("toToggle");
         foreach (GameObject btn in btns)
@@ -45,8 +49,8 @@ public class CombinationManager : MonoBehaviour
             btn.interactable = !combineMode;
         }
         combineButton.interactable = !combineButton.interactable;
-        //le aviso al atom manager que cambié de modo
-        atomManager.SwitchCombineMode();
+        // le aviso al selection manager que cambié de modo
+        selectionManager.SwitchCombineMode(combineMode);
         //obtengo el texto del boton y lo cambio
         Text text = combineModeButton.GetComponentInChildren<Text>();
         if (combineMode)
@@ -62,7 +66,7 @@ public class CombinationManager : MonoBehaviour
     //Acá tiene que ir a la bd a buscar la combinación
     public void CombineAtoms()
     {
-        List<int> selectedAtoms = atomManager.SelectedAtoms;
+        List<int> selectedAtoms = atomManager.GetSelectedAtoms();
         List<int> elementNumbers = new List<int>();
         foreach (int index in selectedAtoms)
         {
@@ -150,7 +154,7 @@ public class CombinationManager : MonoBehaviour
 
                             found = true;
                             DeleteCombinedAtoms(selectedAtoms);
-                            SpawnMolecule(atomsPosition, moleculeData.ToString);
+                            SpawnMolecule(atomsPosition, moleculeData.ToStringToList);
                             break;
                         }
                     }

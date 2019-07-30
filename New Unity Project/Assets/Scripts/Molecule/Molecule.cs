@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Molecule : MonoBehaviour
 {
+    private MoleculeManager moleculeManager;
     //lista de átomos
     private List<GameObject> atoms = new List<GameObject>();
+    //lista de conexiones
+    private List<GameObject> connections = new List<GameObject>();
     //lista con data de átomos
     private List<AtomInMolPositionData> atomsData = new List<AtomInMolPositionData>();
     //prefabs y parent
@@ -14,22 +17,39 @@ public class Molecule : MonoBehaviour
     public Transform parent;
     //label que indica nombre de molécula
     public GameObject moleculeLabel;
+    //indice que indica posición+
+    private int moleculeIndex;
 
-    //spawnear un átomo 
+    public int MoleculeIndex { get => moleculeIndex; set => moleculeIndex = value; }
+
+    private void Awake()
+    {
+        moleculeManager = FindObjectOfType<MoleculeManager>();
+    }
+
+    // spawnear un átomo 
     public void SpawnAtom(AtomInMolPositionData positionData, Material mat)
     {
-        //obtengo la posición de la data
+        // obtengo la posición de la data
         Vector3 position = new Vector3(positionData.XPos, positionData.YPos, positionData.ZPos);
-        //lo creo
-        GameObject spawn = Instantiate<GameObject>(atomPrefab, parent);
-        //seteo posición
-        spawn.transform.localPosition = position;
-        //seteo tamaño
+        // creo una copia del prefab
+        GameObject tempPrefab = Instantiate<GameObject>(atomPrefab);
+        
+        // seteo el material 
+        // (necesario setear el material antes de instanciar el objeto
+        //  para que el highlight tome el normalColor correcto)
+        tempPrefab.GetComponent<Renderer>().material = mat;
+        
+        // seteo posición
+        tempPrefab.transform.localPosition = position;
+        // seteo tamaño
         Vector3 scale = new Vector3(positionData.Scale, positionData.Scale, positionData.Scale);
-        spawn.transform.localScale = scale;
-        //seteo material
-        spawn.GetComponent<Renderer>().material = mat;
-        //lo agrego a las listas
+        tempPrefab.transform.localScale = scale;
+
+        // lo creo y borro la copia del prefab
+        GameObject spawn = Instantiate<GameObject>(tempPrefab, parent);
+        Destroy(tempPrefab);
+        // lo agrego a las listas
         atoms.Add(spawn);
         atomsData.Add(positionData);
     }
@@ -41,6 +61,14 @@ public class Molecule : MonoBehaviour
         parent.Rotate(0, 0.15f, 0);
         //y el label al revés
         moleculeLabel.transform.Rotate(0, -0.15f, 0);
+    }
+
+    /*  cuando se destruye la instancia de este script, tengo que destruir
+    *   manualmente el gameObject al cual está asignado este script
+    */
+    void OnDestroy()
+    {
+        Destroy(gameObject);
     }
 
     //spawnea una conexión entre dos átomos
@@ -84,16 +112,59 @@ public class Molecule : MonoBehaviour
         newConnection.transform.rotation = new Quaternion(rotation.x, rotation.y, rotation.z, 0);
         //tamaño
         float distance = Vector3.Distance(positionFrom, positionTo);
-              
-        if (lineType == 1)
-            //no importa la escala del prefab aca setea
+
+        if (lineType == 2)
+        {
+            // ESTA sera para la UNIONICA (la que no tiene coneccion y quedamos con el profesor de mostrarla finita)
+            newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f);    
+        }
+        else // lineType == 1
+        {
+            // no importa la escala del prefab aca setea
             newConnection.transform.localScale = new Vector3(0.05f, distance / 2, 0.05f);
-        else if (lineType == 2)
-            newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f); //ESTA sera para la UNIONICA (la que no tiene coneccion y quedamos con el profesor de mostrarla finita)
+        }
+        connections.Add(newConnection);
     }
 
     public void SetMoleculeName(string name)
     {
         moleculeLabel.GetComponent<TextMesh>().text = name;
+    }
+    
+    //se lanza cuando se hace click a la molécula
+    public void OnMouseDown()
+    {
+        Debug.Log("clickeaste la molécula " + MoleculeIndex);
+        moleculeManager.SelectMolecule(MoleculeIndex);
+    }
+
+    public void Select()
+    {
+        moleculeLabel.GetComponent<TextMesh>().color = new Color(240, 0, 0);
+        StartAllHighlights(atoms);
+        StartAllHighlights(connections);
+    }
+
+    public void Deselect()
+    {
+        moleculeLabel.GetComponent<TextMesh>().color = new Color(255, 255, 255);
+        StopAllHighlights(atoms);
+        StopAllHighlights(connections);
+    }
+
+    private void StartAllHighlights(List<GameObject> list)
+    {
+        foreach(GameObject obj in list)
+        {
+            obj.GetComponent<HighlightObject>().StartHighlight();
+        }
+    }
+
+    private void StopAllHighlights(List<GameObject> list)
+    {
+        foreach (GameObject obj in list)
+        {
+            obj.GetComponent<HighlightObject>().StopHighlight();
+        }
     }
 }

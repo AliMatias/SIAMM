@@ -13,7 +13,7 @@ public class PositionManager
     {
         PlanePositions = new List<Vector3>();
         AvailablePositions = new List<bool>();
-        this.LoadPositions();
+        LoadPositions();
     }
 
     public static PositionManager Instance

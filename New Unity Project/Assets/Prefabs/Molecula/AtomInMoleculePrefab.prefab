@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6092187738488876193}
   - component: {fileID: 1819466355990813478}
   - component: {fileID: 5726792987382309131}
+  - component: {fileID: 3588000827059091223}
   m_Layer: 0
   m_Name: AtomInMoleculePrefab
   m_TagString: Untagged
@@ -91,3 +92,17 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3588000827059091223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4992289428701975050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef09f0388c1ad5c4db6913e941591110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationTime: 1
+  threshold: 1.5
