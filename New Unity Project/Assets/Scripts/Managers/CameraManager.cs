@@ -3,10 +3,13 @@
 public class CameraManager : MonoBehaviour
 {
     // Velocidad con la que rota la camara
+    [SerializeField]
     private float turnSpeed = 5000.0f;
     // Velocidad con la que se panea la camara
+    [SerializeField]
     private float panSpeed = 1500.0f;
     // Velocidad con la que se hace zoom
+    [SerializeField]
     private float zoomSpeed = 500.0f;
 
     // Posicion y rotacion inicial de la camara
@@ -18,7 +21,11 @@ public class CameraManager : MonoBehaviour
     private bool isRotating;
 
     // Velocidad con la que se mueve la camara con el teclado
+    [SerializeField]
     private float moveSpeed = 10.0f;
+
+    //Límites de habitación
+    private MovementLimit movementLimits = new MovementLimit(5,-5,-15,25,20,-20);
 
     void Start()
     {
@@ -53,6 +60,10 @@ public class CameraManager : MonoBehaviour
         Vector3 moveDirection = GetDirectionInput();
         moveDirection = moveDirection * moveSpeed * Time.deltaTime;
         transform.Translate(moveDirection);
+        if (!LimitsOk(transform.position))
+        {
+            transform.Translate(-moveDirection);
+        }
     }
 
     /**
@@ -139,5 +150,25 @@ public class CameraManager : MonoBehaviour
             transform.RotateAround(transform.position, -transform.right, -pos.y * turnSpeed);
             transform.RotateAround(transform.position, -Vector3.up, pos.x * turnSpeed);
         }
+    }
+
+    private bool LimitsOk(Vector3 position)
+    {
+        if(position.y > movementLimits.Superior || position.y < movementLimits.Inferior)
+        {
+            return false;
+        }
+
+        if(position.x > movementLimits.Right || position.x < movementLimits.Left)
+        {
+            return false;
+        }
+        
+        if(position.z > movementLimits.Front || position.z < movementLimits.Back)
+        {
+            return false;
+        }
+
+        return true;
     }
 }
