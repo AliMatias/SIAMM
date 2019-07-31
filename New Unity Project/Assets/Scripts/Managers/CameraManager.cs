@@ -125,6 +125,11 @@ public class CameraManager : MonoBehaviour
         {
             Vector3 move = zoomSpeed * transform.forward * Input.GetAxis("Mouse ScrollWheel");
             transform.Translate(move * Time.deltaTime, Space.World);
+            //chequeo de la misma manera que con las teclas WASD
+            if (!LimitsOk(transform.position))
+            {
+                transform.Translate(-1 * move * Time.deltaTime, Space.World);
+            }
         }
 
         // Deja de rotar/panear al soltar el boton del mouse
