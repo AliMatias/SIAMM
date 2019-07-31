@@ -4,12 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UITooltip : MonoBehaviour
+public class UIToolTip : MonoBehaviour
 {
     private Text tooltipText;
-    public RectTransform background;
     public CanvasGroup uiElement;
-    private static UITooltip instate;
+    public RectTransform background;
+    private static UIToolTip instate;
     private Vector3 offset = new Vector3 (1,1,0);
 
     private void Awake()
@@ -25,7 +25,7 @@ public class UITooltip : MonoBehaviour
         transform.position = Input.mousePosition + offset;
     }
 
-    private void showToolTip(string text)
+    private void ShowToolTip(string text)
     {
         background.gameObject.SetActive(true);
         uiElement.alpha = 1;
@@ -35,37 +35,37 @@ public class UITooltip : MonoBehaviour
         background.sizeDelta = backgroundSize;       
     }
 
-    private void hideToolTip()
+    private void HideToolTip()
     {
         background.gameObject.SetActive(false);
         uiElement.alpha = 0;
     }
 
     //a diferencia del tipo text, este recibe un texto DINAMICO para colocar en el tooltip
-    public static void showToolTipstaticPointerEnter(string text, Button elem, EventTrigger trigger)
+    public static void ShowToolTipstaticPointerEnter(string text, Button elem, EventTrigger trigger)
     {     
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerEnter;
-        entry.callback.AddListener((eventData) => { instate.showToolTip(text); });
+        entry.callback.AddListener((eventData) => { instate.ShowToolTip(text); });
         trigger.triggers.Add(entry);
     }
 
-    public static void hideToolTipstaticPointerExit(Button elem, EventTrigger trigger)
+    public static void HideToolTipstaticPointerExit(Button elem, EventTrigger trigger)
     {      
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerExit;
-        entry.callback.AddListener((eventData) => { instate.hideToolTip(); });
+        entry.callback.AddListener((eventData) => { instate.HideToolTip(); });
         trigger.triggers.Add(entry);
     }
 
-    public static void hideToolTipstaticPointerClick(Button elem, EventTrigger trigger)
+    public static void HideToolTipstaticPointerClick(Button elem, EventTrigger trigger)
     {
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
         entry.eventID = EventTriggerType.PointerClick;
-        entry.callback.AddListener((eventData) => { instate.hideToolTip(); });
+        entry.callback.AddListener((eventData) => { instate.HideToolTip(); });
         trigger.triggers.Add(entry);
     }
 }

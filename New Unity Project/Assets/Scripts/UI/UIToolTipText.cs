@@ -6,8 +6,8 @@ using UnityEngine.EventSystems;
 
 public class UIToolTipText : MonoBehaviour
 {
-    public CanvasGroup uiElement;
     private Text tooltipText;
+    public CanvasGroup uiElement;
     private static UIToolTipText instate;
 
     private void Awake()
@@ -33,7 +33,7 @@ public class UIToolTipText : MonoBehaviour
     }
 
 
-    public static void showToolTipstaticPointerEnter(Button elem, EventTrigger trigger)
+    public static void ShowToolTipstaticPointerEnter(Button elem, EventTrigger trigger)
     {
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -42,7 +42,7 @@ public class UIToolTipText : MonoBehaviour
         trigger.triggers.Add(entry);
     }
 
-    public static void hideToolTipstaticPointerExit(Button elem, EventTrigger trigger)
+    public static void HideToolTipstaticPointerExit(Button elem, EventTrigger trigger)
     {
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -51,7 +51,7 @@ public class UIToolTipText : MonoBehaviour
         trigger.triggers.Add(entry);
     }
 
-    public static void hideToolTipstaticPointerClick(Button elem, EventTrigger trigger)
+    public static void HideToolTipstaticPointerClick(Button elem, EventTrigger trigger)
     {
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();

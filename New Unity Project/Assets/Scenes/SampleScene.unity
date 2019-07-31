@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1864,6 +1864,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab6c4edadcfd0a24f8114d620d6b95ac, type: 3}
+--- !u!225 &77374202 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 4055092199926187753, guid: c156571454850594ebe75756c089424f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4055092199410239815}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &79720433
 GameObject:
   m_ObjectHideFlags: 0
@@ -3911,7 +3917,7 @@ RectTransform:
   m_Children:
   - {fileID: 456841713}
   m_Father: {fileID: 1867241085}
-  m_RootOrder: 18
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
@@ -10312,7 +10318,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1807429813}
   m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99981076
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -18546,7 +18552,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -99.00001, y: 0.0000013877378}
+  m_AnchoredPosition: {x: -98.9735, y: 0.0000013877378}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896579102
@@ -37187,8 +37193,8 @@ RectTransform:
   - {fileID: 1091349500}
   - {fileID: 1862442987}
   - {fileID: 1426982678}
-  - {fileID: 181323646}
   - {fileID: 1029425025}
+  - {fileID: 181323646}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -42480,5 +42486,15 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7883820541016103191, guid: c156571454850594ebe75756c089424f,
+        type: 3}
+      propertyPath: uiElement
+      value: 
+      objectReference: {fileID: 77374202}
+    - target: {fileID: 7883820541016103191, guid: c156571454850594ebe75756c089424f,
+        type: 3}
+      propertyPath: background
+      value: 
+      objectReference: {fileID: 557895596}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c156571454850594ebe75756c089424f, type: 3}
