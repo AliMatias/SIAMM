@@ -140,6 +140,11 @@ public class CameraManager : MonoBehaviour
         Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - lastMousePosition);
         Vector3 move = new Vector3(-pos.x * panSpeed, -pos.y * panSpeed, 0);
         transform.Translate(move * Time.deltaTime, Space.Self);
+        //chequeo de la misma manera que con las teclas WASD
+        if (!LimitsOk(transform.position))
+        {
+            transform.Translate(-1 * move * Time.deltaTime, Space.Self);
+        }
     }
 
     /**
