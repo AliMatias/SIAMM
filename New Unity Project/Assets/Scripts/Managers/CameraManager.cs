@@ -25,6 +25,7 @@ public class CameraManager : MonoBehaviour
     private float moveSpeed = 10.0f;
 
     //Límites de habitación
+    //Tienen uno menos que las posiciones globales de las paredes.
     private MovementLimit movementLimits = new MovementLimit(9,1,-19,19,19,-19);
 
     void Start()
@@ -60,6 +61,8 @@ public class CameraManager : MonoBehaviour
         Vector3 moveDirection = GetDirectionInput();
         moveDirection = moveDirection * moveSpeed * Time.deltaTime;
         transform.Translate(moveDirection);
+        //Si la cámara se pasa de los límites, vuelvo a aplicar el movimiento en negativo
+        //(Esto lo hice así porque no se como chequear lo que quedaría en transform después del translate)
         if (!LimitsOk(transform.position))
         {
             transform.Translate(-moveDirection);
@@ -152,6 +155,7 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    //Chequeo si se pasa en los 3 ejes por separado.
     private bool LimitsOk(Vector3 position)
     {
         if(position.y > movementLimits.Superior || position.y < movementLimits.Inferior)
