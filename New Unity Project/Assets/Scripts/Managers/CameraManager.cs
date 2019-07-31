@@ -25,7 +25,7 @@ public class CameraManager : MonoBehaviour
     private float moveSpeed = 10.0f;
 
     //Límites de habitación
-    private MovementLimit movementLimits = new MovementLimit(5,-5,-15,25,20,-20);
+    private MovementLimit movementLimits = new MovementLimit(9,1,-19,19,19,-19);
 
     void Start()
     {
