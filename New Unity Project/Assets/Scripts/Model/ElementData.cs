@@ -7,6 +7,8 @@ public class ElementData
     private int neutrons;
     private int electrons;
     private int numero;
+    private int maxelectronsgana;
+    private int maxelectronspierde;
 
     /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
     public string Name { get => name; set => name = value; }
@@ -15,6 +17,8 @@ public class ElementData
     public int Electrons  { get => electrons; set => electrons = value; }
     public string Simbol { get => simbol; set => simbol = value; }
     public int Numero { get => numero; set => numero = value; }
+    public int MaxElectronsGana { get => maxelectronsgana; set => maxelectronsgana = value; }
+    public int MaxElectronsPierde { get => maxelectronspierde; set => maxelectronspierde = value; }
 
     public new string ToString => Name + " (" + Simbol + ") : protones: " + Protons + ", neutrones: "
           + Neutrons + ", electrones: " + Electrons + ".";

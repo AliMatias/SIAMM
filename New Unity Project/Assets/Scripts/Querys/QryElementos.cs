@@ -64,7 +64,7 @@ public class QryElementos : MonoBehaviour
 
         try
         {
-            string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones, Numero FROM valida_elementos WHERE Protones="
+            string sqlQuery = "SELECT Nombre, Simbolo, Protones, Neutrones, Electrones, Numero, maxelectronesgana, maxelectronespierde FROM valida_elementos WHERE Protones="
             + protons + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -79,6 +79,8 @@ public class QryElementos : MonoBehaviour
                 elementData.Neutrons = reader.GetInt32(3);
                 elementData.Electrons = reader.GetInt32(4);
                 elementData.Numero = reader.GetInt32(5);
+                elementData.MaxElectronsGana = reader.GetInt32(6);
+                elementData.MaxElectronsPierde = reader.GetInt32(7);
             }
 
         }
@@ -161,7 +163,6 @@ public class QryElementos : MonoBehaviour
                 elementData.Electrons = reader.GetInt32(4);
                 elementData.Numero = reader.GetInt32(5);
             }
-
         }
         catch (Exception e)
         {        
@@ -176,16 +177,16 @@ public class QryElementos : MonoBehaviour
     }
 
     //trae un elemento isotopo a partir del nro atomico del elemento
-    public ElementData GetIsotopo(int neutrones, int numeroAtomico)
+    public IsotopoData GetIsotopo(int neutrones, int numeroAtomico)
     {
-        ElementData elementData = new ElementData();
+        IsotopoData isotopoData = new IsotopoData();
         //dejo un reader local para cada query, no siendo global
         SqliteDataReader reader = null;
         SqliteConnection dbConnection = null;
 
         try
         { 
-            string sqlQuery = "SELECT isotopo FROM valida_isotopos WHERE neutrones="
+            string sqlQuery = "SELECT isotopo, numero_de_masa, estable FROM valida_isotopos WHERE neutrones="
             + neutrones + " AND numero_atomico=" + numeroAtomico + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -194,9 +195,10 @@ public class QryElementos : MonoBehaviour
 
             while (reader.Read())
             {
-                elementData.Name = reader.GetString(0);
-            }
-                
+                isotopoData.Name = reader.GetString(0);
+                isotopoData.Masa = reader.GetInt32(1);
+                isotopoData.Estable = reader.GetInt32(2);
+            }           
         }
         catch (Exception e)
         { 
@@ -206,7 +208,7 @@ public class QryElementos : MonoBehaviour
         {
             dBManager.ManageClosing(dbConnection, reader);
         }
-        return elementData;
+        return isotopoData;
     }
 
 

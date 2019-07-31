@@ -111,7 +111,7 @@ public class AtomManager : MonoBehaviour
             atom.SpawnNucleon(true, false);
         }else if (particle==1){
             atom.SpawnNucleon(false, false);
-        }else if(particle ==2){
+        }else if(particle ==2){ //agregara electrones
             atom.SpawnElectron(false);
         }else{
             //no va popup

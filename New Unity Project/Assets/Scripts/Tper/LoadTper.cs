@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using UnityEngine.EventSystems;
 
 //Carga tabla periódica
 public class LoadTper : MonoBehaviour
@@ -13,6 +14,7 @@ public class LoadTper : MonoBehaviour
     private QryElementos qryElement;
     private GridLayoutGroup glg;
     private UIPopup popup;
+    private EventTrigger trigger;
     #endregion
 
     // Start is called before the first frame update
@@ -72,6 +74,20 @@ public class LoadTper : MonoBehaviour
             if (textosObj[j].name == "txtNombre")
                 textosObj[j].text = element.Simbol;
         }
+
+        //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips
+        trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
+        //setea metodos static para agregar tooltip
+        UIToolTipText.ShowToolTipstaticPointerEnter(elem, trigger);
+        UIToolTipText.HideToolTipstaticPointerExit(elem, trigger);
+        //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
+        UIToolTipText.HideToolTipstaticPointerClick(elem, trigger);
+
+        //setea metodos static para agregar tooltip
+        UIToolTip.ShowToolTipstaticPointerEnter(element.Name, elem, trigger);
+        UIToolTip.HideToolTipstaticPointerExit(elem, trigger);
+        //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
+        UIToolTip.HideToolTipstaticPointerClick(elem, trigger);
     }
 
     /*Obtiene el nro atomico a partir del "string" que tiene en el boton como txtNroAtomico*/
