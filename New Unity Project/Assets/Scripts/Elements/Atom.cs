@@ -96,7 +96,9 @@ public class Atom: MonoBehaviour
         this.fromTabla = fromTabla;
 
         //actualizar el label que indica el elemento.
-        UpdateElement(protonCounter, neutronCounter, electronCounter);
+        //Si es por tabla entonces NO! actulializo el label en runtime
+        if (!fromTabla)
+            UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
     //crear un electron
@@ -122,7 +124,9 @@ public class Atom: MonoBehaviour
         this.fromTabla = fromTabla;
 
         //actualizo label
-        UpdateElement(protonCounter, neutronCounter, electronCounter);
+        //Si es por tabla entonces NO! actulializo el label en runtime
+        if (!fromTabla)
+            UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
     /// <summary>
@@ -436,6 +440,8 @@ public class Atom: MonoBehaviour
         ElementNumber = element.Numero;
         fromTabla = true;
         IterateCounterAndCreateParticles(element.Protons, element.Neutrons, element.Electrons);
+        //ESCRIBE DIRECTO EL NOMBRE DEL ELEMENTO EN PANTALLA al ser spaw desde tabla periodica
+        UpdateElement(element.Protons, element.Neutrons, element.Electrons);
     }
 
     //Este método lanza las 3 co rutinas que spawnean las partículas indicadas por parámetro

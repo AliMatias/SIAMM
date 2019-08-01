@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11375,6 +11375,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 122805187}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &510681898 stripped
+CanvasGroup:
+  m_CorrespondingSourceObject: {fileID: 1715719097993455335, guid: 1b95a51327a35f545a9c0d5fa6c7dd0b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1715719097672212836}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &513672394
 GameObject:
   m_ObjectHideFlags: 0
@@ -13255,6 +13261,7 @@ GameObject:
   - component: {fileID: 653937594}
   - component: {fileID: 653937593}
   - component: {fileID: 653937595}
+  - component: {fileID: 653937596}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -13300,6 +13307,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae7132eaee8e7244b15adcaba9dd36f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &653937596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 653937592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c1fef815d9952a4094c33314a286e58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panelTper: {fileID: 838878383}
+  textToolTipCanvas: {fileID: 510681898}
+  toolTipCanvas: {fileID: 77374202}
 --- !u!1001 &655245120
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -37406,15 +37428,15 @@ RectTransform:
   - {fileID: 1196609563}
   - {fileID: 1376566121}
   - {fileID: 414213448}
-  - {fileID: 181323646}
-  - {fileID: 1426982678}
   - {fileID: 1917023798}
   - {fileID: 1713467617}
   - {fileID: 623037958}
   - {fileID: 1316814761}
   - {fileID: 1091349500}
   - {fileID: 1862442987}
+  - {fileID: 1426982678}
   - {fileID: 1029425025}
+  - {fileID: 181323646}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -42524,6 +42546,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1715719097993455333, guid: 1b95a51327a35f545a9c0d5fa6c7dd0b,
         type: 3}
+      propertyPath: m_RootOrder
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 1715719097993455333, guid: 1b95a51327a35f545a9c0d5fa6c7dd0b,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -42600,6 +42627,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ToolTip
+      objectReference: {fileID: 0}
+    - target: {fileID: 4055092199926187753, guid: c156571454850594ebe75756c089424f,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4055092199926187755, guid: c156571454850594ebe75756c089424f,
         type: 3}

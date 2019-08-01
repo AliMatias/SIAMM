@@ -23,6 +23,7 @@ public class UIToolTipText : MonoBehaviour
         uiElement.alpha = 1;
         tooltipText.text = "Click Izquierdo: Agregar Átomo \n\n";
         tooltipText.text = tooltipText.text + "Click Derecho: Informacion del Átomo";
+        UIToolTipControl.flagTooltip = true;//le digo al controlador que se activa un tooltip
     }
 
     //Callback function delegada que ejecutara el trigger event
@@ -30,6 +31,7 @@ public class UIToolTipText : MonoBehaviour
     {
         gameObject.SetActive(false);
         uiElement.alpha = 0;
+        UIToolTipControl.flagTooltip = false;//le digo al controlador que se activa un tooltip
     }
 
 
