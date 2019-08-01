@@ -3,10 +3,13 @@
 public class CameraManager : MonoBehaviour
 {
     // Velocidad con la que rota la camara
+    [SerializeField]
     private float turnSpeed = 5000.0f;
     // Velocidad con la que se panea la camara
+    [SerializeField]
     private float panSpeed = 1500.0f;
     // Velocidad con la que se hace zoom
+    [SerializeField]
     private float zoomSpeed = 500.0f;
 
     // Posicion y rotacion inicial de la camara
@@ -18,7 +21,12 @@ public class CameraManager : MonoBehaviour
     private bool isRotating;
 
     // Velocidad con la que se mueve la camara con el teclado
+    [SerializeField]
     private float moveSpeed = 10.0f;
+
+    //Límites de habitación
+    //Tienen uno menos que las posiciones globales de las paredes.
+    private MovementLimit movementLimits = new MovementLimit(9,1,-19,19,19,-19);
 
     void Start()
     {
@@ -53,6 +61,12 @@ public class CameraManager : MonoBehaviour
         Vector3 moveDirection = GetDirectionInput();
         moveDirection = moveDirection * moveSpeed * Time.deltaTime;
         transform.Translate(moveDirection);
+        //Si la cámara se pasa de los límites, vuelvo a aplicar el movimiento en negativo
+        //(Esto lo hice así porque no se como chequear lo que quedaría en transform después del translate)
+        if (!LimitsOk(transform.position))
+        {
+            transform.Translate(-moveDirection);
+        }
     }
 
     /**
@@ -111,6 +125,11 @@ public class CameraManager : MonoBehaviour
         {
             Vector3 move = zoomSpeed * transform.forward * Input.GetAxis("Mouse ScrollWheel");
             transform.Translate(move * Time.deltaTime, Space.World);
+            //chequeo de la misma manera que con las teclas WASD
+            if (!LimitsOk(transform.position))
+            {
+                transform.Translate(-1 * move * Time.deltaTime, Space.World);
+            }
         }
 
         // Deja de rotar/panear al soltar el boton del mouse
@@ -126,6 +145,11 @@ public class CameraManager : MonoBehaviour
         Vector3 pos = Camera.main.ScreenToViewportPoint(Input.mousePosition - lastMousePosition);
         Vector3 move = new Vector3(-pos.x * panSpeed, -pos.y * panSpeed, 0);
         transform.Translate(move * Time.deltaTime, Space.Self);
+        //chequeo de la misma manera que con las teclas WASD
+        if (!LimitsOk(transform.position))
+        {
+            transform.Translate(-1 * move * Time.deltaTime, Space.Self);
+        }
     }
 
     /**
@@ -139,5 +163,26 @@ public class CameraManager : MonoBehaviour
             transform.RotateAround(transform.position, -transform.right, -pos.y * turnSpeed);
             transform.RotateAround(transform.position, -Vector3.up, pos.x * turnSpeed);
         }
+    }
+
+    //Chequeo si se pasa en los 3 ejes por separado.
+    private bool LimitsOk(Vector3 position)
+    {
+        if(position.y > movementLimits.Superior || position.y < movementLimits.Inferior)
+        {
+            return false;
+        }
+
+        if(position.x > movementLimits.Right || position.x < movementLimits.Left)
+        {
+            return false;
+        }
+        
+        if(position.z > movementLimits.Front || position.z < movementLimits.Back)
+        {
+            return false;
+        }
+
+        return true;
     }
 }

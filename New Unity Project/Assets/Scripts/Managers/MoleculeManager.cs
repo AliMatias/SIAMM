@@ -86,7 +86,7 @@ public class MoleculeManager : MonoBehaviour
         }
         //instancio la molécula, y seteo posición
         Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
-        newMolecule.transform.localPosition = positionManager.PlanePositions[position];
+        newMolecule.transform.localPosition = positionManager.Positions[position];
         newMolecule.MoleculeIndex = position;
         molecules.Add(newMolecule);
         //seteo nombre
