@@ -56,7 +56,7 @@ public class AtomManager : MonoBehaviour
         //instancio
         Atom spawnedAtom = Instantiate<Atom>(atomPrefab);
         //asigno random position
-        spawnedAtom.transform.localPosition = positionManager.PlanePositions[position];
+        spawnedAtom.transform.localPosition = positionManager.Positions[position];
         //agrego a la lista
         atomsList.Add(spawnedAtom);
         //asigno su índice a este átomo
