@@ -5,7 +5,6 @@ public class UICounterLabel : MonoBehaviour
 {
     private const string EMPTY_VALUE = "-";
 
-    private SelectionManager selectionManager;
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
 
@@ -15,7 +14,6 @@ public class UICounterLabel : MonoBehaviour
 
     void Awake()
     {
-        selectionManager = FindObjectOfType<SelectionManager>();
         atomManager = FindObjectOfType<AtomManager>();
         moleculeManager = FindObjectOfType<MoleculeManager>();
     }
