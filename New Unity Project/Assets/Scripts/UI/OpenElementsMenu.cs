@@ -6,6 +6,7 @@ public class OpenElementsMenu : MonoBehaviour
 {
     public GameObject panel;
     public GameObject button;
+    public CanvasGroup listMolecula;
 
     public void OpenPanel()
     {
@@ -22,12 +23,14 @@ public class OpenElementsMenu : MonoBehaviour
         //si hay un botón
         if(button != null)
         {
+            //siempre que no este visible la lista!
+            listMolecula.alpha = 0;
             //obtengo el texto del botón
             Text buttonText = button.GetComponentInChildren<Text>();
             //y lo cambio según corresponda
             if(!opened)
-            {
-                buttonText.text = ">";
+            {          
+                buttonText.text = ">";                
             }
             else
             {
