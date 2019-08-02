@@ -51,6 +51,10 @@ public class Atom: MonoBehaviour
     public int AtomIndex { get => atomIndex; set => atomIndex = value; }
     public int ElementNumber { get => elementNumber; set => elementNumber = value; }
 
+    public int ProtonCounter { get => protonCounter; }
+    public int NeutronCounter { get => neutronCounter; }
+    public int ElectronCounter { get => electronCounter; }
+
     //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
     private void Awake()
     {

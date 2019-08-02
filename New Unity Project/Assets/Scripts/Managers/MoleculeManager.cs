@@ -199,4 +199,19 @@ public class MoleculeManager : MonoBehaviour
 
         activateDeactivateMoleculeButtons();
     }
+
+    public List<int> GetSelectedMolecules()
+    {
+        List<int> selectedMolecules = new List<int>();
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        foreach (int index in selectedObjects)
+        {
+            Molecule molecule = FindMoleculeInList(index);
+            if (molecule != null)
+            {
+                selectedMolecules.Add(index);
+            }
+        }
+        return selectedMolecules;
+    }
 }
