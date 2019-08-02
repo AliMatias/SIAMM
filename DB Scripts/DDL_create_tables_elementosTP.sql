@@ -80,24 +80,28 @@ CREATE TABLE "isotopos"(
 	"composicion_isotopica" TEXT NULL,
 	"peso_atomico_estandar" TEXT NULL); 
 
+CREATE TABLE "valida_elementos" (
+	"id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	"numero"	INTEGER,
+	"simbolo"	TEXT,
+	"nombre"	TEXT,
+	"electrones"	INTEGER,
+	"protones"	INTEGER,
+	"neutrones"	INTEGER,
+	"maxelectronesgana"	INTEGER,
+	"maxelectronespierde"	INTEGER
+);
 
-CREATE TABLE "valida_elementos"(
-	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	"numero" INTEGER NULL,
-	"simbolo" TEXT NULL,
-	"nombre" TEXT NULL,
-	"electrones" INTEGER NULL,
-	"protones" INTEGER NULL,
-	"neutrones" INTEGER NULL);
 
-
-CREATE TABLE "valida_isotopos"(
-	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	"numero_atomico" INTEGER NULL,
-	"numero_correlativo" INTEGER NULL,
-	"isotopo" TEXT NULL,
-	"numero_de_masa" INTEGER NULL,
-	"neutrones" INTEGER NULL);
+CREATE TABLE "valida_isotopos" (
+	"id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	"numero_atomico"	INTEGER,
+	"numero_correlativo"	INTEGER,
+	"isotopo"	TEXT,
+	"numero_de_masa"	INTEGER,
+	"neutrones"	INTEGER,
+	"estable"	INTEGER
+);
 
 
 CREATE TABLE "elementos_orbitas"(

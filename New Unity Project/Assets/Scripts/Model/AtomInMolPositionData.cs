@@ -9,6 +9,7 @@
     private float scale;
     private int connectedTo;
     private int connectionType;
+    private int lineType;
 
     public AtomInMolPositionData()
     {
@@ -16,7 +17,7 @@
 
     public AtomInMolPositionData(int id, int moleculeId, int elementId, 
         float xPos, float yPos, float zPos, float scale, int connectedTo,
-        int connectionType)
+        int connectionType, int lineType)
     {
         this.id = id;
         this.moleculeId = moleculeId;
@@ -27,6 +28,7 @@
         this.scale = scale;
         this.connectedTo = connectedTo;
         this.connectionType = connectionType;
+        this.lineType = lineType;
     }
 
     public int Id { get => id; set => id = value; }
@@ -38,4 +40,5 @@
     public float Scale { get => scale; set => scale = value; }
     public int ConnectedTo { get => connectedTo; set => connectedTo = value; }
     public int ConnectionType { get => connectionType; set => connectionType = value; }
+    public int LineType { get => lineType; set => lineType = value; }
 }

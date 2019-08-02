@@ -35,9 +35,11 @@ public class InputManager : MonoBehaviour
     /*Va a crear un objeto elemento a partir de apretar el boton izq del mouse*/
     public void Spawn()
     {
+        UIToolTipControl.flagTooltip = true;//le digo al controlador que se activa un tooltip
+
         /*no hago nullcheck, porque el método spawnFromPeriodicTable ya lo hace, ademas 
           no hace falta porque siempre va a existir un boton que contendra un objeto text, 
-          en este caso el objeto text del boton se esta trayendo el 1ro de la coleccion*/ 
+          en este caso el objeto text del boton se esta trayendo el 1ro de la coleccion*/
         Text text = parent.GetComponentInChildren<Text>();
 
         atomManager.SpawnFromPeriodicTable(text.text);
@@ -50,10 +52,12 @@ public class InputManager : MonoBehaviour
     /*va a ejecutar el proceso para mostrar informacion basica a partir de apretar el boton der del mouse*/
     public void GetInfoBasic()
     {
+        UIToolTipControl.flagTooltip = true;//le digo al controlador que se activa un tooltip
+
         nroAtomico = getNroAtomicoId();
 
         //llamo para completar la info detallada
-        ElementInfoDetail elementInfoDet = loadTPer.LoadInfoDeatail(nroAtomico); //prueba
+        ElementInfoDetail elementInfoDet = loadTPer.LoadInfoDeatail(nroAtomico);
         DetailInfoLoader.SetDetailInfo(elementInfoDet);
      
         //envio el boton que fue presionado para obtener luego su diseño

@@ -75,6 +75,7 @@ GameObject:
   - component: {fileID: 3825269043591431555}
   - component: {fileID: 381703965849920370}
   - component: {fileID: 642719902645360155}
+  - component: {fileID: 5790293456034284131}
   m_Layer: 0
   m_Name: MoleculeName
   m_TagString: Untagged
@@ -154,4 +155,16 @@ TextMesh:
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Color:
     serializedVersion: 2
-    rgba: 4278190335
+    rgba: 4294967295
+--- !u!114 &5790293456034284131
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8204628917294282050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c78c6efc5692bfb47b30f067072698ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

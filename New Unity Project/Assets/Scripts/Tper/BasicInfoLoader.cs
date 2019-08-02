@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 /*Carga la info básica de los elementos*/
 public class BasicInfoLoader : MonoBehaviour
@@ -56,28 +57,28 @@ public class BasicInfoLoader : MonoBehaviour
             if (a.name == "txtPeriodo")
                 a.text = "Período: " + elementInfoBasic.Periodo;
             if (a.name == "txtColor")
-                a.text = "Color: " + elementInfoBasic.Color;
+                a.text = "Color: " + managerNullables(elementInfoBasic.Color);
             if (a.name == "txtClasificacion")
                 a.text = "Clasificación: " + elementInfoBasic.Clasificacion;
             if (a.name == "txtClasificacionGrupo")
                 a.text = "Clasificación Grupo: " + elementInfoBasic.Clasificacion_grupo;
             if (a.name == "txtValencia")
-                a.text = "Valencia: " + elementInfoBasic.Valencia;
+                a.text = "Valencia: " + managerNullables(elementInfoBasic.Valencia);
             if (a.name == "txtEstadoNatural")
-                a.text = "Estado Natural: " + elementInfoBasic.Estado_natural;
+                a.text = "Estado Natural: " + managerNullables(elementInfoBasic.Estado_natural);
             if (a.name == "txtEstructuraCrist")
             {
-                a.text = "Estructura Cristalina: " + elementInfoBasic.EstructuraCristalina;
+                a.text = "Estructura Cristalina: " + managerNullables(elementInfoBasic.EstructuraCristalina);
                 setImageEstCrist(elementInfoBasic.EstructuraCristalina);
             }
             if (a.name == "txtNroOxi")
-                a.text = "Números Oxidación: " + elementInfoBasic.NumerosOxidacion;
+                a.text = "Números Oxidación: " + managerNullables(elementInfoBasic.NumerosOxidacion);
             if (a.name == "txtConfElectronica")
-                a.text = "Configuración Electrónica: " + elementInfoBasic.ConfElectronica;
+                a.text = "Configuración Electrónica: " + managerNullables(elementInfoBasic.ConfElectronica);
             if (a.name == "txtPtoFusion")
-                a.text = "Punto de Fusión: " + elementInfoBasic.PuntoFusion;
+                a.text = "Punto de Fusión: " + managerNullables(elementInfoBasic.PuntoFusion);
             if (a.name == "txtPtoEbullicion")
-                a.text = "Punto de Ebullicón: " + elementInfoBasic.PuntoEbullicion;
+                a.text = "Punto de Ebullicón: " + managerNullables(elementInfoBasic.PuntoEbullicion);
             if (a.name == "txtResumen")
                 a.text = elementInfoBasic.Resumen;
 
@@ -184,6 +185,13 @@ public class BasicInfoLoader : MonoBehaviour
                     a.sprite = estructCristalina[12];
             }
         }
+    }
+
+    private string managerNullables(String valor)
+    {
+        if (valor == null || valor == "" || valor == string.Empty)
+            return "n/a";
+        return valor;
     }
 
     #endregion

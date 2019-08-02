@@ -18,7 +18,7 @@ public class DetailInfoLoader : MonoBehaviour
         texts = panel.GetComponentsInChildren<TextMeshProUGUI>();   
     }
 
-
+    #region Metodos
     //setea la info detallada AGREGADA en las hojas siguientes en el flip book
     public void SetDetailInfo(ElementInfoDetail elementInfoDetail)
     {
@@ -176,4 +176,5 @@ public class DetailInfoLoader : MonoBehaviour
             return "n/a";
         return valor;
     }
+    #endregion
 }

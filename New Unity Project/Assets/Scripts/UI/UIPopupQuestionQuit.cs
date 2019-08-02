@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class UIPopup : MonoBehaviour
+public class UIPopupQuestionQuit : MonoBehaviour
 {
 
     private bool showPopUp = false;
@@ -13,8 +11,10 @@ public class UIPopup : MonoBehaviour
     public string PopUpMessage { get => popUpMessage; set => popUpMessage = value; }
     public string PopUpTitle { get => popUpTitle; set => popUpTitle = value; }
 
-    public void MostrarPopUp()
+    public void MostrarPopUp(string title, string message)
     {
+        PopUpTitle = title;
+        PopUpMessage = message;
         showPopUp = true;
     }
 
@@ -42,7 +42,11 @@ public class UIPopup : MonoBehaviour
         if (GUI.Button(new Rect(50, 100, 75, 30), "OK"))
         {
             OcultarPopUp();
+            Application.Quit();
         }
-
+        else if (GUI.Button(new Rect(200, 100, 75, 30), "Cancelar"))
+        {
+            OcultarPopUp();
+        }
     }
 }
