@@ -36,7 +36,7 @@ public class UIMenu : MonoBehaviour
     void OnGUI()
     {
         posXr = 0.01f * Screen.width;
-        posY = 0.05f * Screen.height;
+        posY = 0.05f * Screen.height;//esto puede ir cambiando de acuerdo a donde ubique el boton...
         largo = 0.12f * Screen.width;
         altura = 0.32f * Screen.height;
 
