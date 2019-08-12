@@ -6,36 +6,24 @@ using UnityEngine.EventSystems;
 
 public class LoadPopupBtn : MonoBehaviour
 {
-    public Button btnAtom = null;
-    public Button btnTPer = null;
     public Button btnCombine = null;
-    public Button btnMolecule = null;
-    public Button btnInfo = null; 
+    public GameObject mnuMolecule = null;
+    public GameObject mnuInfo = null;
+    public GameObject mnuAtom = null;
     private EventTrigger trigger;
 
     // Start is called before the first frame update
     void Start()
-    {
-        if (btnAtom != null)
+    {    
+        if (mnuAtom != null)
         {
             //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips
-            trigger = btnAtom.gameObject.AddComponent<EventTrigger>() as EventTrigger;
+            trigger = mnuAtom.gameObject.AddComponent<EventTrigger>() as EventTrigger;
             //setea metodos static para agregar tooltip (por cada! tool tip tiene que haber un script)
-            UIToolTipAtom.ShowToolTipstaticPointerEnter("ÁTOMOS", btnAtom, trigger);
-            UIToolTipAtom.HideToolTipstaticPointerExit(btnAtom, trigger);
+            UIToolTipAtom.ShowToolTipstaticPointerEnter("* ÁTOMOS\n* TABLA PERIÓDICA", mnuAtom, trigger);
+            UIToolTipAtom.HideToolTipstaticPointerExit(mnuAtom, trigger);
             //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
-            UIToolTipAtom.HideToolTipstaticPointerClick(btnAtom, trigger);
-        }
-
-        else if (btnTPer != null)
-        {
-            //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips
-            trigger = btnTPer.gameObject.AddComponent<EventTrigger>() as EventTrigger;
-            //setea metodos static para agregar tooltip (por cada! tool tip tiene que haber un script)
-            UIToolTipTper.ShowToolTipstaticPointerEnter("TABLA\nPERIÓDICA",btnTPer, trigger);
-            UIToolTipTper.HideToolTipstaticPointerExit(btnTPer, trigger);
-            //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
-            UIToolTipTper.HideToolTipstaticPointerClick(btnTPer, trigger);
+            UIToolTipAtom.HideToolTipstaticPointerClick(mnuAtom, trigger);
         }
 
         else if (btnCombine != null)
@@ -49,26 +37,26 @@ public class LoadPopupBtn : MonoBehaviour
             UIToolTipCombine.HideToolTipstaticPointerClick(btnCombine, trigger);
         }
 
-        else if (btnMolecule != null)
+        else if (mnuMolecule != null)
         {
             //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips
-            trigger = btnMolecule.gameObject.AddComponent<EventTrigger>() as EventTrigger;
+            trigger = mnuMolecule.gameObject.AddComponent<EventTrigger>() as EventTrigger;
             //setea metodos static para agregar tooltip (por cada! tool tip tiene que haber un script)
-            UIToolTipMolecule.ShowToolTipstaticPointerEnter("MOLÉCULAS",btnMolecule, trigger);
-            UIToolTipMolecule.HideToolTipstaticPointerExit(btnMolecule, trigger);
+            UIToolTipMolecule.ShowToolTipstaticPointerEnter("* MOLÉCULAS", mnuMolecule, trigger);
+            UIToolTipMolecule.HideToolTipstaticPointerExit(mnuMolecule, trigger);
             //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
-            UIToolTipMolecule.HideToolTipstaticPointerClick(btnMolecule, trigger);
+            UIToolTipMolecule.HideToolTipstaticPointerClick(mnuMolecule, trigger);
         }
 
-        else if (btnInfo != null)
+        else if (mnuInfo != null)
         {
             //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips
-            trigger = btnInfo.gameObject.AddComponent<EventTrigger>() as EventTrigger;
+            trigger = mnuInfo.gameObject.AddComponent<EventTrigger>() as EventTrigger;
             //setea metodos static para agregar tooltip (por cada! tool tip tiene que haber un script)
-            UIToolTipInfo.ShowToolTipstaticPointerEnter("SUGERENCIAS\nINFORMACIÓN ADICIONAL", btnInfo, trigger);
-            UIToolTipInfo.HideToolTipstaticPointerExit(btnInfo, trigger);
+            UIToolTipInfo.ShowToolTipstaticPointerEnter("SUGERENCIAS\nINFORMACIÓN ADICIONAL", mnuInfo, trigger);
+            UIToolTipInfo.HideToolTipstaticPointerExit(mnuInfo, trigger);
             //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
-            UIToolTipInfo.HideToolTipstaticPointerClick(btnInfo, trigger);
+            UIToolTipInfo.HideToolTipstaticPointerClick(mnuInfo, trigger);
         }
     }
 

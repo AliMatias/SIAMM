@@ -8,6 +8,7 @@ public class SelectionManager : MonoBehaviour
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
     private List<int> selectedObjects;
+    public CanvasGroup panelElements;
 
     public List<int> SelectedObjects { get => selectedObjects; }
 
@@ -28,6 +29,8 @@ public class SelectionManager : MonoBehaviour
             // Este átomo ya estaba seleccionado. Se quitará la selección
             selectedObjects.Remove(atom.AtomIndex);
             atom.Deselect();
+            //no muestro panel de agregar elementos
+            panelElements.alpha = 0;
             return false;
         }
 
@@ -39,6 +42,8 @@ public class SelectionManager : MonoBehaviour
 
         selectedObjects.Add(atom.AtomIndex);
         atom.Select();
+        //muestro ademas el panel de agregar elementos!
+        panelElements.alpha = 1;
         return true;
     }
 
