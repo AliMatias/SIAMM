@@ -10783,7 +10783,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1807429814}
   m_HandleRect: {fileID: 1807429813}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.9999997
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -12474,10 +12474,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a9311cbdf6e174ab07ec2459bee720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mnuCombine: {fileID: 0}
-  mnuMolecule: {fileID: 554922153}
-  mnuInfo: {fileID: 0}
-  mnuAtom: {fileID: 0}
+  menuSet: {fileID: 554922153}
+  toolTipType: 1
 --- !u!224 &557895596 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4055092199926187755, guid: c156571454850594ebe75756c089424f,
@@ -14711,10 +14709,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a9311cbdf6e174ab07ec2459bee720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mnuCombine: {fileID: 710995310}
-  mnuMolecule: {fileID: 0}
-  mnuInfo: {fileID: 0}
-  mnuAtom: {fileID: 0}
+  menuSet: {fileID: 710995310}
+  toolTipType: 0
 --- !u!1001 &711873691
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18843,10 +18839,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a9311cbdf6e174ab07ec2459bee720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mnuCombine: {fileID: 0}
-  mnuMolecule: {fileID: 0}
-  mnuInfo: {fileID: 866145088}
-  mnuAtom: {fileID: 0}
+  menuSet: {fileID: 866145088}
+  toolTipType: 2
 --- !u!114 &866145092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19220,7 +19214,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -98.99998, y: -0.000015224474}
+  m_AnchoredPosition: {x: -98.99995, y: 0.000022723963}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896579102
@@ -29333,7 +29327,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1488716185}
   m_HandleRect: {fileID: 1488716184}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -30994,10 +30988,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a9311cbdf6e174ab07ec2459bee720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mnuCombine: {fileID: 0}
-  mnuMolecule: {fileID: 0}
-  mnuInfo: {fileID: 0}
-  mnuAtom: {fileID: 1469532880}
+  menuSet: {fileID: 1469532880}
+  toolTipType: 3
 --- !u!1 &1473305592
 GameObject:
   m_ObjectHideFlags: 0
