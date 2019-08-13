@@ -9,7 +9,7 @@ public class UIToolTipCombine : MonoBehaviour
     private Text tooltipText;
     public CanvasGroup uiElement;
     public RectTransform background;
-    public Button btn;
+    public GameObject btn;
     private static UIToolTipCombine instate;
 
     private void Awake()
@@ -28,7 +28,7 @@ public class UIToolTipCombine : MonoBehaviour
         float paddingtextSize = 4f;
         Vector2 backgroundSize = new Vector2(tooltipText.preferredWidth + paddingtextSize * 2f, tooltipText.preferredHeight + paddingtextSize * 2f);
         background.sizeDelta = backgroundSize;
-        Vector3 offset = new Vector3(50, -50, 0);
+        Vector3 offset = new Vector3(50, 100, 0);
         transform.position = btn.transform.position + offset;//del boton siempre un delta!
     }
 
@@ -39,7 +39,7 @@ public class UIToolTipCombine : MonoBehaviour
     }
 
     //a diferencia del tipo text, este recibe un texto DINAMICO para colocar en el tooltip
-    public static void ShowToolTipstaticPointerEnter(string text, Button elem, EventTrigger trigger)
+    public static void ShowToolTipstaticPointerEnter(string text, GameObject elem, EventTrigger trigger)
     {     
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -48,7 +48,7 @@ public class UIToolTipCombine : MonoBehaviour
         trigger.triggers.Add(entry);
     }
 
-    public static void HideToolTipstaticPointerExit(Button elem, EventTrigger trigger)
+    public static void HideToolTipstaticPointerExit(GameObject elem, EventTrigger trigger)
     {      
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();
@@ -57,7 +57,7 @@ public class UIToolTipCombine : MonoBehaviour
         trigger.triggers.Add(entry);
     }
 
-    public static void HideToolTipstaticPointerClick(Button elem, EventTrigger trigger)
+    public static void HideToolTipstaticPointerClick(GameObject elem, EventTrigger trigger)
     {
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
         EventTrigger.Entry entry = new EventTrigger.Entry();

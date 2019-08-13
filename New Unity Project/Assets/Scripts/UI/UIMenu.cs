@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIMenu : MonoBehaviour
 {
-    string[] bottonNames = {"Abrir Proyecto","Nuevo Proyecto","Guardar", "Guardar Como", "Exportar", "Salir"};
+    string[] bottonNames = { "Nuevo Proyecto", "Abrir Proyecto","Guardar", "Guardar Como", "Exportar", "Cerrar Proyecto"};
 
     float posX = -2 * Screen.width;
     float posY = 0.05f * Screen.height;
@@ -16,12 +16,6 @@ public class UIMenu : MonoBehaviour
     float velocidad = 15f;
 
     bool entrando = true;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -51,6 +45,7 @@ public class UIMenu : MonoBehaviour
 
         for (int i=1; i<bottonNames.Length; i++)
         {
+            //luego sera un bton interactivo
             GUI.Box(new Rect(posX +0.005f * Screen.width,
                 posY+ (0.03f + i*0.05f) * Screen.height,
                 largo - 0.05f * Screen.width,
