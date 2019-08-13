@@ -8,8 +8,10 @@ public class SelectionManager : MonoBehaviour
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
     private List<int> selectedObjects;
+    //se asigna desde la interfaz
     public CanvasGroup panelElements;
 
+    //hace referencia desde la clase selection manager
     public List<int> SelectedObjects { get => selectedObjects; }
 
 
@@ -22,7 +24,7 @@ public class SelectionManager : MonoBehaviour
     }
 
     public bool SelectObject(Atom atom)
-    { 
+    {
         // verifico si el objeto estaba seleccionado
         if (selectedObjects.IndexOf(atom.AtomIndex) != -1)
         {
@@ -42,8 +44,13 @@ public class SelectionManager : MonoBehaviour
 
         selectedObjects.Add(atom.AtomIndex);
         atom.Select();
-        //muestro ademas el panel de agregar elementos!
-        panelElements.alpha = 1;
+
+        //muestro ademas el panel de agregar elementos! SI EL MODO ES NORMAL(lo hago posterior al if antesesor porque primero lo agrego y lo hago seleccionado)
+        if (!combinationManager.CombineMode)
+        {
+            panelElements.alpha = 1;
+        } 
+
         return true;
     }
 
@@ -66,6 +73,8 @@ public class SelectionManager : MonoBehaviour
 
         selectedObjects.Add(molecule.MoleculeIndex);
         molecule.Select();
+        //no muestro panel de agregar elementos porque una molecula no se cambia 
+        panelElements.alpha = 0;
         return true;
     }
 
@@ -81,6 +90,9 @@ public class SelectionManager : MonoBehaviour
         {
             DeselectAll();
         }
+
+        //no muestro panel de agregar elementos cuando se activa el switch
+        panelElements.alpha = 0;
     }
 
     public void DeselectAll()

@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 
 public class LoadPopupBtn : MonoBehaviour
 {
+    //se setean desde la interface identificando cual es el boton que tendra la interaccion del tooltip de acuerdo al tipo
     public GameObject mnuCombine = null;
     public GameObject mnuMolecule = null;
     public GameObject mnuInfo = null;
@@ -14,7 +15,8 @@ public class LoadPopupBtn : MonoBehaviour
 
     // Start is called before the first frame update
     void Start()
-    {    
+    {
+        //llama directamente a la clase estatica de cada tooltip correspondiente, cada objeto tooltip tiene su propia clase que maneja sus atributos
         if (mnuAtom != null)
         {
             //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips

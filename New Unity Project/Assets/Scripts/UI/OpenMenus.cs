@@ -65,6 +65,7 @@ public class OpenMenus : MonoBehaviour
         }
     }
 
+    //se utiliza para el panel de informacion adicional
     public void OpenPanel()
     {
         //obtengo el animator del panel

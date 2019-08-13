@@ -34,11 +34,11 @@ public class UIMenu : MonoBehaviour
         largo = 0.12f * Screen.width;
         altura = 0.32f * Screen.height;
 
-        GUI.Box(new Rect(posX, posY, largo, altura), "Menú");
+        GUI.Box(new Rect(posXr, posY, largo, altura), "Menú");
 
         largo = 0.16f * Screen.width;
 
-        GUI.Box(new Rect(posX + 0.005f * Screen.width,
+        GUI.Box(new Rect(posXr + 0.005f * Screen.width,
                 posY+ (0.03f + 0*0.1f) * Screen.height,
                 largo - 0.05f * Screen.width,
                 0.1f * Screen.height - 0.07f * Screen.height), bottonNames[0]);
@@ -46,7 +46,7 @@ public class UIMenu : MonoBehaviour
         for (int i=1; i<bottonNames.Length; i++)
         {
             //luego sera un bton interactivo
-            GUI.Box(new Rect(posX +0.005f * Screen.width,
+            GUI.Box(new Rect(posXr + 0.005f * Screen.width,
                 posY+ (0.03f + i*0.05f) * Screen.height,
                 largo - 0.05f * Screen.width,
                 0.1f * Screen.height - 0.07f * Screen.height), bottonNames[i]);

@@ -56,11 +56,11 @@ public class CombinationManager : MonoBehaviour
         Text text = combineModeButton;
         if (!combineMode)
         {
-            text.text = "Modo normal";
+            text.text = "Creación";
         }
         else
         {
-            text.text = "Modo combinación";
+            text.text = "Combinación";
         }
     }
 
