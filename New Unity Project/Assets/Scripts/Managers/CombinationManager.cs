@@ -15,7 +15,7 @@ public class CombinationManager : MonoBehaviour
     private MoleculeManager moleculeManager;
     private SelectionManager selectionManager;
     public Button combineButton;
-    public Button combineModeButton;
+    public Text combineModeButton;
     private UIPopup popup;
 
     public bool CombineMode { get => combineMode; }
@@ -52,14 +52,15 @@ public class CombinationManager : MonoBehaviour
         // le aviso al selection manager que cambié de modo
         selectionManager.SwitchCombineMode(combineMode);
         //obtengo el texto del boton y lo cambio
-        Text text = combineModeButton.GetComponentInChildren<Text>();
-        if (combineMode)
+        //Text text = combineModeButton.GetComponentInChildren<Text>();
+        Text text = combineModeButton;
+        if (!combineMode)
         {
-            text.text = "Modo normal";
+            text.text = "Creación";
         }
         else
         {
-            text.text = "Modo combinación";
+            text.text = "Combinación";
         }
     }
 
