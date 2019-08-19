@@ -408,7 +408,9 @@ public class Atom: MonoBehaviour
     */
     void OnDestroy()
     {
-        mainInfoPanel.HideInfo();
+        if(mainInfoPanel != null){
+            mainInfoPanel.HideInfo();
+        }
         Destroy(gameObject);
     }
 
