@@ -12,6 +12,8 @@ public class MainInfoPanel : MonoBehaviour
     //labels donde muestra info
     public TextMeshProUGUI nameLbl;
     public GameObject[] suggestionButtons;
+    //contenedor para esconder la info
+    public CanvasGroup infoContainer;
     //imagen del boton
     public GameObject elementBtn;
     //diccionario que mapea categoría de la tabla, con color
@@ -53,14 +55,19 @@ public class MainInfoPanel : MonoBehaviour
 
         if (element != null && element.Nroatomico != 0)
         {
+            infoContainer.alpha = 1;
             nameLbl.text = element.Name;
             SetElementColor(element);
             SetButtonTexts(element);
         }
         else
         {
-            nameLbl.text = "";
+            HideInfo();
         }
+    }
+
+    public void HideInfo(){
+        infoContainer.alpha = 0;
     }
 
     private void SetButtonTexts(ElementTabPer element){
@@ -69,7 +76,6 @@ public class MainInfoPanel : MonoBehaviour
         texts[1].text = Convert.ToString(element.Nroatomico);
         texts[2].text = Convert.ToString(element.PesoAtomico);
         texts[3].text = element.ConfElectronica;
-
     }
 
     private void SetElementColor(ElementTabPer element)

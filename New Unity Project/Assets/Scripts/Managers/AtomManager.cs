@@ -16,8 +16,7 @@ public class AtomManager : MonoBehaviour
     private bool combineMode = false;
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
-    //panel de info
-    private MainInfoPanel mainInfoPanel;
+    
     //lista de botones relevantes para los átomos
     private List<Button> atomButtons = new List<Button>();
     [SerializeField]
@@ -37,7 +36,6 @@ public class AtomManager : MonoBehaviour
 
         popup = FindObjectOfType<UIPopup>();
         selectionManager = FindObjectOfType<SelectionManager>();
-        mainInfoPanel = FindObjectOfType<MainInfoPanel>();
     }
 
     //agregar nuevo átomo al espacio de trabajo
@@ -77,7 +75,6 @@ public class AtomManager : MonoBehaviour
     {
         Atom selectedAtom = FindAtomInList(index);
         selectionManager.SelectObject(selectedAtom);
-        mainInfoPanel.SetInfo(selectedAtom);
     }
 
     //ya que el índice del átomo depende de la posición, 
