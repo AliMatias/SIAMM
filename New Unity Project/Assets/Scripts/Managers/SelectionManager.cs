@@ -45,7 +45,8 @@ public class SelectionManager : MonoBehaviour
         selectedObjects.Add(atom.AtomIndex);
         atom.Select();
 
-        //muestro ademas el panel de agregar elementos! SI EL MODO ES NORMAL(lo hago posterior al if antesesor porque primero lo agrego y lo hago seleccionado)
+        //muestro ademas el panel de agregar elementos! 
+        //SI EL MODO ES NORMAL(lo hago posterior al if antesesor porque primero lo agrego y lo hago seleccionado)
         if (!combinationManager.CombineMode)
         {
             panelElements.alpha = 1;

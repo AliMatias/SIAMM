@@ -1,0 +1,1 @@
+INSERT INTO sugerencias VALUES (1,1,8),(2,1,6),(3,1,7),(4,3,17),(5,3,6);

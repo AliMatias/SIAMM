@@ -1,6 +1,8 @@
 ﻿using Mono.Data.Sqlite;
 using System;
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class QryElementos : MonoBehaviour
 {
@@ -310,6 +312,33 @@ public class QryElementos : MonoBehaviour
         }
 
         return elementInfoBasic;
+    }
+
+    //trae sugerencias de elementos
+    public List<Suggestion> GetSuggestionForElement(int elementId){
+        List<Suggestion> suggestions = new List<Suggestion>();
+        //dejo un reader local para cada query, no siendo global
+        SqliteDataReader reader = null;
+        SqliteConnection dbConnection = null;
+
+        try{
+            string sqlQuery = "SELECT * FROM sugerencias WHERE id_elemento=" + elementId + ";";
+
+            dbConnection = dBManager.openCon();
+            reader = dBManager.ManageExec(dbConnection, sqlQuery);
+            while(reader.Read()){
+                suggestions.Add(new Suggestion(reader.GetInt32(0), reader.GetInt32(1), reader.GetInt32(2)));
+            }
+        }
+        catch (Exception e)
+        {         
+            throw e;
+        }
+        finally
+        {
+            dBManager.ManageClosing(dbConnection, reader);
+        }
+        return suggestions;
     }
 
     //trae la info detallada a partir de un nro atomico entero

@@ -136,7 +136,7 @@ public class MoleculeManager : MonoBehaviour
         categories.Add("Pobre", 7);
         categories.Add("De Transicion", 8);
         categories.Add("Lantanido", 9);
-        categories.Add("Actinido", 10);
+        categories.Add("Actinidos", 10);
     }
 
     //método para obtener el material
