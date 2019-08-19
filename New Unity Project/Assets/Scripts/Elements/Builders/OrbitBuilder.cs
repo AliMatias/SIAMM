@@ -17,12 +17,14 @@ public class OrbitBuilder
             Orbital orbital = orbitalAndPeriod.Orbital;
             int period = orbitalAndPeriod.Period;
 
-            int position = Math.Min(electronNumber, orbital.MaxElectrons);
-
             Orbit orbit = atom.GetOrbit(period);
             if (orbit == null)
             {
                 orbit = CreateOrbit(atom, period);
+                if (orbit == null)
+                {
+                    return null;
+                }
             }
 
             ElectronSubshell electronSubshell = orbit.GetElectronSubshell(orbital.Name);

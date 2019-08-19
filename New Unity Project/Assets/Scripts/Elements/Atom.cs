@@ -112,9 +112,23 @@ public class Atom: MonoBehaviour
             //selecciono el prefab y lo instancio
             GameObject prefab = particlePrefabs[2];
             GameObject spawn = Instantiate<GameObject>(prefab, parent);
-            Orbit newOrbit = OrbitBuilder.BuildOrbit(electronCounter + 1, this, spawn);
-            spawn.transform.localPosition = newOrbit.Position;
+            Orbit orbit = OrbitBuilder.BuildOrbit(electronCounter + 1, this, spawn);
+            if (orbit == null)
+            {
+                Destroy(spawn);
+                return;
+            }
+            spawn.transform.localPosition = orbit.Position;
             electronCounter++;
+            if (electronCounter == 118)
+            {
+                popup.MostrarPopUp("Atención!", "Se alcanzó el límite máximo de electrones para elementos conocidos. (118)");
+            }
+            else if (electronCounter == 280)
+            {
+                allowElectronSpawn = false;
+                popup.MostrarPopUp("Atención!", "Se alcanzó el límite máximo de electrones permitido. (280)");
+            }
         }
         // indica si fue creado con el boton o desde la tabla
         this.fromTabla = fromTabla;
