@@ -6,45 +6,40 @@ using UnityEditor;
 
 public class Orbit
 {
-    public int Number { get; set; }
-    public string Name { get; set; }
-    public int MaxElectrons { get; set; }
-    public Vector3 Position { get; set; }
-    public List<GameObject> ElectronList { get; }
-    public GameObject OrbitCircle { get; set; }
+    private int number;
+    private string name;
+    private int maxElectrons;
+    private Vector3 position;
+    private GameObject orbitCircle;
+    private List<ElectronSubshell> electronSubshells;
+
+    public int Number { get => number; set => number = value; }
+    public string Name { get => name; set => name = value; }
+    public int MaxElectrons { get => maxElectrons; set => maxElectrons = value; }
+    public Vector3 Position { get => position; set => position = value; }
+    public GameObject OrbitCircle { get => orbitCircle; set => orbitCircle = value; }
+    public List<ElectronSubshell> ElectronSubshells { get => electronSubshells; }
 
     public Orbit(int number, string name, int maxElectrons, Vector3 position, GameObject orbitCircle)
     {
-        Number = number;
-        Name = name;
-        MaxElectrons = maxElectrons;
-        Position = position;
-        ElectronList = new List<GameObject>();
-        OrbitCircle = orbitCircle;
+        this.number = number;
+        this.name = name;
+        this.maxElectrons = maxElectrons;
+        this.position = position;
+        this.orbitCircle = orbitCircle;
+        this.electronSubshells = new List<ElectronSubshell>();
     }
 
-    public List<GameObject> AddElectron(GameObject electron)
+    public ElectronSubshell GetElectronSubshell(string subshellName)
     {
-        if (!isCompleted())
+        foreach (ElectronSubshell electronSubshell in electronSubshells)
         {
-            ElectronList.Add(electron);
+            if (electronSubshell.Name.Equals(subshellName))
+            {
+                return electronSubshell;
+            }
         }
-        return ElectronList;
-    }
 
-    public GameObject RemoveLastElectron()
-    {
-        if (ElectronList.Count > 0)
-        {
-            GameObject toDelete = ElectronList.LastOrDefault();
-            ElectronList.Remove(toDelete);
-            return toDelete;
-        }
         return null;
-    }
-
-    public bool isCompleted()
-    {
-        return ElectronList.Count >= MaxElectrons;
     }
 }
