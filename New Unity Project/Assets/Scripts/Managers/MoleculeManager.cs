@@ -91,8 +91,9 @@ public class MoleculeManager : MonoBehaviour
         molecules.Add(newMolecule);
         //seteo nombre
         newMolecule.SetMoleculeName(name);
+        List<AtomInMolPositionData> normalizedAtoms = NormalizeAtomPositions(atomsPosition);
         //spawneo todos sus átomos
-        foreach (AtomInMolPositionData pos in atomsPosition)
+        foreach (AtomInMolPositionData pos in normalizedAtoms)
         {
             //query a la tabla de elementos para obtener clasificación_grupo
             ElementTabPer element = new ElementTabPer();
@@ -112,7 +113,7 @@ public class MoleculeManager : MonoBehaviour
             newMolecule.SpawnAtom(pos, mat);
         }
         //y despues sus conexiones una vez que esten todos posicionados
-        foreach(AtomInMolPositionData atom in atomsPosition)
+        foreach(AtomInMolPositionData atom in normalizedAtoms)
         {
             //si es que tiene alguna
             if(atom.ConnectedTo > 0)
@@ -213,5 +214,40 @@ public class MoleculeManager : MonoBehaviour
             }
         }
         return selectedMolecules;
+    }
+
+    /**
+     * Reduce las posiciones de los átomos de una molécula a un valor entre -1 y 1 si es necesario.
+     * Devuelve una lista de atomos normalizada, mantiene inmutabilidad.
+     */
+    public List<AtomInMolPositionData> NormalizeAtomPositions(List<AtomInMolPositionData> atoms)
+    {
+        List<AtomInMolPositionData> normalizedAtoms = new List<AtomInMolPositionData>();
+        List<float> positions = new List<float>();
+        // obtengo el mayor valor absoluto de las posiciones
+        foreach (AtomInMolPositionData atom in atoms)
+        {
+            positions.Add(Math.Abs(atom.XPos));
+            positions.Add(Math.Abs(atom.YPos));
+            positions.Add(Math.Abs(atom.ZPos));
+        }
+        float maxValue = positions.Max();
+        // si el mayor no supera a 1 no hay que hacer nada
+        if(maxValue <= 1)
+        {
+            return atoms;
+        }
+
+        // si es mayor a uno, divido todas las posiciones por el mayor
+        foreach (AtomInMolPositionData atom in atoms)
+        {
+            AtomInMolPositionData normalizedAtom = new AtomInMolPositionData(atom);
+            normalizedAtom.XPos /= maxValue;
+            normalizedAtom.YPos /= maxValue;
+            normalizedAtom.ZPos /= maxValue;
+            normalizedAtoms.Add(normalizedAtom);
+        }
+
+        return normalizedAtoms;
     }
 }

@@ -31,6 +31,20 @@
         this.lineType = lineType;
     }
 
+    public AtomInMolPositionData(AtomInMolPositionData atom)
+    {
+        this.id = atom.id;
+        this.moleculeId = atom.moleculeId;
+        this.elementId = atom.elementId;
+        this.xPos = atom.xPos;
+        this.yPos = atom.yPos;
+        this.zPos = atom.zPos;
+        this.scale = atom.scale;
+        this.connectedTo = atom.connectedTo;
+        this.connectionType = atom.connectionType;
+        this.lineType = atom.lineType;
+    }
+
     public int Id { get => id; set => id = value; }
     public int MoleculeId { get => moleculeId; set => moleculeId = value; }
     public int ElementId { get => elementId; set => elementId = value; }
