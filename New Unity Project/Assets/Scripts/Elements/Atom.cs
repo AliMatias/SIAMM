@@ -32,7 +32,10 @@ public class Atom: MonoBehaviour
     //indicador de índice de átomo (posición en la lista de átomos del manager)
     private int atomIndex;
 
+    //control para aplicar spawn
     private bool allowElectronSpawn = true;
+    private bool allowNeutronSpawn = true;
+    private bool allowProtonSpawn = true;
 
     private Vector3 firstOrbitPosition = new Vector3(0.5f, 0f, 0f);
 
@@ -86,13 +89,32 @@ public class Atom: MonoBehaviour
         //encolar y aumentar contadores según partícula creada
         if (proton)
         {
-            protonQueue.Enqueue(spawn);
-            protonCounter++;
+            if (allowProtonSpawn)
+            {
+                protonQueue.Enqueue(spawn);
+                protonCounter++;
+                //controla si se llega al limite y NO DEJA AGREGAR MAS
+                if (protonCounter == 118)
+                {
+                    allowProtonSpawn = false;
+                    popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de protones que puede tener un átomo. (118)");
+                }
+            }
         }
         else
         {
-            neutronQueue.Enqueue(spawn);
-            neutronCounter++;
+            if (allowNeutronSpawn)
+            {
+                neutronQueue.Enqueue(spawn);
+                neutronCounter++;
+
+                //controla si se llega al limite y NO DEJA AGREGAR MAS
+                if (neutronCounter == 176)
+                {
+                    allowNeutronSpawn = false;
+                    popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de neutrones que puede tener un átomo. (176)");
+                }
+            }
         }
 
         // indica si fue creado con el boton o desde la tabla
@@ -185,6 +207,7 @@ public class Atom: MonoBehaviour
             GameObject toDelete = neutronQueue.Dequeue();
             Destroy(toDelete);
             neutronCounter--;
+            allowNeutronSpawn = true;
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
@@ -197,6 +220,7 @@ public class Atom: MonoBehaviour
             GameObject toDelete = protonQueue.Dequeue();
             Destroy(toDelete);
             protonCounter--;
+            allowProtonSpawn = true;
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
@@ -227,6 +251,7 @@ public class Atom: MonoBehaviour
     }
     #endregion
 
+    #region MetodosVarios
     /*Metodo que escribe en el label del elemento de acuerdo al tipo*/
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
@@ -396,6 +421,7 @@ public class Atom: MonoBehaviour
 
         return null;
     }
+    #endregion
 
     #region crear desde tabla periodica
     /*Crea tantas partículas como tiene el elemento indicado*/
