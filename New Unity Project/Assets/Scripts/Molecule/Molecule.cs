@@ -83,22 +83,32 @@ public class Molecule : MonoBehaviour
         //posición
         Vector3 positionFrom = atomFrom.transform.localPosition;
         Vector3 positionTo = atomTo.transform.localPosition;
-        SpawnConnection(positionFrom, positionTo, lineType);
-        //si es mayor a uno significa que necesito agregar 1 a 0.025 + en X
-        if (type > 1)
+
+        if (type.Equals(1) || type.Equals(3))
+            SpawnConnection(positionFrom, positionTo, lineType);
+        
+        //si es mayor a uno significa que necesito agregar 1 a 0.025 + en todos los ejes, porque depende de las coordenadas en donde se ubican los atomos
+        if (type.Equals(2) || type.Equals(3))
         {
+            //spawn de la 1ra linea pero tiene que tener proporcion en la posicion... sino queda desfazado por eso no spawnea antes
             positionFrom.x += 0.025f;
             positionTo.x += 0.025f;
+            positionFrom.y += 0.025f;
+            positionTo.y += 0.025f;
+            positionFrom.z += 0.025f;
+            positionTo.z += 0.025f;
             SpawnConnection(positionFrom, positionTo, lineType);
-        }
-        //y si es igual a 3 significa que agrego la anterior y una mas a 0.025 - en X
-        //-0.05 porque ya se movió 0.025 a la derecha y ahora se tiene q mover el doble a la izq
-        if (type.Equals(3))
-        {
+
+            //y si es igual a 3 significa que agrego la anterior y una mas a 0.025 - en todos los ejes, porque depende de las coordenadas en donde se ubican los atomos
+            //-0.05 porque ya se movió 0.025 a la derecha y ahora se tiene q mover el doble a la izq
             positionFrom.x -= 0.05f;
             positionTo.x -= 0.05f;
+            positionFrom.y -= 0.05f;
+            positionTo.y -= 0.05f;
+            positionFrom.z -= 0.05f;
+            positionTo.z -= 0.05f;
             SpawnConnection(positionFrom, positionTo, lineType);
-        }
+        }    
     }
 
     private void SpawnConnection(Vector3 positionFrom, Vector3 positionTo, int lineType)
@@ -118,10 +128,10 @@ public class Molecule : MonoBehaviour
             // ESTA sera para la UNIONICA (la que no tiene coneccion y quedamos con el profesor de mostrarla finita)
             newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f);    
         }
-        else // lineType == 1
+        else // lineType == 1 normal y el 0 quedo para el atomo que no tiene conexiones segun nuestra logica
         {
             // no importa la escala del prefab aca setea
-            newConnection.transform.localScale = new Vector3(0.05f, distance / 2, 0.05f);
+            newConnection.transform.localScale = new Vector3(0.04f, distance / 2, 0.04f);
         }
         connections.Add(newConnection);
     }
