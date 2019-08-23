@@ -72,50 +72,11 @@ public class Atom: MonoBehaviour
     //crea un nucleon, true -> crea proton, false -> crea neutron
     public void SpawnNucleon(bool proton, bool fromTabla)
     {
-        int index = 1;
-        if (proton)
-        {
-            index = 0;
-        }
-        //selecciono el prefab y lo instancio
-        GameObject prefab = particlePrefabs[index];
-        GameObject spawn = Instantiate<GameObject>(prefab, parent);
-        
-        //posicion random para que no queden todos en fila, aún no quedan bien
-        float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
-        Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
-        spawn.transform.localPosition = randomPosition;
-        
         //encolar y aumentar contadores según partícula creada
         if (proton)
-        {
-            if (allowProtonSpawn)
-            {
-                protonQueue.Enqueue(spawn);
-                protonCounter++;
-                //controla si se llega al limite y NO DEJA AGREGAR MAS
-                if (protonCounter == 118)
-                {
-                    allowProtonSpawn = false;
-                    popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de protones que puede tener un átomo. (118)");
-                }
-            }
-        }
+            SpawnProton(0);
         else
-        {
-            if (allowNeutronSpawn)
-            {
-                neutronQueue.Enqueue(spawn);
-                neutronCounter++;
-
-                //controla si se llega al limite y NO DEJA AGREGAR MAS
-                if (neutronCounter == 176)
-                {
-                    allowNeutronSpawn = false;
-                    popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de neutrones que puede tener un átomo. (176)");
-                }
-            }
-        }
+            SpawnNeutron(1);
 
         // indica si fue creado con el boton o desde la tabla
         this.fromTabla = fromTabla;
@@ -124,6 +85,57 @@ public class Atom: MonoBehaviour
         //Si es por tabla entonces NO! actulializo el label en runtime
         if (!fromTabla)
             UpdateElement(protonCounter, neutronCounter, electronCounter);
+    }
+
+    //crea un nuevo neutron SI es que no se llego al limite
+    private void SpawnNeutron(int index)
+    {
+        if (allowNeutronSpawn)
+        {
+            //selecciono el prefab y lo instancio
+            GameObject prefab = particlePrefabs[index];
+            GameObject spawn = Instantiate<GameObject>(prefab, parent);
+
+            //posicion random para que no queden todos en fila, aún no quedan bien
+            float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
+            Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
+            spawn.transform.localPosition = randomPosition;
+
+            neutronQueue.Enqueue(spawn);
+            neutronCounter++;
+
+            //controla si se llega al limite y NO DEJA AGREGAR MAS
+            if (neutronCounter == 176)
+            {
+                allowNeutronSpawn = false;
+                popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de neutrones que puede tener un átomo. (176)");
+            }
+        }
+    }
+
+    //crea un nuevo proton SI es que no se llego al limite
+    private void SpawnProton(int index)
+    {
+        if (allowProtonSpawn)
+        {
+            //selecciono el prefab y lo instancio
+            GameObject prefab = particlePrefabs[index];
+            GameObject spawn = Instantiate<GameObject>(prefab, parent);
+
+            //posicion random para que no queden todos en fila, aún no quedan bien
+            float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
+            Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
+            spawn.transform.localPosition = randomPosition;
+
+            protonQueue.Enqueue(spawn);
+            protonCounter++;
+            //controla si se llega al limite y NO DEJA AGREGAR MAS
+            if (protonCounter == 118)
+            {
+                allowProtonSpawn = false;
+                popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de protones que puede tener un átomo. (118)");
+            }
+        }
     }
 
     //crear un electron
