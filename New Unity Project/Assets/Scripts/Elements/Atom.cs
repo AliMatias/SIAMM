@@ -32,6 +32,10 @@ public class Atom: MonoBehaviour
     //indicador de índice de átomo (posición en la lista de átomos del manager)
     private int atomIndex;
 
+    private const int PROTON_PREFAB_INDEX = 0;
+    private const int NEUTRON_PREFAB_INDEX = 1;
+    private const int ELECTRON_PREFAB_INDEX = 2;
+
     //control para aplicar spawn
     private bool allowElectronSpawn = true;
     private bool allowNeutronSpawn = true;
@@ -74,9 +78,13 @@ public class Atom: MonoBehaviour
     {
         //encolar y aumentar contadores según partícula creada
         if (proton)
-            SpawnProton(0);
+        {
+            SpawnProton();
+        }
         else
-            SpawnNeutron(1);
+        {
+            SpawnNeutron();
+        }
 
         // indica si fue creado con el boton o desde la tabla
         this.fromTabla = fromTabla;
@@ -88,12 +96,12 @@ public class Atom: MonoBehaviour
     }
 
     //crea un nuevo neutron SI es que no se llego al limite
-    private void SpawnNeutron(int index)
+    private void SpawnNeutron()
     {
         if (allowNeutronSpawn)
         {
             //selecciono el prefab y lo instancio
-            GameObject prefab = particlePrefabs[index];
+            GameObject prefab = particlePrefabs[NEUTRON_PREFAB_INDEX];
             GameObject spawn = Instantiate<GameObject>(prefab, parent);
 
             //posicion random para que no queden todos en fila, aún no quedan bien
@@ -114,12 +122,12 @@ public class Atom: MonoBehaviour
     }
 
     //crea un nuevo proton SI es que no se llego al limite
-    private void SpawnProton(int index)
+    private void SpawnProton()
     {
         if (allowProtonSpawn)
         {
             //selecciono el prefab y lo instancio
-            GameObject prefab = particlePrefabs[index];
+            GameObject prefab = particlePrefabs[PROTON_PREFAB_INDEX];
             GameObject spawn = Instantiate<GameObject>(prefab, parent);
 
             //posicion random para que no queden todos en fila, aún no quedan bien
@@ -144,7 +152,7 @@ public class Atom: MonoBehaviour
         if (allowElectronSpawn)
         {
             //selecciono el prefab y lo instancio
-            GameObject prefab = particlePrefabs[2];
+            GameObject prefab = particlePrefabs[ELECTRON_PREFAB_INDEX];
             GameObject spawn = Instantiate<GameObject>(prefab, parent);
             Orbit orbit = OrbitBuilder.BuildOrbit(electronCounter + 1, this, spawn);
             if (orbit == null)
