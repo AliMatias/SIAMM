@@ -32,7 +32,14 @@ public class Atom: MonoBehaviour
     //indicador de índice de átomo (posición en la lista de átomos del manager)
     private int atomIndex;
 
+    private const int PROTON_PREFAB_INDEX = 0;
+    private const int NEUTRON_PREFAB_INDEX = 1;
+    private const int ELECTRON_PREFAB_INDEX = 2;
+
+    //control para aplicar spawn
     private bool allowElectronSpawn = true;
+    private bool allowNeutronSpawn = true;
+    private bool allowProtonSpawn = true;
 
     private Vector3 firstOrbitPosition = new Vector3(0.5f, 0f, 0f);
 
@@ -40,12 +47,13 @@ public class Atom: MonoBehaviour
     private Vector3 orbitOffset = new Vector3(0.2f, 0f, 0f);
 
     private List<Orbit> orbits = new List<Orbit>();
-    Orbit lastOrbit;
 
     private int elementNumber;
 
     //allcocate la clase popup para mostrar mensajes
     private UIPopup popup;
+    //panel de info
+    private MainInfoPanel mainInfoPanel;
     #endregion
 
     public int AtomIndex { get => atomIndex; set => atomIndex = value; }
@@ -64,36 +72,21 @@ public class Atom: MonoBehaviour
 
         popup = FindObjectOfType<UIPopup>();
         atomManager = FindObjectOfType<AtomManager>();
+        mainInfoPanel = FindObjectOfType<MainInfoPanel>();
     }
 
     #region spawn
     //crea un nucleon, true -> crea proton, false -> crea neutron
     public void SpawnNucleon(bool proton, bool fromTabla)
     {
-        int index = 1;
-        if (proton)
-        {
-            index = 0;
-        }
-        //selecciono el prefab y lo instancio
-        GameObject prefab = particlePrefabs[index];
-        GameObject spawn = Instantiate<GameObject>(prefab, parent);
-        
-        //posicion random para que no queden todos en fila, aún no quedan bien
-        float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
-        Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
-        spawn.transform.localPosition = randomPosition;
-        
         //encolar y aumentar contadores según partícula creada
         if (proton)
         {
-            protonQueue.Enqueue(spawn);
-            protonCounter++;
+            SpawnProton();
         }
         else
         {
-            neutronQueue.Enqueue(spawn);
-            neutronCounter++;
+            SpawnNeutron();
         }
 
         // indica si fue creado con el boton o desde la tabla
@@ -105,24 +98,82 @@ public class Atom: MonoBehaviour
             UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
+    //crea un nuevo neutron SI es que no se llego al limite
+    private void SpawnNeutron()
+    {
+        if (allowNeutronSpawn)
+        {
+            //selecciono el prefab y lo instancio
+            GameObject prefab = particlePrefabs[NEUTRON_PREFAB_INDEX];
+            GameObject spawn = Instantiate<GameObject>(prefab, parent);
+
+            //posicion random para que no queden todos en fila, aún no quedan bien
+            float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
+            Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
+            spawn.transform.localPosition = randomPosition;
+
+            neutronQueue.Enqueue(spawn);
+            neutronCounter++;
+
+            //controla si se llega al limite y NO DEJA AGREGAR MAS
+            if (neutronCounter == 176)
+            {
+                allowNeutronSpawn = false;
+                popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de neutrones que puede tener un átomo. (176)");
+            }
+        }
+    }
+
+    //crea un nuevo proton SI es que no se llego al limite
+    private void SpawnProton()
+    {
+        if (allowProtonSpawn)
+        {
+            //selecciono el prefab y lo instancio
+            GameObject prefab = particlePrefabs[PROTON_PREFAB_INDEX];
+            GameObject spawn = Instantiate<GameObject>(prefab, parent);
+
+            //posicion random para que no queden todos en fila, aún no quedan bien
+            float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
+            Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
+            spawn.transform.localPosition = randomPosition;
+
+            protonQueue.Enqueue(spawn);
+            protonCounter++;
+            //controla si se llega al limite y NO DEJA AGREGAR MAS
+            if (protonCounter == 118)
+            {
+                allowProtonSpawn = false;
+                popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de protones que puede tener un átomo. (118)");
+            }
+        }
+    }
+
     //crear un electron
     public void SpawnElectron(bool fromTabla)
     {
-        // tomo la ultima orbita
-        lastOrbit = orbits.LastOrDefault();
-
-        // si no hay o la ultima esta completa creo otra
-        AddNewOrbitIfLastIsCompleted();
-
         if (allowElectronSpawn)
         {
             //selecciono el prefab y lo instancio
-            GameObject prefab = particlePrefabs[2];
+            GameObject prefab = particlePrefabs[ELECTRON_PREFAB_INDEX];
             GameObject spawn = Instantiate<GameObject>(prefab, parent);
-            spawn.transform.localPosition = lastOrbit.Position;
-            // agrego a la lista de electrones y aumento contador
-            lastOrbit.AddElectron(spawn);
+            Orbit orbit = OrbitBuilder.BuildOrbit(electronCounter + 1, this, spawn);
+            if (orbit == null)
+            {
+                Destroy(spawn);
+                return;
+            }
+            spawn.transform.localPosition = orbit.Position;
             electronCounter++;
+            if (electronCounter == 118)
+            {
+                popup.MostrarPopUp("Atención!", "Se alcanzó el límite máximo de electrones para elementos conocidos. (118)");
+            }
+            else if (electronCounter == 280)
+            {
+                allowElectronSpawn = false;
+                popup.MostrarPopUp("Atención!", "Se alcanzó el límite máximo de electrones permitido. (280)");
+            }
         }
         // indica si fue creado con el boton o desde la tabla
         this.fromTabla = fromTabla;
@@ -134,34 +185,6 @@ public class Atom: MonoBehaviour
     }
 
     /// <summary>
-    /// Agrega una nueva orbita a la lista si es la primera o si la ultima ya esta completa
-    /// </summary>
-    private void AddNewOrbitIfLastIsCompleted()
-    {
-        // crear nueva orbita si la ultima esta completa o si es la primera
-        if (orbits.Count == 0)
-        {
-            // crear primer orbita
-            SpawnOrbit(1, firstOrbitPosition);
-        }
-        else
-        {
-            // verificar si se llego al maximo de electrones en la ultima orbita
-            if (lastOrbit.isCompleted())
-            {
-                int newOrbitNumber = lastOrbit.Number + 1;
-                Vector3 newOrbitPosition = firstOrbitPosition + (orbitOffset * (newOrbitNumber - 1));
-                Orbit orbit = SpawnOrbit(newOrbitNumber, newOrbitPosition);
-                if (orbit == null)
-                {
-                    // se completaron todas las orbitas
-                    allowElectronSpawn = false;
-                }
-            }
-        }
-    }
-
-    /// <summary>
     /// Crea una orbita correspondiente al numero recibido por parametro.
     /// </summary>
     /// <param name="number">Numero de orbita</param>
@@ -170,7 +193,6 @@ public class Atom: MonoBehaviour
     public Orbit SpawnOrbit(int number, Vector3 position)
     {
         OrbitData orbitData = new OrbitData();
-
         try
         {
             orbitData = qryElement.GetOrbitDataByNumber(number);
@@ -194,7 +216,6 @@ public class Atom: MonoBehaviour
         // crea orbita y la agrega al atomo
         Orbit orbit = new Orbit(orbitData.Number, orbitData.Name, orbitData.MaxElectrons, position, circleSpawn);
         orbits.Add(orbit);
-        lastOrbit = orbit;
         return orbit;
     }
     #endregion
@@ -209,6 +230,7 @@ public class Atom: MonoBehaviour
             GameObject toDelete = neutronQueue.Dequeue();
             Destroy(toDelete);
             neutronCounter--;
+            allowNeutronSpawn = true;
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
@@ -221,6 +243,7 @@ public class Atom: MonoBehaviour
             GameObject toDelete = protonQueue.Dequeue();
             Destroy(toDelete);
             protonCounter--;
+            allowProtonSpawn = true;
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
@@ -230,26 +253,28 @@ public class Atom: MonoBehaviour
     {
         if (electronCounter > 0 && orbits.Count > 0)
         {
-            GameObject toDelete = lastOrbit.ElectronList.LastOrDefault();
-            if (toDelete != null)
+            OrbitalAndPeriodStruct orbitalAndPeriod = Orbital.GetOrbitalAndPeriod(electronCounter);
+            Orbit orbit = GetOrbit(orbitalAndPeriod.Period);
+            ElectronSubshell electronSubshell = orbit.GetElectronSubshell(orbitalAndPeriod.Orbital.Name);
+
+            GameObject toDelete = electronSubshell.RemoveLastElectron();
+            Destroy(toDelete);
+
+            if (orbitalAndPeriod.Orbital.Name.Equals(Orbital.GetOrbitalS.Name) && electronSubshell.ElectronList.Count == 0)
             {
-                Destroy(toDelete);
-                lastOrbit.RemoveLastElectron();
-                if(lastOrbit.ElectronList.Count == 0)
-                {
-                    // si la orbita se queda sin electrones la elimino y tomo la anterior como ultima
-                    Destroy(lastOrbit.OrbitCircle);
-                    orbits.Remove(lastOrbit);
-                    lastOrbit = orbits.LastOrDefault();
-                }
-                electronCounter--;
-                allowElectronSpawn = true;
+                // si la orbita se queda sin electrones la elimino
+                Destroy(orbit.OrbitCircle);
+                orbits.Remove(orbit);
+                Debug.Log(orbits.Count);
             }
+            electronCounter--;
+            allowElectronSpawn = true;
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
     #endregion
 
+    #region MetodosVarios
     /*Metodo que escribe en el label del elemento de acuerdo al tipo*/
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
@@ -277,6 +302,7 @@ public class Atom: MonoBehaviour
         }
 
         elementLabel.GetComponent<TextMesh>().text = elementText;
+        mainInfoPanel.SetInfo(this);
     }
 
     /*Metodo Valida si es un elemento de tabla periodica, si es isotopo, y cation-anion
@@ -404,8 +430,25 @@ public class Atom: MonoBehaviour
     */
     void OnDestroy()
     {
+        if(mainInfoPanel != null){
+            mainInfoPanel.HideInfo();
+        }
         Destroy(gameObject);
     }
+
+    public Orbit GetOrbit(int number)
+    {
+        foreach (Orbit orbit in orbits)
+        {
+            if (orbit.Number == number)
+            {
+                return orbit;
+            }
+        }
+
+        return null;
+    }
+    #endregion
 
     #region crear desde tabla periodica
     /*Crea tantas partículas como tiene el elemento indicado*/

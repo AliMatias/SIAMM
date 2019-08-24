@@ -1,4 +1,3 @@
-
 CREATE TABLE "elementos_info_basica"(
 	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
 	"numero_atomico" INTEGER NULL,
@@ -18,56 +17,68 @@ CREATE TABLE "elementos_info_basica"(
 	"caracteristicas" TEXT NULL,
 	"punto_fusion" TEXT NULL,
 	"punto_ebullicion" TEXT NULL,
-	"resumen" TEXT NULL);
+	"resumen" TEXT NULL,
+	
 
-CREATE TABLE "elementos_info_detalle"(
-	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	"numero_atomico" INTEGER NULL,
-	"isotopos_estables" TEXT NULL,
-	"isotopos_aplicaciones"	TEXT NULL,
-	"tipo_electrico" TEXT NULL,
-	"radiactivo" TEXT NULL,
-	"abundancia_corteza_terrestre" TEXT NULL,
-	"descubrimiento" TEXT NULL,
-	"descubierto_por" TEXT NULL,
-	"angulos_de_red" TEXT NULL,
-	"vida_media" TEXT NULL,
-	"modulo_compresibilidad" TEXT NULL,
-	"dureza_brinell" TEXT NULL,
-	"presion_critica" TEXT NULL,
-	"temperatura_critica" TEXT NULL,
-	"conductividad_electrica" TEXT NULL,
-	"densidad" REAL NULL,
-	"radio_covalente" TEXT NULL,
-	"afinidad_electronica" TEXT NULL,
-	"punto_curie" TEXT NULL,
-	"modo_decaimiento" TEXT NULL,
-	"electronegatividad" REAL NULL,
-	"densidadliquida" TEXT NULL,
-	"constante_red" TEXT NULL,
-	"multiplicidad_atomica_gas" TEXT NULL,
-	"calor_de_fusion" TEXT NULL,
-	"calor_de_vaporizacion" TEXT NULL,
-	"tipo_magnetico" TEXT NULL,
-	"susceptibilidad_magnetica" TEXT NULL,
-	"volumen_molar" REAL NULL,
-	"radio_poisson" TEXT NULL,
-	"numeros_cuanticos" TEXT NULL,
-	"indice_refractivo" REAL NULL,
-	"resistividad" TEXT NULL,
-	"conductividad_termica" TEXT NULL,
-	"punto_superconductividad" TEXT NULL,
-	"expansion_termica" TEXT NULL,
-	"velocidad_sonido" TEXT NULL,
-	"numero_grupos_espaciales" REAL NULL,
-	"nombre_grupo_espacial" TEXT NULL,
-	"radio_van_der_waals" TEXT NULL,
-	"radio_atomico_en_angstroms" REAL NULL,
-	"radio_covalente_en_angstroms" REAL NULL,
-	"radio_van_der_waals_en_angstroms" REAL NULL,
-	"modulo_young" TEXT NULL,
-	"nombres_alotropicos" TEXT NULL,
-	"energias_de_ionizacion" TEXT NULL);
+	CONSTRAINT fk_elementos
+    FOREIGN KEY (numero_atomico)
+    REFERENCES valida_elementos(id)
+);
+
+
+CREATE TABLE "elementos_info_detalle" (
+	"id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	"numero_atomico"	INTEGER,
+	"isotopos_estables"	TEXT,
+	"isotopos_aplicaciones"	TEXT,
+	"tipo_electrico"	TEXT,
+	"radiactivo"	TEXT,
+	"abundancia_corteza_terrestre"	TEXT,
+	"descubrimiento"	TEXT,
+	"descubierto_por"	TEXT,
+	"angulos_de_red"	TEXT,
+	"vida_media"	TEXT,
+	"modulo_compresibilidad"	TEXT,
+	"dureza_brinell"	TEXT,
+	"presion_critica"	TEXT,
+	"temperatura_critica"	TEXT,
+	"conductividad_electrica"	TEXT,
+	"densidad"	REAL,
+	"radio_covalente"	TEXT,
+	"afinidad_electronica"	TEXT,
+	"punto_curie"	TEXT,
+	"modo_decaimiento"	TEXT,
+	"electronegatividad"	REAL,
+	"densidadliquida"	TEXT,
+	"constante_red"	TEXT,
+	"multiplicidad_atomica_gas"	TEXT,
+	"calor_de_fusion"	TEXT,
+	"calor_de_vaporizacion"	TEXT,
+	"tipo_magnetico"	TEXT,
+	"susceptibilidad_magnetica"	TEXT,
+	"volumen_molar"	REAL,
+	"radio_poisson"	TEXT,
+	"numeros_cuanticos"	TEXT,
+	"indice_refractivo"	REAL,
+	"resistividad"	TEXT,
+	"conductividad_termica"	TEXT,
+	"punto_superconductividad"	TEXT,
+	"expansion_termica"	TEXT,
+	"velocidad_sonido"	TEXT,
+	"numero_grupos_espaciales"	REAL,
+	"nombre_grupo_espacial"	TEXT,
+	"radio_van_der_waals"	TEXT,
+	"radio_atomico_en_angstroms"	REAL,
+	"radio_covalente_en_angstroms"	REAL,
+	"radio_van_der_waals_en_angstroms"	REAL,
+	"modulo_young"	TEXT,
+	"nombres_alotropicos"	TEXT,
+	"energias_de_ionizacion"	TEXT,
+
+	CONSTRAINT fk_elementos
+    FOREIGN KEY (numero_atomico)
+    REFERENCES valida_elementos(id)
+);
 
 
 CREATE TABLE "isotopos"(
@@ -78,7 +89,17 @@ CREATE TABLE "isotopos"(
 	"numero_masa" INTEGER NULL,
 	"masa_atomica_relativa" TEXT NULL,
 	"composicion_isotopica" TEXT NULL,
-	"peso_atomico_estandar" TEXT NULL); 
+	"peso_atomico_estandar" TEXT NULL,
+	
+	CONSTRAINT fk_isotopos
+    FOREIGN KEY (id)
+    REFERENCES valida_isotopos(id),
+	
+	CONSTRAINT fk_elementos
+    FOREIGN KEY (numero_atomico)
+    REFERENCES valida_elementos(id)
+);
+
 
 CREATE TABLE "valida_elementos" (
 	"id"	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
@@ -110,5 +131,10 @@ CREATE TABLE "elementos_orbitas"(
 	"nombre_capa" TEXT NULL,
 	"max_electrones" INTEGER NULL);
 
+CREATE TABLE sugerencias (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	id_elemento INTEGER NOT NULL,
+	id_sugerido INTEGER NOT NULL
+);
 
 			
