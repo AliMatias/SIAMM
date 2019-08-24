@@ -131,5 +131,10 @@ CREATE TABLE "elementos_orbitas"(
 	"nombre_capa" TEXT NULL,
 	"max_electrones" INTEGER NULL);
 
+CREATE TABLE sugerencias (
+	id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
+	id_elemento INTEGER NOT NULL,
+	id_sugerido INTEGER NOT NULL
+);
 
 			

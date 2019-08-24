@@ -16,6 +16,7 @@ public class AtomManager : MonoBehaviour
     private bool combineMode = false;
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
+    
     //lista de botones relevantes para los átomos
     private List<Button> atomButtons = new List<Button>();
     [SerializeField]
