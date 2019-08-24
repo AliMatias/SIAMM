@@ -62,7 +62,7 @@ public class PopulateMoleculeList : MonoBehaviour
     {
         // crea un nuevo item en la lista
         var itemList = Instantiate(moleculeItem);
-        itemList.transform.parent = content.transform;
+        itemList.transform.SetParent(content.transform);
         itemList.transform.localPosition = Vector3.zero;
         //mostrara la formula + tradicional nom
         itemList.GetComponentInChildren<TextMeshProUGUI>().text = molecule.ToStringToList;

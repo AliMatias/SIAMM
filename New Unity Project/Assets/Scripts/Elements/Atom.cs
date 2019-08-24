@@ -40,7 +40,6 @@ public class Atom: MonoBehaviour
     private Vector3 orbitOffset = new Vector3(0.2f, 0f, 0f);
 
     private List<Orbit> orbits = new List<Orbit>();
-    Orbit lastOrbit;
 
     private int elementNumber;
 
@@ -111,21 +110,28 @@ public class Atom: MonoBehaviour
     //crear un electron
     public void SpawnElectron(bool fromTabla)
     {
-        // tomo la ultima orbita
-        lastOrbit = orbits.LastOrDefault();
-
-        // si no hay o la ultima esta completa creo otra
-        AddNewOrbitIfLastIsCompleted();
-
         if (allowElectronSpawn)
         {
             //selecciono el prefab y lo instancio
             GameObject prefab = particlePrefabs[2];
             GameObject spawn = Instantiate<GameObject>(prefab, parent);
-            spawn.transform.localPosition = lastOrbit.Position;
-            // agrego a la lista de electrones y aumento contador
-            lastOrbit.AddElectron(spawn);
+            Orbit orbit = OrbitBuilder.BuildOrbit(electronCounter + 1, this, spawn);
+            if (orbit == null)
+            {
+                Destroy(spawn);
+                return;
+            }
+            spawn.transform.localPosition = orbit.Position;
             electronCounter++;
+            if (electronCounter == 118)
+            {
+                popup.MostrarPopUp("Atención!", "Se alcanzó el límite máximo de electrones para elementos conocidos. (118)");
+            }
+            else if (electronCounter == 280)
+            {
+                allowElectronSpawn = false;
+                popup.MostrarPopUp("Atención!", "Se alcanzó el límite máximo de electrones permitido. (280)");
+            }
         }
         // indica si fue creado con el boton o desde la tabla
         this.fromTabla = fromTabla;
@@ -137,34 +143,6 @@ public class Atom: MonoBehaviour
     }
 
     /// <summary>
-    /// Agrega una nueva orbita a la lista si es la primera o si la ultima ya esta completa
-    /// </summary>
-    private void AddNewOrbitIfLastIsCompleted()
-    {
-        // crear nueva orbita si la ultima esta completa o si es la primera
-        if (orbits.Count == 0)
-        {
-            // crear primer orbita
-            SpawnOrbit(1, firstOrbitPosition);
-        }
-        else
-        {
-            // verificar si se llego al maximo de electrones en la ultima orbita
-            if (lastOrbit.isCompleted())
-            {
-                int newOrbitNumber = lastOrbit.Number + 1;
-                Vector3 newOrbitPosition = firstOrbitPosition + (orbitOffset * (newOrbitNumber - 1));
-                Orbit orbit = SpawnOrbit(newOrbitNumber, newOrbitPosition);
-                if (orbit == null)
-                {
-                    // se completaron todas las orbitas
-                    allowElectronSpawn = false;
-                }
-            }
-        }
-    }
-
-    /// <summary>
     /// Crea una orbita correspondiente al numero recibido por parametro.
     /// </summary>
     /// <param name="number">Numero de orbita</param>
@@ -173,7 +151,6 @@ public class Atom: MonoBehaviour
     public Orbit SpawnOrbit(int number, Vector3 position)
     {
         OrbitData orbitData = new OrbitData();
-
         try
         {
             orbitData = qryElement.GetOrbitDataByNumber(number);
@@ -197,7 +174,6 @@ public class Atom: MonoBehaviour
         // crea orbita y la agrega al atomo
         Orbit orbit = new Orbit(orbitData.Number, orbitData.Name, orbitData.MaxElectrons, position, circleSpawn);
         orbits.Add(orbit);
-        lastOrbit = orbit;
         return orbit;
     }
     #endregion
@@ -233,21 +209,22 @@ public class Atom: MonoBehaviour
     {
         if (electronCounter > 0 && orbits.Count > 0)
         {
-            GameObject toDelete = lastOrbit.ElectronList.LastOrDefault();
-            if (toDelete != null)
+            OrbitalAndPeriodStruct orbitalAndPeriod = Orbital.GetOrbitalAndPeriod(electronCounter);
+            Orbit orbit = GetOrbit(orbitalAndPeriod.Period);
+            ElectronSubshell electronSubshell = orbit.GetElectronSubshell(orbitalAndPeriod.Orbital.Name);
+
+            GameObject toDelete = electronSubshell.RemoveLastElectron();
+            Destroy(toDelete);
+
+            if (orbitalAndPeriod.Orbital.Name.Equals(Orbital.GetOrbitalS.Name) && electronSubshell.ElectronList.Count == 0)
             {
-                Destroy(toDelete);
-                lastOrbit.RemoveLastElectron();
-                if(lastOrbit.ElectronList.Count == 0)
-                {
-                    // si la orbita se queda sin electrones la elimino y tomo la anterior como ultima
-                    Destroy(lastOrbit.OrbitCircle);
-                    orbits.Remove(lastOrbit);
-                    lastOrbit = orbits.LastOrDefault();
-                }
-                electronCounter--;
-                allowElectronSpawn = true;
+                // si la orbita se queda sin electrones la elimino
+                Destroy(orbit.OrbitCircle);
+                orbits.Remove(orbit);
+                Debug.Log(orbits.Count);
             }
+            electronCounter--;
+            allowElectronSpawn = true;
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
@@ -412,6 +389,19 @@ public class Atom: MonoBehaviour
             mainInfoPanel.HideInfo();
         }
         Destroy(gameObject);
+    }
+
+    public Orbit GetOrbit(int number)
+    {
+        foreach (Orbit orbit in orbits)
+        {
+            if (orbit.Number == number)
+            {
+                return orbit;
+            }
+        }
+
+        return null;
     }
 
     #region crear desde tabla periodica
