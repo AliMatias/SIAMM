@@ -32,7 +32,14 @@ public class Atom: MonoBehaviour
     //indicador de índice de átomo (posición en la lista de átomos del manager)
     private int atomIndex;
 
+    private const int PROTON_PREFAB_INDEX = 0;
+    private const int NEUTRON_PREFAB_INDEX = 1;
+    private const int ELECTRON_PREFAB_INDEX = 2;
+
+    //control para aplicar spawn
     private bool allowElectronSpawn = true;
+    private bool allowNeutronSpawn = true;
+    private bool allowProtonSpawn = true;
 
     private Vector3 firstOrbitPosition = new Vector3(0.5f, 0f, 0f);
 
@@ -72,30 +79,14 @@ public class Atom: MonoBehaviour
     //crea un nucleon, true -> crea proton, false -> crea neutron
     public void SpawnNucleon(bool proton, bool fromTabla)
     {
-        int index = 1;
-        if (proton)
-        {
-            index = 0;
-        }
-        //selecciono el prefab y lo instancio
-        GameObject prefab = particlePrefabs[index];
-        GameObject spawn = Instantiate<GameObject>(prefab, parent);
-        
-        //posicion random para que no queden todos en fila, aún no quedan bien
-        float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
-        Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
-        spawn.transform.localPosition = randomPosition;
-        
         //encolar y aumentar contadores según partícula creada
         if (proton)
         {
-            protonQueue.Enqueue(spawn);
-            protonCounter++;
+            SpawnProton();
         }
         else
         {
-            neutronQueue.Enqueue(spawn);
-            neutronCounter++;
+            SpawnNeutron();
         }
 
         // indica si fue creado con el boton o desde la tabla
@@ -107,13 +98,64 @@ public class Atom: MonoBehaviour
             UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
+    //crea un nuevo neutron SI es que no se llego al limite
+    private void SpawnNeutron()
+    {
+        if (allowNeutronSpawn)
+        {
+            //selecciono el prefab y lo instancio
+            GameObject prefab = particlePrefabs[NEUTRON_PREFAB_INDEX];
+            GameObject spawn = Instantiate<GameObject>(prefab, parent);
+
+            //posicion random para que no queden todos en fila, aún no quedan bien
+            float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
+            Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
+            spawn.transform.localPosition = randomPosition;
+
+            neutronQueue.Enqueue(spawn);
+            neutronCounter++;
+
+            //controla si se llega al limite y NO DEJA AGREGAR MAS
+            if (neutronCounter == 176)
+            {
+                allowNeutronSpawn = false;
+                popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de neutrones que puede tener un átomo. (176)");
+            }
+        }
+    }
+
+    //crea un nuevo proton SI es que no se llego al limite
+    private void SpawnProton()
+    {
+        if (allowProtonSpawn)
+        {
+            //selecciono el prefab y lo instancio
+            GameObject prefab = particlePrefabs[PROTON_PREFAB_INDEX];
+            GameObject spawn = Instantiate<GameObject>(prefab, parent);
+
+            //posicion random para que no queden todos en fila, aún no quedan bien
+            float randomNumber = UnityEngine.Random.Range(0f, 0.4f);
+            Vector3 randomPosition = new Vector3(randomNumber, randomNumber, randomNumber);
+            spawn.transform.localPosition = randomPosition;
+
+            protonQueue.Enqueue(spawn);
+            protonCounter++;
+            //controla si se llega al limite y NO DEJA AGREGAR MAS
+            if (protonCounter == 118)
+            {
+                allowProtonSpawn = false;
+                popup.MostrarPopUp("Atención!", "Se ha alcanzado la máxima cantidad válida de protones que puede tener un átomo. (118)");
+            }
+        }
+    }
+
     //crear un electron
     public void SpawnElectron(bool fromTabla)
     {
         if (allowElectronSpawn)
         {
             //selecciono el prefab y lo instancio
-            GameObject prefab = particlePrefabs[2];
+            GameObject prefab = particlePrefabs[ELECTRON_PREFAB_INDEX];
             GameObject spawn = Instantiate<GameObject>(prefab, parent);
             Orbit orbit = OrbitBuilder.BuildOrbit(electronCounter + 1, this, spawn);
             if (orbit == null)
@@ -188,6 +230,7 @@ public class Atom: MonoBehaviour
             GameObject toDelete = neutronQueue.Dequeue();
             Destroy(toDelete);
             neutronCounter--;
+            allowNeutronSpawn = true;
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
@@ -200,6 +243,7 @@ public class Atom: MonoBehaviour
             GameObject toDelete = protonQueue.Dequeue();
             Destroy(toDelete);
             protonCounter--;
+            allowProtonSpawn = true;
         }
         UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
@@ -230,6 +274,7 @@ public class Atom: MonoBehaviour
     }
     #endregion
 
+    #region MetodosVarios
     /*Metodo que escribe en el label del elemento de acuerdo al tipo*/
     private void UpdateElement(int protons, int neutrons, int electrons)
     {
@@ -403,6 +448,7 @@ public class Atom: MonoBehaviour
 
         return null;
     }
+    #endregion
 
     #region crear desde tabla periodica
     /*Crea tantas partículas como tiene el elemento indicado*/

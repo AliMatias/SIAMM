@@ -31,6 +31,15 @@ CREATE TABLE "moleculas_posicion3D_element"(
 	"posZ" INTEGER,
 	"escala" INTEGER,
 	"conexion" INTEGER NULL,
-	"tipo_conexion" INTEGER NULL
-	"tipo_linea" INTEGER NULL);
+	"tipo_conexion" INTEGER NULL,
+	"tipo_linea" INTEGER NULL,
+	
+	CONSTRAINT fk_moleculas
+    FOREIGN KEY (id_molecula)
+    REFERENCES moleculas_lista(id),
+
+	CONSTRAINT fk_elementos
+    FOREIGN KEY (id_elemento)
+    REFERENCES valida_elementos(id)
+);
 
