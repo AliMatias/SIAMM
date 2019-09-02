@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class MoleculeManager : MonoBehaviour
 {
+    #region Atributos
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
     private QryElementos qryElement;
@@ -25,6 +26,8 @@ public class MoleculeManager : MonoBehaviour
     private UIPopup popup;
 
     public List<Molecule> Molecules { get => molecules; }
+
+    #endregion
 
     private void Awake()
     {

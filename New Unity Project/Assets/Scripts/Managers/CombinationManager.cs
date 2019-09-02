@@ -8,6 +8,8 @@ using System.Collections;
 //Esta clase se va a encargar de desactivar y activar los diferentes elementos de la UI cuando corresponda
 public class CombinationManager : MonoBehaviour
 {
+
+    #region Atributos
     //lista de botones que van a ser apagados cuando se entre en el modo combinación
     private List<Button> buttonsToToggle = new List<Button>();
     private bool combineMode = false;
@@ -19,12 +21,13 @@ public class CombinationManager : MonoBehaviour
     public Text combineModeButton;
     private UIPopup popup;
 
-
     //prefab de animacion para combinacion y parent donde se asignara el GObj
     public GameObject animationPrefab;
-    //public Transform parent;
+    //contenedor para instanciar animacion
+    private GameObject animationCombination;
 
     public bool CombineMode { get => combineMode; }
+    #endregion
 
     void Awake()
     {
@@ -57,16 +60,15 @@ public class CombinationManager : MonoBehaviour
         combineButton.interactable = !combineButton.interactable;
         // le aviso al selection manager que cambié de modo
         selectionManager.SwitchCombineMode(combineMode);
+        
         //obtengo el texto del boton y lo cambio
-        //Text text = combineModeButton.GetComponentInChildren<Text>();
-        Text text = combineModeButton;
         if (!combineMode)
         {
-            text.text = "Creación";
+            combineModeButton.text = "Creación";
         }
         else
         {
-            text.text = "Combinación";
+            combineModeButton.text = "Combinación";
         }
     }
 
@@ -202,7 +204,6 @@ public class CombinationManager : MonoBehaviour
         }
     }
 
-
     #region Metodos Para traslacion de objetos atomos
     //metodo para lanzar traslacion, animacion y luego recien spawnear la molecula (no se usan atributos /var globales)
     private void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name, List<int> selectedAtoms, string toStringPopup)
@@ -250,6 +251,10 @@ public class CombinationManager : MonoBehaviour
                 timeSinceStarted = Time.time - _timeStartedLerping;
                 porcentajeComplete = timeSinceStarted / lerpTime;
 
+                //hago que desaparezca el label! 
+                atom.elementLabel.GetComponent<TextMesh>().text = "";
+
+                //aplico el traslado de los ATOMOS a la posicion final donde se creara la molecula combinada
                 atom.transform.position = Vector3.Lerp(atom.transform.position, finalPos, porcentajeComplete);
 
                 if (porcentajeComplete >= 1) break;
@@ -259,7 +264,7 @@ public class CombinationManager : MonoBehaviour
         }
     }
 
-    private GameObject animationCombination;
+    
 
     //Metodo que espera o sincroniza la corutina de traslacion para que espere que termine la tralsacion y recien ahi seguir con las tareas posteriores
     IEnumerator IniciaTask(List<AtomInMolPositionData> atomsPosition, string name, List<int> selectedAtoms, Vector3 posMoleculefinal, List<Atom> posAtomInicial, Molecule newMoleculeAndPos, string toStringPopup)
@@ -268,7 +273,7 @@ public class CombinationManager : MonoBehaviour
         yield return StartCoroutine(translation(posMoleculefinal, posAtomInicial));
 
         //muestra animacion!
-        getAnimationCombination(posMoleculefinal);
+        StartAnimationCombination(posMoleculefinal);
 
         //cuando termina recien ahi! borra los atomos seleccionados
         DeleteCombinedAtoms(selectedAtoms);
@@ -277,15 +282,15 @@ public class CombinationManager : MonoBehaviour
         //AHORA SI! QUE SE VEA la molecula que ya se creo.. y quedo en NO VISIBLE esperando que se termine la courutina!
         newMoleculeAndPos.gameObject.SetActive(true);
 
-        yield return StartCoroutine(Start());
+        yield return StartCoroutine(StopAnimationCombination());
 
         //exito! muestro por pantalla 
         popup.MostrarPopUp("Manager Combinación", "Molécula Formada: " + toStringPopup);
     }
 
 
-
-    private IEnumerator Start()
+    //corutina para desaparecer la animacion de combinacion
+    private IEnumerator StopAnimationCombination()
     {
         float lifeTime = 2.0f;//tiempo de espera que retarda la animacion
         yield return new WaitForSeconds(lifeTime);
@@ -293,7 +298,8 @@ public class CombinationManager : MonoBehaviour
     }
 
 
-    private void getAnimationCombination(Vector3 posMoleculefinal)
+    //instancio animacion en el momento que se necesita para no consumir recursos constantemente
+    private void StartAnimationCombination(Vector3 posMoleculefinal)
     {
         // creo una copia del prefab
         animationCombination = Instantiate<GameObject>(animationPrefab);
@@ -302,9 +308,5 @@ public class CombinationManager : MonoBehaviour
     }
 
     #endregion
-
-
-
-
 
 }
