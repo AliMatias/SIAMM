@@ -25,7 +25,7 @@ public class ScaleGrid : MonoBehaviour {
 	{
 		#if UNITY_EDITOR
 		//This is used to detect whether in editor view resolution has changed
-		//if(Application.isPlaying) return;
+		if(Application.isPlaying) return;
 		if (GetMainGameViewSize() != viewSize || widthPercentage != lWidthPercentage)
 		{
 			Fix ();
