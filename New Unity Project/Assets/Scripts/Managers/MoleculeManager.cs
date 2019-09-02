@@ -68,11 +68,85 @@ public class MoleculeManager : MonoBehaviour
         }
     }
 
-    //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom")
+
+    #region Metodos SPAWN MOLECULAS 
+    //retorna una estructura que tendra la posicion en la lista de lugares tomados y la molecula para saber luego su posicion XYZ
+    public Molecule GetMoleculePos()
+    {
+        //intento obtener una posición disponible random
+        int position = -1;
+        try
+        {
+            position = positionManager.ObtainRandomPositionIndex();
+        }
+        //si no hay mas posiciones disponibles, lo loggeo y me voy
+        catch (NoPositionsLeftException nple)
+        {
+            //no va popup -> preguntar si no se deberia mostrar mensaje
+            Debug.Log(nple.Message);
+            throw;
+        }
+
+        //instancio la molécula, y seteo posición
+        Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
+        //aca le digo que ira la molecula armada en esta posicion final
+        newMolecule.transform.localPosition = positionManager.Positions[position];
+        newMolecule.MoleculeIndex = position;
+
+        //LA MOLECULA COMIENZA NO ACTIVA PARA QUE NO SE VEA!
+        newMolecule.gameObject.SetActive(false);
+
+        molecules.Add(newMolecule);
+
+        return newMolecule;
+    }
+
+
+    //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom") METODO PARA SPAWN DESDE LISTA 
+    public void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name, Molecule newMolecule)
+    {
+
+        //seteo nombre
+        newMolecule.SetMoleculeName(name);
+        List<AtomInMolPositionData> normalizedAtoms = NormalizeAtomPositions(atomsPosition);
+        //spawneo todos sus átomos
+        foreach (AtomInMolPositionData pos in normalizedAtoms)
+        {
+            //query a la tabla de elementos para obtener clasificación_grupo
+            ElementTabPer element = new ElementTabPer();
+            try
+            {
+                element = qryElement.GetElementFromNro(pos.ElementId);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("MoleculeManager :: Ocurrio un error al buscar Elemento desde Identificador: " + e.Message);
+                popup.MostrarPopUp("Elementos Qry DB", "Error obteniendo Elemento desde Identificador");
+                return;
+            }
+
+            //obtengo el material según la clasif
+            Material mat = materials[GetMaterialIndexFromDictionary(element.ClasificacionGrupo)];
+            newMolecule.SpawnAtom(pos, mat);
+        }
+        //y despues sus conexiones una vez que esten todos posicionados
+        foreach (AtomInMolPositionData atom in normalizedAtoms)
+        {
+            //si es que tiene alguna
+            if (atom.ConnectedTo > 0)
+            {
+                newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType, atom.LineType);//por ej aca 1 seria comun 2 podria ser unionica
+            }
+        }
+        activateDeactivateMoleculeButtons();
+    }
+
+
+    //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom") METODO PARA SPAWN DESDE LISTA 
     public void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name)
     {
         //intento obtener una posición disponible random
-        int position;
+        int position = -1;
         try
         {
             position = positionManager.ObtainRandomPositionIndex();
@@ -84,6 +158,7 @@ public class MoleculeManager : MonoBehaviour
             Debug.Log(nple.Message);
             return;
         }
+
         //instancio la molécula, y seteo posición
         Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
         newMolecule.transform.localPosition = positionManager.Positions[position];
@@ -113,16 +188,20 @@ public class MoleculeManager : MonoBehaviour
             newMolecule.SpawnAtom(pos, mat);
         }
         //y despues sus conexiones una vez que esten todos posicionados
-        foreach(AtomInMolPositionData atom in normalizedAtoms)
+        foreach (AtomInMolPositionData atom in normalizedAtoms)
         {
             //si es que tiene alguna
-            if(atom.ConnectedTo > 0)
+            if (atom.ConnectedTo > 0)
             {
                 newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType, atom.LineType);//por ej aca 1 seria comun 2 podria ser unionica
             }
         }
         activateDeactivateMoleculeButtons();
     }
+
+    #endregion
+
+    #region ActionOnMolecules
 
     //diccionario de categoría_grupo -> material
     private void IntializeCategoryDictionary()
@@ -250,4 +329,6 @@ public class MoleculeManager : MonoBehaviour
 
         return normalizedAtoms;
     }
+
+    #endregion
 }

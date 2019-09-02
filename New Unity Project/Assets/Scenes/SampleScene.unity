@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1208,6 +1208,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combineButton: {fileID: 2038814929}
   combineModeButton: {fileID: 2087284254}
+  animationPrefab: {fileID: 1942654161292539023, guid: 61afe24c548980047a633f8cecccefb6,
+    type: 3}
 --- !u!1 &59620534
 GameObject:
   m_ObjectHideFlags: 0
@@ -9501,7 +9503,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -223.85004, y: -56.5}
+  m_AnchoredPosition: {x: -223.84961, y: -56.5}
   m_SizeDelta: {x: 154.93, y: 43.39}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &429581422
@@ -11150,7 +11152,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1807429813}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9999994
+  m_Size: 0.9999948
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14749,7 +14751,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 107.8, y: 59.7}
+  m_AnchoredPosition: {x: 107.80078, y: 59.7}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &694837589
@@ -19214,7 +19216,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 126.47003, y: 18.660004}
+  m_AnchoredPosition: {x: 126.4707, y: 18.660004}
   m_SizeDelta: {x: 252.94, y: 37.32}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &856900856
@@ -19912,7 +19914,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -98.99982, y: 0.000026815733}
+  m_AnchoredPosition: {x: -98.9999, y: 0.000037806014}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896579102
@@ -30277,8 +30279,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1488716185}
   m_HandleRect: {fileID: 1488716184}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999999
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -34875,7 +34877,7 @@ PrefabInstance:
     - target: {fileID: 2875330828932066517, guid: 542049d9bff91dc4e9c236017ae65db3,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 70.3
+      value: 70.30078
       objectReference: {fileID: 0}
     - target: {fileID: 2875330828932066517, guid: 542049d9bff91dc4e9c236017ae65db3,
         type: 3}
