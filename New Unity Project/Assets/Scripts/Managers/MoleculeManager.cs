@@ -148,11 +148,11 @@ public class MoleculeManager : MonoBehaviour
     //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom") METODO PARA SPAWN DESDE LISTA 
     public void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name)
     {
-        //intento obtener una posición disponible
-        int position;
+        //intento obtener una posición disponible random
+        int position = -1;
         try
         {
-            position = positionManager.GetFirstAvailablePositionIndex();
+            position = positionManager.ObtainRandomPositionIndex();
         }
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch (NoPositionsLeftException nple)

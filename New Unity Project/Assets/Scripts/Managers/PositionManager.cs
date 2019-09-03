@@ -84,33 +84,6 @@ public class PositionManager
         Positions.Add(new Vector3(-12.5f, 5, 4));
         Positions.Add(new Vector3(12.5f, 7, 4));
         Positions.Add(new Vector3(-12.5f, 7, 4));
-
-        //Z=-4
-        Positions.Add(new Vector3(-2.5f, 1, -4));
-        Positions.Add(new Vector3(2.5f, 1, -4));
-        Positions.Add(new Vector3(-2.5f, 3, -4));
-        Positions.Add(new Vector3(2.5f, 3, -4));
-        Positions.Add(new Vector3(2.5f, 5, -4));
-        Positions.Add(new Vector3(-2.5f, 5, -4));
-        Positions.Add(new Vector3(2.5f, 7, -4));
-        Positions.Add(new Vector3(-2.5f, 7, -4));
-        Positions.Add(new Vector3(-7.5f, 1, -4));
-        Positions.Add(new Vector3(7.5f, 1, -4));
-        Positions.Add(new Vector3(-7.5f, 3, -4));
-        Positions.Add(new Vector3(7.5f, 3, -4));
-        Positions.Add(new Vector3(7.5f, 5, -4));
-        Positions.Add(new Vector3(-7.5f, 5, -4));
-        Positions.Add(new Vector3(7.5f, 7, -4));
-        Positions.Add(new Vector3(-7.5f, 7, -4));
-        Positions.Add(new Vector3(-12.5f, 1, -4));
-        Positions.Add(new Vector3(12.5f, 1, -4));
-        Positions.Add(new Vector3(-12.5f, 3, -4));
-        Positions.Add(new Vector3(12.5f, 3, -4));
-        Positions.Add(new Vector3(12.5f, 5, -4));
-        Positions.Add(new Vector3(-12.5f, 5, -4));
-        Positions.Add(new Vector3(12.5f, 7, -4));
-        Positions.Add(new Vector3(-12.5f, 7, -4));
-
         //Z=8
         Positions.Add(new Vector3(-2.5f, 1, 8));
         Positions.Add(new Vector3(2.5f, 1, 8));
@@ -136,33 +109,6 @@ public class PositionManager
         Positions.Add(new Vector3(-12.5f, 5, 8));
         Positions.Add(new Vector3(12.5f, 7, 8));
         Positions.Add(new Vector3(-12.5f, 7, 8));
-
-        //Z=-8
-        Positions.Add(new Vector3(-2.5f, 1, -8));
-        Positions.Add(new Vector3(2.5f, 1, -8));
-        Positions.Add(new Vector3(-2.5f, 3, -8));
-        Positions.Add(new Vector3(2.5f, 3, -8));
-        Positions.Add(new Vector3(2.5f, 5, -8));
-        Positions.Add(new Vector3(-2.5f, 5, -8));
-        Positions.Add(new Vector3(2.5f, 7, -8));
-        Positions.Add(new Vector3(-2.5f, 7, -8));
-        Positions.Add(new Vector3(-7.5f, 1, -8));
-        Positions.Add(new Vector3(7.5f, 1, -8));
-        Positions.Add(new Vector3(-7.5f, 3, -8));
-        Positions.Add(new Vector3(7.5f, 3, -8));
-        Positions.Add(new Vector3(7.5f, 5, -8));
-        Positions.Add(new Vector3(-7.5f, 5, -8));
-        Positions.Add(new Vector3(7.5f, 7, -8));
-        Positions.Add(new Vector3(-7.5f, 7, -8));
-        Positions.Add(new Vector3(-12.5f, 1, -8));
-        Positions.Add(new Vector3(12.5f, 1, -8));
-        Positions.Add(new Vector3(-12.5f, 3, -8));
-        Positions.Add(new Vector3(12.5f, 3, -8));
-        Positions.Add(new Vector3(12.5f, 5, -8));
-        Positions.Add(new Vector3(-12.5f, 5, -8));
-        Positions.Add(new Vector3(12.5f, 7, -8));
-        Positions.Add(new Vector3(-12.5f, 7, -8));
-
         //Z=12
         Positions.Add(new Vector3(-2.5f, 1, 12));
         Positions.Add(new Vector3(2.5f, 1, 12));
@@ -188,33 +134,6 @@ public class PositionManager
         Positions.Add(new Vector3(-12.5f, 5, 12));
         Positions.Add(new Vector3(12.5f, 7, 12));
         Positions.Add(new Vector3(-12.5f, 7, 12));
-
-        //Z=-12
-        Positions.Add(new Vector3(-2.5f, 1, -12));
-        Positions.Add(new Vector3(2.5f, 1, -12));
-        Positions.Add(new Vector3(-2.5f, 3, -12));
-        Positions.Add(new Vector3(2.5f, 3, -12));
-        Positions.Add(new Vector3(2.5f, 5, -12));
-        Positions.Add(new Vector3(-2.5f, 5, -12));
-        Positions.Add(new Vector3(2.5f, 7, -12));
-        Positions.Add(new Vector3(-2.5f, 7, -12));
-        Positions.Add(new Vector3(-7.5f, 1, -12));
-        Positions.Add(new Vector3(7.5f, 1, -12));
-        Positions.Add(new Vector3(-7.5f, 3, -12));
-        Positions.Add(new Vector3(7.5f, 3, -12));
-        Positions.Add(new Vector3(7.5f, 5, -12));
-        Positions.Add(new Vector3(-7.5f, 5, -12));
-        Positions.Add(new Vector3(7.5f, 7, -12));
-        Positions.Add(new Vector3(-7.5f, 7, -12));
-        Positions.Add(new Vector3(-12.5f, 1, -12));
-        Positions.Add(new Vector3(12.5f, 1, -12));
-        Positions.Add(new Vector3(-12.5f, 3, -12));
-        Positions.Add(new Vector3(12.5f, 3, -12));
-        Positions.Add(new Vector3(12.5f, 5, -12));
-        Positions.Add(new Vector3(-12.5f, 5, -12));
-        Positions.Add(new Vector3(12.5f, 7, -12));
-        Positions.Add(new Vector3(-12.5f, 7, -12));
-
         //Z=16
         Positions.Add(new Vector3(-2.5f, 1, 16));
         Positions.Add(new Vector3(2.5f, 1, 16));
@@ -240,7 +159,81 @@ public class PositionManager
         Positions.Add(new Vector3(-12.5f, 5, 16));
         Positions.Add(new Vector3(12.5f, 7, 16));
         Positions.Add(new Vector3(-12.5f, 7, 16));
-        
+        //Z=-4
+        Positions.Add(new Vector3(-2.5f, 1, -4));
+        Positions.Add(new Vector3(2.5f, 1, -4));
+        Positions.Add(new Vector3(-2.5f, 3, -4));
+        Positions.Add(new Vector3(2.5f, 3, -4));
+        Positions.Add(new Vector3(2.5f, 5, -4));
+        Positions.Add(new Vector3(-2.5f, 5, -4));
+        Positions.Add(new Vector3(2.5f, 7, -4));
+        Positions.Add(new Vector3(-2.5f, 7, -4));
+        Positions.Add(new Vector3(-7.5f, 1, -4));
+        Positions.Add(new Vector3(7.5f, 1, -4));
+        Positions.Add(new Vector3(-7.5f, 3, -4));
+        Positions.Add(new Vector3(7.5f, 3, -4));
+        Positions.Add(new Vector3(7.5f, 5, -4));
+        Positions.Add(new Vector3(-7.5f, 5, -4));
+        Positions.Add(new Vector3(7.5f, 7, -4));
+        Positions.Add(new Vector3(-7.5f, 7, -4));
+        Positions.Add(new Vector3(-12.5f, 1, -4));
+        Positions.Add(new Vector3(12.5f, 1, -4));
+        Positions.Add(new Vector3(-12.5f, 3, -4));
+        Positions.Add(new Vector3(12.5f, 3, -4));
+        Positions.Add(new Vector3(12.5f, 5, -4));
+        Positions.Add(new Vector3(-12.5f, 5, -4));
+        Positions.Add(new Vector3(12.5f, 7, -4));
+        Positions.Add(new Vector3(-12.5f, 7, -4));
+        //Z=-8
+        Positions.Add(new Vector3(-2.5f, 1, -8));
+        Positions.Add(new Vector3(2.5f, 1, -8));
+        Positions.Add(new Vector3(-2.5f, 3, -8));
+        Positions.Add(new Vector3(2.5f, 3, -8));
+        Positions.Add(new Vector3(2.5f, 5, -8));
+        Positions.Add(new Vector3(-2.5f, 5, -8));
+        Positions.Add(new Vector3(2.5f, 7, -8));
+        Positions.Add(new Vector3(-2.5f, 7, -8));
+        Positions.Add(new Vector3(-7.5f, 1, -8));
+        Positions.Add(new Vector3(7.5f, 1, -8));
+        Positions.Add(new Vector3(-7.5f, 3, -8));
+        Positions.Add(new Vector3(7.5f, 3, -8));
+        Positions.Add(new Vector3(7.5f, 5, -8));
+        Positions.Add(new Vector3(-7.5f, 5, -8));
+        Positions.Add(new Vector3(7.5f, 7, -8));
+        Positions.Add(new Vector3(-7.5f, 7, -8));
+        Positions.Add(new Vector3(-12.5f, 1, -8));
+        Positions.Add(new Vector3(12.5f, 1, -8));
+        Positions.Add(new Vector3(-12.5f, 3, -8));
+        Positions.Add(new Vector3(12.5f, 3, -8));
+        Positions.Add(new Vector3(12.5f, 5, -8));
+        Positions.Add(new Vector3(-12.5f, 5, -8));
+        Positions.Add(new Vector3(12.5f, 7, -8));
+        Positions.Add(new Vector3(-12.5f, 7, -8));
+        //Z=-12
+        Positions.Add(new Vector3(-2.5f, 1, -12));
+        Positions.Add(new Vector3(2.5f, 1, -12));
+        Positions.Add(new Vector3(-2.5f, 3, -12));
+        Positions.Add(new Vector3(2.5f, 3, -12));
+        Positions.Add(new Vector3(2.5f, 5, -12));
+        Positions.Add(new Vector3(-2.5f, 5, -12));
+        Positions.Add(new Vector3(2.5f, 7, -12));
+        Positions.Add(new Vector3(-2.5f, 7, -12));
+        Positions.Add(new Vector3(-7.5f, 1, -12));
+        Positions.Add(new Vector3(7.5f, 1, -12));
+        Positions.Add(new Vector3(-7.5f, 3, -12));
+        Positions.Add(new Vector3(7.5f, 3, -12));
+        Positions.Add(new Vector3(7.5f, 5, -12));
+        Positions.Add(new Vector3(-7.5f, 5, -12));
+        Positions.Add(new Vector3(7.5f, 7, -12));
+        Positions.Add(new Vector3(-7.5f, 7, -12));
+        Positions.Add(new Vector3(-12.5f, 1, -12));
+        Positions.Add(new Vector3(12.5f, 1, -12));
+        Positions.Add(new Vector3(-12.5f, 3, -12));
+        Positions.Add(new Vector3(12.5f, 3, -12));
+        Positions.Add(new Vector3(12.5f, 5, -12));
+        Positions.Add(new Vector3(-12.5f, 5, -12));
+        Positions.Add(new Vector3(12.5f, 7, -12));
+        Positions.Add(new Vector3(-12.5f, 7, -12));
         //Z=-16
         Positions.Add(new Vector3(-2.5f, 1, -16));
         Positions.Add(new Vector3(2.5f, 1, -16));
@@ -275,21 +268,26 @@ public class PositionManager
     }
 #endregion
 
-    //obtengo la proxima posicion disponible en el plano
-    public int GetFirstAvailablePositionIndex()
+    //obtengo una posición random en el plano
+    public int ObtainRandomPositionIndex()
     {
-        int index = 0;
-        foreach (bool available in AvailablePositions)
+        //si no hay mas disponibles tiro exception
+        if (NoPositionsLeft())
         {
-            if (available) {
-                AvailablePositions[index] = false;
-                return index; 
-            }
-            index++;
+            Debug.Log("Arrojo excepcion: No hay más posiciones disponibles");
+            throw (new NoPositionsLeftException("No hay más posiciones disponibles"));
         }
-
-        Debug.Log("No hay más posiciones disponibles");
-        throw (new NoPositionsLeftException("No hay más posiciones disponibles"));
+        int positions = AvailablePositions.Count;
+        while (true)
+        {
+            //obtengo posición random hasta encontrar una libre
+            int randomIndex = Random.Range(0, positions);
+            if (AvailablePositions[randomIndex])
+            {
+                AvailablePositions[randomIndex] = false;
+                return randomIndex;
+            }
+        }
     }
 
     //chequeo si hay posiciones disponibles
