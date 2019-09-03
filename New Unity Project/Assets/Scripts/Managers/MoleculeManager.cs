@@ -31,6 +31,7 @@ public class MoleculeManager : MonoBehaviour
 
     private void Awake()
     {
+        //instancio en el momento la clase que contiene las querys, seria lo mismo que hacer class algo = new class();
         GameObject go = new GameObject();
         go.AddComponent<QryElementos>();
         qryElement = go.GetComponent<QryElementos>();
