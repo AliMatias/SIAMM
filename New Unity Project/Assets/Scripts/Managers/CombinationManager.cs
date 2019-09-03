@@ -34,6 +34,7 @@ public class CombinationManager : MonoBehaviour
         atomManager = FindObjectOfType<AtomManager>();
         popup = FindObjectOfType<UIPopup>();
 
+        //instancio en el momento la clase que contiene las querys, seria lo mismo que hacer class algo = new class();
         GameObject go = new GameObject();
         go.AddComponent<QryMoleculas>();
         qryMolecule = go.GetComponent<QryMoleculas>();
@@ -209,7 +210,7 @@ public class CombinationManager : MonoBehaviour
     private void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name, List<int> selectedAtoms, string toStringPopup)
     {
         //solicito a Manager de molecula los datos de la futura nueva molecula a crear
-        Molecule newMoleculeAndPos = moleculeManager.GetMoleculePos();
+        Molecule newMoleculeAndPos = moleculeManager.GetMoleculePos(true);
 
         //ACA VA LA MAGIA, y va trasladando los parametros para que sea serializado
         InteractivePosCombinedAtoms(atomsPosition, name, selectedAtoms, newMoleculeAndPos.transform.localPosition, newMoleculeAndPos, toStringPopup);
