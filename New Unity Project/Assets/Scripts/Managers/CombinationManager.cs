@@ -34,7 +34,6 @@ public class CombinationManager : MonoBehaviour
         atomManager = FindObjectOfType<AtomManager>();
         popup = FindObjectOfType<UIPopup>();
 
-        //instancio en el momento la clase que contiene las querys, seria lo mismo que hacer class algo = new class();
         GameObject go = new GameObject();
         go.AddComponent<QryMoleculas>();
         qryMolecule = go.GetComponent<QryMoleculas>();

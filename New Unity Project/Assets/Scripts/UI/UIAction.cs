@@ -17,12 +17,12 @@ public class UIAction : MonoBehaviour
         popupQuit.MostrarPopUp("Salir", "¿Esta seguro que desea salir de la aplicacion?");
     }
 
-    //ABRE EL MENU PRINCIPAL PARA CARGAR PROYECTO.. ETC.
+
     public void openMenu()
     {
         if (!menu)
         {
-            Debug.Log("ABRE MENU PRINCIPAL");
+            Debug.Log("ABRE MENU");
             gameObject.AddComponent<UIMenu>();
             menu = true;
         }

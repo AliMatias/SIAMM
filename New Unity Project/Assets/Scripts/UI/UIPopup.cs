@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class UIPopup : MonoBehaviour
 {
@@ -32,8 +34,7 @@ public class UIPopup : MonoBehaviour
                    , 300, 150), ShowGUI, popUpTitle);
         }
     }
-    
-    //INSTANCIA UNA VEZ para la interfaz que lo referencia por eso hay 2 clases uipopup
+
     public void ShowGUI(int windowID)
     {
         // Label que muestra mensaje
