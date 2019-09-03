@@ -52,8 +52,6 @@ public class Atom: MonoBehaviour
 
     //allcocate la clase popup para mostrar mensajes
     private UIPopup popup;
-    //panel de info
-    private MainInfoPanel mainInfoPanel;
     #endregion
 
     public int AtomIndex { get => atomIndex; set => atomIndex = value; }
@@ -72,7 +70,6 @@ public class Atom: MonoBehaviour
 
         popup = FindObjectOfType<UIPopup>();
         atomManager = FindObjectOfType<AtomManager>();
-        mainInfoPanel = FindObjectOfType<MainInfoPanel>();
     }
 
     #region spawn
@@ -302,7 +299,8 @@ public class Atom: MonoBehaviour
         }
 
         elementLabel.GetComponent<TextMesh>().text = elementText;
-        mainInfoPanel.SetInfo(this);
+
+        atomManager.SetInfoPanel(this);
     }
 
     /*Metodo Valida si es un elemento de tabla periodica, si es isotopo, y cation-anion
@@ -430,9 +428,7 @@ public class Atom: MonoBehaviour
     */
     void OnDestroy()
     {
-        if(mainInfoPanel != null){
-            mainInfoPanel.HideInfo();
-        }
+        atomManager.HideInfoPanel();
         Destroy(gameObject);
     }
 
