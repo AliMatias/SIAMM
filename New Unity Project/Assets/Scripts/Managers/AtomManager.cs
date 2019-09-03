@@ -41,11 +41,11 @@ public class AtomManager : MonoBehaviour
     //agregar nuevo átomo al espacio de trabajo
     public void NewAtom(bool withProton)
     {
-        //intento obtener una posición disponible random
+        //intento obtener una posición disponible 
         int position;
         try
         {
-            position = positionManager.ObtainRandomPositionIndex();
+            position = positionManager.GetFirstAvailablePositionIndex();
         }
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch(NoPositionsLeftException nple)
@@ -226,7 +226,8 @@ public class AtomManager : MonoBehaviour
             btn.interactable = status;
         }
 
-        if(positionManager.NoPositionsLeft()){
+        if(positionManager.NoPositionsLeft())
+        {
             plusAtomButton.interactable = false;
         }else{
             plusAtomButton.interactable = true;
