@@ -71,11 +71,11 @@ public class MoleculeManager : MonoBehaviour
     //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom")
     public void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name)
     {
-        //intento obtener una posición disponible random
+        //intento obtener una posición disponible
         int position;
         try
         {
-            position = positionManager.ObtainRandomPositionIndex();
+            position = positionManager.GetFirstAvailablePositionIndex();
         }
         //si no hay mas posiciones disponibles, lo loggeo y me voy
         catch (NoPositionsLeftException nple)
