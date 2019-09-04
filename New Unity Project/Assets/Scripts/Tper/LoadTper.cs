@@ -25,6 +25,7 @@ public class LoadTper : MonoBehaviour
         go.AddComponent<QryElementos>();
         qryElement = go.GetComponent<QryElementos>();
 
+        //busca en este caso en el panel "this" que es el llamador un componente especifico, esto reemplaza enviar el gameobject por interface
         glg = this.GetComponent<GridLayoutGroup>();
 
         popup = FindObjectOfType<UIPopup>();

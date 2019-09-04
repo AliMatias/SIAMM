@@ -28,7 +28,7 @@ public class UIToolTipCombine : MonoBehaviour
         float paddingtextSize = 4f;
         Vector2 backgroundSize = new Vector2(tooltipText.preferredWidth + paddingtextSize * 2f, tooltipText.preferredHeight + paddingtextSize * 2f);
         background.sizeDelta = backgroundSize;
-        Vector3 offset = new Vector3(50, 100, 0);
+        Vector3 offset = new Vector3(25, 90, 0);
         transform.position = btn.transform.position + offset;//del boton siempre un delta!
     }
 
