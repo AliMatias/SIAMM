@@ -4,7 +4,12 @@ CREATE TABLE "moleculas_lista"(
 	"formula" TEXT NULL,
 	"formula_nomenclatura_sistematica" TEXT NULL,
 	"nomenclatura_stock" TEXT NULL,
-	"nomenclatura_tradicional" TEXT NULL);
+	"nomenclatura_tradicional" TEXT NULL,	
+	"caracteristicas" TEXT NULL,	
+	"propiedades" TEXT NULL,	
+	"usos" TEXT NULL,
+	"clasificacion" TEXT NULL	
+	);
 
 
 CREATE TABLE "moleculas_mapping_element"(
