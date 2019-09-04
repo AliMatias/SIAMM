@@ -6,7 +6,6 @@ public class OpenMenus : MonoBehaviour
 {
     public GameObject panel;
     public GameObject button;
-    public CanvasGroup cg;
 
     public void OpenPanelTextIzq()
     {
@@ -80,15 +79,5 @@ public class OpenMenus : MonoBehaviour
             opened = animator.GetBool("open");
             animator.SetBool("open", !opened);
         }
-
-        if (!opened)
-        {
-            cg.alpha = 0;
-        }
-        else
-        {
-            cg.alpha = 1;
-        }
-
     }
 }
