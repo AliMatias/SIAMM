@@ -287,5 +287,17 @@ public class MoleculeManager : MonoBehaviour
         return normalizedAtoms;
     }
 
+    /**
+     * Elimina todas las moleculas
+     */
+     public void DeleteAllMolecules()
+    {
+        List<Molecule> toDelete = new List<Molecule>(molecules);
+
+        foreach (Molecule molecule in toDelete)
+        {
+            DeleteMolecule(molecule);
+        }
+    }
     #endregion
 }

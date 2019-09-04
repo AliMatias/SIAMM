@@ -248,4 +248,16 @@ public class AtomManager : MonoBehaviour
         }
         return selectedAtoms;
     }
+
+    /**
+     * Elimina todos los atomos
+     */
+    public void DeleteAllAtoms()
+    {
+        List<Atom> toDelete = new List<Atom>(atomsList);
+        foreach (Atom atom in toDelete)
+        {
+            DeleteAtom(atom.AtomIndex);
+        }
+    }
 }
