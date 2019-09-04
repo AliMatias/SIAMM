@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class MoleculeManager : MonoBehaviour
 {
+    #region Atributos
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
     private QryElementos qryElement;
@@ -26,8 +27,11 @@ public class MoleculeManager : MonoBehaviour
 
     public List<Molecule> Molecules { get => molecules; }
 
+    #endregion
+
     private void Awake()
     {
+        //instancio en el momento la clase que contiene las querys, seria lo mismo que hacer class algo = new class();
         GameObject go = new GameObject();
         go.AddComponent<QryElementos>();
         qryElement = go.GetComponent<QryElementos>();
@@ -68,8 +72,10 @@ public class MoleculeManager : MonoBehaviour
         }
     }
 
-    //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom")
-    public void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name)
+
+    #region Metodos SPAWN MOLECULAS 
+    //retorna una estructura que tendra la posicion en la lista de lugares tomados y la molecula para saber luego su posicion XYZ
+    public Molecule GetMoleculePos(bool fromCombination)
     {
         //intento obtener una posición disponible
         int position;
@@ -82,13 +88,30 @@ public class MoleculeManager : MonoBehaviour
         {
             //no va popup -> preguntar si no se deberia mostrar mensaje
             Debug.Log(nple.Message);
-            return;
+            throw;
         }
+
         //instancio la molécula, y seteo posición
         Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
+        //aca le digo que ira la molecula armada en esta posicion final
         newMolecule.transform.localPosition = positionManager.Positions[position];
         newMolecule.MoleculeIndex = position;
+
+        if (fromCombination)
+        {
+            //LA MOLECULA COMIENZA NO ACTIVA PARA QUE NO SE VEA! solo cuando se hace la combinacion de elementos
+            newMolecule.gameObject.SetActive(false);
+        }
+
         molecules.Add(newMolecule);
+
+        return newMolecule;
+    }
+
+
+    //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom") METODO PARA SPAWN CENTRAL
+    public void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name, Molecule newMolecule)
+    {
         //seteo nombre
         newMolecule.SetMoleculeName(name);
         List<AtomInMolPositionData> normalizedAtoms = NormalizeAtomPositions(atomsPosition);
@@ -113,16 +136,29 @@ public class MoleculeManager : MonoBehaviour
             newMolecule.SpawnAtom(pos, mat);
         }
         //y despues sus conexiones una vez que esten todos posicionados
-        foreach(AtomInMolPositionData atom in normalizedAtoms)
+        foreach (AtomInMolPositionData atom in normalizedAtoms)
         {
             //si es que tiene alguna
-            if(atom.ConnectedTo > 0)
+            if (atom.ConnectedTo > 0)
             {
                 newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType, atom.LineType);//por ej aca 1 seria comun 2 podria ser unionica
             }
         }
         activateDeactivateMoleculeButtons();
     }
+
+    //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom") METODO PARA SPAWN DESDE LISTA 
+    public void SpawnMolecule(List<AtomInMolPositionData> atomsPosition, string name)
+    {
+        //si este metodo es llamado quiere decir que la molecula viene de la lista y se tiene que instanciar en el manager al molecula
+        Molecule newMolecule = GetMoleculePos(false);
+        SpawnMolecule(atomsPosition, name, newMolecule);
+    }
+
+
+    #endregion
+
+    #region ActionOnMolecules
 
     //diccionario de categoría_grupo -> material
     private void IntializeCategoryDictionary()
@@ -263,4 +299,5 @@ public class MoleculeManager : MonoBehaviour
             DeleteMolecule(molecule);
         }
     }
+    #endregion
 }

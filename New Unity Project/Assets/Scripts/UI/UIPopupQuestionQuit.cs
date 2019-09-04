@@ -33,6 +33,7 @@ public class UIPopupQuestionQuit : MonoBehaviour
         }
     }
 
+    //INSTANCIA UNA VEZ para la interfaz que lo referencia por eso hay 2 clases uipopup
     public void ShowGUI(int windowID)
     {
         // Label que muestra mensaje
