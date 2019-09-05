@@ -190,6 +190,10 @@ public class CombinationManager : MonoBehaviour
         }
     }
 
+    public void CombineMolecules(){
+        
+    }
+
 
     static List<int> Intersect(List<List<int>> lists)
     {
