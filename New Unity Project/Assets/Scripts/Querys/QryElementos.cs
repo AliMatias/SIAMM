@@ -397,8 +397,8 @@ public class QryElementos : MonoBehaviour
     }
 
 
-
-    public ElementInfoPanelInfo GetElementInfoPanelSugerencias(int nroAtomico)
+    //trae la informacion de 6 campos seleccionados para mostrar en el panel inferior
+    public ElementInfoPanelInfo GetElementInfoPanelSuggestion(int nroAtomico)
     {
         ElementInfoPanelInfo elementInfoPanelInfo = new ElementInfoPanelInfo();
         //dejo un reader local para cada query, no siendo global
@@ -412,7 +412,7 @@ public class QryElementos : MonoBehaviour
             sqlQuery = sqlQuery + "FROM elementos_info_basica ";
             sqlQuery = sqlQuery + "  INNER JOIN elementos_info_detalle ";
             sqlQuery = sqlQuery + "     ON elementos_info_basica.numero_atomico = elementos_info_detalle.numero_atomico ";
-            sqlQuery = sqlQuery + "WHERE numero_atomico="
+            sqlQuery = sqlQuery + "WHERE elementos_info_basica.numero_atomico="
             + nroAtomico + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER

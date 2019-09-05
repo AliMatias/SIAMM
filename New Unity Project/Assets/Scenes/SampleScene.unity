@@ -6258,6 +6258,7 @@ GameObject:
   - component: {fileID: 266393277}
   - component: {fileID: 266393278}
   - component: {fileID: 266393279}
+  - component: {fileID: 266393280}
   m_Layer: 5
   m_Name: InfoPanel
   m_TagString: Untagged
@@ -6366,6 +6367,19 @@ MonoBehaviour:
   - {fileID: 1693523312}
   infoContainer: {fileID: 1225604386}
   elementBtn: {fileID: 813515186}
+--- !u!114 &266393280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266393273}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb8d9d68928072489442a1cbcac3dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 2106805140}
 --- !u!1001 &269774184
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11629,7 +11643,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1807429814}
   m_HandleRect: {fileID: 1807429813}
   m_Direction: 0
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.99999964
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -20680,7 +20694,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -98.99997, y: 0.000019274774}
+  m_AnchoredPosition: {x: -98.99993, y: -0.00002410766}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896579102
@@ -31206,7 +31220,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1488716185}
   m_HandleRect: {fileID: 1488716184}
   m_Direction: 2
-  m_Value: 0
+  m_Value: 1
   m_Size: 0.9999998
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -47844,6 +47858,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ToolTipText
       objectReference: {fileID: 0}
+    - target: {fileID: 1715719097993455335, guid: 1b95a51327a35f545a9c0d5fa6c7dd0b,
+        type: 3}
+      propertyPath: m_Alpha
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1715719097993455333, guid: 1b95a51327a35f545a9c0d5fa6c7dd0b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -47954,11 +47973,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 1715719097993455335, guid: 1b95a51327a35f545a9c0d5fa6c7dd0b,
-        type: 3}
-      propertyPath: m_Alpha
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1b95a51327a35f545a9c0d5fa6c7dd0b, type: 3}
 --- !u!1001 &4055092199410239815
@@ -47968,6 +47982,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1917023798}
     m_Modifications:
+    - target: {fileID: 4055092199926187756, guid: c156571454850594ebe75756c089424f,
+        type: 3}
+      propertyPath: m_Name
+      value: ToolTip
+      objectReference: {fileID: 0}
     - target: {fileID: 4055092199926187753, guid: c156571454850594ebe75756c089424f,
         type: 3}
       propertyPath: m_Alpha
@@ -48077,11 +48096,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4055092199926187756, guid: c156571454850594ebe75756c089424f,
-        type: 3}
-      propertyPath: m_Name
-      value: ToolTip
       objectReference: {fileID: 0}
     - target: {fileID: 7883820541016103191, guid: c156571454850594ebe75756c089424f,
         type: 3}
