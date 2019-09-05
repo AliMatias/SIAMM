@@ -1,15 +1,20 @@
 public class MaterialMappingData{
 
-    private int id_material { get; set; }
-    private int id_element { get; set; }
-    private int id_molecule { get; set; }
+    private int idMaterial;
+    private int idElement;
+    private int idMolecule;
     private int amount;
 
-    public MaterialMappingData(int id_material, int id_element, int id_molecule, int amount)
+    public int IdMaterial { get => idMaterial; set => idMaterial = value; }
+    public int IdElement { get => idElement; set => idElement = value; }
+    public int IdMolecule { get => idMolecule; set => idMolecule = value; }
+    public int Amount { get => amount; set => amount = value; }
+
+    public MaterialMappingData(int idMaterial, int idElement, int idMolecule, int amount)
     {
-        this.id_material = id_material;
-        this.id_element = id_element;
-        this.id_molecule = id_molecule;
+        this.idMaterial = idMaterial;
+        this.idElement = idElement;
+        this.idMolecule = idMolecule;
         this.amount = amount;
     }
 }

@@ -19,7 +19,10 @@ public class Molecule : MonoBehaviour
     public GameObject moleculeLabel;
     //indice que indica posición+
     private int moleculeIndex;
+    //indica id en tabla de moléculas
+    private int moleculeId;
 
+    public int MoleculeId { get => moleculeId; set => moleculeId = value; }
     public int MoleculeIndex { get => moleculeIndex; set => moleculeIndex = value; }
 
     private void Awake()

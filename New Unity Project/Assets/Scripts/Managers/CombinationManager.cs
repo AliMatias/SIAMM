@@ -15,6 +15,7 @@ public class CombinationManager : MonoBehaviour
     private bool combineMode = false;
     private AtomManager atomManager;
     private QryMoleculas qryMolecule;
+    private QryMaterials qryMaterial;
     private MoleculeManager moleculeManager;
     private SelectionManager selectionManager;
     public Button combineButton;
@@ -37,7 +38,9 @@ public class CombinationManager : MonoBehaviour
         //instancio en el momento la clase que contiene las querys, seria lo mismo que hacer class algo = new class();
         GameObject go = new GameObject();
         go.AddComponent<QryMoleculas>();
+        go.AddComponent<QryMaterials>();
         qryMolecule = go.GetComponent<QryMoleculas>();
+        qryMaterial = go.GetComponent<QryMaterials>();
 
         moleculeManager = FindObjectOfType<MoleculeManager>();
         selectionManager = FindObjectOfType<SelectionManager>();
@@ -216,7 +219,44 @@ public class CombinationManager : MonoBehaviour
     }
 
     private void CombineMolecules(List<int> selectedMolecules){
-        popup.MostrarPopUp("asd","no implementado");
+        List<int> moleculeIds = new List<int>();
+        foreach (int index in selectedMolecules)
+        {
+            int molId = moleculeManager.FindMoleculeInList(index).MoleculeId;
+            if(molId != null && molId != 0)
+            {
+                moleculeIds.Add(molId);
+            }
+        }
+        int previous = moleculeIds[0];
+        //valido que todas las moléculas sean iguales
+        foreach (int mol in moleculeIds){
+            if(previous != mol){
+                Debug.Log("No se pueden combinar moléculas distintas.");
+                popup.MostrarPopUp("Manager Combinación", 
+                    "El programa no soporta combinar distintas moléculas aún.");
+                return;
+            }
+        }
+        try{
+            //acá agarro el [0] porque son todos iguales los índices (lo chequee arriba)
+            MaterialMappingData mapping = qryMaterial.GetMaterialByMoleculeId(moleculeIds[0]);
+            MoleculeData molecule = qryMolecule.GetMoleculeById(mapping.IdMolecule);
+            MaterialData material = qryMaterial.GetMaterialById(mapping.IdMaterial);
+            if(moleculeIds.Count >= mapping.Amount){
+                popup.MostrarPopUp("Combinación","Creaste " + material.Name);
+            }else{
+                Debug.Log("Cantidad insuficiente");
+                popup.MostrarPopUp("Cantidad insuficiente","Se necesitan al menos " + mapping.Amount 
+                    + " moléculas de " + molecule.TraditionalNomenclature + 
+                    " para formar " + material.Name);
+            }
+            
+        }catch(Exception e){
+            Debug.LogError("Hubo un error tratando de obtener el material de la base de datos");
+            popup.MostrarPopUp("Manager Combinación", 
+                "Hubo un error tratando de obtener el material de la base de datos");
+        }
     }
 
 

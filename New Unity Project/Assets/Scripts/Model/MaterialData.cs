@@ -1,7 +1,10 @@
 public class MaterialData{
     
-    private int id { get; set; }
-    private string name { get; set; }
+    private int id;
+    private string name;
+
+    public int Id { get => id; set => id = value; }
+    public string Name { get => name; set => name = value; }
 
     public MaterialData(int id, string name)
     {
