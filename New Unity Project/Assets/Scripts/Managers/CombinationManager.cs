@@ -73,10 +73,35 @@ public class CombinationManager : MonoBehaviour
         }
     }
 
-    //Acá tiene que ir a la bd a buscar la combinación
-    public void CombineAtoms()
-    {
+    public void Combine(){
         List<int> selectedAtoms = atomManager.GetSelectedAtoms();
+        List<int> selectedMolecules = moleculeManager.GetSelectedMolecules();
+        int atomCount = selectedAtoms.Count;
+        int molCount = selectedMolecules.Count;
+        if(atomCount > 0 && molCount > 0){
+            Debug.LogError("CombinationManager :: Se intentó combinar átomos y moléculas.");
+            popup.MostrarPopUp("Manager Combinación", 
+                "Solo se pueden combinar átomos con átomos, y moléculas con moléculas.");
+        }else{
+            if(atomCount>1){
+                    Debug.Log("Combinando átomos.");
+                    CombineAtoms(selectedAtoms);
+            }else{
+                if(molCount>1){
+                    Debug.Log("Combinando moléculas.");
+                    CombineMolecules(selectedMolecules);
+                }else{
+                    Debug.LogError("CombinationManager :: Intento de combinar sin seleccionar nada");
+                    popup.MostrarPopUp("Manager Combinación",
+                        "Debe seleccionar 2 o más átomos o moléculas para poder combinar.");
+                }
+            }
+        }
+    }
+
+    //Acá tiene que ir a la bd a buscar la combinación
+    private void CombineAtoms(List<int> selectedAtoms)
+    {
         List<int> elementNumbers = new List<int>();
         foreach (int index in selectedAtoms)
         {
@@ -190,8 +215,8 @@ public class CombinationManager : MonoBehaviour
         }
     }
 
-    public void CombineMolecules(){
-        
+    private void CombineMolecules(List<int> selectedMolecules){
+        popup.MostrarPopUp("asd","no implementado");
     }
 
 
