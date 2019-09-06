@@ -115,6 +115,8 @@ public class MoleculeManager : MonoBehaviour
         //seteo nombre
         newMolecule.SetMoleculeName(name);
         List<AtomInMolPositionData> normalizedAtoms = NormalizeAtomPositions(atomsPosition);
+        //seteo su ID de molécula
+        newMolecule.MoleculeId = normalizedAtoms[0].MoleculeId;
         //spawneo todos sus átomos
         foreach (AtomInMolPositionData pos in normalizedAtoms)
         {
@@ -135,6 +137,7 @@ public class MoleculeManager : MonoBehaviour
             Material mat = materials[GetMaterialIndexFromDictionary(element.ClasificacionGrupo)];
             newMolecule.SpawnAtom(pos, mat);
         }
+
         //y despues sus conexiones una vez que esten todos posicionados
         foreach (AtomInMolPositionData atom in normalizedAtoms)
         {
@@ -182,7 +185,7 @@ public class MoleculeManager : MonoBehaviour
         return categories[cat];
     }
 
-    private Molecule FindMoleculeInList(int index)
+    public Molecule FindMoleculeInList(int index)
     {
         foreach(Molecule molecule in molecules)
         {

@@ -1,20 +1,20 @@
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-1,NULL,1,1);
+1,0,1,2);
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-2,NULL,31,1);
+2,0,31,2);
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-3,NULL,22,1);
+3,0,22,2);
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-4,NULL,44,1);
+4,0,44,2);
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-5,NULL,27,1);
+5,0,27,2);
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-6,NULL,30,1);
+6,0,30,2);
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-7,NULL,2,1);
+7,0,2,2);
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-8,6,NULL,1);
+8,6,0,2);
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-9,6,NULL,1);
+9,6,0,2);
 INSERT INTO materiales_mapping_element (id_material,id_elemento,id_molecula,cantidad) VALUES (
-10,NULL,7,1);
+10,0,7,2);
