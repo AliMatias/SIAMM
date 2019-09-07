@@ -396,5 +396,47 @@ public class QryElementos : MonoBehaviour
         return elementInfoDetail;
     }
 
+
+    //trae la informacion de 6 campos seleccionados para mostrar en el panel inferior
+    public ElementInfoPanelInfo GetElementInfoPanelSuggestion(int nroAtomico)
+    {
+        ElementInfoPanelInfo elementInfoPanelInfo = new ElementInfoPanelInfo();
+        //dejo un reader local para cada query, no siendo global
+        SqliteDataReader reader = null;
+        SqliteConnection dbConnection = null;
+
+        try
+        {
+            //tener en cuenta los null sino tirara error de cast luego en el read del set    
+            string sqlQuery = "SELECT clasificacion, clasificacion_grupo, numeros_oxidacion, punto_fusion, punto_ebullicion, distribucion_de_electrones_por_niveles ";
+            sqlQuery = sqlQuery + "FROM elementos_info_basica ";
+            sqlQuery = sqlQuery + "  INNER JOIN elementos_info_detalle ";
+            sqlQuery = sqlQuery + "     ON elementos_info_basica.numero_atomico = elementos_info_detalle.numero_atomico ";
+            sqlQuery = sqlQuery + "WHERE elementos_info_basica.numero_atomico="
+            + nroAtomico + ";";
+
+            //LLAMADA AL METODO DE LA DBMANAGER
+            dbConnection = dBManager.openCon();
+            reader = dBManager.ManageExec(dbConnection, sqlQuery);
+
+            //por cada atributo de la clase info detallada hay que validar los nulls
+            while (reader.Read())
+            {
+                elementInfoPanelInfo = new ElementInfoPanelInfo(dBManager.SafeGetString(reader, 0), dBManager.SafeGetString(reader, 1),
+                   dBManager.SafeGetString(reader, 2), dBManager.SafeGetString(reader, 3), dBManager.SafeGetString(reader, 4), dBManager.SafeGetString(reader, 5));
+            }
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        finally
+        {
+            dBManager.ManageClosing(dbConnection, reader);
+        }
+
+        return elementInfoPanelInfo;
+    }
+
     #endregion
 }

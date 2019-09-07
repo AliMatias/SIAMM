@@ -160,7 +160,6 @@ public class DetailInfoLoader : MonoBehaviour
             if (a.name == "txtEnergiasIon")
                 a.text = "Energías de Ionización: " + managerNullables(elementInfoDetail.energias_de_ionizacion);
         }
-
     }
 
     private string managerNullables(Nullable<float> valor)

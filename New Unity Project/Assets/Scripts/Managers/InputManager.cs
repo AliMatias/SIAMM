@@ -25,6 +25,7 @@ public class InputManager : MonoBehaviour
         loadTPer = FindObjectOfType<LoadTper>();
         UIFader = FindObjectOfType<UIFader>();
         // seteo el CanvasGroup (tabla periodica) que voy a ocultar cuando llame al UIFader.FadeInAndOut
+        //Este quedo asi para en algun momento modificarlo y utilice el override
         // UIFader.uiElement = parent.transform.parent.gameObject.GetComponent<CanvasGroup>();
         BasicInfoLoader = FindObjectOfType<BasicInfoLoader>();
         DetailInfoLoader = FindObjectOfType<DetailInfoLoader>();

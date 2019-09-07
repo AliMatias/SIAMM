@@ -36,6 +36,7 @@ public class OpenMenus : MonoBehaviour
         }
     }
 
+    //metodos cuando tienen un boton el panel 
     public void OpenPanelTextDer()
     {
         //obtengo el animator del panel

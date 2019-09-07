@@ -74,6 +74,7 @@ CREATE TABLE "elementos_info_detalle" (
 	"modulo_young"	TEXT,
 	"nombres_alotropicos"	TEXT,
 	"energias_de_ionizacion"	TEXT,
+	"distribucion_de_electrones_por_niveles" TEXT,
 
 	CONSTRAINT fk_elementos
     FOREIGN KEY (numero_atomico)
