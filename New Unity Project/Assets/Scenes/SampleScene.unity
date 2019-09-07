@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 170076734}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -11725,7 +11725,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1807429813}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99999964
+  m_Size: 0.99939376
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -20086,7 +20086,7 @@ RectTransform:
   - {fileID: 2038814927}
   - {fileID: 1110735220}
   m_Father: {fileID: 1867241085}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -20775,7 +20775,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -98.99992, y: -0.000014814162}
+  m_AnchoredPosition: {x: -98.960236, y: 0.00000946621}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896579102
@@ -22865,12 +22865,12 @@ PrefabInstance:
     - target: {fileID: 6533074557582555542, guid: 7107be65e02e0d14e94d0a726ae37f98,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6533074557582555542, guid: 7107be65e02e0d14e94d0a726ae37f98,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6533074557582555542, guid: 7107be65e02e0d14e94d0a726ae37f98,
         type: 3}
@@ -24442,7 +24442,7 @@ RectTransform:
   m_Children:
   - {fileID: 513672395}
   m_Father: {fileID: 1867241085}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -33404,7 +33404,7 @@ PrefabInstance:
     - target: {fileID: 5307810597703645421, guid: 1a1f194ec400bd24aa294b64a0b40d2d,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -25.601562
+      value: -20.48
       objectReference: {fileID: 0}
     - target: {fileID: 5307810597703645421, guid: 1a1f194ec400bd24aa294b64a0b40d2d,
         type: 3}
@@ -42596,12 +42596,12 @@ RectTransform:
   - {fileID: 1836617872}
   - {fileID: 1843845745}
   - {fileID: 1640303870}
-  - {fileID: 856900855}
   - {fileID: 866145089}
+  - {fileID: 856900855}
   - {fileID: 1917023798}
   - {fileID: 428691892}
-  - {fileID: 1091349500}
   - {fileID: 1029425025}
+  - {fileID: 1091349500}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -43026,7 +43026,7 @@ RectTransform:
   - {fileID: 838878377}
   - {fileID: 557895596}
   m_Father: {fileID: 1867241085}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
