@@ -18,6 +18,8 @@ public class MainInfoPanel : MonoBehaviour
     public GameObject elementBtn;
     //diccionario que mapea categoría de la tabla, con color
     private Dictionary<string, Color32> categories = new Dictionary<string, Color32>();
+    //para el proceso de carga de informacion (a futuro deberia detectar que tipo de info mostrar elem, mole, mat..)
+    private PanelInfoLoader PanelInfoLoader;
 
     private void Awake()
     {
@@ -25,6 +27,8 @@ public class MainInfoPanel : MonoBehaviour
         go.AddComponent<QryElementos>();
         qryElement = go.GetComponent<QryElementos>();
         InitializeCategoryDictionary();
+
+        PanelInfoLoader = FindObjectOfType<PanelInfoLoader>();
     }
 
     //diccionario de categoría_grupo -> color
@@ -59,6 +63,8 @@ public class MainInfoPanel : MonoBehaviour
             nameLbl.text = element.Name;
             SetElementColor(element);
             SetButtonTexts(element);
+            //carga los datos especiales del elemento
+            SetInfoElementSelected(atom.ElementNumber);
         }
         else
         {
@@ -107,5 +113,14 @@ public class MainInfoPanel : MonoBehaviour
                         GetMaterialIndexFromDictionary(suggestedElements[i].ClasificacionGrupo);
                 }
             }
+    }
+
+
+    //trae de la base los 6 campo para la informacion especial
+    private void SetInfoElementSelected(int elementId)
+    {
+        ElementInfoPanelInfo element = qryElement.GetElementInfoPanelSuggestion(elementId);
+        //llamo al metodo que carga la info en los text box del panel
+        PanelInfoLoader.SetPanelInfo(element);
     }
 }

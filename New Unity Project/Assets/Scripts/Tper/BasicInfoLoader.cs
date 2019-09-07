@@ -78,7 +78,7 @@ public class BasicInfoLoader : MonoBehaviour
             if (a.name == "txtPtoFusion")
                 a.text = "Punto de Fusión: " + managerNullables(elementInfoBasic.PuntoFusion);
             if (a.name == "txtPtoEbullicion")
-                a.text = "Punto de Ebullicón: " + managerNullables(elementInfoBasic.PuntoEbullicion);
+                a.text = "Punto de Ebullición: " + managerNullables(elementInfoBasic.PuntoEbullicion);
             if (a.name == "txtResumen")
                 a.text = elementInfoBasic.Resumen;
 
