@@ -78,11 +78,6 @@ public class LoadTper : MonoBehaviour
 
         //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
-        //setea metodos static para agregar tooltip
-        UIToolTipText.ShowToolTipstaticPointerEnter(elem, trigger);
-        UIToolTipText.HideToolTipstaticPointerExit(elem, trigger);
-        //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
-        UIToolTipText.HideToolTipstaticPointerClick(elem, trigger);
 
         //setea metodos static para agregar tooltip
         UIToolTip.ShowToolTipstaticPointerEnter(element.Name, elem, trigger);

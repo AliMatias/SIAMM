@@ -32,13 +32,15 @@ public class UIToolTip : MonoBehaviour
         tooltipText.text = text;
         float paddingtextSize = 4f;
         Vector2 backgroundSize = new Vector2(tooltipText.preferredWidth + paddingtextSize * 2f, tooltipText.preferredHeight + paddingtextSize * 2f);
-        background.sizeDelta = backgroundSize;       
+        background.sizeDelta = backgroundSize;
+        UIToolTipControl.flagTooltip = true;//le digo al controlador que se activa un tooltip   
     }
 
     private void HideToolTip()
     {
         background.gameObject.SetActive(false);
         uiElement.alpha = 0;
+        UIToolTipControl.flagTooltip = false;//le digo al controlador que se activa un tooltip
     }
 
     //a diferencia del tipo text, este recibe un texto DINAMICO para colocar en el tooltip

@@ -12,26 +12,26 @@ public class UIToolTipText : MonoBehaviour
 
     private void Awake()
     {
-        instate = this;
-        tooltipText = transform.Find("Text").GetComponent<Text>();
+        //instate = this;
+        //tooltipText = transform.Find("Text").GetComponent<Text>();
     }
 
     //Callback function delegada que ejecutara el trigger event
     private void ShowTextToolTip()
     {
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
         uiElement.alpha = 1;
         tooltipText.text = "Click Izquierdo: Agregar Átomo \n\n";
         tooltipText.text = tooltipText.text + "Click Derecho: Informacion del Átomo";
-        UIToolTipControl.flagTooltip = true;//le digo al controlador que se activa un tooltip
+        //UIToolTipControl.flagTooltip = true;//le digo al controlador que se activa un tooltip
     }
 
     //Callback function delegada que ejecutara el trigger event
     private void ExitTextToolTip()
     {
-        gameObject.SetActive(false);
+        //gameObject.SetActive(false);
         uiElement.alpha = 0;
-        UIToolTipControl.flagTooltip = false;//le digo al controlador que se activa un tooltip
+        //UIToolTipControl.flagTooltip = false;//le digo al controlador que se activa un tooltip
     }
 
 
