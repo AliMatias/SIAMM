@@ -19,10 +19,6 @@ public class MoleculeManager : MonoBehaviour
     private List<Button> moleculeButtons = new List<Button>();
     [SerializeField]
     private Button addMoleculeButton;
-    //En este array estan todos los materiales, se asignan desde la interfaz
-    public Material[] materials;
-    //diccionario que mapea categoría de la tabla, con posición en array de materiales
-    private Dictionary<string, int> categories = new Dictionary<string, int>();
     private UIPopup popup;
 
     public List<Molecule> Molecules { get => molecules; }
@@ -45,7 +41,6 @@ public class MoleculeManager : MonoBehaviour
 
         popup = FindObjectOfType<UIPopup>();
         selectionManager = FindObjectOfType<SelectionManager>();
-        IntializeCategoryDictionary();
     }
 
     //activa-desactiva botones de acuerdo a la cant de moleculas
@@ -133,9 +128,9 @@ public class MoleculeManager : MonoBehaviour
                 return;
             }
 
-            //obtengo el material según la clasif
-            Material mat = materials[GetMaterialIndexFromDictionary(element.ClasificacionGrupo)];
-            newMolecule.SpawnAtom(pos, mat);
+            //obtengo el color del elemento.
+            Color32 color = qryElement.GetElementColor(pos.ElementId);
+            newMolecule.SpawnAtom(pos, color);
         }
 
         //y despues sus conexiones una vez que esten todos posicionados
@@ -162,28 +157,6 @@ public class MoleculeManager : MonoBehaviour
     #endregion
 
     #region ActionOnMolecules
-
-    //diccionario de categoría_grupo -> material
-    private void IntializeCategoryDictionary()
-    {
-        categories.Add("Sin Grupo", 0);
-        categories.Add("Gas Inerte", 1);
-        categories.Add("Alcalino", 2);
-        categories.Add("Alcalino Terreo", 3);
-        categories.Add("Metaloide", 4);
-        categories.Add("No Metal", 5);
-        categories.Add("Halogeno", 6);
-        categories.Add("Pobre", 7);
-        categories.Add("De Transicion", 8);
-        categories.Add("Lantanido", 9);
-        categories.Add("Actinidos", 10);
-    }
-
-    //método para obtener el material
-    private int GetMaterialIndexFromDictionary(string cat)
-    {
-        return categories[cat];
-    }
 
     public Molecule FindMoleculeInList(int index)
     {
