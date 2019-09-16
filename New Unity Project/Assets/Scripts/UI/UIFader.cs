@@ -40,7 +40,10 @@ public class UIFader : MonoBehaviour
     {
         if (uiElement.alpha == 0)
         {
-            uiElement.gameObject.SetActive(true);
+            if (uiElement.gameObject.name == "TablaPeriodicaPanel")
+            {
+                uiElement.gameObject.SetActive(true);
+            }
             FadeIn();
         }
         else
@@ -54,7 +57,10 @@ public class UIFader : MonoBehaviour
     {
         if (canvasGroup.alpha == 0)
         {
-            canvasGroup.gameObject.SetActive(true);
+            if (uiElement.gameObject.name == "TablaPeriodicaPanel")
+            {
+                uiElement.gameObject.SetActive(true);
+            }
             FadeIn(canvasGroup);
         }
         else
@@ -84,7 +90,7 @@ public class UIFader : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
-        if (end == 0)
+        if (end == 0 && cg.gameObject.name == "TablaPeriodicaPanel") //SOLO SI VIENE TABLA PERIODICA.. PORQUE EL PANEL TIENE UN COMPORTAMIENTO ESPECIAL
         {
             cg.gameObject.SetActive(false);
         }
