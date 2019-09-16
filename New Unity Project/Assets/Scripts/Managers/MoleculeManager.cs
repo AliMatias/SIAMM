@@ -301,6 +301,8 @@ public class MoleculeManager : MonoBehaviour
         {
             DeleteMolecule(molecule);
         }
+        //el panel de las subparticulas se tiene que ocultar
+        selectionManager.PanelElements.GetComponent<CanvasGroup>().alpha = 0;
     }
     #endregion
 }

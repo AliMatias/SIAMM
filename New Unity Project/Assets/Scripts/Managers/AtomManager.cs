@@ -259,5 +259,7 @@ public class AtomManager : MonoBehaviour
         {
             DeleteAtom(atom.AtomIndex);
         }
+        //el panel de las subparticulas se tiene que ocultar
+        selectionManager.PanelElements.GetComponent<CanvasGroup>().alpha = 0;
     }
 }

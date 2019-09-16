@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class MainInfoPanel : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class MainInfoPanel : MonoBehaviour
     //labels donde muestra info
     public TextMeshProUGUI nameLbl;
     public GameObject[] suggestionButtons;
-    //contenedor para esconder la info
+    //contenedor para la info de atomos luego ira cada uno de los otros
     public CanvasGroup infoContainer;
     //imagen del boton
     public GameObject elementBtn;
@@ -55,25 +56,33 @@ public class MainInfoPanel : MonoBehaviour
 
     public void SetInfo(Atom atom)
     {
-        ElementTabPer element = qryElement.GetElementFromNro(atom.ElementNumber);
-
-        if (element != null && element.Nroatomico != 0)
+        if (atom.TypeAtom == TypeAtomEnum.atom || atom.TypeAtom == TypeAtomEnum.anion || atom.TypeAtom == TypeAtomEnum.cation)
         {
-            infoContainer.alpha = 1;
-            nameLbl.text = element.Name;
-            SetElementColor(element);
-            SetButtonTexts(element);
-            //carga los datos especiales del elemento
-            SetInfoElementSelected(atom.ElementNumber);
-        }
-        else
-        {
-            HideInfo();
-        }
-    }
 
-    public void HideInfo(){
-        infoContainer.alpha = 0;
+            ElementTabPer element = qryElement.GetElementFromNro(atom.ElementNumber);
+
+            if (element != null && element.Nroatomico != 0)
+            {
+
+                for (int i = 0; i < infoContainer.transform.childCount; i++)
+                {
+                    infoContainer.transform.GetChild(i).gameObject.SetActive(true);
+                }
+
+                nameLbl.text = element.Name;
+                SetElementColor(element);
+                SetButtonTexts(element);
+                //carga los datos especiales del elemento
+                SetInfoElementSelected(atom.ElementNumber);
+            }  
+        }
+        else //por ahora aca NO MUESTRA NADA Y DESACTIVA TODO
+        {
+            for (int i = 0; i < infoContainer.transform.childCount; i++)
+            {
+               infoContainer.transform.GetChild(i).gameObject.SetActive(false);      
+            }
+        }
     }
 
     private void SetButtonTexts(ElementTabPer element){
@@ -116,7 +125,7 @@ public class MainInfoPanel : MonoBehaviour
     }
 
 
-    //trae de la base los 6 campo para la informacion especial
+    //trae de la base los 6 campos para la informacion especial
     private void SetInfoElementSelected(int elementId)
     {
         ElementInfoPanelInfo element = qryElement.GetElementInfoPanelSuggestion(elementId);

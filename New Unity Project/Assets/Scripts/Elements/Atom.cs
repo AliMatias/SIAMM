@@ -54,14 +54,17 @@ public class Atom: MonoBehaviour
     private UIPopup popup;
     //panel de info
     private MainInfoPanel mainInfoPanel;
+
+    private TypeAtomEnum typeAtom;
+
     #endregion
 
     public int AtomIndex { get => atomIndex; set => atomIndex = value; }
     public int ElementNumber { get => elementNumber; set => elementNumber = value; }
-
     public int ProtonCounter { get => protonCounter; }
     public int NeutronCounter { get => neutronCounter; }
     public int ElectronCounter { get => electronCounter; }
+    public TypeAtomEnum TypeAtom  { get => typeAtom; }
 
     //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
     private void Awake()
@@ -265,7 +268,7 @@ public class Atom: MonoBehaviour
                 // si la orbita se queda sin electrones la elimino
                 Destroy(orbit.OrbitCircle);
                 orbits.Remove(orbit);
-                Debug.Log(orbits.Count);
+                Debug.Log("Cantidad de Orbitas:" + orbits.Count);
             }
             electronCounter--;
             allowElectronSpawn = true;
@@ -302,6 +305,7 @@ public class Atom: MonoBehaviour
         }
 
         elementLabel.GetComponent<TextMesh>().text = elementText;
+
         mainInfoPanel.SetInfo(this);
     }
 
@@ -311,7 +315,8 @@ public class Atom: MonoBehaviour
     {
         string elementText = string.Empty;
         IsotopoData elementIsotopo = new IsotopoData();
-
+        typeAtom = TypeAtomEnum.atom; //por defecto casi siempre es un atomo estable!
+        
         //si es null o no lo encontró
         if (IsNullOrEmpty(element))
         {
@@ -320,6 +325,7 @@ public class Atom: MonoBehaviour
             {
                 ElementNumber = 0;
             }
+            typeAtom = TypeAtomEnum.noEncontrado;
         }
         else
         {
@@ -330,13 +336,14 @@ public class Atom: MonoBehaviour
                 ElementNumber = element.Numero;
             }
 
-            //si no coinciden los neutrones es un isótopo de ese material (falta límites inf y sup)
+            //si no coinciden los neutrones es un isótopo de ese material
             if (element.Neutrons != neutrons)
             {
                 //valido que isotopo es sino existe se informa NO ENCONTRADO
                 try
                 {
                     elementIsotopo = qryElement.GetIsotopo(neutrons, element.Numero);
+                    typeAtom = TypeAtomEnum.isotopo;
                 }
                 catch (Exception e)
                 {
@@ -351,6 +358,7 @@ public class Atom: MonoBehaviour
                     {
                         ElementNumber = 0;
                     }
+                    typeAtom = TypeAtomEnum.noEncontrado;
                 }
                 else
                 {
@@ -367,17 +375,29 @@ public class Atom: MonoBehaviour
             if (element.Electrons < electrons)
             {
                 if ((element.Electrons + element.MaxElectronsGana) >= electrons)
+                {
                     elementText = elementText + ", anión.";
+                    typeAtom = TypeAtomEnum.anion;
+                }
                 else
+                {
                     elementText = "no encontrado.";
+                    typeAtom = TypeAtomEnum.noEncontrado;
+                }
             }
             //sino, si el modelo tiene menos electrones que el de la tabla, es catión (+)
             else if (element.Electrons > electrons)
             {
                 if ((element.Electrons - element.MaxElectronsPierde) <= electrons)
+                {
                     elementText = elementText + ", catión.";
+                    typeAtom = TypeAtomEnum.cation;
+                }
                 else
+                {
                     elementText = "no encontrado.";
+                    typeAtom = TypeAtomEnum.noEncontrado;
+                }
             }
             //sino, significa que es la misma cantidad, y tiene carga neutra
         }
@@ -398,7 +418,6 @@ public class Atom: MonoBehaviour
         elementLabel.GetComponent<TextMesh>().color = new Color(240,0,0);
         StartAllHighlights(protonQueue);
         StartAllHighlights(neutronQueue);
-        //StartAllHighlights(electronQueue);
     }
 
     //ilumina las partículas de esta cola
@@ -413,8 +432,7 @@ public class Atom: MonoBehaviour
     public void Deselect(){
         elementLabel.GetComponent<TextMesh>().color = new Color(255,255,255);
         StopAllHighlights(neutronQueue);
-        StopAllHighlights(protonQueue);
-        //StopAllHighlights(electronQueue);
+        StopAllHighlights(protonQueue); 
     }
 
     //quita la iluminación a todas las particulas de esta cola
@@ -431,7 +449,8 @@ public class Atom: MonoBehaviour
     void OnDestroy()
     {
         if(mainInfoPanel != null){
-            mainInfoPanel.HideInfo();
+            //si se destruye el atomo y no hay otros seleccionados cierra panel
+            mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanel();
         }
         Destroy(gameObject);
     }
@@ -448,6 +467,7 @@ public class Atom: MonoBehaviour
 
         return null;
     }
+ 
     #endregion
 
     #region crear desde tabla periodica

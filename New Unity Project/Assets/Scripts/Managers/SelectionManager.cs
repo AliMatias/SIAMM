@@ -8,14 +8,17 @@ public class SelectionManager : MonoBehaviour
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
     private List<int> selectedObjects;
-    //se asigna desde la interfaz
-    public CanvasGroup panelElements;
+    
+    //panel de cambios en particulas subatomicas que tiene que aparecer o no depende del contexto
+    private GameObject panelElements;
+   
     //panel de info
     private MainInfoPanel mainInfoPanel;
 
     //hace referencia desde la clase selection manager
     public List<int> SelectedObjects { get => selectedObjects; }
 
+    public GameObject PanelElements { get => panelElements; }
 
     private void Awake()
     {
@@ -24,6 +27,8 @@ public class SelectionManager : MonoBehaviour
         atomManager = FindObjectOfType<AtomManager>();
         moleculeManager = FindObjectOfType<MoleculeManager>();
         mainInfoPanel = FindObjectOfType<MainInfoPanel>();
+
+        panelElements = GameObject.Find("InteractivePanelElements");
     }
 
     public bool SelectObject(Atom atom)
@@ -34,9 +39,12 @@ public class SelectionManager : MonoBehaviour
             // Este átomo ya estaba seleccionado. Se quitará la selección
             selectedObjects.Remove(atom.AtomIndex);
             atom.Deselect();
-            mainInfoPanel.HideInfo();
+
+            //si se quita la seleccion y no hay otros seleccionados cierra panel
+            mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanel();
+
             //no muestro panel de agregar elementos
-            panelElements.alpha = 0;
+            panelElements.GetComponent<CanvasGroup>().alpha = 0;
             return false;
         }
 
@@ -54,7 +62,7 @@ public class SelectionManager : MonoBehaviour
         //SI EL MODO ES NORMAL(lo hago posterior al if antesesor porque primero lo agrego y lo hago seleccionado)
         if (!combinationManager.CombineMode)
         {
-            panelElements.alpha = 1;
+            panelElements.GetComponent<CanvasGroup>().alpha = 1;
         } 
 
         return true;
@@ -80,7 +88,7 @@ public class SelectionManager : MonoBehaviour
         selectedObjects.Add(molecule.MoleculeIndex);
         molecule.Select();
         //no muestro panel de agregar elementos porque una molecula no se cambia 
-        panelElements.alpha = 0;
+        panelElements.GetComponent<CanvasGroup>().alpha = 0;
         return true;
     }
 
@@ -98,7 +106,7 @@ public class SelectionManager : MonoBehaviour
         }
 
         //no muestro panel de agregar elementos cuando se activa el switch
-        panelElements.alpha = 0;
+        panelElements.GetComponent<CanvasGroup>().alpha = 0;
     }
 
     public void DeselectAll()
