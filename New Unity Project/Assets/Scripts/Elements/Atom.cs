@@ -377,7 +377,6 @@ public class Atom: MonoBehaviour
                 if ((element.Electrons + element.MaxElectronsGana) >= electrons)
                 {
                     elementText = elementText + ", anión.";
-                    typeAtom = TypeAtomEnum.anion;
                 }
                 else
                 {
@@ -391,7 +390,6 @@ public class Atom: MonoBehaviour
                 if ((element.Electrons - element.MaxElectronsPierde) <= electrons)
                 {
                     elementText = elementText + ", catión.";
-                    typeAtom = TypeAtomEnum.cation;
                 }
                 else
                 {
