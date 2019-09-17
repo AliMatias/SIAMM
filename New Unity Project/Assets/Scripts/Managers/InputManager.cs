@@ -45,9 +45,10 @@ public class InputManager : MonoBehaviour
 
         atomManager.SpawnFromPeriodicTable(text.text);
 
+        //ESTO EVITA QUE SE CIERRE LA TABLA POR CADA AGREGAR ATOMO
         //aca se puede utilizar el metodo del fadeinout porque es el panel de la tabla que contiene el objeto CANVAS GROUP
-        CanvasGroup tablaPeriodicaPanel = parent.transform.parent.gameObject.GetComponent<CanvasGroup>();
-        UIFader.FadeInAndOut(tablaPeriodicaPanel);
+        //CanvasGroup tablaPeriodicaPanel = parent.transform.parent.gameObject.GetComponent<CanvasGroup>();
+        //UIFader.FadeInAndOut(tablaPeriodicaPanel);
     }
 
     /*va a ejecutar el proceso para mostrar informacion basica a partir de apretar el boton der del mouse*/
