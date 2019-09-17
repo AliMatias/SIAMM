@@ -13,7 +13,7 @@ INSERT INTO moleculas_posicion3D_element (id_molecula,id_elemento,posX,posY,posZ
 INSERT INTO moleculas_posicion3D_element (id_molecula,id_elemento,posX,posY,posZ,escala,conexion,tipo_conexion,tipo_linea) VALUES (
 3,19,0,15.43,-1.69,0.85,8,1,2);
 INSERT INTO moleculas_posicion3D_element (id_molecula,id_elemento,posX,posY,posZ,escala,conexion,tipo_conexion,tipo_linea) VALUES (
-3,1,0,-1.58,-4.08,0.1,0,0,0);
+3,8,0,-1.58,-4.08,0.1,0,0,0);
 INSERT INTO moleculas_posicion3D_element (id_molecula,id_elemento,posX,posY,posZ,escala,conexion,tipo_conexion,tipo_linea) VALUES (
 4,29,0,0,3.47,0.52,11,1,1);
 INSERT INTO moleculas_posicion3D_element (id_molecula,id_elemento,posX,posY,posZ,escala,conexion,tipo_conexion,tipo_linea) VALUES (

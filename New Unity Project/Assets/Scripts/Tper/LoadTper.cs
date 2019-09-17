@@ -77,18 +77,7 @@ public class LoadTper : MonoBehaviour
         }
 
         //a cada boton le voy a agregar componentes que estan por fuera del prefab para el manejo de tooltips
-        trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
-        //setea metodos static para agregar tooltip
-        UIToolTipText.ShowToolTipstaticPointerEnter(elem, trigger);
-        UIToolTipText.HideToolTipstaticPointerExit(elem, trigger);
-        //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
-        UIToolTipText.HideToolTipstaticPointerClick(elem, trigger);
-
-        //setea metodos static para agregar tooltip
-        UIToolTip.ShowToolTipstaticPointerEnter(element.Name, elem, trigger);
-        UIToolTip.HideToolTipstaticPointerExit(elem, trigger);
-        //este tiene que estar porque si no se moveria el mouse y solo se hace click el popop seguiria mostrandose
-        UIToolTip.HideToolTipstaticPointerClick(elem, trigger);
+        LoadToolTip(elem, element.Name);
     }
 
     /*Obtiene el nro atomico a partir del "string" que tiene en el boton como txtNroAtomico*/
@@ -147,5 +136,15 @@ public class LoadTper : MonoBehaviour
             return "n/a";
         return valor;
     }
+
+    private void LoadToolTip(Button elem, String elementName)
+    {
+        //instancio la clase de metodo para asignacion de tooltip pero aca es dinamico porque los botones son muchos!
+        elem.gameObject.AddComponent<LoadPopupBtn>();
+        LoadPopupBtn setToolTip = elem.gameObject.GetComponent<LoadPopupBtn>();
+        setToolTip.toolTipType = TypeToolTip.buttonTper;
+        setToolTip.ObjectText = elementName;
+    }
+
     #endregion
 }

@@ -138,4 +138,10 @@ CREATE TABLE sugerencias (
 	id_sugerido INTEGER NOT NULL
 );
 
+CREATE TABLE "elementos_colores"(
+	id_elemento INTEGER NOT NULL PRIMARY KEY UNIQUE,
+	red INTEGER NOT NULL,
+	green INTEGER NOT NULL,
+	blue INTEGER NOT NULL
+);
 			
