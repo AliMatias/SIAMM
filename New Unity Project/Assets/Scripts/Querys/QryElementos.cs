@@ -314,6 +314,33 @@ public class QryElementos : MonoBehaviour
         return elementInfoBasic;
     }
 
+    //trae colores de elementos
+    public Color32 GetElementColor(int elementId){
+        Color32 result = new Color32(0,0,0,1);
+        //dejo un reader local para cada query, no siendo global
+        SqliteDataReader reader = null;
+        SqliteConnection dbConnection = null;
+
+        try{
+            string sqlQuery = "SELECT * FROM elementos_colores WHERE id_elemento=" + elementId + ";";
+
+            dbConnection = dBManager.openCon();
+            reader = dBManager.ManageExec(dbConnection, sqlQuery);
+            while(reader.Read()){
+                result = new Color32((byte)reader.GetInt32(1), (byte)reader.GetInt32(2), (byte)reader.GetInt32(3), 1);
+            }
+        }
+        catch (Exception e)
+        {         
+            throw e;
+        }
+        finally
+        {
+            dBManager.ManageClosing(dbConnection, reader);
+        }
+        return result;
+    }
+
     //trae sugerencias de elementos
     public List<Suggestion> GetSuggestionForElement(int elementId){
         List<Suggestion> suggestions = new List<Suggestion>();

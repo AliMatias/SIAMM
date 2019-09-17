@@ -31,17 +31,17 @@ public class Molecule : MonoBehaviour
     }
 
     // spawnear un átomo 
-    public void SpawnAtom(AtomInMolPositionData positionData, Material mat)
+    public void SpawnAtom(AtomInMolPositionData positionData, Color32 color)
     {
         // obtengo la posición de la data
         Vector3 position = new Vector3(positionData.XPos, positionData.YPos, positionData.ZPos);
         // creo una copia del prefab
         GameObject tempPrefab = Instantiate<GameObject>(atomPrefab);
         
-        // seteo el material 
+        // seteo el color 
         // (necesario setear el material antes de instanciar el objeto
         //  para que el highlight tome el normalColor correcto)
-        tempPrefab.GetComponent<Renderer>().material = mat;
+        tempPrefab.GetComponent<Renderer>().material.color = color;
         
         // seteo posición
         tempPrefab.transform.localPosition = position;
@@ -51,6 +51,7 @@ public class Molecule : MonoBehaviour
 
         // lo creo y borro la copia del prefab
         GameObject spawn = Instantiate<GameObject>(tempPrefab, parent);
+        
         Destroy(tempPrefab);
         // lo agrego a las listas
         atoms.Add(spawn);
