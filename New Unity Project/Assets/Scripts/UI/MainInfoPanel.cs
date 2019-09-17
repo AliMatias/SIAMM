@@ -56,7 +56,7 @@ public class MainInfoPanel : MonoBehaviour
 
     public void SetInfo(Atom atom)
     {
-        if (atom.TypeAtom == TypeAtomEnum.atom || atom.TypeAtom == TypeAtomEnum.anion || atom.TypeAtom == TypeAtomEnum.cation)
+        if (atom.TypeAtom == TypeAtomEnum.atom)
         {
 
             ElementTabPer element = qryElement.GetElementFromNro(atom.ElementNumber);
