@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class UIToolTipControl : MonoBehaviour
 {
     public CanvasGroup panelTper;
-    public CanvasGroup textToolTipCanvas;
     public CanvasGroup toolTipCanvas;
     public static bool flagTooltip;
 
@@ -23,14 +22,11 @@ public class UIToolTipControl : MonoBehaviour
         //doble control
         if (!panelTper.gameObject.activeSelf)
         {
-            textToolTipCanvas.alpha = 0;
             toolTipCanvas.alpha = 0;
         }
 
         if (!flagTooltip)
         {
-
-            textToolTipCanvas.alpha = 0;
             toolTipCanvas.alpha = 0;
         }
 

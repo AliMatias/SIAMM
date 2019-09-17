@@ -1,25 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class UIToolTipCombine : MonoBehaviour
+public class UIToolTipMove : MonoBehaviour
 {
     private Text tooltipText;
     public CanvasGroup uiElement;
     public RectTransform background;
-    public GameObject btn;
-    private static UIToolTipCombine instate;
+    private static UIToolTipMove instate;
+    private Vector3 offset;
 
     private void Awake()
     {
         instate = this;
         background = transform.Find("BackGround").GetComponent<RectTransform>();
         tooltipText = transform.Find("Text").GetComponent<Text>();
+        offset = new Vector3(1, 1, 0);//este atributo es estatico
     }
 
+    //hace que se mueva el tooltip en conjunto con la reference camera
+    void Update()
+    {
+        transform.position = Input.mousePosition + offset;
+    }
 
+    //tener en cuenta que es para la tabla periodica en caso de necesitar otro, hacer overrride
     private void ShowToolTip(string text)
     {
         background.gameObject.SetActive(true);
@@ -28,17 +33,17 @@ public class UIToolTipCombine : MonoBehaviour
         float paddingtextSize = 4f;
         Vector2 backgroundSize = new Vector2(tooltipText.preferredWidth + paddingtextSize * 2f, tooltipText.preferredHeight + paddingtextSize * 2f);
         background.sizeDelta = backgroundSize;
-        Vector3 offset = new Vector3(25, 90, 0);
-        transform.position = btn.transform.position + offset;//del boton siempre un delta!
+        UIToolTipControl.flagTooltip = true;//le digo al controlador que se activa un tooltip DE LA TABLA! PERIODICA  
     }
 
+    //tener en cuenta que es para la tabla periodica en caso de necesitar otro, hacer overrride
     private void HideToolTip()
     {
         background.gameObject.SetActive(false);
         uiElement.alpha = 0;
+        UIToolTipControl.flagTooltip = false;//le digo al controlador que se activa un tooltip DE LA TABLA! PERIODICA  
     }
 
-    //a diferencia del tipo text, este recibe un texto DINAMICO para colocar en el tooltip
     public static void ShowToolTipstaticPointerEnter(string text, GameObject elem, EventTrigger trigger)
     {     
         trigger = elem.gameObject.AddComponent<EventTrigger>() as EventTrigger;
