@@ -41,6 +41,7 @@ public class UIFader : MonoBehaviour
         if (uiElement.alpha == 0)
         {
             uiElement.gameObject.SetActive(true);
+
             FadeIn();
         }
         else
@@ -54,7 +55,8 @@ public class UIFader : MonoBehaviour
     {
         if (canvasGroup.alpha == 0)
         {
-            canvasGroup.gameObject.SetActive(true);
+            uiElement.gameObject.SetActive(true);
+
             FadeIn(canvasGroup);
         }
         else

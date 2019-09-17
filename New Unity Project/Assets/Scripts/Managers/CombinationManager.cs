@@ -28,6 +28,11 @@ public class CombinationManager : MonoBehaviour
     private GameObject animationCombination;
 
     public bool CombineMode { get => combineMode; }
+
+    //panel de info
+    private MainInfoPanel mainInfoPanel;
+    private GameObject buttonInfoPanel;
+
     #endregion
 
     void Awake()
@@ -51,6 +56,9 @@ public class CombinationManager : MonoBehaviour
             buttonsToToggle.Add(btn.GetComponent<Button>());
         }
         combineButton.interactable = false;
+
+        mainInfoPanel = FindObjectOfType<MainInfoPanel>();
+        buttonInfoPanel = GameObject.Find("InteractivePanelInfoBtn");
     }
 
     public void SwitchCombineMode()
@@ -64,15 +72,24 @@ public class CombinationManager : MonoBehaviour
         combineButton.interactable = !combineButton.interactable;
         // le aviso al selection manager que cambié de modo
         selectionManager.SwitchCombineMode(combineMode);
-        
+
         //obtengo el texto del boton y lo cambio
         if (!combineMode)
         {
             combineModeButton.text = "Creación";
+
+            //si se ingresa a modo combinacion POR AHORA habilita boton
+            buttonInfoPanel.GetComponent<Button>().interactable = true;
         }
         else
         {
             combineModeButton.text = "Combinación";
+
+            //si se ingresa a modo combinacion POR AHORA cierra panel
+            mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanel();
+
+            //si se ingresa a modo combinacion POR AHORA desactiva tambien el boton info
+            buttonInfoPanel.GetComponent<Button>().interactable = false;
         }
     }
 
