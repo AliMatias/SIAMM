@@ -6389,7 +6389,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bd1af8b3d689846b925d105b1e7bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiElement: {fileID: 266393277}
 --- !u!114 &266393279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9162,11 +9161,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 838878382}
-        m_MethodName: FadeInAndOut
-        m_Mode: 1
+        m_MethodName: FadeInAndOutWithActive
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 838878376}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -9174,10 +9173,10 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1029425026}
         m_MethodName: FadeInAndOut
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1029425024}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -12044,7 +12043,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1807429813}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.99970126
+  m_Size: 0.9999398
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -20166,7 +20165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bd1af8b3d689846b925d105b1e7bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiElement: {fileID: 838878383}
 --- !u!225 &838878383
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -21478,7 +21476,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -98.97936, y: 0.000025032488}
+  m_AnchoredPosition: {x: -98.99129, y: 0.000004581303}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896579102
@@ -21809,7 +21807,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -39, y: -242}
+  m_AnchoredPosition: {x: -37.75, y: -242}
   m_SizeDelta: {x: 75.5, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &912694312
@@ -24252,7 +24250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bd1af8b3d689846b925d105b1e7bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiElement: {fileID: 1029425027}
 --- !u!225 &1029425027
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -29755,11 +29752,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 838878382}
-        m_MethodName: FadeInAndOut
-        m_Mode: 1
+        m_MethodName: FadeInAndOutWithActive
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 838878376}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -29767,10 +29764,10 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1029425026}
         m_MethodName: FadeInAndOut
-        m_Mode: 1
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1029425024}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -32924,11 +32921,11 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1862442991}
-        m_MethodName: FadeInAndOut
-        m_Mode: 1
+        m_MethodName: FadeInAndOutWithActive
+        m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_ObjectArgument: {fileID: 1862442986}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -34009,7 +34006,7 @@ PrefabInstance:
     - target: {fileID: 4529631029480703490, guid: 05a15d7c2b5bbf54a840c15fe659a1fe,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 156
+      value: 134.35
       objectReference: {fileID: 0}
     - target: {fileID: 4529631029480703490, guid: 05a15d7c2b5bbf54a840c15fe659a1fe,
         type: 3}
@@ -34019,7 +34016,7 @@ PrefabInstance:
     - target: {fileID: 4529631029480703490, guid: 05a15d7c2b5bbf54a840c15fe659a1fe,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 345
+      value: 388.29
       objectReference: {fileID: 0}
     - target: {fileID: 4529631029480703490, guid: 05a15d7c2b5bbf54a840c15fe659a1fe,
         type: 3}
@@ -38983,7 +38980,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 330.32553, y: -29.914452}
+  m_AnchoredPosition: {x: 330.32553, y: -29.914429}
   m_SizeDelta: {x: 660.65106, y: 59.828903}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1718173490
@@ -43010,7 +43007,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -113.5, y: -184.5}
+  m_AnchoredPosition: {x: -113.5, y: -217.2}
   m_SizeDelta: {x: 215, y: 220}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1862442988
@@ -43094,7 +43091,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39bd1af8b3d689846b925d105b1e7bf7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiElement: {fileID: 1862442992}
 --- !u!225 &1862442992
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -43544,8 +43540,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 128.4}
-  m_SizeDelta: {x: 210, y: 30}
+  m_AnchoredPosition: {x: 0.000058413, y: 129.4}
+  m_SizeDelta: {x: 215, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1889388570
 MonoBehaviour:

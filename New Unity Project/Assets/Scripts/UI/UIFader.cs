@@ -4,63 +4,68 @@ using UnityEngine;
 //Aparecer y desaparecer la tabla periódica
 public class UIFader : MonoBehaviour
 {
-    public CanvasGroup uiElement;
+    //para comunicar accion en la corutina!
+    private bool active = false;
+    private bool inactive = false;
 
-    public void FadeIn()
+    /**
+    * Override para especificar que elemento CANVAS GROUP mostrar
+    */
+    public void FadeIn(GameObject ElementWithCanvasGroup)
     {
-        StartCoroutine(fadeCanvasGroup(uiElement, uiElement.alpha, 1));
+        StartCoroutine(fadeCanvasGroup(ElementWithCanvasGroup.GetComponent<CanvasGroup>(), ElementWithCanvasGroup.GetComponent<CanvasGroup>().alpha, 1));
     }
 
     /**
-    * Override para especificar que elemento mostrar
+    * Override para especificar que elemento CANVAS GROUP a ocultar
     */
-    public void FadeIn(CanvasGroup canvasGroup)
-    {
-        StartCoroutine(fadeCanvasGroup(canvasGroup, canvasGroup.alpha, 1));
-    }
-
-
-    public void FadeOut()
+    public void FadeOut(GameObject ElementWithCanvasGroup)
     {
         //Inicia una corutina (thread) para el efecto sobre el panel
-        StartCoroutine(fadeCanvasGroup(uiElement, uiElement.alpha, 0));
+        StartCoroutine(fadeCanvasGroup(ElementWithCanvasGroup.GetComponent<CanvasGroup>(), ElementWithCanvasGroup.GetComponent<CanvasGroup>().alpha, 0));
     }
 
-    /**
-    * Override para especificar que elemento ocultar
-    */
-    public void FadeOut(CanvasGroup canvasGroup)
+    /*este metodo se usa en varios go que estan desactivados y hacen efecto fade y luego activan!*/
+    public void FadeInAndOutWithActive(GameObject ElementWithCanvasGroup)
     {
-        //Inicia una corutina (thread) para el efecto sobre el panel
-        StartCoroutine(fadeCanvasGroup(canvasGroup, canvasGroup.alpha, 0));
-    }
+        active = true;
 
-    /*activa el panel que en la interface esta desactivado por defecto y lanza el fade segun corresponda*/
-    public void FadeInAndOut()
-    {
-        if (uiElement.alpha == 0)
+        if (ElementWithCanvasGroup.GetComponent<CanvasGroup>().alpha == 0)
         {
-            uiElement.gameObject.SetActive(true);
+            ElementWithCanvasGroup.SetActive(true);
 
-            FadeIn();
+            FadeIn(ElementWithCanvasGroup);
         }
         else
-            FadeOut();
+            FadeOut(ElementWithCanvasGroup);
+    }
+
+    //Se separan en metodos para hacer mas entendible desde el llamado de la UI
+    public void FadeInAndOutWithDesactive(GameObject ElementWithCanvasGroup)
+    {
+        inactive = true;
+
+        if (ElementWithCanvasGroup.GetComponent<CanvasGroup>().alpha == 0)
+        {
+            ElementWithCanvasGroup.SetActive(false);
+
+            FadeIn(ElementWithCanvasGroup);
+        }
+        else
+            FadeOut(ElementWithCanvasGroup);
     }
 
     /**
-     * Override para especificar que elemento ocultar/mostrar
+     * especificar que elemento CANVAS GROUP ocultar/mostrar sin interaccion de activar o desactivar el objeto
      */
-    public void FadeInAndOut(CanvasGroup canvasGroup)
+    public void FadeInAndOut(GameObject ElementWithCanvasGroup)
     {
-        if (canvasGroup.alpha == 0)
+        if (ElementWithCanvasGroup.GetComponent<CanvasGroup>().alpha == 0)
         {
-            uiElement.gameObject.SetActive(true);
-
-            FadeIn(canvasGroup);
+            FadeIn(ElementWithCanvasGroup);
         }
         else
-            FadeOut(canvasGroup);
+            FadeOut(ElementWithCanvasGroup);
     }
 
     /*metodo para generar el efecto de fade in and out*/
@@ -86,9 +91,19 @@ public class UIFader : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        //validar si hay que activar o desactivar el objeto contenedor del canvasgroup
         if (end == 0)
         {
-            cg.gameObject.SetActive(false);
+            //cuando termina el efecto tiene que volver a desactivarlo
+            if (active)
+            {
+                cg.gameObject.SetActive(false);
+            }
+            //cuando termina el efecto tiene que volver a activarlo (por ahora no se esta usando... se deja el metodo igual)
+            if (inactive)
+            {
+                cg.gameObject.SetActive(true);
+            }
         }
     }
 }

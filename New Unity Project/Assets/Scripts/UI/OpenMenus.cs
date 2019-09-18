@@ -28,13 +28,13 @@ public class OpenMenus : MonoBehaviour
         // si hay un solo atomo seleccionado y ninguna molecula, muestro info panel
         if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && cgInfoPanel.alpha == 0)
         {
-            //gameObject.GetComponent<UIFader>().FadeInAndOut(cgInfoPanel);
-            cgInfoPanel.alpha = 1;
+            gameObject.GetComponent<UIFader>().FadeInAndOut(gameObject);
+            //cgInfoPanel.alpha = 1;
         }
         else if (cgInfoPanel.alpha == 1)
         {
-            //gameObject.GetComponent<UIFader>().FadeInAndOut(cgInfoPanel);
-            cgInfoPanel.alpha = 0;
+            gameObject.GetComponent<UIFader>().FadeInAndOut(gameObject);
+            //cgInfoPanel.alpha = 0;
         }
     }
 
@@ -46,8 +46,8 @@ public class OpenMenus : MonoBehaviour
     {
         if (cgInfoPanel.alpha == 1)
         {
-            //gameObject.GetComponent<UIFader>().FadeInAndOut(cgInfoPanel);
-            cgInfoPanel.alpha = 0;
+            gameObject.GetComponent<UIFader>().FadeInAndOut(gameObject);
+            //cgInfoPanel.alpha = 0;
         }
 
     }
