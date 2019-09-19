@@ -16,8 +16,10 @@ public class CombinationManager : MonoBehaviour
     private AtomManager atomManager;
     private QryMoleculas qryMolecule;
     private QryMaterials qryMaterial;
+    private QryElementos qryElementos;
     private MoleculeManager moleculeManager;
     private SelectionManager selectionManager;
+    private MaterialManager materialManager;
     public Button combineButton;
     public Text combineModeButton;
     private UIPopup popup;
@@ -38,14 +40,17 @@ public class CombinationManager : MonoBehaviour
     void Awake()
     {
         atomManager = FindObjectOfType<AtomManager>();
+        materialManager = FindObjectOfType<MaterialManager>();
         popup = FindObjectOfType<UIPopup>();
 
         //instancio en el momento la clase que contiene las querys, seria lo mismo que hacer class algo = new class();
         GameObject go = new GameObject();
         go.AddComponent<QryMoleculas>();
         go.AddComponent<QryMaterials>();
+        go.AddComponent<QryElementos>();
         qryMolecule = go.GetComponent<QryMoleculas>();
         qryMaterial = go.GetComponent<QryMaterials>();
+        qryElementos = go.GetComponent<QryElementos>();
 
         moleculeManager = FindObjectOfType<MoleculeManager>();
         selectionManager = FindObjectOfType<SelectionManager>();
@@ -214,19 +219,19 @@ public class CombinationManager : MonoBehaviour
 
                         }
                     }
-                    if(!found)
+                    if (!found)
                     {
-                        popup.MostrarPopUp("Manager Combinación", "No se encontró ninguna combinación posible");
+                        CombineAtomsMaterial(elementNumbers);
                     }
                 } 
                 else
                 {
-                    popup.MostrarPopUp("Manager Combinación", "No se encontró ninguna combinación posible");
+                    CombineAtomsMaterial(elementNumbers);
                 }
             }
             else
             {
-                popup.MostrarPopUp("Manager Combinación", "No se encontraron moléculas que contengan esos átomos");
+                CombineAtomsMaterial(elementNumbers);
             }
         }
         else
@@ -235,12 +240,70 @@ public class CombinationManager : MonoBehaviour
         }
     }
 
+    private void CombineAtomsMaterial(List<int> atomIds)
+    {
+        int previous = atomIds[0];
+        //valido que todos los atomos sean iguales
+        foreach (int atomId in atomIds)
+        {
+            if (previous != atomId)
+            {
+                Debug.Log("CombinationManager :: No se pueden formar materiales con atomos distintos.");
+                popup.MostrarPopUp("Combinación", "No se encontraron moléculas o materiales que contengan esos átomos");
+                return;
+            }
+        }
+
+        try
+        {
+            List<MaterialMappingData> possibleMappings = qryMaterial.GetMaterialByAtomId(previous);
+
+            if (possibleMappings == null || possibleMappings.Count <= 0)
+            {
+                Debug.Log("CombinationManager :: No se encontraron moléculas o materiales que contengan esos átomoss.");
+                popup.MostrarPopUp("Combinación", "No se encontraron moléculas o materiales que contengan esos átomos");
+                return;
+            }
+            // TODO - Deberia aparecerle un pop up al usuario para que elija que combinacion realizar
+            //        Por ahora hardcodeo la primera que encuentre.
+
+            MaterialMappingData mapping = possibleMappings[0];
+            MaterialData material = qryMaterial.GetMaterialById(mapping.IdMaterial);
+            ElementInfoBasic elementInfo = qryElementos.GetElementInfoBasica(previous);
+
+            if (material == null)
+            {
+                popup.MostrarPopUp("Combinación", "No se encontró ninguna combinación posible");
+                return;
+            }
+
+            if (atomIds.Count >= mapping.Amount)
+            {
+                popup.MostrarPopUp("Combinación", "Creaste " + material.Name);
+                materialManager.SpawnMaterial(material);
+            }
+            else
+            {
+                popup.MostrarPopUp("Cantidad insuficiente", "Se necesitan al menos " + mapping.Amount
+                    + " átomos de " + elementInfo.Name +
+                    " para formar " + material.Name);
+            }
+
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Hubo un error tratando de obtener el material de la base de datos" + e.StackTrace);
+            popup.MostrarPopUp("Manager Combinación",
+                "Hubo un error tratando de obtener el material de la base de datos");
+        }
+    }
+
     private void CombineMolecules(List<int> selectedMolecules){
         List<int> moleculeIds = new List<int>();
         foreach (int index in selectedMolecules)
         {
             int molId = moleculeManager.FindMoleculeInList(index).MoleculeId;
-            if(molId != null && molId != 0)
+            if(molId != 0)
             {
                 moleculeIds.Add(molId);
             }
@@ -260,8 +323,15 @@ public class CombinationManager : MonoBehaviour
             MaterialMappingData mapping = qryMaterial.GetMaterialByMoleculeId(moleculeIds[0]);
             MoleculeData molecule = qryMolecule.GetMoleculeById(mapping.IdMolecule);
             MaterialData material = qryMaterial.GetMaterialById(mapping.IdMaterial);
+            if (material == null)
+            {
+                popup.MostrarPopUp("Combinación", "No se encontró ninguna combinación posible");
+                return;
+            }
+
             if(moleculeIds.Count >= mapping.Amount){
                 popup.MostrarPopUp("Combinación","Creaste " + material.Name);
+                materialManager.SpawnMaterial(material);
             }else{
                 Debug.Log("Cantidad insuficiente");
                 popup.MostrarPopUp("Cantidad insuficiente","Se necesitan al menos " + mapping.Amount 
@@ -270,7 +340,7 @@ public class CombinationManager : MonoBehaviour
             }
             
         }catch(Exception e){
-            Debug.LogError("Hubo un error tratando de obtener el material de la base de datos");
+            Debug.LogError("Hubo un error tratando de obtener el material de la base de datos" + e.StackTrace);
             popup.MostrarPopUp("Manager Combinación", 
                 "Hubo un error tratando de obtener el material de la base de datos");
         }
