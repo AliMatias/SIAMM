@@ -302,4 +302,14 @@ public class PositionManager
         }
         return true;
     }
+
+    public bool OccupyPosition(int position){
+        if(AvailablePositions[position]){
+            AvailablePositions[position] = false;
+            return true;
+        }else{
+            Debug.LogError("Posición " + position + " ya está ocupada.");
+            return false;
+        }
+    }
 }
