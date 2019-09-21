@@ -6,6 +6,7 @@ public class OpenMenus : MonoBehaviour
 {
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
+    private MaterialManager materialManager;
     CanvasGroup cgInfoPanel;
 
     private void Awake()
@@ -24,9 +25,10 @@ public class OpenMenus : MonoBehaviour
         // traigo todos los atomos seleccionados
         var selectedAtoms = atomManager.GetSelectedAtoms();
         var selectedMolecules = moleculeManager.GetSelectedMolecules();
+        var selectedMaterials = materialManager.GetSelectedMaterials();
 
-        // si hay un solo atomo seleccionado y ninguna molecula, muestro info panel
-        if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && cgInfoPanel.alpha == 0)
+        // si hay un solo atomo seleccionado y ninguna molecula o material, muestro info panel
+        if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && selectedMaterials.Count == 0 && cgInfoPanel.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(gameObject);
             //cgInfoPanel.alpha = 1;

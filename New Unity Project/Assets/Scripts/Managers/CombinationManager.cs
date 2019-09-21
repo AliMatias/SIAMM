@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
+using UnityEditor;
 
 //Esta clase se va a encargar de desactivar y activar los diferentes elementos de la UI cuando corresponda
 public class CombinationManager : MonoBehaviour
@@ -128,6 +129,7 @@ public class CombinationManager : MonoBehaviour
     private void CombineAtoms(List<int> selectedAtoms)
     {
         List<int> elementNumbers = new List<int>();
+        bool combined = false;
         foreach (int index in selectedAtoms)
         {
             int numeroElemento = atomManager.FindAtomInList(index).ElementNumber;
@@ -221,17 +223,22 @@ public class CombinationManager : MonoBehaviour
                     }
                     if (!found)
                     {
-                        CombineAtomsMaterial(elementNumbers);
+                        combined = CombineAtomsMaterial(elementNumbers);
                     }
                 } 
                 else
                 {
-                    CombineAtomsMaterial(elementNumbers);
+                    combined = CombineAtomsMaterial(elementNumbers);
                 }
             }
             else
             {
-                CombineAtomsMaterial(elementNumbers);
+                combined = CombineAtomsMaterial(elementNumbers);
+            }
+
+            if (combined)
+            {
+                DeleteCombinedAtoms(selectedAtoms);
             }
         }
         else
@@ -240,7 +247,7 @@ public class CombinationManager : MonoBehaviour
         }
     }
 
-    private void CombineAtomsMaterial(List<int> atomIds)
+    private bool CombineAtomsMaterial(List<int> atomIds)
     {
         int previous = atomIds[0];
         //valido que todos los atomos sean iguales
@@ -250,7 +257,7 @@ public class CombinationManager : MonoBehaviour
             {
                 Debug.Log("CombinationManager :: No se pueden formar materiales con atomos distintos.");
                 popup.MostrarPopUp("Combinación", "No se encontraron moléculas o materiales que contengan esos átomos");
-                return;
+                return false;
             }
         }
 
@@ -260,9 +267,9 @@ public class CombinationManager : MonoBehaviour
 
             if (possibleMappings == null || possibleMappings.Count <= 0)
             {
-                Debug.Log("CombinationManager :: No se encontraron moléculas o materiales que contengan esos átomoss.");
+                Debug.Log("CombinationManager :: No se encontraron moléculas o materiales que contengan esos átomos.");
                 popup.MostrarPopUp("Combinación", "No se encontraron moléculas o materiales que contengan esos átomos");
-                return;
+                return false;
             }
             // TODO - Deberia aparecerle un pop up al usuario para que elija que combinacion realizar
             //        Por ahora hardcodeo la primera que encuentre.
@@ -274,7 +281,7 @@ public class CombinationManager : MonoBehaviour
             if (material == null)
             {
                 popup.MostrarPopUp("Combinación", "No se encontró ninguna combinación posible");
-                return;
+                return false;
             }
 
             if (atomIds.Count >= mapping.Amount)
@@ -287,15 +294,18 @@ public class CombinationManager : MonoBehaviour
                 popup.MostrarPopUp("Cantidad insuficiente", "Se necesitan al menos " + mapping.Amount
                     + " átomos de " + elementInfo.Name +
                     " para formar " + material.Name);
+                return false;
             }
-
         }
         catch (Exception e)
         {
             Debug.LogError("Hubo un error tratando de obtener el material de la base de datos" + e.StackTrace);
             popup.MostrarPopUp("Manager Combinación",
                 "Hubo un error tratando de obtener el material de la base de datos");
+            return false;
         }
+
+        return true;
     }
 
     private void CombineMolecules(List<int> selectedMolecules){
@@ -314,7 +324,7 @@ public class CombinationManager : MonoBehaviour
             if(previous != mol){
                 Debug.Log("No se pueden combinar moléculas distintas.");
                 popup.MostrarPopUp("Manager Combinación", 
-                    "El programa no soporta combinar distintas moléculas aún.");
+                    "SIAMM no soporta combinar distintas moléculas aún.");
                 return;
             }
         }
@@ -329,10 +339,14 @@ public class CombinationManager : MonoBehaviour
                 return;
             }
 
-            if(moleculeIds.Count >= mapping.Amount){
+            if(moleculeIds.Count >= mapping.Amount)
+            {
                 popup.MostrarPopUp("Combinación","Creaste " + material.Name);
                 materialManager.SpawnMaterial(material);
-            }else{
+                DeleteCombinedMolecules(selectedMolecules);
+            }
+            else
+            {
                 Debug.Log("Cantidad insuficiente");
                 popup.MostrarPopUp("Cantidad insuficiente","Se necesitan al menos " + mapping.Amount 
                     + " moléculas de " + molecule.TraditionalNomenclature + 
@@ -358,6 +372,15 @@ public class CombinationManager : MonoBehaviour
         foreach(int atom in selectedAtoms)
         {
             atomManager.DeleteAtom(atom);
+        }
+    }
+
+    // Borrar del espacio de trabajo, las moleculas seleccionadas.
+    private void DeleteCombinedMolecules(List<int> selectedMolecules)
+    {
+        foreach (int molecule in selectedMolecules)
+        {
+            moleculeManager.DeleteMolecule(molecule);
         }
     }
 

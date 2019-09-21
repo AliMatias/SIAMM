@@ -5,9 +5,38 @@ public class MaterialObject : MonoBehaviour
 {
     public Transform parent;
     public GameObject materialLabel;
+    private GameObject materialModel;
+    private MaterialManager materialManager;
     private int materialIndex;
 
     public int MaterialIndex { get => materialIndex; set => materialIndex = value; }
+
+    private void Awake()
+    {
+        materialManager = FindObjectOfType<MaterialManager>();
+    }
+
+    //rotar el material y el label
+    private void FixedUpdate()
+    {
+        //rota el objeto 0.15 grados en el eje Y a la derecha
+        parent.Rotate(0, 0.15f, 0);
+        //y el label al revés
+        materialLabel.transform.Rotate(0, -0.15f, 0);
+    }
+
+    /*  cuando se destruye la instancia de este script, tengo que destruir
+    *   manualmente el gameObject al cual está asignado este script
+    */
+    void OnDestroy()
+    {
+        Destroy(gameObject);
+    }
+
+    public void OnMouseDown()
+    {
+        materialManager.SelectMaterial(materialIndex);
+    }
 
     public void SetMaterialName(string name)
     {
@@ -16,6 +45,30 @@ public class MaterialObject : MonoBehaviour
 
     public void SpawnModel(Object model)
     {
-        GameObject materialModel = Instantiate(model, parent) as GameObject;
+        materialModel = Instantiate(model, parent) as GameObject;
+    }
+
+    public void Select()
+    {
+        materialLabel.GetComponent<TextMesh>().color = new Color(240, 0, 0);
+        // StartAllHighlights();
+    }
+
+    public void Deselect()
+    {
+        materialLabel.GetComponent<TextMesh>().color = new Color(255, 255, 255);
+
+        // El stop no esta funcionando
+        // StopAllHighlights();
+    }
+
+    private void StartAllHighlights()
+    {
+        materialModel.GetComponent<HighlightObject>().StartHighlight();
+    }
+
+    private void StopAllHighlights()
+    {
+        materialModel.GetComponent<HighlightObject>().StopHighlight();
     }
 }

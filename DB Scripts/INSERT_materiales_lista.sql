@@ -15,4 +15,4 @@ INSERT INTO materiales_lista (nombre, archivo_modelo) VALUES (
 INSERT INTO materiales_lista (nombre, archivo_modelo) VALUES (
 'Diamante', 'Diamond');
 INSERT INTO materiales_lista (nombre, archivo_modelo) VALUES (
-'Quarzo', 'Quartz');
+'Cuarzo', 'Quartz');
