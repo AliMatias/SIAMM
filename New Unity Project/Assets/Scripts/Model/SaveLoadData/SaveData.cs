@@ -6,11 +6,11 @@ using UnityEngine;
 public class SaveData
 {
     public List<AtomSaveData> atoms;
+    public List<MoleculeSaveData> molecules;
 
-    public SaveData(List<AtomSaveData> atoms)
+    public SaveData(List<AtomSaveData> atoms, List<MoleculeSaveData> molecules)
     {
         this.atoms = atoms;
+        this.molecules = molecules;
     }
-    //private MoleculeSaveData[] molecules;
-
 }

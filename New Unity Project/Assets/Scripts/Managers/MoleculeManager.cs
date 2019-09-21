@@ -153,6 +153,10 @@ public class MoleculeManager : MonoBehaviour
         SpawnMolecule(atomsPosition, name, newMolecule);
     }
 
+    public void SpawnMolecule(){
+        
+    }
+
 
     #endregion
 
