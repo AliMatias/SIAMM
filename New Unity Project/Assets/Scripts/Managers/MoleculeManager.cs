@@ -153,8 +153,18 @@ public class MoleculeManager : MonoBehaviour
         SpawnMolecule(atomsPosition, name, newMolecule);
     }
 
-    public void SpawnMolecule(){
-        
+    public void SpawnMoleculeFromSavedData(List<AtomInMolPositionData> atomsPosition, string name, int position, int moleculeId){
+        if(positionManager.OccupyPosition(position)){
+            //instancio la molécula, y seteo posición
+            Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
+            //aca le digo que ira la molecula armada en esta posicion final
+            newMolecule.transform.localPosition = positionManager.Positions[position];
+            newMolecule.MoleculeIndex = position;
+            molecules.Add(newMolecule);
+            SpawnMolecule(atomsPosition, name, newMolecule);
+        }else{
+            Debug.LogError("Molécula con id " + moleculeId + "en posición " + position + " no cargada.");
+        }
     }
 
 

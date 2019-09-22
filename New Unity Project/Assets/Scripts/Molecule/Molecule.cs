@@ -21,8 +21,11 @@ public class Molecule : MonoBehaviour
     private int moleculeIndex;
     //indica id en tabla de moléculas
     private int moleculeId;
+    //nombre
+    private string moleculeName;
 
     public int MoleculeId { get => moleculeId; set => moleculeId = value; }
+    public string MoleculeName { get => moleculeName; set => moleculeName = value; }
     public int MoleculeIndex { get => moleculeIndex; set => moleculeIndex = value; }
 
     private void Awake()
@@ -143,6 +146,7 @@ public class Molecule : MonoBehaviour
     public void SetMoleculeName(string name)
     {
         moleculeLabel.GetComponent<TextMesh>().text = name;
+        moleculeName = name;
     }
     
     //se lanza cuando se hace click a la molécula
