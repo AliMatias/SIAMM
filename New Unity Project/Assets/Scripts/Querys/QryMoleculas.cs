@@ -60,7 +60,7 @@ public class QryMoleculas : MonoBehaviour
 
         try
         {
-            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " +
+            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion " +
             "FROM moleculas_lista WHERE id=" + moleculaId + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -74,7 +74,12 @@ public class QryMoleculas : MonoBehaviour
                 string systematicNm = reader.GetString(2);
                 string stockNm = reader.GetString(3);
                 string traditionalNm = reader.GetString(4);
-                moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm);
+                string caracteristicas = dBManager.SafeGetString(reader, 5);
+                string propiedades = dBManager.SafeGetString(reader, 6);
+                string usos = dBManager.SafeGetString(reader, 7);
+                string clasificacion = dBManager.SafeGetString(reader, 8);
+
+                moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion);
             }
 
         }
@@ -182,7 +187,7 @@ public class QryMoleculas : MonoBehaviour
 
         try
         { 
-            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " +
+            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion " +
             "FROM moleculas_lista;";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -196,8 +201,17 @@ public class QryMoleculas : MonoBehaviour
                 string systematicNm = reader.GetString(2);
                 string stockNm = reader.GetString(3);
                 string traditionalNm = reader.GetString(4);
-                MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm);
+                string caracteristicas = dBManager.SafeGetString(reader, 5);
+                string propiedades = dBManager.SafeGetString(reader, 6);
+                string usos = dBManager.SafeGetString(reader, 7);
+                string clasificacion = dBManager.SafeGetString(reader, 8);
+                MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion);
                 molecules.Add(moleculeData);
+
+
+            
+
+
             }
 
         }
