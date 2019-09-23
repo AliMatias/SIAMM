@@ -21,7 +21,7 @@ public class SaveLoadManager : MonoBehaviour
         SaveData save = new SaveData(atomSaveData, moleculeSaveData);
         string json = JsonUtility.ToJson(save);
         Debug.Log("Game Saved! " + json);
-        File.WriteAllText(Application.dataPath + "save.json", json);
+        File.WriteAllText(Application.dataPath + "/save.json", json);
     }
 
     private List<AtomSaveData> ObtainAtomsData(){
