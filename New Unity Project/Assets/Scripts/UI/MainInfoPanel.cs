@@ -8,22 +8,28 @@ using System.Linq;
 
 public class MainInfoPanel : MonoBehaviour
 {
-    //objeto con el que interactúo para acceder a la DB
-    private QryElementos qryElement;
-    private QryMoleculas qryMolecule;
-    //labels donde muestra info
-    public TextMeshProUGUI nameLbl;
-    public TextMeshProUGUI nameLblMolecule;
-    public GameObject[] suggestionButtons;
+
+    #region atributos
     //contenedor para la info de atomos luego ira cada uno de los otros
     public CanvasGroup infoContainer;
     public CanvasGroup infoContainerMolecule;
+
+    //objeto con el que interactúo para acceder a la DB
+    private QryElementos qryElement;
+    private QryMoleculas qryMolecule;
+
+    //labels donde muestra info
+    private TextMeshProUGUI nameLbl;
+    private TextMeshProUGUI nameLblMolecule;
+     
+    public GameObject[] suggestionButtons;
     //imagen del boton
     public GameObject elementBtn;
     //diccionario que mapea categoría de la tabla, con color
     private Dictionary<string, Color32> categories = new Dictionary<string, Color32>();
     //para el proceso de carga de informacion de acuerdo al tipo de info elem, mole, mat..)
     private PanelInfoLoader PanelInfoLoader;
+#endregion
 
     private void Awake()
     {
@@ -33,11 +39,14 @@ public class MainInfoPanel : MonoBehaviour
         qryElement = go.GetComponent<QryElementos>();
 
         GameObject go1 = new GameObject();
-        go1.AddComponent<QryElementos>();
+        go1.AddComponent<QryMoleculas>();
         qryMolecule = go1.GetComponent<QryMoleculas>();
 
         InitializeCategoryDictionary();
         PanelInfoLoader = FindObjectOfType<PanelInfoLoader>();
+
+        nameLblMolecule = infoContainerMolecule.GetComponentInChildren<TextMeshProUGUI>();
+        nameLbl = infoContainer.GetComponentInChildren<TextMeshProUGUI>(); //aunque hay 2 lbl el 1ro es el name
     }
 
     #region elementos
@@ -138,7 +147,7 @@ public class MainInfoPanel : MonoBehaviour
     {
         ElementInfoPanelInfo element = qryElement.GetElementInfoPanelSuggestion(elementId);
         //llamo al metodo que carga la info en los text box del panel
-        PanelInfoLoader.SetPanelInfo(element);
+        PanelInfoLoader.SetPanelInfoElement(element);
     }
     #endregion
 
@@ -146,25 +155,14 @@ public class MainInfoPanel : MonoBehaviour
 
     public void SetInfoMolecule(Molecule mol)
     {
-
         MoleculeData molecule = qryMolecule.GetMoleculeById(mol.MoleculeId);
-        
+
         if (molecule != null)
         {
-
             nameLblMolecule.text = molecule.TraditionalNomenclature;
-            //carga los datos especiales del elemento
-            //SetInfoElementSelected(atom.ElementNumber);
+            //carga los datos especiales de la molecula en el panel especial
+            PanelInfoLoader.SetPanelInfoMolecule(molecule);
         }
-
-    }
-
-    //trae de la base los campos para la informacion especial
-    private void SetInfoMoleculeSelected(int moleculeId)
-    {
-        ElementInfoPanelInfo element = qryElement.GetElementInfoPanelSuggestion(moleculeId);
-        //llamo al metodo que carga la info en los text box del panel
-        PanelInfoLoader.SetPanelInfo(element);
     }
 
     #endregion

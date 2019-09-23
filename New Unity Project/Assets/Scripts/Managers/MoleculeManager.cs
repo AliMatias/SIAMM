@@ -23,6 +23,9 @@ public class MoleculeManager : MonoBehaviour
 
     public List<Molecule> Molecules { get => molecules; }
 
+    //panel de info
+    private MainInfoPanel mainInfoPanel;
+
     #endregion
 
     private void Awake()
@@ -41,6 +44,8 @@ public class MoleculeManager : MonoBehaviour
 
         popup = FindObjectOfType<UIPopup>();
         selectionManager = FindObjectOfType<SelectionManager>();
+
+        mainInfoPanel = FindObjectOfType<MainInfoPanel>();
     }
 
     //activa-desactiva botones de acuerdo a la cant de moleculas
@@ -142,6 +147,11 @@ public class MoleculeManager : MonoBehaviour
                 newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType, atom.LineType);//por ej aca 1 seria comun 2 podria ser unionica
             }
         }
+
+        //cargo info en panel inferior!
+        mainInfoPanel.SetInfoMolecule(newMolecule);
+
+        //interacion sobre los botones de la UI
         activateDeactivateMoleculeButtons();
     }
 

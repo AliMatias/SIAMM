@@ -35,24 +35,25 @@ public class OpenMenus : MonoBehaviour
         if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && infoPanelElements.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
-            //cgInfoPanel.alpha = 1;
         }
-
-
-        //ACA DEBERIA MOSTRAR MOLECULAS!!!
-        //else if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && infoPanelElements.alpha == 0)
-        //{
-        //    gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
-        //    //cgInfoPanel.alpha = 1;
-        //}
-
-
 
         else if (infoPanelElements.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
-            //cgInfoPanel.alpha = 0;
         }
+
+        // si hay una sola molecula seleccionada y ningun atomo, muestro info panel
+        else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 1 && infoPanelMolecule.alpha == 0)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+        }
+
+        else if (infoPanelMolecule.alpha == 1)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
+        }
+
+
     }
 
     /*
@@ -64,7 +65,12 @@ public class OpenMenus : MonoBehaviour
         if (infoPanelElements.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
-            //cgInfoPanel.alpha = 0;
+        }
+
+
+        if (infoPanelMolecule.alpha == 1)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
         }
 
     }
