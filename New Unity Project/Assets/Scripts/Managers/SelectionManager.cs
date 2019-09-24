@@ -7,6 +7,7 @@ public class SelectionManager : MonoBehaviour
     private CombinationManager combinationManager;
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
+    private MaterialManager materialManager;
     private List<int> selectedObjects;
     
     //panel de cambios en particulas subatomicas que tiene que aparecer o no depende del contexto
@@ -26,6 +27,7 @@ public class SelectionManager : MonoBehaviour
         combinationManager = FindObjectOfType<CombinationManager>();
         atomManager = FindObjectOfType<AtomManager>();
         moleculeManager = FindObjectOfType<MoleculeManager>();
+        materialManager = FindObjectOfType<MaterialManager>();
         mainInfoPanel = FindObjectOfType<MainInfoPanel>();
 
         panelElements = GameObject.Find("InteractivePanelElements");
@@ -92,21 +94,49 @@ public class SelectionManager : MonoBehaviour
         return true;
     }
 
+    public bool SelectObject(MaterialObject material)
+    {
+        // verifico si el objeto estaba seleccionado
+        if (selectedObjects.IndexOf(material.MaterialIndex) != -1)
+        {
+            // Este material ya estaba seleccionada. Se quitará la selección
+            selectedObjects.Remove(material.MaterialIndex);
+            material.Deselect();
+            return false;
+        }
+
+        // si habia uno seleccionado, lo deselecciono
+        if (!combinationManager.CombineMode)
+        {
+            DeselectAll();
+        }
+
+        selectedObjects.Add(material.MaterialIndex);
+        material.Select();
+        //no muestro panel de agregar elementos porque no es un atomo
+        panelElements.GetComponent<CanvasGroup>().alpha = 0;
+        return true;
+    }
+
     public void RemoveObject(int toRemove)
     {
         selectedObjects.Remove(toRemove);
     }
 
-    public void SwitchCombineMode(bool newMode)
+    public void SwitchCombineMode(bool combineMode)
     {
         // si se salio del modo combinar
-        if (!newMode)
+        if (!combineMode)
         {
             DeselectAll();
         }
-
-        //no muestro panel de agregar elementos cuando se activa el switch
-        panelElements.GetComponent<CanvasGroup>().alpha = 0;
+        else
+        {
+            // en el modo combinacion no se pueden seleccionar materiales
+            DeselectAllMaterials();
+            //no muestro panel de agregar elementos cuando se activa el switch
+            panelElements.GetComponent<CanvasGroup>().alpha = 0;
+        }
     }
 
     public void DeselectAll()
@@ -121,6 +151,21 @@ public class SelectionManager : MonoBehaviour
         foreach (Atom atom in atomManager.AtomsList)
         {
             atom.Deselect();
+        }
+
+        foreach (MaterialObject material in materialManager.Materials)
+        {
+            material.Deselect();
+        }
+    }
+
+    public void DeselectAllMaterials()
+    {
+        selectedObjects = new List<int>();
+
+        foreach (MaterialObject material in materialManager.Materials)
+        {
+            material.Deselect();
         }
     }
 }

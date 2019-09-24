@@ -213,6 +213,24 @@ public class MoleculeManager : MonoBehaviour
         activateDeactivateMoleculeButtons();
     }
 
+    // Borrar molecula por indice
+    public void DeleteMolecule(int moleculeIndex)
+    {
+        Molecule molecule = FindMoleculeInList(moleculeIndex);
+        // la saco de la lista
+        molecules.Remove(molecule);
+        selectionManager.RemoveObject(moleculeIndex);
+        // la destruyo
+        Destroy(molecule);
+        // disponibilizo la posición de nuevo
+        positionManager.AvailablePositions[moleculeIndex] = true;
+
+        //no va popup
+        Debug.Log("[MoleculeManager] :: Se ha borrado la molécula " + moleculeIndex);
+
+        activateDeactivateMoleculeButtons();
+    }
+
     public List<int> GetSelectedMolecules()
     {
         List<int> selectedMolecules = new List<int>();
