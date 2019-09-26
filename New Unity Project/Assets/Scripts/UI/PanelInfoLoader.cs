@@ -57,17 +57,19 @@ public class PanelInfoLoader : MonoBehaviour
             if (a.name == "txtNomenclaturaSistematica")
                 a.text = "Nomenclatura Sistemática: " + managerNullables(molInfo.SystematicNomenclature);
             if (a.name == "txtnomenclaturaStock")
-                a.text = "Nomenclatura de Stock:" + managerNullables(molInfo.StockNomenclature);
+                a.text = "Nomenclatura de Stock: " + managerNullables(molInfo.StockNomenclature);
             if (a.name == "txtNomenclaturaTradicional")
                 a.text = "Nomenclatura Tradicional: " + managerNullables(molInfo.TraditionalNomenclature);
+
             if (a.name == "txtCaracteristicas")
-                a.text = "Caracteristicas: " + managerNullables(molInfo.Caracteristicas);
+                a.text = "Caracteristicas: \n" + managerNullables(molInfo.Caracteristicas);
             if (a.name == "txtPropiedades")
-                a.text = "Propiedades: " + managerNullables(molInfo.Propiedades);
+                a.text = "Propiedades: \n" + managerNullables(molInfo.Propiedades);
             if (a.name == "txtUsos")
-                a.text = "Usos: " + managerNullables(molInfo.Usos);
+                a.text = "Usos: \n" + managerNullables(molInfo.Usos);
             if (a.name == "txtClasificacion")
-                a.text = "Clasificación:" + managerNullables(molInfo.Clasificacion);
+                a.text = "Clasificación: \n" + managerNullables(molInfo.Clasificacion);
+
         }
     }
 

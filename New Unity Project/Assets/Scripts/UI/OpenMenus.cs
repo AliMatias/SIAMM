@@ -12,6 +12,8 @@ public class OpenMenus : MonoBehaviour
     private CanvasGroup infoPanelMolecule;
     private CanvasGroup infoPanelMaterial;
 
+    public CanvasGroup[] tabbedMenuMolecules;
+
     private void Awake()
     {
         atomManager = FindObjectOfType<AtomManager>();
@@ -27,6 +29,11 @@ public class OpenMenus : MonoBehaviour
     */
     public void OpenBottomPanel()
     {
+        /*este fix es para que siempre si se cierra el panel vuelva a mostrar el tab nomclatures, esto es asi porque originalmente se hacia con ACTIVE.. y con alpha.. complica
+        * si se deja como inactive / active los datos no pueden ser cargados desde la base de datos.         
+        */
+        restoreAlphasTabbedMenu();
+
         // traigo todos los atomos seleccionados
         var selectedAtoms = atomManager.GetSelectedAtoms();
         var selectedMolecules = moleculeManager.GetSelectedMolecules();
@@ -53,7 +60,7 @@ public class OpenMenus : MonoBehaviour
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
         }
 
-
+        
     }
 
     /*
@@ -62,6 +69,11 @@ public class OpenMenus : MonoBehaviour
      */
     public void CloseBottomPanel()
     {
+        /*este fix es para que siempre si se cierra el panel vuelva a mostrar el tab nomclatures, esto es asi porque originalmente se hacia con ACTIVE.. y con alpha.. complica
+        * si se deja como inactive / active los datos no pueden ser cargados desde la base de datos.         
+        */
+        restoreAlphasTabbedMenu();
+
         if (infoPanelElements.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
@@ -73,5 +85,18 @@ public class OpenMenus : MonoBehaviour
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
         }
 
+       
+    }
+
+
+    private void restoreAlphasTabbedMenu()
+    {
+        foreach (CanvasGroup tab in tabbedMenuMolecules)
+        {
+            if (tab.gameObject.name == "Content1")
+                tab.alpha = 1;
+            else
+                tab.alpha = 0;
+        }
     }
 }
