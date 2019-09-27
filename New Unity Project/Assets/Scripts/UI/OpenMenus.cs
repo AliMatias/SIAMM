@@ -19,6 +19,7 @@ public class OpenMenus : MonoBehaviour
     {
         atomManager = FindObjectOfType<AtomManager>();
         moleculeManager = FindObjectOfType<MoleculeManager>();
+        materialManager = FindObjectOfType<MaterialManager>();
         infoPanelElements = transform.Find("InfoContainerElementos").GetComponent<CanvasGroup>();
         infoPanelMolecule = transform.Find("InfoContainerMoleculas").GetComponent<CanvasGroup>();
         //infoPanelMaterial = transform.Find("InfoContainerMaterial").GetComponent<CanvasGroup>();
