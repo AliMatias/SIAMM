@@ -81,7 +81,6 @@ public class BasicInfoLoader : MonoBehaviour
                 a.text = "Punto de Ebullición: " + managerNullables(elementInfoBasic.PuntoEbullicion);
             if (a.name == "txtResumen")
                 a.text = elementInfoBasic.Resumen;
-
         }
 
         //ACTIVA EL PANEL PRINCIPAL DE LA TABLA PERIODICA

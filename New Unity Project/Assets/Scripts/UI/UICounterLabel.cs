@@ -7,6 +7,7 @@ public class UICounterLabel : MonoBehaviour
 
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
+    private MaterialManager materialManager;
 
     // seteo desde inspector a que label pertenece la instancia de este script
     [SerializeField]
@@ -16,6 +17,7 @@ public class UICounterLabel : MonoBehaviour
     {
         atomManager = FindObjectOfType<AtomManager>();
         moleculeManager = FindObjectOfType<MoleculeManager>();
+        materialManager = FindObjectOfType<MaterialManager>();
     }
 
     // Start is called before the first frame update
@@ -30,9 +32,10 @@ public class UICounterLabel : MonoBehaviour
         // traigo todos los atomos seleccionados
         var selectedAtoms = atomManager.GetSelectedAtoms();
         var selectedMolecules = moleculeManager.GetSelectedMolecules();
+        var selectedMaterials = materialManager.GetSelectedMaterials();
 
-        // si hay un solo atomo seleccionado y ninguna molecula, actualizo los labels con sus contadores
-        if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0)
+        // si hay un solo atomo seleccionado y ninguna molecula o material, actualizo los labels con sus contadores
+        if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && selectedMaterials.Count == 0)
         {
             int atomIndex = selectedAtoms[0];
             Atom atom = atomManager.FindAtomInList(atomIndex);

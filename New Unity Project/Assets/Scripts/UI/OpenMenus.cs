@@ -13,6 +13,7 @@ public class OpenMenus : MonoBehaviour
     private CanvasGroup infoPanelMaterial;
 
     public CanvasGroup[] tabbedMenuMolecules;
+    private MaterialManager materialManager;
 
     private void Awake()
     {
@@ -37,9 +38,10 @@ public class OpenMenus : MonoBehaviour
         // traigo todos los atomos seleccionados
         var selectedAtoms = atomManager.GetSelectedAtoms();
         var selectedMolecules = moleculeManager.GetSelectedMolecules();
+        var selectedMaterials = materialManager.GetSelectedMaterials();
 
-        // si hay un solo atomo seleccionado y ninguna molecula, muestro info panel
-        if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && infoPanelElements.alpha == 0)
+        // si hay un solo atomo seleccionado y ninguna molecula o material, muestro info panel
+        if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && selectedMaterials.Count == 0 && infoPanelElements.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
         }
@@ -49,8 +51,8 @@ public class OpenMenus : MonoBehaviour
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
         }
 
-        // si hay una sola molecula seleccionada y ningun atomo, muestro info panel
-        else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 1 && infoPanelMolecule.alpha == 0)
+        // si hay una sola molecula seleccionada y ningun atomo o material, muestro info panel
+        else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 1 && selectedMaterials.Count == 0 && infoPanelMolecule.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
         }
