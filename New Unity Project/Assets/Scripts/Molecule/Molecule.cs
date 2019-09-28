@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Molecule : MonoBehaviour
 {
+    #region Atributos
+
     private MoleculeManager moleculeManager;
     //lista de átomos
     private List<GameObject> atoms = new List<GameObject>();
@@ -25,11 +27,14 @@ public class Molecule : MonoBehaviour
     public int MoleculeId { get => moleculeId; set => moleculeId = value; }
     public int MoleculeIndex { get => moleculeIndex; set => moleculeIndex = value; }
 
+    #endregion
+
     private void Awake()
     {
         moleculeManager = FindObjectOfType<MoleculeManager>();
     }
-
+    
+    #region spawn
     // spawnear un átomo 
     public void SpawnAtom(AtomInMolPositionData positionData, Color32 color)
     {
@@ -58,23 +63,6 @@ public class Molecule : MonoBehaviour
         atomsData.Add(positionData);
     }
 
-    //rotar la molécula y el label
-    private void FixedUpdate()
-    {
-        //rota el objeto 0.15 grados en el eje Y a la derecha
-        parent.Rotate(0, 0.15f, 0);
-        //y el label al revés
-        moleculeLabel.transform.Rotate(0, -0.15f, 0);
-    }
-
-    /*  cuando se destruye la instancia de este script, tengo que destruir
-    *   manualmente el gameObject al cual está asignado este script
-    */
-    void OnDestroy()
-    {
-        Destroy(gameObject);
-    }
-
     //spawnea una conexión entre dos átomos
     //type => 1-> simple, 2-> doble, 3-> triple
     public void SpawnConnection(int from, int to, int type, int lineType)
@@ -90,7 +78,7 @@ public class Molecule : MonoBehaviour
 
         if (type.Equals(1) || type.Equals(3))
             SpawnConnection(positionFrom, positionTo, lineType);
-        
+
         //si es mayor a uno significa que necesito agregar 1 a 0.025 + en todos los ejes, porque depende de las coordenadas en donde se ubican los atomos
         if (type.Equals(2) || type.Equals(3))
         {
@@ -112,7 +100,7 @@ public class Molecule : MonoBehaviour
             positionFrom.z -= 0.05f;
             positionTo.z -= 0.05f;
             SpawnConnection(positionFrom, positionTo, lineType);
-        }    
+        }
     }
 
     private void SpawnConnection(Vector3 positionFrom, Vector3 positionTo, int lineType)
@@ -130,7 +118,7 @@ public class Molecule : MonoBehaviour
         if (lineType == 2)
         {
             // ESTA sera para la UNIONICA (la que no tiene coneccion y quedamos con el profesor de mostrarla finita)
-            newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f);    
+            newConnection.transform.localScale = new Vector3(0.01f, distance / 2, 0.01f);
         }
         else // lineType == 1 normal y el 0 quedo para el atomo que no tiene conexiones segun nuestra logica
         {
@@ -138,6 +126,27 @@ public class Molecule : MonoBehaviour
             newConnection.transform.localScale = new Vector3(0.04f, distance / 2, 0.04f);
         }
         connections.Add(newConnection);
+    }
+
+    #endregion
+
+    #region Metodos Varios
+
+    //rotar la molécula y el label
+    private void FixedUpdate()
+    {
+        //rota el objeto 0.15 grados en el eje Y a la derecha
+        parent.Rotate(0, 0.15f, 0);
+        //y el label al revés
+        moleculeLabel.transform.Rotate(0, -0.15f, 0);
+    }
+
+    /*  cuando se destruye la instancia de este script, tengo que destruir
+    *   manualmente el gameObject al cual está asignado este script
+    */
+    void OnDestroy()
+    {
+        Destroy(gameObject);
     }
 
     public void SetMoleculeName(string name)
@@ -181,4 +190,6 @@ public class Molecule : MonoBehaviour
             obj.GetComponent<HighlightObject>().StopHighlight();
         }
     }
+
+    #endregion
 }

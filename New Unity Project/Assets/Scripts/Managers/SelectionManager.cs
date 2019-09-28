@@ -29,7 +29,7 @@ public class SelectionManager : MonoBehaviour
         moleculeManager = FindObjectOfType<MoleculeManager>();
         materialManager = FindObjectOfType<MaterialManager>();
         mainInfoPanel = FindObjectOfType<MainInfoPanel>();
-
+        //panel superior del canvas
         panelElements = GameObject.Find("InteractivePanelElements");
     }
 
@@ -58,7 +58,11 @@ public class SelectionManager : MonoBehaviour
 
         selectedObjects.Add(atom.AtomIndex);
         atom.Select();
+
+        //seteo info en panel inferior de elementos
         mainInfoPanel.SetInfo(atom);
+        //hay que controlar SI no esta abierto otro de los menues!
+        mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanelCombine();
 
         //muestro ademas el panel de agregar elementos! 
         //SI EL MODO ES NORMAL(lo hago posterior al if antesesor porque primero lo agrego y lo hago seleccionado)
@@ -78,6 +82,10 @@ public class SelectionManager : MonoBehaviour
             // Esta molecula ya estaba seleccionada. Se quitará la selección
             selectedObjects.Remove(molecule.MoleculeIndex);
             molecule.Deselect();
+
+            //si se quita la seleccion y no hay otros seleccionados cierra panel
+            mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanel();
+
             return false;
         }
 
@@ -89,6 +97,12 @@ public class SelectionManager : MonoBehaviour
 
         selectedObjects.Add(molecule.MoleculeIndex);
         molecule.Select();
+
+        //seteo info en panel inferior de elementos
+        mainInfoPanel.SetInfoMolecule(molecule);
+        //hay que controlar SI no esta abierto otro de los menues!
+        mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanelCombine();
+
         //no muestro panel de agregar elementos porque una molecula no se cambia 
         panelElements.GetComponent<CanvasGroup>().alpha = 0;
         return true;

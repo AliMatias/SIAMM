@@ -8,30 +8,48 @@ using System.Linq;
 
 public class MainInfoPanel : MonoBehaviour
 {
-    //objeto con el que interactúo para acceder a la DB
-    private QryElementos qryElement;
-    //labels donde muestra info
-    public TextMeshProUGUI nameLbl;
-    public GameObject[] suggestionButtons;
+
+    #region atributos
     //contenedor para la info de atomos luego ira cada uno de los otros
     public CanvasGroup infoContainer;
+    public CanvasGroup infoContainerMolecule;
+
+    //objeto con el que interactúo para acceder a la DB
+    private QryElementos qryElement;
+    private QryMoleculas qryMolecule;
+
+    //labels donde muestra info
+    private TextMeshProUGUI nameLbl;
+    private TextMeshProUGUI nameLblMolecule;
+     
+    public GameObject[] suggestionButtons;
     //imagen del boton
     public GameObject elementBtn;
     //diccionario que mapea categoría de la tabla, con color
     private Dictionary<string, Color32> categories = new Dictionary<string, Color32>();
-    //para el proceso de carga de informacion (a futuro deberia detectar que tipo de info mostrar elem, mole, mat..)
+    //para el proceso de carga de informacion de acuerdo al tipo de info elem, mole, mat..)
     private PanelInfoLoader PanelInfoLoader;
+#endregion
 
     private void Awake()
     {
+        //se instancia las clases para querys
         GameObject go = new GameObject();
         go.AddComponent<QryElementos>();
         qryElement = go.GetComponent<QryElementos>();
-        InitializeCategoryDictionary();
 
+        GameObject go1 = new GameObject();
+        go1.AddComponent<QryMoleculas>();
+        qryMolecule = go1.GetComponent<QryMoleculas>();
+
+        InitializeCategoryDictionary();
         PanelInfoLoader = FindObjectOfType<PanelInfoLoader>();
+
+        nameLblMolecule = infoContainerMolecule.GetComponentInChildren<TextMeshProUGUI>();
+        nameLbl = infoContainer.GetComponentInChildren<TextMeshProUGUI>(); //aunque hay 2 lbl el 1ro es el name
     }
 
+    #region elementos
     //diccionario de categoría_grupo -> color
     private void InitializeCategoryDictionary()
     {
@@ -124,12 +142,28 @@ public class MainInfoPanel : MonoBehaviour
             }
     }
 
-
     //trae de la base los 6 campos para la informacion especial
     private void SetInfoElementSelected(int elementId)
     {
         ElementInfoPanelInfo element = qryElement.GetElementInfoPanelSuggestion(elementId);
         //llamo al metodo que carga la info en los text box del panel
-        PanelInfoLoader.SetPanelInfo(element);
+        PanelInfoLoader.SetPanelInfoElement(element);
     }
+    #endregion
+
+    #region Moleculas
+
+    public void SetInfoMolecule(Molecule mol)
+    {
+        MoleculeData molecule = qryMolecule.GetMoleculeById(mol.MoleculeId);
+
+        if (molecule != null)
+        {
+            nameLblMolecule.text = molecule.TraditionalNomenclature;
+            //carga los datos especiales de la molecula en el panel especial
+            PanelInfoLoader.SetPanelInfoMolecule(molecule);
+        }
+    }
+
+    #endregion
 }
