@@ -207,13 +207,7 @@ public class QryMoleculas : MonoBehaviour
                 string clasificacion = dBManager.SafeGetString(reader, 8);
                 MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion);
                 molecules.Add(moleculeData);
-
-
-            
-
-
             }
-
         }
         catch (Exception e)
         {   

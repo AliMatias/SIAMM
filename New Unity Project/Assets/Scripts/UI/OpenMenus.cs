@@ -52,6 +52,8 @@ public class OpenMenus : MonoBehaviour
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
         }
 
+        
+        
         // si hay una sola molecula seleccionada y ningun atomo o material, muestro info panel
         else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 1 && selectedMaterials.Count == 0 && infoPanelMolecule.alpha == 0)
         {
@@ -86,10 +88,33 @@ public class OpenMenus : MonoBehaviour
         if (infoPanelMolecule.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
+        }    
+    }
+
+    //que si algun panel esta en 1 quiere decir que el usuario en algun momento LO ACTIVO.. por lo tanto... tendria que ver ver la forma de hacer una combinacion
+    public void CloseBottomPanelCombine()
+    {
+        /*este fix es para que siempre si se cierra el panel vuelva a mostrar el tab nomclatures, esto es asi porque originalmente se hacia con ACTIVE.. y con alpha.. complica
+       * si se deja como inactive / active los datos no pueden ser cargados desde la base de datos.         
+       */
+        restoreAlphasTabbedMenu();
+
+        if (infoPanelElements.alpha == 1 && infoPanelMolecule.alpha == 0)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
+
         }
 
-       
+
+        if (infoPanelMolecule.alpha == 1 && infoPanelElements.alpha == 0)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
+        }
     }
+
+
 
 
     private void restoreAlphasTabbedMenu()

@@ -61,6 +61,8 @@ public class SelectionManager : MonoBehaviour
 
         //seteo info en panel inferior de elementos
         mainInfoPanel.SetInfo(atom);
+        //hay que controlar SI no esta abierto otro de los menues!
+        mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanelCombine();
 
         //muestro ademas el panel de agregar elementos! 
         //SI EL MODO ES NORMAL(lo hago posterior al if antesesor porque primero lo agrego y lo hago seleccionado)
@@ -98,6 +100,8 @@ public class SelectionManager : MonoBehaviour
 
         //seteo info en panel inferior de elementos
         mainInfoPanel.SetInfoMolecule(molecule);
+        //hay que controlar SI no esta abierto otro de los menues!
+        mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanelCombine();
 
         //no muestro panel de agregar elementos porque una molecula no se cambia 
         panelElements.GetComponent<CanvasGroup>().alpha = 0;
