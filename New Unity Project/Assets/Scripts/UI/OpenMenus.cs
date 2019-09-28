@@ -99,22 +99,25 @@ public class OpenMenus : MonoBehaviour
        */
         restoreAlphasTabbedMenu();
 
-        if (infoPanelElements.alpha == 1 && infoPanelMolecule.alpha == 0)
+        // traigo todos los atomos seleccionados
+        var selectedAtoms = atomManager.GetSelectedAtoms();
+        var selectedMolecules = moleculeManager.GetSelectedMolecules();
+        var selectedMaterials = materialManager.GetSelectedMaterials();
+
+        //el count de moleculas es para decir cambie de tipo ahora para mostrar..etando ya un panel abierto
+        if (infoPanelElements.alpha == 1 && infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
-
         }
 
-
-        if (infoPanelMolecule.alpha == 1 && infoPanelElements.alpha == 0)
+        //el count de moleculas es para decir cambie de tipo ahora para mostrar..etando ya un panel abierto
+        if (infoPanelMolecule.alpha == 1 && infoPanelElements.alpha == 0 && selectedAtoms.Count == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
         }
     }
-
-
 
 
     private void restoreAlphasTabbedMenu()

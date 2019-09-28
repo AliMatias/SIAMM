@@ -148,6 +148,10 @@ public class MoleculeManager : MonoBehaviour
             }
         }
 
+
+        //dejo seleccionada la molecula nueva!
+        SelectMolecule(newMolecule.MoleculeIndex);
+
         //cargo info en panel inferior!
         mainInfoPanel.SetInfoMolecule(newMolecule);
 
