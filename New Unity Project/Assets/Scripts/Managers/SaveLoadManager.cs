@@ -8,11 +8,13 @@ public class SaveLoadManager : MonoBehaviour
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
     private PopulateMoleculeList populateMoleculeList;
+    private string savePath;
 
     private void Awake() {
         atomManager = FindObjectOfType<AtomManager>();
         moleculeManager = FindObjectOfType<MoleculeManager>();
         populateMoleculeList = FindObjectOfType<PopulateMoleculeList>();
+        savePath = Application.dataPath + "/save.json";
     }
 
     public void Save(){
@@ -21,7 +23,7 @@ public class SaveLoadManager : MonoBehaviour
         SaveData save = new SaveData(atomSaveData, moleculeSaveData);
         string json = JsonUtility.ToJson(save);
         Debug.Log("Game Saved! " + json);
-        File.WriteAllText(Application.dataPath + "/save.json", json);
+        File.WriteAllText(savePath, json);
     }
 
     private List<AtomSaveData> ObtainAtomsData(){
@@ -44,7 +46,7 @@ public class SaveLoadManager : MonoBehaviour
     }
 
     public void Load(){
-        SaveData save = JsonUtility.FromJson<SaveData>(File.ReadAllText(Application.dataPath + "save.json"));
+        SaveData save = JsonUtility.FromJson<SaveData>(File.ReadAllText(savePath));
         atomManager.DeleteAllAtoms();
         moleculeManager.DeleteAllMolecules();
         foreach(AtomSaveData atomData in save.atoms){
