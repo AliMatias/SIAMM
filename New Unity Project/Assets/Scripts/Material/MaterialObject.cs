@@ -7,9 +7,17 @@ public class MaterialObject : MonoBehaviour
     public GameObject materialLabel;
     private GameObject materialModel;
     private MaterialManager materialManager;
+    //position
     private int materialIndex;
+    //table id
+    private int materialId;
+    private string materialName;
+    private string modelFile;
 
     public int MaterialIndex { get => materialIndex; set => materialIndex = value; }
+    public int MaterialId { get => materialId; set => materialId = value; }
+    public string MaterialName { get => materialName; set => materialName = value; }
+    public string ModelFile { get => modelFile; set => modelFile = value; }
 
     private void Awake()
     {
@@ -41,6 +49,7 @@ public class MaterialObject : MonoBehaviour
     public void SetMaterialName(string name)
     {
         materialLabel.GetComponent<TextMesh>().text = name;
+        materialName = name;
     }
 
     public void SpawnModel(Object model)

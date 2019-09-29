@@ -28,7 +28,7 @@ public class Atom: MonoBehaviour
     private int electronCounter = 0;
 
     // indica si fue creado desde la tabla periodica o desde un boton
-    private bool fromTabla = false;
+    private bool fromTable = false;
     //indicador de índice de átomo (posición en la lista de átomos del manager)
     private int atomIndex;
 
@@ -80,7 +80,7 @@ public class Atom: MonoBehaviour
 
     #region spawn
     //crea un nucleon, true -> crea proton, false -> crea neutron
-    public void SpawnNucleon(bool proton, bool fromTabla)
+    public void SpawnNucleon(bool proton, bool fromTable)
     {
         //encolar y aumentar contadores según partícula creada
         if (proton)
@@ -93,11 +93,11 @@ public class Atom: MonoBehaviour
         }
 
         // indica si fue creado con el boton o desde la tabla
-        this.fromTabla = fromTabla;
+        this.fromTable = fromTable;
 
         //actualizar el label que indica el elemento.
         //Si es por tabla entonces NO! actulializo el label en runtime
-        if (!fromTabla)
+        if (!fromTable)
             UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
@@ -153,7 +153,7 @@ public class Atom: MonoBehaviour
     }
 
     //crear un electron
-    public void SpawnElectron(bool fromTabla)
+    public void SpawnElectron(bool fromTable)
     {
         if (allowElectronSpawn)
         {
@@ -179,11 +179,11 @@ public class Atom: MonoBehaviour
             }
         }
         // indica si fue creado con el boton o desde la tabla
-        this.fromTabla = fromTabla;
+        this.fromTable = fromTable;
 
         //actualizo label
         //Si es por tabla entonces NO! actulializo el label en runtime
-        if (!fromTabla)
+        if (!fromTable)
             UpdateElement(protonCounter, neutronCounter, electronCounter);
     }
 
@@ -321,7 +321,7 @@ public class Atom: MonoBehaviour
         if (IsNullOrEmpty(element))
         {
             elementText = "Elemento no encontrado.";
-            if (!fromTabla)
+            if (!fromTable)
             {
                 ElementNumber = 0;
             }
@@ -331,7 +331,7 @@ public class Atom: MonoBehaviour
         {
             //seteo nombre, símbolo y numero
             elementText = element.Name + " (" + element.Simbol + ")";
-            if (!fromTabla)
+            if (!fromTable)
             {
                 ElementNumber = element.Numero;
             }
@@ -354,7 +354,7 @@ public class Atom: MonoBehaviour
                 if (IsNullOrEmpty(elementIsotopo))
                 {
                     elementText = "no encontrado.";
-                    if (!fromTabla)
+                    if (!fromTable)
                     {
                         ElementNumber = 0;
                     }
@@ -503,14 +503,21 @@ public class Atom: MonoBehaviour
         }
         //crea la cantidad de partículas indicadas
         ElementNumber = element.Numero;
-        fromTabla = true;
-        IterateCounterAndCreateParticles(element.Protons, element.Neutrons, element.Electrons);
+        fromTable = true;
+        CreateAtomByParticlesAmount(element.Protons, element.Neutrons, element.Electrons);
         //ESCRIBE DIRECTO EL NOMBRE DEL ELEMENTO EN PANTALLA al ser spaw desde tabla periodica
         UpdateElement(element.Protons, element.Neutrons, element.Electrons);
     }
 
+    public void SpawnFromSaveData(int protons, int neutrons, int electrons){
+        fromTable = false;
+        ElementNumber = protons;
+        CreateAtomByParticlesAmount(protons, neutrons, electrons);
+        UpdateElement(protons, neutrons, electrons);
+    }
+
     //Este método lanza las 3 co rutinas que spawnean las partículas indicadas por parámetro
-    private void IterateCounterAndCreateParticles(int protons, int neutrons, int electrons)
+    private void CreateAtomByParticlesAmount(int protons, int neutrons, int electrons)
     {
         //Empiezo las 3 co rutinas que se van a ejecutar en paralelo
         StartCoroutine(SpawnGivenNumberOfNucleons(protons, true));

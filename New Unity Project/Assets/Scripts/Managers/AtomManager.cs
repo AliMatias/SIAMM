@@ -70,6 +70,20 @@ public class AtomManager : MonoBehaviour
         activateDeactivateAtomButtons();
     }
 
+    public void NewAtom(AtomSaveData atomSaveData){
+        int position = atomSaveData.position;
+        //instancio
+        Atom spawnedAtom = Instantiate<Atom>(atomPrefab);
+        //asigno position
+        spawnedAtom.transform.localPosition = positionManager.Positions[position];
+        //agrego a la lista
+        atomsList.Add(spawnedAtom);
+        //asigno su índice a este átomo
+        spawnedAtom.AtomIndex = position;
+        spawnedAtom.SpawnFromSaveData(atomSaveData.protons, atomSaveData.neutrons, atomSaveData.electrons);
+        activateDeactivateAtomButtons();
+    }
+
     //seleccionar átomo
     public void SelectAtom(int index)
     {
@@ -212,6 +226,14 @@ public class AtomManager : MonoBehaviour
             popup.MostrarPopUp("Manager Átomo", "No hay más lugar para crear un nuevo átomo");
         }
         activateDeactivateAtomButtons();
+    }
+
+    public void SpawnFromSaveData(AtomSaveData atomSaveData){
+        if(positionManager.OccupyPosition(atomSaveData.position)){
+            NewAtom(atomSaveData);
+        }else{
+            Debug.LogError("Átomo en posición " + atomSaveData.position + " no cargado");
+        }
     }
 
     //activa-desactiva botones de acuerdo a la cant de átomos

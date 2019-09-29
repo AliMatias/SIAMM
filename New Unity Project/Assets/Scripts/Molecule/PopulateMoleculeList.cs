@@ -115,6 +115,11 @@ public class PopulateMoleculeList : MonoBehaviour
         }
     }
 
+    public void AddMolecule(string name, int position, int moleculeId){
+        List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(moleculeId);
+        moleculeManager.SpawnMoleculeFromSavedData(atomsPosition, name, position, moleculeId);
+    }
+
     /*
      * Elimina el contenido de la lista y la vuelve a popular con las moleculas filtradas
      * Solo filtra por nomenclatura tradicional (ej. "Agua") o formula molecular (ej. "H2O")

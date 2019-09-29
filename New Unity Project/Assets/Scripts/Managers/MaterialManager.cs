@@ -27,10 +27,21 @@ public class MaterialManager : MonoBehaviour
     public void SpawnMaterial(MaterialData materialData)
     {
         MaterialObject newMaterial = GetMaterialPos();
-
         newMaterial.SetMaterialName(materialData.Name);
-        
+        newMaterial.MaterialId = materialData.Id;
+        newMaterial.ModelFile = materialData.ModelFile;
         newMaterial.SpawnModel(Resources.Load("MaterialModels/" + materialData.ModelFile, typeof(GameObject)));
+    }
+
+    public void SpawnMaterialFromSave(int position, int id, string name, string modelFile){
+        MaterialObject newMaterial = Instantiate<MaterialObject>(materialPrefab);
+        newMaterial.transform.localPosition = positionManager.Positions[position];
+        newMaterial.MaterialIndex = position;
+        materials.Add(newMaterial);
+        newMaterial.SetMaterialName(name);
+        newMaterial.MaterialId = id;
+        newMaterial.ModelFile = modelFile;
+        newMaterial.SpawnModel(Resources.Load("MaterialModels/" + modelFile, typeof(GameObject)));
     }
 
     private MaterialObject GetMaterialPos()
