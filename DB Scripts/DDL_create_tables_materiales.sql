@@ -1,7 +1,8 @@
 
 CREATE TABLE "materiales_lista"(
 	"id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,
-	"nombre" TEXT NULL);
+	"nombre" TEXT NULL,
+	"archivo_modelo" TEXT NOT NULL);
 
 
 CREATE TABLE "materiales_mapping_element"(
