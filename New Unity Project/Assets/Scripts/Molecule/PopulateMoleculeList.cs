@@ -24,10 +24,6 @@ public class PopulateMoleculeList : MonoBehaviour
 
     void Start()
     {
-        // arranca oculto y desactivado
-        gameObject.GetComponent<CanvasGroup>().alpha = 0;
-        gameObject.SetActive(false);
-
         popup = FindObjectOfType<UIPopup>();
         inputFilter = gameObject.GetComponentInChildren<InputField>();
 
