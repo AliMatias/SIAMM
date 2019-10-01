@@ -32,9 +32,6 @@ public class OpenMenus : MonoBehaviour
     */
     public void OpenBottomPanel()
     {
-        /*este fix es para que siempre si se cierra el panel vuelva a mostrar el tab nomclatures, esto es asi porque originalmente se hacia con ACTIVE.. y con alpha.. complica
-        * si se deja como inactive / active los datos no pueden ser cargados desde la base de datos.         
-        */
         restoreAlphasTabbedMenu();
 
         // traigo todos los atomos seleccionados
@@ -87,9 +84,6 @@ public class OpenMenus : MonoBehaviour
      */
     public void CloseBottomPanel()
     {
-        /*este fix es para que siempre si se cierra el panel vuelva a mostrar el tab nomclatures, esto es asi porque originalmente se hacia con ACTIVE.. y con alpha.. complica
-        * si se deja como inactive / active los datos no pueden ser cargados desde la base de datos.         
-        */
         restoreAlphasTabbedMenu();
 
         if (infoPanelElements.alpha == 1)
@@ -97,12 +91,10 @@ public class OpenMenus : MonoBehaviour
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
         }
 
-
         if (infoPanelMolecule.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
         }
-
 
         if (infoPanelMaterial.alpha == 1)
         {
@@ -113,9 +105,6 @@ public class OpenMenus : MonoBehaviour
     //que si algun panel esta en 1 quiere decir que el usuario en algun momento LO ACTIVO.. por lo tanto... tendria que ver ver la forma de hacer una combinacion
     public void CloseBottomPanelCombine()
     {
-        /*este fix es para que siempre si se cierra el panel vuelva a mostrar el tab nomclatures, esto es asi porque originalmente se hacia con ACTIVE.. y con alpha.. complica
-       * si se deja como inactive / active los datos no pueden ser cargados desde la base de datos.         
-       */
         restoreAlphasTabbedMenu();
 
         // traigo todos los atomos seleccionados
@@ -123,23 +112,48 @@ public class OpenMenus : MonoBehaviour
         var selectedMolecules = moleculeManager.GetSelectedMolecules();
         var selectedMaterials = materialManager.GetSelectedMaterials();
 
-        //el count de moleculas es para decir cambie de tipo ahora para mostrar..etando ya un panel abierto
+        //son 6 combinaciones puesto que tengo 3 paneles con 2 condiciones por cada uno
         if (infoPanelElements.alpha == 1 && infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
         }
 
-        //el count de moleculas es para decir cambie de tipo ahora para mostrar..etando ya un panel abierto
+        if (infoPanelElements.alpha == 1 && infoPanelMaterial.alpha == 0 && selectedMaterials.Count == 1)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+        }
+
         if (infoPanelMolecule.alpha == 1 && infoPanelElements.alpha == 0 && selectedAtoms.Count == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
         }
 
+        if (infoPanelMolecule.alpha == 1 && infoPanelMaterial.alpha == 0 && selectedMaterials.Count == 1)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+        }
+
+        if (infoPanelMaterial.alpha == 1 && infoPanelElements.alpha == 0 && selectedAtoms.Count == 1)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+        }
+
+        if (infoPanelMaterial.alpha == 1 && infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+        }
     }
 
 
+    /* este fix es para que siempre si se cierra el panel vuelva a mostrar el tab nomclatures, esto es asi porque originalmente se hacia con ACTIVE.. y con alpha.. complica
+     * si se deja como inactive / active los datos no pueden ser cargados desde la base de datos.   
+     */
     private void restoreAlphasTabbedMenu()
     {
         foreach (CanvasGroup tab in tabbedMenuMolecules)
