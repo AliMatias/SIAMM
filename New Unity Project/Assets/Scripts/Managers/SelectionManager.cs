@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
 {
+    
+    #region atributos
+
     private CombinationManager combinationManager;
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
@@ -20,6 +23,8 @@ public class SelectionManager : MonoBehaviour
     public List<int> SelectedObjects { get => selectedObjects; }
 
     public GameObject PanelElements { get => panelElements; }
+
+    #endregion
 
     private void Awake()
     {
@@ -116,10 +121,14 @@ public class SelectionManager : MonoBehaviour
             // Este material ya estaba seleccionada. Se quitará la selección
             selectedObjects.Remove(material.MaterialIndex);
             material.Deselect();
+
+            //si se quita la seleccion y no hay otros seleccionados cierra panel
+            mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanel();
+
             return false;
         }
 
-        // si habia uno seleccionado, lo deselecciono
+        // si habia uno seleccionado, lo deselecciono  ->>> CREO QUE ACA ESTA EL PROBLEMA DEL BUG, QUE PIERDE EL INDEX DE LA SELECCION.. AL MOMENTO DE COMBINAR!
         if (!combinationManager.CombineMode)
         {
             DeselectAll();
@@ -127,6 +136,12 @@ public class SelectionManager : MonoBehaviour
 
         selectedObjects.Add(material.MaterialIndex);
         material.Select();
+
+        //seteo info en panel inferior de elementos
+        mainInfoPanel.SetInfoMaterial(material);
+        //hay que controlar SI no esta abierto otro de los menues!
+        mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanelCombine();
+
         //no muestro panel de agregar elementos porque no es un atomo
         panelElements.GetComponent<CanvasGroup>().alpha = 0;
         return true;
@@ -147,7 +162,11 @@ public class SelectionManager : MonoBehaviour
         else
         {
             // en el modo combinacion no se pueden seleccionar materiales
-            DeselectAllMaterials();
+            //DeselectAllMaterials();
+
+            //CON ESTO ESTARIA ARREGLANDO EL BUG QUE AL OCMBINAR SALTA EL POPUP DE QUE FALTAN ELEGIR ELEMENTOS.. CHARLARLO LUEGO
+            DeselectAll();
+
             //no muestro panel de agregar elementos cuando se activa el switch
             panelElements.GetComponent<CanvasGroup>().alpha = 0;
         }

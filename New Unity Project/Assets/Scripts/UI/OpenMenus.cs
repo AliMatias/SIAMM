@@ -6,6 +6,7 @@ public class OpenMenus : MonoBehaviour
 {
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
+    private MaterialManager materialManager;
 
     //para administrar los 3 paneles
     private CanvasGroup infoPanelElements;
@@ -13,7 +14,7 @@ public class OpenMenus : MonoBehaviour
     private CanvasGroup infoPanelMaterial;
 
     public CanvasGroup[] tabbedMenuMolecules;
-    private MaterialManager materialManager;
+    public CanvasGroup[] tabbedMenuMateriales;
 
     private void Awake()
     {
@@ -22,7 +23,7 @@ public class OpenMenus : MonoBehaviour
         materialManager = FindObjectOfType<MaterialManager>();
         infoPanelElements = transform.Find("InfoContainerElementos").GetComponent<CanvasGroup>();
         infoPanelMolecule = transform.Find("InfoContainerMoleculas").GetComponent<CanvasGroup>();
-        //infoPanelMaterial = transform.Find("InfoContainerMaterial").GetComponent<CanvasGroup>();
+        infoPanelMaterial = transform.Find("InfoContainerMateriales").GetComponent<CanvasGroup>();
     }
 
     /*
@@ -65,7 +66,19 @@ public class OpenMenus : MonoBehaviour
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
         }
 
-        
+
+
+        // si hay un solo material seleccionada y ningun atomo o molecula, muestro info panel
+        else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 0 && selectedMaterials.Count == 1 && infoPanelMaterial.alpha == 0)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+        }
+
+        else if (infoPanelMaterial.alpha == 1)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+        }
+
     }
 
     /*
@@ -88,7 +101,13 @@ public class OpenMenus : MonoBehaviour
         if (infoPanelMolecule.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
-        }    
+        }
+
+
+        if (infoPanelMaterial.alpha == 1)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+        }
     }
 
     //que si algun panel esta en 1 quiere decir que el usuario en algun momento LO ACTIVO.. por lo tanto... tendria que ver ver la forma de hacer una combinacion
@@ -117,6 +136,7 @@ public class OpenMenus : MonoBehaviour
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
         }
+
     }
 
 
@@ -129,5 +149,14 @@ public class OpenMenus : MonoBehaviour
             else
                 tab.alpha = 0;
         }
+
+        foreach (CanvasGroup tab in tabbedMenuMateriales)
+        {
+            if (tab.gameObject.name == "Content1")
+                tab.alpha = 1;
+            else
+                tab.alpha = 0;
+        }
     }
+
 }
