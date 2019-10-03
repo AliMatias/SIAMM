@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-//script que abre el panel de tabla periódica
 public class OpenMenus : MonoBehaviour
 {
+    #region Atributos
+
     private AtomManager atomManager;
     private MoleculeManager moleculeManager;
     private MaterialManager materialManager;
@@ -16,6 +17,8 @@ public class OpenMenus : MonoBehaviour
     public CanvasGroup[] tabbedMenuMolecules;
     public CanvasGroup[] tabbedMenuMateriales;
 
+    #endregion
+
     private void Awake()
     {
         atomManager = FindObjectOfType<AtomManager>();
@@ -25,6 +28,9 @@ public class OpenMenus : MonoBehaviour
         infoPanelMolecule = transform.Find("InfoContainerMoleculas").GetComponent<CanvasGroup>();
         infoPanelMaterial = transform.Find("InfoContainerMateriales").GetComponent<CanvasGroup>();
     }
+
+    #region Metodos
+
 
     /*
     * metodo principal para el manejo de la apertura del panel INFOPANEL padre de los otros paneles de informacion
@@ -43,26 +49,16 @@ public class OpenMenus : MonoBehaviour
         if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && selectedMaterials.Count == 0 && infoPanelElements.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+            setInactiveRayCast(infoPanelMolecule);
+            setInactiveRayCast(infoPanelMaterial);
         }
-
-        else if (infoPanelElements.alpha == 1)
-        {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
-        }
-
-        
-        
+    
         // si hay una sola molecula seleccionada y ningun atomo o material, muestro info panel
         else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 1 && selectedMaterials.Count == 0 && infoPanelMolecule.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+            setInactiveRayCast(infoPanelMaterial);
         }
-
-        else if (infoPanelMolecule.alpha == 1)
-        {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
-        }
-
 
 
         // si hay un solo material seleccionada y ningun atomo o molecula, muestro info panel
@@ -71,11 +67,8 @@ public class OpenMenus : MonoBehaviour
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
         }
 
-        else if (infoPanelMaterial.alpha == 1)
-        {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
-        }
-
+        //verifica que quiza tenga que cerrar algun panel
+        CloseBottomPanel();
     }
 
     /*
@@ -89,11 +82,14 @@ public class OpenMenus : MonoBehaviour
         if (infoPanelElements.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
+            setActiveRayCast(infoPanelMolecule);
+            setActiveRayCast(infoPanelMaterial);
         }
 
         if (infoPanelMolecule.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
+            setActiveRayCast(infoPanelMaterial);
         }
 
         if (infoPanelMaterial.alpha == 1)
@@ -115,38 +111,62 @@ public class OpenMenus : MonoBehaviour
         //son 6 combinaciones puesto que tengo 3 paneles con 2 condiciones por cada uno
         if (infoPanelElements.alpha == 1 && infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//quita elementos
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//muestra moleculas
+
+            setActiveRayCast(infoPanelElements);
+            setActiveRayCast(infoPanelMolecule);
+            setInactiveRayCast(infoPanelMaterial);
         }
 
         if (infoPanelElements.alpha == 1 && infoPanelMaterial.alpha == 0 && selectedMaterials.Count == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//quita elementos
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//muestra materiales
+
+            setActiveRayCast(infoPanelElements);
+            setActiveRayCast(infoPanelMolecule);
+            setActiveRayCast(infoPanelMaterial);
         }
 
         if (infoPanelMolecule.alpha == 1 && infoPanelElements.alpha == 0 && selectedAtoms.Count == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//quita moleculas
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//muestra elementos
+
+            setActiveRayCast(infoPanelElements);
+            setInactiveRayCast(infoPanelMolecule);
+            setInactiveRayCast(infoPanelMaterial);
         }
 
         if (infoPanelMolecule.alpha == 1 && infoPanelMaterial.alpha == 0 && selectedMaterials.Count == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//quita moleculas
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//muestra materiales
+
+            setActiveRayCast(infoPanelElements);
+            setActiveRayCast(infoPanelMolecule);
+            setActiveRayCast(infoPanelMaterial);
         }
 
         if (infoPanelMaterial.alpha == 1 && infoPanelElements.alpha == 0 && selectedAtoms.Count == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//muestra elementos
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//quita materiales
+
+            setActiveRayCast(infoPanelElements);
+            setInactiveRayCast(infoPanelMolecule);
+            setInactiveRayCast(infoPanelMaterial);
         }
 
         if (infoPanelMaterial.alpha == 1 && infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//muestra moleculas
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//quita materiales
+
+            setActiveRayCast(infoPanelElements);
+            setActiveRayCast(infoPanelMolecule);
+            setInactiveRayCast(infoPanelMaterial);
         }
     }
 
@@ -173,4 +193,21 @@ public class OpenMenus : MonoBehaviour
         }
     }
 
+
+    /* Este fix tiene que ver con la "herencia y/o orden" de los GO en el canvas, como este hilo contenedor tiene 3 paneles el ultimo, siempre esta activo
+     * dandole prioridad sobre los otros anteriores, aqui hay 3 paneles osea que hay 2 inactivos, una opcion es utilizar SETACTIVE nativo de unity pero
+     * el problema es que habria que ir activando y desactivando a cada rato cada vez que tiene que ir a buscar  la base de datos porque sino no carga los datos
+     * sobre un objeto INACTIVO. Por eso usamos CANVASGROUP y se evalua eso sin usar ACTIVE O INACTIVE 
+     */
+    private void setInactiveRayCast(CanvasGroup objActivar)
+    {
+        objActivar.blocksRaycasts = false;
+    }
+
+    private void setActiveRayCast(CanvasGroup objActivar)
+    {
+        objActivar.blocksRaycasts = true;
+    }
+
+    #endregion
 }
