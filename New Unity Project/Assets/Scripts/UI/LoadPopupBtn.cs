@@ -49,6 +49,12 @@ public class LoadPopupBtn : MonoBehaviour
                 setPointersToolTipStaticMove("* MOLÉCULAS", offset);
                 break;
 
+            case TypeToolTip.mnuSuggestions:
+                //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
+                offset = new Vector3(-70, 0, 0);
+                setPointersToolTipStaticMove("* SUGERENCIAS", offset);
+                break;
+
             case TypeToolTip.closeTper:        
                 setPointersToolTipMove("CERRAR TABLA PERIODICA");
                 break;

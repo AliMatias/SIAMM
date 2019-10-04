@@ -1,5 +1,5 @@
-public class MaterialData{
-    
+public class MaterialData
+{    
     private int id;
     private string name;
     private string modelFile;
@@ -14,4 +14,8 @@ public class MaterialData{
         this.name = name;
         this.modelFile = modelFile;
     }
+
+    public new string ToString => "[Material]: " + name;
+
+    public string ToStringToList => name + " (Material)";
 }

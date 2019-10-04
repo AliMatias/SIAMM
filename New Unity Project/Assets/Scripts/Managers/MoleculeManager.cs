@@ -10,6 +10,7 @@ public class MoleculeManager : MonoBehaviour
     #region Atributos
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
+    private SuggestionManager suggestionManager;
     private QryElementos qryElement;
     //prefab de molécula
     public Molecule moleculePrefab;
@@ -34,6 +35,8 @@ public class MoleculeManager : MonoBehaviour
         GameObject go = new GameObject();
         go.AddComponent<QryElementos>();
         qryElement = go.GetComponent<QryElementos>();
+
+        suggestionManager = FindObjectOfType<SuggestionManager>();
 
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("moleculeToggle");
         foreach (GameObject btn in buttons)
@@ -157,6 +160,9 @@ public class MoleculeManager : MonoBehaviour
 
         //interacion sobre los botones de la UI
         activateDeactivateMoleculeButtons();
+
+        // actualizo panel de sugerencias
+        suggestionManager.updateSuggestions();
     }
 
     //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom") METODO PARA SPAWN DESDE LISTA 
@@ -226,7 +232,6 @@ public class MoleculeManager : MonoBehaviour
     // BORRAR molécula
     public void DeleteMolecule(Molecule molecule)
     {
-        Debug.Log(molecule.MoleculeIndex);
         // la saco de la lista
         molecules.Remove(molecule);
         selectionManager.RemoveObject(molecule.MoleculeIndex);
@@ -238,6 +243,7 @@ public class MoleculeManager : MonoBehaviour
         //no va popup
         Debug.Log("[MoleculeManager] :: Se ha borrado la molécula " + molecule.MoleculeIndex);
 
+        suggestionManager.updateSuggestions();
         activateDeactivateMoleculeButtons();
     }
 
@@ -245,18 +251,7 @@ public class MoleculeManager : MonoBehaviour
     public void DeleteMolecule(int moleculeIndex)
     {
         Molecule molecule = FindMoleculeInList(moleculeIndex);
-        // la saco de la lista
-        molecules.Remove(molecule);
-        selectionManager.RemoveObject(moleculeIndex);
-        // la destruyo
-        Destroy(molecule);
-        // disponibilizo la posición de nuevo
-        positionManager.AvailablePositions[moleculeIndex] = true;
-
-        //no va popup
-        Debug.Log("[MoleculeManager] :: Se ha borrado la molécula " + moleculeIndex);
-
-        activateDeactivateMoleculeButtons();
+        DeleteMolecule(molecule);
     }
 
     public List<int> GetSelectedMolecules()

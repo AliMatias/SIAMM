@@ -381,6 +381,10 @@ public class Atom: MonoBehaviour
                 else
                 {
                     elementText = "no encontrado.";
+                    if (!fromTable)
+                    {
+                        ElementNumber = 0;
+                    }
                     typeAtom = TypeAtomEnum.noEncontrado;
                 }
             }
@@ -394,6 +398,10 @@ public class Atom: MonoBehaviour
                 else
                 {
                     elementText = "no encontrado.";
+                    if (!fromTable)
+                    {
+                        ElementNumber = 0;
+                    }
                     typeAtom = TypeAtomEnum.noEncontrado;
                 }
             }
