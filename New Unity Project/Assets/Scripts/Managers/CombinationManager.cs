@@ -333,6 +333,7 @@ public class CombinationManager : MonoBehaviour
             MaterialMappingData mapping = qryMaterial.GetMaterialByMoleculeId(moleculeIds[0]);
             MoleculeData molecule = qryMolecule.GetMoleculeById(mapping.IdMolecule);
             MaterialData material = qryMaterial.GetMaterialById(mapping.IdMaterial);
+
             if (material == null)
             {
                 popup.MostrarPopUp("Combinación", "No se encontró ninguna combinación posible");

@@ -13,15 +13,18 @@ public class MainInfoPanel : MonoBehaviour
     //contenedor para la info de atomos luego ira cada uno de los otros
     public CanvasGroup infoContainer;
     public CanvasGroup infoContainerMolecule;
+    public CanvasGroup infoContainerMaterial;
 
     //objeto con el que interactúo para acceder a la DB
     private QryElementos qryElement;
     private QryMoleculas qryMolecule;
+    private QryMaterials qryMaterial;
 
     //labels donde muestra info
     private TextMeshProUGUI nameLbl;
     private TextMeshProUGUI nameLblMolecule;
-     
+    private TextMeshProUGUI nameLblMaterial;
+
     public GameObject[] suggestionButtons;
     //imagen del boton
     public GameObject elementBtn;
@@ -42,11 +45,16 @@ public class MainInfoPanel : MonoBehaviour
         go1.AddComponent<QryMoleculas>();
         qryMolecule = go1.GetComponent<QryMoleculas>();
 
+        GameObject go2 = new GameObject();
+        go2.AddComponent<QryMaterials>();
+        qryMaterial = go2.GetComponent<QryMaterials>();
+
         InitializeCategoryDictionary();
         PanelInfoLoader = FindObjectOfType<PanelInfoLoader>();
 
         nameLblMolecule = infoContainerMolecule.GetComponentInChildren<TextMeshProUGUI>();
         nameLbl = infoContainer.GetComponentInChildren<TextMeshProUGUI>(); //aunque hay 2 lbl el 1ro es el name
+        nameLblMaterial= infoContainerMaterial.GetComponentInChildren<TextMeshProUGUI>();
     }
 
     #region elementos
@@ -164,6 +172,35 @@ public class MainInfoPanel : MonoBehaviour
             PanelInfoLoader.SetPanelInfoMolecule(molecule);
         }
     }
+
+    #endregion
+
+    #region Materiales
+
+    /*utilizado desde el selection manager*/
+    public void SetInfoMaterial(MaterialObject mapping)
+    {
+        MaterialData material = qryMaterial.GetMaterialById(mapping.MaterialId);
+
+        if (material != null)
+        {
+            nameLblMaterial.text = material.Name;
+            //carga los datos especiales de la molecula en el panel especial
+            PanelInfoLoader.SetPanelInfoMaterial(material);
+        }
+    }
+
+    /*Utilizado desde el Material Manager*/
+    public void SetInfoMaterial(MaterialData material)
+    {      
+        if (material != null)
+        {
+            nameLblMaterial.text = material.Name;
+            //carga los datos especiales de la molecula en el panel especial
+            PanelInfoLoader.SetPanelInfoMaterial(material);
+        }
+    }
+
 
     #endregion
 }

@@ -10,9 +10,11 @@ public class PanelInfoLoader : MonoBehaviour
     //panel padre (asignado por interfaz)
     public GameObject panelElementos;
     public GameObject panelMoleculas;
+    public GameObject panelMateriales;
     //array de textos a modificar
     private TextMeshProUGUI[] textsElementos;
     private TextMeshProUGUI[] textsMol;
+    private TextMeshProUGUI[] textsMat;
 
     #endregion
 
@@ -22,6 +24,7 @@ public class PanelInfoLoader : MonoBehaviour
         //no importa si tengo como en este caso panel de panel...
         textsElementos = panelElementos.GetComponentsInChildren<TextMeshProUGUI>();
         textsMol = panelMoleculas.GetComponentsInChildren<TextMeshProUGUI>();
+        textsMat = panelMateriales.GetComponentsInChildren<TextMeshProUGUI>();
     }
 
     #region Metodos 
@@ -73,7 +76,23 @@ public class PanelInfoLoader : MonoBehaviour
         }
     }
 
-
+    //setea la info básica y muestra el panel de materiales
+    public void SetPanelInfoMaterial(MaterialData matInfo)
+    {
+        foreach (TextMeshProUGUI a in textsMat)
+        {
+            if (a.name == "txtCaracteristicas")
+                a.text = "Caracteristicas: \n" + managerNullables(matInfo.Caracteristicas);
+            if (a.name == "txtPropiedades")
+                a.text = "Propiedades: \n" + managerNullables(matInfo.Propiedades);
+            if (a.name == "txtUsos")
+                a.text = "Usos: \n" + managerNullables(matInfo.Usos);
+            if (a.name == "txtClasificacion")
+                a.text = "Clasificación: \n" + managerNullables(matInfo.Clasificacion);
+            if (a.name == "txtNotas")
+                a.text = "Resumen: \n" + managerNullables(matInfo.Notas);
+        }
+    }
 
     private string managerNullables(String valor)
     {
