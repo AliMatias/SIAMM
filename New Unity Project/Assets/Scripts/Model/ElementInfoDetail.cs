@@ -51,9 +51,7 @@ public class ElementInfoDetail
     public string energias_de_ionizacion { get; set; }
 
     //constructor
-    public ElementInfoDetail()
-    {
-    }
+    public ElementInfoDetail() { }
 
     public ElementInfoDetail(int nroatomico, string isotopos_estables, string isotopos_aplicaciones, string tipo_electrico, string radiactivo, string abundancia_corteza_terrestre, string descubrimiento, string descubierto_por, string angulos_de_red, string vida_media, string modulo_compresibilidad, string dureza_brinell, string presion_critica, string temperatura_critica, string conductividad_electrica, Nullable<float> densidad, string radio_covalente, string afinidad_electronica, string punto_curie, string modo_decaimiento, Nullable<float> electronegatividad, string densidadliquida, string constante_red, string multiplicidad_atomica_gas, string calor_de_fusion, string calor_de_vaporizacion, string tipo_magnetico, string susceptibilidad_magnetica, Nullable<float> volumen_molar, string radio_poisson, string numeros_cuanticos, Nullable<float> indice_refractivo, string resistividad, string conductividad_termica, string punto_superconductividad, string expansion_termica, string velocidad_sonido, Nullable<float> numero_grupos_espaciales, string nombre_grupo_espacial, string radio_van_der_waals, Nullable<float> radio_atomico_en_angstroms, Nullable<float> radio_covalente_en_angstroms, Nullable<float> radio_van_der_waals_en_angstroms, string modulo_young, string nombres_alotropicos, string energias_de_ionizacion)
     {

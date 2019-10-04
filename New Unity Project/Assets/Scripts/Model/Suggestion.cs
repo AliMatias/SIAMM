@@ -3,11 +3,6 @@ public class Suggestion{
     private int id;
     private int idMolecula;
     private int idSugerido;
-    
-    //constructor
-    public Suggestion()
-    {
-    }
 
     public Suggestion(int id, int idMolecula, int idSugerido)
     {

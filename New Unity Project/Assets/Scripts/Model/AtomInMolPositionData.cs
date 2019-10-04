@@ -11,7 +11,6 @@
     private int connectionType;
     private int lineType;
 
-    //constructor
     public AtomInMolPositionData()
     {
     }

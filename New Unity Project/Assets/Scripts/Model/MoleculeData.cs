@@ -13,10 +13,6 @@ public class MoleculeData
 
 
     //constructor
-    public MoleculeData()
-    {
-    }
-
     public MoleculeData(int Id, string Formula, string SystematicNomenclature, string StockNomenclature, string TraditionalNomenclature, string Caracteristicas, string Propiedades, string Usos, string Clasificacion)
     {
         this.Id = Id;

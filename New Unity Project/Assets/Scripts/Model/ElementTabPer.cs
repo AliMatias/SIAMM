@@ -8,11 +8,6 @@ public class ElementTabPer
     private float pesoAtomico;
     private string clasificacionGrupo;
 
-    //constructor
-    public ElementTabPer()
-    {
-    }
-
     /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
     public string Name { get => name; set => name = value; }
     public string Simbol { get => simbol; set => simbol = value; }
