@@ -5,10 +5,10 @@ public class MaterialMappingData{
     private int idMolecule;
     private int amount;
 
-    public int IdMaterial { get => idMaterial; set => idMaterial = value; }
-    public int IdElement { get => idElement; set => idElement = value; }
-    public int IdMolecule { get => idMolecule; set => idMolecule = value; }
-    public int Amount { get => amount; set => amount = value; }
+    //constructor
+    public MaterialMappingData()
+    {
+    }
 
     public MaterialMappingData(int idMaterial, int idElement, int idMolecule, int amount)
     {
@@ -17,4 +17,11 @@ public class MaterialMappingData{
         this.idMolecule = idMolecule;
         this.amount = amount;
     }
+
+    public int IdMaterial { get => idMaterial; set => idMaterial = value; }
+    public int IdElement { get => idElement; set => idElement = value; }
+    public int IdMolecule { get => idMolecule; set => idMolecule = value; }
+    public int Amount { get => amount; set => amount = value; }
+
+  
 }

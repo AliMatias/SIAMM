@@ -9,6 +9,11 @@ public class IsotopoAllData
     private string masaAtomicaRelativa;
     private string composicionIsotopica;
     private string pesoAtomicoEstandar;
+    
+    //constructor
+    public IsotopoAllData()
+    {
+    }
 
     /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
     public int Id { get => id; set => id = value; }

@@ -8,6 +8,11 @@ public class MovementLimit
     private float front;
     private float back;
 
+    //constructor
+    public MovementLimit()
+    {
+    }
+
     public MovementLimit(float superior, float inferior, float left, float right, float front, float back)
     {
         this.superior = superior;

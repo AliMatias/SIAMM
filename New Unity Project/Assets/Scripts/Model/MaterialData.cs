@@ -8,6 +8,11 @@ public class MaterialData{
     private string propiedades;
     private string usos;
     private string notas;
+    
+    //constructor
+    public MaterialData()
+    {
+    }
 
     public int Id { get => id; set => id = value; }
     public string Name { get => name; set => name = value; }

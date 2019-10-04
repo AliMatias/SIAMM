@@ -5,6 +5,7 @@ public class OrbitData
     public string Name { get; set; }
     public int MaxElectrons { get; set; }
 
+    //constructor
     public OrbitData()
     {
         Number = 1;

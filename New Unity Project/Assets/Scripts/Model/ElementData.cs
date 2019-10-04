@@ -10,6 +10,11 @@ public class ElementData
     private int maxelectronsgana;
     private int maxelectronspierde;
 
+    //constructor
+    public ElementData()
+    {
+    }
+
     /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
     public string Name { get => name; set => name = value; }
     public int Protons { get => protons; set => protons = value; }

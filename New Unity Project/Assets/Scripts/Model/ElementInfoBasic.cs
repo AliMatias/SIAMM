@@ -20,6 +20,11 @@ public class ElementInfoBasic
     private string punto_ebullicion;
     private string resumen;
 
+    //constructor
+    public ElementInfoBasic()
+    {
+    }
+
     /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
     public int Nroatomico { get => nroatomico; set => nroatomico = value; } 
     public string Simbol    { get => simbol; set => simbol = value; } 

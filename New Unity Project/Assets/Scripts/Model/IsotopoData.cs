@@ -6,6 +6,11 @@ public class IsotopoData
     private int masa;
     private int estable;
 
+    //constructor
+    public IsotopoData()
+    {
+    }
+
     /*Get & Set version nueva para funcionalidades extra, la vieja forma de codificacion se modifico*/
     public int Id { get => id; set => id = value; }
     public string Name { get => name; set => name = value; }
