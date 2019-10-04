@@ -100,7 +100,7 @@ public class PopulateMaterialList : MonoBehaviour
     /**
      * Agrega el material seleccionado al workspace
      */
-    public void AddMolecule()
+    public void AddMaterial()
     {
         if (SelectedMaterial != null)
         {
@@ -108,4 +108,60 @@ public class PopulateMaterialList : MonoBehaviour
         }
     }
 
+    /*
+     * Elimina el contenido de la lista y la vuelve a popular con los materiales filtrados
+     * Es case insensitive e ignora tildes.
+     * Es llamado con el evento OnValueChanged del InputField de la lista de moleculas
+     * Busca mientras el usuario escribe
+     */
+    public void FilterMaterials()
+    {
+        if (inputFilter != null)
+        {
+            string searchQuery = EliminarTildes(inputFilter.text.ToUpper());
+            ClearList();
+            foreach (MaterialData material in materialList)
+            {
+                if (searchQuery == "" ||
+                    EliminarTildes(material.Name).ToUpper().Contains(searchQuery))
+                {
+                    LoadMaterialToList(material);
+                }
+            }
+        }
+    }
+
+    /**
+     * Elimina todos los elementos de la lista
+     */
+    private void ClearList()
+    {
+        SelectedMaterial = null;
+        int childCount = content.transform.childCount;
+        for (int i = 0; i < childCount; i++)
+        {
+            GameObject child = content.transform.GetChild(i).gameObject;
+            Destroy(child);
+        }
+    }
+
+    /**
+     * Este metodo sirve para eliminar los tildes de un string
+     * Ademas de tildes todos los caracteres Unicode de categoria NonSpacing Mark
+     * Especificados aca: https://www.fileformat.info/info/unicode/category/Mn/list.htm
+     */
+    public string EliminarTildes(String s)
+    {
+        string normalizar = s.Normalize(NormalizationForm.FormD);
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for (int i = 0; i < normalizar.Length; i++)
+        {
+            Char c = normalizar[i];
+            if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+                stringBuilder.Append(c);
+        }
+
+        return stringBuilder.ToString();
+    } 
 }
