@@ -188,7 +188,7 @@ public class QryElementos : MonoBehaviour
 
         try
         { 
-            string sqlQuery = "SELECT isotopo, numero_de_masa, estable FROM valida_isotopos WHERE neutrones="
+            string sqlQuery = "SELECT id, isotopo, numero_de_masa, estable FROM valida_isotopos WHERE neutrones="
             + neutrones + " AND numero_atomico=" + numeroAtomico + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -197,9 +197,10 @@ public class QryElementos : MonoBehaviour
 
             while (reader.Read())
             {
-                isotopoData.Name = reader.GetString(0);
-                isotopoData.Masa = reader.GetInt32(1);
-                isotopoData.Estable = reader.GetInt32(2);
+                isotopoData.Id = reader.GetInt32(0);
+                isotopoData.Name = reader.GetString(1);
+                isotopoData.Masa = reader.GetInt32(2);
+                isotopoData.Estable = reader.GetInt32(3);
             }           
         }
         catch (Exception e)
@@ -225,7 +226,7 @@ public class QryElementos : MonoBehaviour
 
         try
         {
-            string sqlQuery = "SELECT id, numero_atomico, numero_correlativo, isotopo, numero_masa, masa_atomica_relativa, composicion_isotopica, peso_atomico_estandar WHERE id="
+            string sqlQuery = "SELECT id, numero_atomico, numero_correlativo, isotopo, numero_masa, masa_atomica_relativa, composicion_isotopica, peso_atomico_estandar FROM isotopos WHERE id="
             + idIsotopo + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -237,7 +238,7 @@ public class QryElementos : MonoBehaviour
                 isotopoData.Id = reader.GetInt32(0);
                 isotopoData.NumeroAtomico = reader.GetInt32(1);
                 isotopoData.NumeroCorrelativo = reader.GetInt32(2);
-                isotopoData.Isotopo = reader.GetInt32(3);
+                isotopoData.Isotopo = dBManager.SafeGetString(reader, 3);
                 isotopoData.NumeroMasa = reader.GetInt32(4);
                 isotopoData.MasaAtomicaRelativa = dBManager.SafeGetString(reader, 5);
                 isotopoData.ComposicionIsotopica = dBManager.SafeGetString(reader, 6);

@@ -13,6 +13,7 @@ public class OpenMenus : MonoBehaviour
     private CanvasGroup infoPanelElements;
     private CanvasGroup infoPanelMolecule;
     private CanvasGroup infoPanelMaterial;
+    private CanvasGroup infoPanelIsotopos;
 
     public CanvasGroup[] tabbedMenuMolecules;
     public CanvasGroup[] tabbedMenuMateriales;
@@ -27,6 +28,7 @@ public class OpenMenus : MonoBehaviour
         infoPanelElements = transform.Find("InfoContainerElementos").GetComponent<CanvasGroup>();
         infoPanelMolecule = transform.Find("InfoContainerMoleculas").GetComponent<CanvasGroup>();
         infoPanelMaterial = transform.Find("InfoContainerMateriales").GetComponent<CanvasGroup>();
+        infoPanelIsotopos = transform.Find("InfoContainerIsotopos").GetComponent<CanvasGroup>();
     }
 
     #region Metodos
@@ -46,18 +48,35 @@ public class OpenMenus : MonoBehaviour
         var selectedMaterials = materialManager.GetSelectedMaterials();
 
         // si hay un solo atomo seleccionado y ninguna molecula o material, muestro info panel
-        if (selectedAtoms.Count == 1 && selectedMolecules.Count == 0 && selectedMaterials.Count == 0 && infoPanelElements.alpha == 0)
+        if (selectedAtoms.Count == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
-            setInactiveRayCast(infoPanelMolecule);
-            setInactiveRayCast(infoPanelMaterial);
+            //obtiene el tipo de elemento seleccionado si es un isotopo o no
+            if (atomManager.GetTypeSelectedAtoms() == TypeAtomEnum.atom)
+            {
+                if (selectedMolecules.Count == 0 && selectedMaterials.Count == 0 && infoPanelElements.alpha == 0)
+                {
+                    gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+                    setInactiveRayCast(infoPanelMolecule);
+                    setInactiveRayCast(infoPanelMaterial);
+                    setInactiveRayCast(infoPanelIsotopos);
+                }
+            }
+
+            else if (atomManager.GetTypeSelectedAtoms() == TypeAtomEnum.isotopo)
+            {
+                if (selectedMolecules.Count == 0 && selectedMaterials.Count == 0 && infoPanelIsotopos.alpha == 0)
+                {
+                    gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+                }
+            }
         }
-    
+
         // si hay una sola molecula seleccionada y ningun atomo o material, muestro info panel
         else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 1 && selectedMaterials.Count == 0 && infoPanelMolecule.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
             setInactiveRayCast(infoPanelMaterial);
+            setInactiveRayCast(infoPanelIsotopos);
         }
 
 
@@ -65,6 +84,7 @@ public class OpenMenus : MonoBehaviour
         else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 0 && selectedMaterials.Count == 1 && infoPanelMaterial.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+            setInactiveRayCast(infoPanelIsotopos);
         }
 
         //verifica que quiza tenga que cerrar algun panel
@@ -84,17 +104,25 @@ public class OpenMenus : MonoBehaviour
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
             setActiveRayCast(infoPanelMolecule);
             setActiveRayCast(infoPanelMaterial);
+            setActiveRayCast(infoPanelIsotopos);
         }
 
         if (infoPanelMolecule.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
             setActiveRayCast(infoPanelMaterial);
+            setActiveRayCast(infoPanelIsotopos);
         }
 
         if (infoPanelMaterial.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
+            setActiveRayCast(infoPanelIsotopos);
+        }
+
+        if (infoPanelIsotopos.alpha == 1)
+        {
+            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);
         }
     }
 
@@ -108,65 +136,81 @@ public class OpenMenus : MonoBehaviour
         var selectedMolecules = moleculeManager.GetSelectedMolecules();
         var selectedMaterials = materialManager.GetSelectedMaterials();
 
-        //son 6 combinaciones puesto que tengo 3 paneles con 2 condiciones por cada uno
-        if (infoPanelElements.alpha == 1 && infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
+        //son 9 combinaciones puesto que tengo 3 paneles con 3 condiciones por cada uno
+        //atoms
+        if (infoPanelElements.alpha == 1)        
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//quita elementos
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//muestra moleculas
+            if (infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
+            {
+                CombineAtomMolecules();
+            }
 
-            setActiveRayCast(infoPanelElements);
-            setActiveRayCast(infoPanelMolecule);
-            setInactiveRayCast(infoPanelMaterial);
+            if (infoPanelMaterial.alpha == 0 && selectedMaterials.Count == 1)
+            {
+                CombineAtomMaterials();
+            }
+
+            if (infoPanelIsotopos.alpha == 0 && selectedAtoms.Count == 1 && atomManager.GetTypeSelectedAtoms() == TypeAtomEnum.isotopo)
+            {
+                CombineAtomIsotopos();
+            }
         }
 
-        if (infoPanelElements.alpha == 1 && infoPanelMaterial.alpha == 0 && selectedMaterials.Count == 1)
+        //molecules
+        if (infoPanelMolecule.alpha == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//quita elementos
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//muestra materiales
+            if (infoPanelElements.alpha == 0 && selectedAtoms.Count == 1 && atomManager.GetTypeSelectedAtoms() == TypeAtomEnum.atom)
+            {
+                CombineMoleculesAtom();
+            }
 
-            setActiveRayCast(infoPanelElements);
-            setActiveRayCast(infoPanelMolecule);
-            setActiveRayCast(infoPanelMaterial);
+            if (infoPanelMaterial.alpha == 0 && selectedMaterials.Count == 1)
+            {
+                CombineMoleculesMaterials();
+            }
+
+            if (infoPanelIsotopos.alpha == 0 && selectedAtoms.Count == 1 && atomManager.GetTypeSelectedAtoms() == TypeAtomEnum.isotopo)
+            {
+                CombineMoleculesIsotopos();
+            }
         }
 
-        if (infoPanelMolecule.alpha == 1 && infoPanelElements.alpha == 0 && selectedAtoms.Count == 1)
+        //materiales
+        if (infoPanelMaterial.alpha == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//quita moleculas
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//muestra elementos
+            if (infoPanelElements.alpha == 0 && selectedAtoms.Count == 1 && atomManager.GetTypeSelectedAtoms() == TypeAtomEnum.atom)
+            {
+                CombineMaterialsAtoms();
+            }
 
-            setActiveRayCast(infoPanelElements);
-            setInactiveRayCast(infoPanelMolecule);
-            setInactiveRayCast(infoPanelMaterial);
+            if (infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
+            {
+                CombineMaterialsMolecules();
+            }
+
+            if (infoPanelIsotopos.alpha == 0 && selectedAtoms.Count == 1 && atomManager.GetTypeSelectedAtoms() == TypeAtomEnum.isotopo)
+            {
+                CombineMaterialsIsotopos();
+            }
         }
 
-        if (infoPanelMolecule.alpha == 1 && infoPanelMaterial.alpha == 0 && selectedMaterials.Count == 1)
+        //isotopos
+        if (infoPanelIsotopos.alpha == 1)
         {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//quita moleculas
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//muestra materiales
+            if (infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
+            {
+                CombineIsotoposMolecules();
+            }
 
-            setActiveRayCast(infoPanelElements);
-            setActiveRayCast(infoPanelMolecule);
-            setActiveRayCast(infoPanelMaterial);
-        }
+            if (infoPanelMaterial.alpha == 0 && selectedMaterials.Count == 1)
+            {
+                CombineIsotoposMaterials();
+            }
 
-        if (infoPanelMaterial.alpha == 1 && infoPanelElements.alpha == 0 && selectedAtoms.Count == 1)
-        {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//muestra elementos
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//quita materiales
-
-            setActiveRayCast(infoPanelElements);
-            setInactiveRayCast(infoPanelMolecule);
-            setInactiveRayCast(infoPanelMaterial);
-        }
-
-        if (infoPanelMaterial.alpha == 1 && infoPanelMolecule.alpha == 0 && selectedMolecules.Count == 1)
-        {
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//muestra moleculas
-            gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//quita materiales
-
-            setActiveRayCast(infoPanelElements);
-            setActiveRayCast(infoPanelMolecule);
-            setInactiveRayCast(infoPanelMaterial);
+            if (infoPanelElements.alpha == 0 && selectedAtoms.Count == 1 && atomManager.GetTypeSelectedAtoms() == TypeAtomEnum.atom)
+            {
+                CombineIsotoposAtoms();
+            }
         }
     }
 
@@ -208,6 +252,143 @@ public class OpenMenus : MonoBehaviour
     {
         objActivar.blocksRaycasts = true;
     }
+
+    #region Metodos Show Combinaciones 
+
+    private void CombineAtomIsotopos()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//quita elementos
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//muestra isotopos
+
+        setActiveRayCast(infoPanelElements);
+        setActiveRayCast(infoPanelMolecule);
+        setActiveRayCast(infoPanelMaterial);
+        setActiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineAtomMaterials()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//quita elementos
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//muestra materiales
+
+        setActiveRayCast(infoPanelElements);
+        setActiveRayCast(infoPanelMolecule);
+        setActiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineAtomMolecules()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//quita elementos
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//muestra moleculas
+
+        setActiveRayCast(infoPanelElements);
+        setActiveRayCast(infoPanelMolecule);
+        setInactiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineMoleculesAtom()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//quita moleculas
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//muestra elementos
+
+        setActiveRayCast(infoPanelElements);
+        setInactiveRayCast(infoPanelMolecule);
+        setInactiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineMoleculesMaterials()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//quita moleculas
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//muestra materiales
+
+        setActiveRayCast(infoPanelElements);
+        setActiveRayCast(infoPanelMolecule);
+        setActiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineMoleculesIsotopos()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//quita moleculas
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//muestra isotopos
+
+        setActiveRayCast(infoPanelElements);
+        setActiveRayCast(infoPanelMolecule);
+        setActiveRayCast(infoPanelMaterial);
+        setActiveRayCast(infoPanelIsotopos);
+    }
+
+
+    private void CombineMaterialsAtoms()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//muestra elementos
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//quita materiales
+
+        setActiveRayCast(infoPanelElements);
+        setInactiveRayCast(infoPanelMolecule);
+        setInactiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineMaterialsMolecules()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//muestra moleculas
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//quita materiales
+
+        setActiveRayCast(infoPanelElements);
+        setActiveRayCast(infoPanelMolecule);
+        setInactiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineMaterialsIsotopos()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//muestra isotopos
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//quita materiales
+
+        setActiveRayCast(infoPanelElements);
+        setActiveRayCast(infoPanelMolecule);
+        setActiveRayCast(infoPanelMaterial);
+        setActiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineIsotoposAtoms()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//quita isotopos
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//muestra elementos
+
+        setActiveRayCast(infoPanelElements);
+        setInactiveRayCast(infoPanelMolecule);
+        setInactiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineIsotoposMaterials()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//quita isotopos
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//muestra materiales
+
+        setActiveRayCast(infoPanelElements);
+        setActiveRayCast(infoPanelMolecule);
+        setActiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    private void CombineIsotoposMolecules()
+    {
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//quita isotopos
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//muestra moleculas
+
+        setActiveRayCast(infoPanelElements);
+        setActiveRayCast(infoPanelMolecule);
+        setInactiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    #endregion
 
     #endregion
 }

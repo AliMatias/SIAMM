@@ -49,6 +49,7 @@ public class Atom: MonoBehaviour
     private List<Orbit> orbits = new List<Orbit>();
 
     private int elementNumber;
+    private int isotopoNumber;
 
     //allcocate la clase popup para mostrar mensajes
     private UIPopup popup;
@@ -65,6 +66,7 @@ public class Atom: MonoBehaviour
     public int NeutronCounter { get => neutronCounter; }
     public int ElectronCounter { get => electronCounter; }
     public TypeAtomEnum TypeAtom  { get => typeAtom; }
+    public int IsotopoNumber { get => isotopoNumber; set => isotopoNumber = value; }
 
     //Seteo el dbmanager en el método awake, que se llama cuando se instancia el objeto
     private void Awake()
@@ -301,12 +303,14 @@ public class Atom: MonoBehaviour
                 return;
             }
 
-            elementText = checkElementType(element,protons, neutrons, electrons);
+            elementText = checkElementType(element, protons, neutrons, electrons);
         }
 
         elementLabel.GetComponent<TextMesh>().text = elementText;
 
         mainInfoPanel.SetInfo(this);
+        //hay que controlar SI no esta abierto otro de los menues! y en el caso de ATOMS no cambia de seleccion! es el mismo tipo
+        mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanelCombine();
     }
 
     /*Metodo Valida si es un elemento de tabla periodica, si es isotopo, y cation-anion
@@ -343,6 +347,7 @@ public class Atom: MonoBehaviour
                 try
                 {
                     elementIsotopo = qryElement.GetIsotopo(neutrons, element.Numero);
+                    IsotopoNumber = elementIsotopo.Id;
                     typeAtom = TypeAtomEnum.isotopo;
                 }
                 catch (Exception e)

@@ -4,7 +4,7 @@ public class IsotopoAllData
     private int id;
     private int numeroAtomico;
     private int numeroCorrelativo;
-    private int isotopo;
+    private string isotopo;
     private int numeroMasa;
     private string masaAtomicaRelativa;
     private string composicionIsotopica;
@@ -14,10 +14,10 @@ public class IsotopoAllData
     public int Id { get => id; set => id = value; }
     public int NumeroAtomico { get => numeroAtomico; set => numeroAtomico = value; }
     public int NumeroCorrelativo { get => numeroCorrelativo; set => numeroCorrelativo = value; }
-    public int Isotopo { get => isotopo; set => isotopo = value; }
+    public string Isotopo { get => isotopo; set => isotopo = value; }
     public int NumeroMasa { get => numeroMasa; set => numeroMasa = value; }
-    public int MasaAtomicaRelativa { get => masaAtomicaRelativa; set => masaAtomicaRelativa = value; }
-    public int ComposicionIsotopica {get => composicionIsotopica; set => composicionIsotopica = value; }
-    public int PesoAtomicoEstandar { get => pesoAtomicoEstandar; set => pesoAtomicoEstandar = value; }
+    public string MasaAtomicaRelativa { get => masaAtomicaRelativa; set => masaAtomicaRelativa = value; }
+    public string ComposicionIsotopica {get => composicionIsotopica; set => composicionIsotopica = value; }
+    public string PesoAtomicoEstandar { get => pesoAtomicoEstandar; set => pesoAtomicoEstandar = value; }
 
     }
