@@ -97,4 +97,15 @@ public class PopulateMaterialList : MonoBehaviour
         }
     }
  
+    /**
+     * Agrega el material seleccionado al workspace
+     */
+    public void AddMolecule()
+    {
+        if (SelectedMaterial != null)
+        {
+            materialManager.SpawnMaterial(SelectedMaterial);
+        }
+    }
+
 }
