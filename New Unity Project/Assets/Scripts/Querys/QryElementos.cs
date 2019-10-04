@@ -214,6 +214,48 @@ public class QryElementos : MonoBehaviour
     }
 
 
+
+    //trae TODOS los datos del isotopo a partir del nro atomico del elemento
+    public IsotopoAllData GetAllDataIsotopo(int idIsotopo)
+    {
+        IsotopoAllData isotopoData = new IsotopoAllData();
+        //dejo un reader local para cada query, no siendo global
+        SqliteDataReader reader = null;
+        SqliteConnection dbConnection = null;
+
+        try
+        {
+            string sqlQuery = "SELECT id, numero_atomico, numero_correlativo, isotopo, numero_masa, masa_atomica_relativa, composicion_isotopica, peso_atomico_estandar WHERE id="
+            + idIsotopo + ";";
+
+            //LLAMADA AL METODO DE LA DBMANAGER
+            dbConnection = dBManager.openCon();
+            reader = dBManager.ManageExec(dbConnection, sqlQuery);
+
+            while (reader.Read())
+            {
+                isotopoData.Id = reader.GetInt32(0);
+                isotopoData.NumeroAtomico = reader.GetInt32(1);
+                isotopoData.NumeroCorrelativo = reader.GetInt32(2);
+                isotopoData.Isotopo = reader.GetInt32(3);
+                isotopoData.NumeroMasa = reader.GetInt32(4);
+                isotopoData.MasaAtomicaRelativa = dBManager.SafeGetString(reader, 5);
+                isotopoData.ComposicionIsotopica = dBManager.SafeGetString(reader, 6);
+                isotopoData.PesoAtomicoEstandar = dBManager.SafeGetString(reader, 7);
+            }
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        finally
+        {
+            dBManager.ManageClosing(dbConnection, reader);
+        }
+        return isotopoData;
+    }
+
+
     //trae de acuerdo a la orbita la cantidad maxima de electrones
     public OrbitData GetOrbitDataByNumber(int orbitNumber)
     {
