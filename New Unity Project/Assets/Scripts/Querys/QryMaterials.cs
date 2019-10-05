@@ -209,7 +209,9 @@ public class QryMaterials : MonoBehaviour
 
         try
         {
-            string sqlQuery = "SELECT * FROM materiales_lista WHERE id IN " + idList + ";";
+            string sqlQuery = "SELECT  id,	nombre, archivo_modelo, clasificacion, caracteristicas, propiedades, usos, notas FROM materiales_lista WHERE id IN "
+                              + idList
+                              + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
             dbConnection = dBManager.openCon();
@@ -220,7 +222,13 @@ public class QryMaterials : MonoBehaviour
                 int idMat = reader.GetInt32(0);
                 string name = reader.GetString(1);
                 string modelFile = reader.GetString(2);
-                MaterialData materialData = new MaterialData(idMat, name, modelFile);
+                string clasification = dBManager.SafeGetString(reader, 3);
+                string characteristics = dBManager.SafeGetString(reader, 4);
+                string properties = dBManager.SafeGetString(reader, 5);
+                string uses = dBManager.SafeGetString(reader, 6);
+                string notes = dBManager.SafeGetString(reader, 7);
+
+                MaterialData materialData = new MaterialData(idMat, name, modelFile, clasification, characteristics, properties, uses, notes);
                 materials.Add(materialData);
             }
         }
