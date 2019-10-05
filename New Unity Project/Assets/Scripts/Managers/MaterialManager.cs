@@ -14,6 +14,9 @@ public class MaterialManager : MonoBehaviour
 
     private List<MaterialObject> materials;
 
+    //panel de info
+    private MainInfoPanel mainInfoPanel;
+
     public List<MaterialObject> Materials { get => materials; } 
 
     public void Awake()
@@ -22,6 +25,7 @@ public class MaterialManager : MonoBehaviour
         selectionManager = FindObjectOfType<SelectionManager>();
         combinationManager = FindObjectOfType<CombinationManager>();
         materials = new List<MaterialObject>();
+        mainInfoPanel = FindObjectOfType<MainInfoPanel>();
     }
 
     public void SpawnMaterial(MaterialData materialData)
@@ -31,6 +35,9 @@ public class MaterialManager : MonoBehaviour
         newMaterial.MaterialId = materialData.Id;
         newMaterial.ModelFile = materialData.ModelFile;
         newMaterial.SpawnModel(Resources.Load("MaterialModels/" + materialData.ModelFile, typeof(GameObject)));
+
+        //seteo info en panel inferior de elementos
+        mainInfoPanel.SetInfoMaterial(materialData);
     }
 
     public void SpawnMaterialFromSave(int position, int id, string name, string modelFile){
@@ -88,6 +95,7 @@ public class MaterialManager : MonoBehaviour
         else
         {
             Debug.Log("[MaterialManager] :: No se pueden seleccionar materiales en modo combinacion");
+            popup.MostrarPopUp("Información", "No se pueden seleccionar materiales en modo combinacion");
         }
     }
 

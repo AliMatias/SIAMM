@@ -13,15 +13,56 @@ public class QryMaterials : MonoBehaviour
     }
 
     #region Metodos Exec Querys & Management
+
+    //Obtiene todos los materiales
+    public List<MaterialData> GetAllMaterials(){
+        List<MaterialData> materials = new List<MaterialData>();
+        //dejo un reader local para cada query, no siendo global
+        SqliteDataReader reader = null;
+        SqliteConnection dbConnection = null;
+
+        try
+        { 
+            string sqlQuery = "SELECT  id,	nombre, archivo_modelo, clasificacion, caracteristicas, propiedades, usos, notas " +
+            "FROM materiales_lista";
+            //LLAMADA AL METODO DE LA DBMANAGER
+            dbConnection = dBManager.openCon();
+            reader = dBManager.ManageExec(dbConnection, sqlQuery);
+
+            while (reader.Read())
+            {
+                int idMat = reader.GetInt32(0);
+                string name = reader.GetString(1);
+                string modelFile = reader.GetString(2);
+                string clasification = dBManager.SafeGetString(reader, 3);
+                string characteristics = dBManager.SafeGetString(reader, 4);
+                string properties = dBManager.SafeGetString(reader, 5);
+                string uses = dBManager.SafeGetString(reader, 6);
+                string notes = dBManager.SafeGetString(reader, 7);
+                materials.Add(new MaterialData(idMat, name, modelFile, clasification, characteristics,
+                properties, uses, notes));
+            }
+        }catch (Exception e)
+        {   
+            throw e;
+        }
+        finally
+        {
+            dBManager.ManageClosing(dbConnection, reader);
+        }
+
+        return materials;
+    }
     
-    public MaterialMappingData GetMaterialByMoleculeId(int moleculeId){
+    public MaterialMappingData GetMaterialByMoleculeId(int moleculeId)
+    {
         MaterialMappingData result = null;
         //dejo un reader local para cada query, no siendo global
         SqliteDataReader reader = null;
         SqliteConnection dbConnection = null;
 
         try{
-            string sqlQuery = "SELECT * FROM materiales_mapping_element WHERE id_molecula=" + moleculeId;
+            string sqlQuery = "SELECT id_material, id_elemento, id_molecula, cantidad FROM materiales_mapping_element WHERE id_molecula=" + moleculeId;
             //LLAMADA AL METODO DE LA DBMANAGER
             dbConnection = dBManager.openCon();
             reader = dBManager.ManageExec(dbConnection, sqlQuery);
@@ -55,7 +96,7 @@ public class QryMaterials : MonoBehaviour
 
         try
         {
-            string sqlQuery = "SELECT * FROM materiales_mapping_element WHERE id_elemento=" + atomId;
+            string sqlQuery = "SELECT id_material, id_elemento, id_molecula, cantidad  FROM materiales_mapping_element WHERE id_elemento=" + atomId;
             //LLAMADA AL METODO DE LA DBMANAGER
             dbConnection = dBManager.openCon();
             reader = dBManager.ManageExec(dbConnection, sqlQuery);
@@ -80,14 +121,18 @@ public class QryMaterials : MonoBehaviour
         return result;
     }
 
-    public MaterialData GetMaterialById(int materialId){
+    public MaterialData GetMaterialById(int materialId)
+    {
         MaterialData data = null;        
         //dejo un reader local para cada query, no siendo global
         SqliteDataReader reader = null;
         SqliteConnection dbConnection = null;
-        try{
-            string sqlQuery = "SELECT * FROM materiales_lista WHERE id=" + materialId;
-             //LLAMADA AL METODO DE LA DBMANAGER
+        try
+        {
+            string sqlQuery = "SELECT  id,	nombre, archivo_modelo, clasificacion, caracteristicas, propiedades, usos, notas " +
+            "FROM materiales_lista WHERE id=" + materialId + ";";
+
+            //LLAMADA AL METODO DE LA DBMANAGER
             dbConnection = dBManager.openCon();
             reader = dBManager.ManageExec(dbConnection, sqlQuery);
             while (reader.Read())
@@ -95,12 +140,17 @@ public class QryMaterials : MonoBehaviour
                 int idMat = reader.GetInt32(0);
                 string name = reader.GetString(1);
                 string modelFile = reader.GetString(2);
+                string clasificacion = dBManager.SafeGetString(reader, 3);
+                string caracteristicas = dBManager.SafeGetString(reader, 4);
+                string propiedades = dBManager.SafeGetString(reader, 5);
+                string usos = dBManager.SafeGetString(reader, 6);
+                string notas = dBManager.SafeGetString(reader, 7); 
 
-                data = new MaterialData(idMat, name, modelFile);
+                data = new MaterialData(idMat, name, modelFile, clasificacion, caracteristicas, propiedades, usos, notas);
             }
         }
         catch (Exception e)
-        {   
+        {
             throw e;
         }
         finally

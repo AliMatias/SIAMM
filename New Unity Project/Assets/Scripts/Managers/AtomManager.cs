@@ -280,6 +280,15 @@ public class AtomManager : MonoBehaviour
         return selectedAtoms;
     }
 
+    //retorna el tipo de ATOM seleccionado (metodo especial para Panel Inferior Info), ya se de antemano que hay 1 solo seleccionado
+    public TypeAtomEnum GetTypeSelectedAtoms()
+    {
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        Atom atom = FindAtomInList(selectedObjects.Max());//uso max, como es 1 solo item.. me da igual solo quiero obtener lo que hay.. 
+        return atom.TypeAtom;            
+    }
+
+
     /**
      * Elimina todos los atomos
      */
