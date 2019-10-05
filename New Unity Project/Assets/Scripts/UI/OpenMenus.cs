@@ -358,7 +358,7 @@ public class OpenMenus : MonoBehaviour
     private void CombineIsotoposAtoms()
     {
         gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//quita isotopos
-        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//muestra elementos
+        gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//muestra elementos
 
         setActiveRayCast(infoPanelElements);
         setInactiveRayCast(infoPanelMolecule);
