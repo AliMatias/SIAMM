@@ -10,6 +10,7 @@ public class MoleculeManager : MonoBehaviour
     #region Atributos
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
+    private SuggestionManager suggestionManager;
     private QryElementos qryElement;
     //prefab de molécula
     public Molecule moleculePrefab;
@@ -19,13 +20,12 @@ public class MoleculeManager : MonoBehaviour
     private List<Button> moleculeButtons = new List<Button>();
     [SerializeField]
     private Button addMoleculeButton;
-    //En este array estan todos los materiales, se asignan desde la interfaz
-    public Material[] materials;
-    //diccionario que mapea categoría de la tabla, con posición en array de materiales
-    private Dictionary<string, int> categories = new Dictionary<string, int>();
     private UIPopup popup;
 
     public List<Molecule> Molecules { get => molecules; }
+
+    //panel de info
+    private MainInfoPanel mainInfoPanel;
 
     #endregion
 
@@ -36,6 +36,8 @@ public class MoleculeManager : MonoBehaviour
         go.AddComponent<QryElementos>();
         qryElement = go.GetComponent<QryElementos>();
 
+        suggestionManager = FindObjectOfType<SuggestionManager>();
+
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("moleculeToggle");
         foreach (GameObject btn in buttons)
         {
@@ -45,7 +47,8 @@ public class MoleculeManager : MonoBehaviour
 
         popup = FindObjectOfType<UIPopup>();
         selectionManager = FindObjectOfType<SelectionManager>();
-        IntializeCategoryDictionary();
+
+        mainInfoPanel = FindObjectOfType<MainInfoPanel>();
     }
 
     //activa-desactiva botones de acuerdo a la cant de moleculas
@@ -133,9 +136,9 @@ public class MoleculeManager : MonoBehaviour
                 return;
             }
 
-            //obtengo el material según la clasif
-            Material mat = materials[GetMaterialIndexFromDictionary(element.ClasificacionGrupo)];
-            newMolecule.SpawnAtom(pos, mat);
+            //obtengo el color del elemento.
+            Color32 color = qryElement.GetElementColor(pos.ElementId);
+            newMolecule.SpawnAtom(pos, color);
         }
 
         //y despues sus conexiones una vez que esten todos posicionados
@@ -147,7 +150,19 @@ public class MoleculeManager : MonoBehaviour
                 newMolecule.SpawnConnection(atom.Id, atom.ConnectedTo, atom.ConnectionType, atom.LineType);//por ej aca 1 seria comun 2 podria ser unionica
             }
         }
+
+
+        //dejo seleccionada la molecula nueva!
+        SelectMolecule(newMolecule.MoleculeIndex);
+
+        //cargo info en panel inferior!
+        mainInfoPanel.SetInfoMolecule(newMolecule);
+
+        //interacion sobre los botones de la UI
         activateDeactivateMoleculeButtons();
+
+        // actualizo panel de sugerencias
+        suggestionManager.updateSuggestions();
     }
 
     //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom") METODO PARA SPAWN DESDE LISTA 
@@ -158,32 +173,24 @@ public class MoleculeManager : MonoBehaviour
         SpawnMolecule(atomsPosition, name, newMolecule);
     }
 
+    public void SpawnMoleculeFromSavedData(List<AtomInMolPositionData> atomsPosition, string name, int position, int moleculeId){
+        if(positionManager.OccupyPosition(position)){
+            //instancio la molécula, y seteo posición
+            Molecule newMolecule = Instantiate<Molecule>(moleculePrefab);
+            //aca le digo que ira la molecula armada en esta posicion final
+            newMolecule.transform.localPosition = positionManager.Positions[position];
+            newMolecule.MoleculeIndex = position;
+            molecules.Add(newMolecule);
+            SpawnMolecule(atomsPosition, name, newMolecule);
+        }else{
+            Debug.LogError("Molécula con id " + moleculeId + "en posición " + position + " no cargada.");
+        }
+    }
+
 
     #endregion
 
     #region ActionOnMolecules
-
-    //diccionario de categoría_grupo -> material
-    private void IntializeCategoryDictionary()
-    {
-        categories.Add("Sin Grupo", 0);
-        categories.Add("Gas Inerte", 1);
-        categories.Add("Alcalino", 2);
-        categories.Add("Alcalino Terreo", 3);
-        categories.Add("Metaloide", 4);
-        categories.Add("No Metal", 5);
-        categories.Add("Halogeno", 6);
-        categories.Add("Pobre", 7);
-        categories.Add("De Transicion", 8);
-        categories.Add("Lantanido", 9);
-        categories.Add("Actinidos", 10);
-    }
-
-    //método para obtener el material
-    private int GetMaterialIndexFromDictionary(string cat)
-    {
-        return categories[cat];
-    }
 
     public Molecule FindMoleculeInList(int index)
     {
@@ -225,7 +232,6 @@ public class MoleculeManager : MonoBehaviour
     // BORRAR molécula
     public void DeleteMolecule(Molecule molecule)
     {
-        Debug.Log(molecule.MoleculeIndex);
         // la saco de la lista
         molecules.Remove(molecule);
         selectionManager.RemoveObject(molecule.MoleculeIndex);
@@ -237,7 +243,15 @@ public class MoleculeManager : MonoBehaviour
         //no va popup
         Debug.Log("[MoleculeManager] :: Se ha borrado la molécula " + molecule.MoleculeIndex);
 
+        suggestionManager.updateSuggestions();
         activateDeactivateMoleculeButtons();
+    }
+
+    // Borrar molecula por indice
+    public void DeleteMolecule(int moleculeIndex)
+    {
+        Molecule molecule = FindMoleculeInList(moleculeIndex);
+        DeleteMolecule(molecule);
     }
 
     public List<int> GetSelectedMolecules()
@@ -301,6 +315,8 @@ public class MoleculeManager : MonoBehaviour
         {
             DeleteMolecule(molecule);
         }
+        //el panel de las subparticulas se tiene que ocultar
+        selectionManager.PanelElements.GetComponent<CanvasGroup>().alpha = 0;
     }
     #endregion
 }

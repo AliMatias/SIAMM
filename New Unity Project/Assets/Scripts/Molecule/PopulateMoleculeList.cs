@@ -24,10 +24,6 @@ public class PopulateMoleculeList : MonoBehaviour
 
     void Start()
     {
-        // arranca oculto y desactivado
-        gameObject.GetComponent<CanvasGroup>().alpha = 0;
-        gameObject.SetActive(false);
-
         popup = FindObjectOfType<UIPopup>();
         inputFilter = gameObject.GetComponentInChildren<InputField>();
 
@@ -113,6 +109,11 @@ public class PopulateMoleculeList : MonoBehaviour
             List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(SelectedMolecule.Id);
             moleculeManager.SpawnMolecule(atomsPosition, SelectedMolecule.ToStringToList);
         }
+    }
+
+    public void AddMolecule(string name, int position, int moleculeId){
+        List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(moleculeId);
+        moleculeManager.SpawnMoleculeFromSavedData(atomsPosition, name, position, moleculeId);
     }
 
     /*

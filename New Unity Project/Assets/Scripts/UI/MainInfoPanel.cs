@@ -4,33 +4,63 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class MainInfoPanel : MonoBehaviour
 {
+
+    #region atributos
+    //contenedor para la info de atomos luego ira cada uno de los otros
+    public CanvasGroup infoContainer;
+    public CanvasGroup infoContainerMolecule;
+    public CanvasGroup infoContainerMaterial;
+    public CanvasGroup infoContainerIsotopos;
+
     //objeto con el que interactúo para acceder a la DB
     private QryElementos qryElement;
+    private QryMoleculas qryMolecule;
+    private QryMaterials qryMaterial;
+
     //labels donde muestra info
-    public TextMeshProUGUI nameLbl;
+    private TextMeshProUGUI nameLbl;
+    private TextMeshProUGUI nameLblMolecule;
+    private TextMeshProUGUI nameLblMaterial;
+    private TextMeshProUGUI nameLblIsotopos;
+
     public GameObject[] suggestionButtons;
-    //contenedor para esconder la info
-    public CanvasGroup infoContainer;
     //imagen del boton
     public GameObject elementBtn;
     //diccionario que mapea categoría de la tabla, con color
     private Dictionary<string, Color32> categories = new Dictionary<string, Color32>();
-    //para el proceso de carga de informacion (a futuro deberia detectar que tipo de info mostrar elem, mole, mat..)
+    //para el proceso de carga de informacion de acuerdo al tipo de info elem, mole, mat..)
     private PanelInfoLoader PanelInfoLoader;
+    #endregion
 
     private void Awake()
     {
+        //se instancia las clases para querys
         GameObject go = new GameObject();
         go.AddComponent<QryElementos>();
         qryElement = go.GetComponent<QryElementos>();
-        InitializeCategoryDictionary();
 
+        GameObject go1 = new GameObject();
+        go1.AddComponent<QryMoleculas>();
+        qryMolecule = go1.GetComponent<QryMoleculas>();
+
+        GameObject go2 = new GameObject();
+        go2.AddComponent<QryMaterials>();
+        qryMaterial = go2.GetComponent<QryMaterials>();
+
+        InitializeCategoryDictionary();
         PanelInfoLoader = FindObjectOfType<PanelInfoLoader>();
+
+        nameLblMolecule = infoContainerMolecule.GetComponentInChildren<TextMeshProUGUI>();
+        nameLbl = infoContainer.GetComponentInChildren<TextMeshProUGUI>(); //aunque hay 2 lbl el 1ro es el name
+        nameLblMaterial= infoContainerMaterial.GetComponentInChildren<TextMeshProUGUI>();
+        nameLblIsotopos = infoContainerIsotopos.GetComponentInChildren<TextMeshProUGUI>();
     }
 
+    #region elementos
     //diccionario de categoría_grupo -> color
     private void InitializeCategoryDictionary()
     {
@@ -55,25 +85,48 @@ public class MainInfoPanel : MonoBehaviour
 
     public void SetInfo(Atom atom)
     {
-        ElementTabPer element = qryElement.GetElementFromNro(atom.ElementNumber);
+        ElementTabPer element = new ElementTabPer();
+        IsotopoAllData isotopo = new IsotopoAllData();
 
-        if (element != null && element.Nroatomico != 0)
+        if (atom.TypeAtom == TypeAtomEnum.atom)
         {
-            infoContainer.alpha = 1;
-            nameLbl.text = element.Name;
-            SetElementColor(element);
-            SetButtonTexts(element);
-            //carga los datos especiales del elemento
-            SetInfoElementSelected(atom.ElementNumber);
-        }
-        else
-        {
-            HideInfo();
-        }
-    }
 
-    public void HideInfo(){
-        infoContainer.alpha = 0;
+            element = qryElement.GetElementFromNro(atom.ElementNumber);
+
+            if (element != null && element.Nroatomico != 0)
+            {
+
+                ActivatePanelsAtoms();
+
+                nameLbl.text = element.Name;
+                SetElementColor(element);
+                SetButtonTexts(element);
+                //carga los datos especiales del elemento
+                SetInfoElementSelected(atom.ElementNumber);
+            }
+        }
+
+        else if (atom.TypeAtom == TypeAtomEnum.isotopo)
+        {
+
+            element = qryElement.GetElementFromNro(atom.ElementNumber);
+            isotopo = qryElement.GetAllDataIsotopo(atom.IsotopoNumber);
+
+            if (isotopo != null && isotopo.NumeroAtomico != 0)
+            {
+
+                ActivatePanelsAtoms();
+
+                nameLblIsotopos.text = isotopo.Isotopo + " de " + element.Name;
+                //carga los datos especiales del isotopo
+                SetInfoIsotopoSelected(isotopo);
+            }
+        }
+
+        else //NO MUESTRA NADA Y DESACTIVA TODO SI FUERA NO ENCONTRADO! no analiza si uno de los 2 paneles estaba o no activo...
+        {
+            DesactivatePanelsAtoms();
+        }
     }
 
     private void SetButtonTexts(ElementTabPer element){
@@ -115,12 +168,94 @@ public class MainInfoPanel : MonoBehaviour
             }
     }
 
-
-    //trae de la base los 6 campo para la informacion especial
+    //trae de la base los 6 campos para la informacion especial
     private void SetInfoElementSelected(int elementId)
     {
         ElementInfoPanelInfo element = qryElement.GetElementInfoPanelSuggestion(elementId);
         //llamo al metodo que carga la info en los text box del panel
-        PanelInfoLoader.SetPanelInfo(element);
+        PanelInfoLoader.SetPanelInfoElement(element);
+    }
+    #endregion
+
+    #region Moleculas
+
+    public void SetInfoMolecule(Molecule mol)
+    {
+        MoleculeData molecule = qryMolecule.GetMoleculeById(mol.MoleculeId);
+
+        if (molecule != null)
+        {
+            nameLblMolecule.text = molecule.TraditionalNomenclature;
+            //carga los datos especiales de la molecula en el panel especial
+            PanelInfoLoader.SetPanelInfoMolecule(molecule);
+        }
+    }
+
+    #endregion
+
+    #region Materiales
+
+    /*utilizado desde el selection manager*/
+    public void SetInfoMaterial(MaterialObject mapping)
+    {
+        MaterialData material = qryMaterial.GetMaterialById(mapping.MaterialId);
+
+        if (material != null)
+        {
+            nameLblMaterial.text = material.Name;
+            //carga los datos especiales de la molecula en el panel especial
+            PanelInfoLoader.SetPanelInfoMaterial(material);
+        }
+    }
+
+    /*Utilizado desde el Material Manager*/
+    public void SetInfoMaterial(MaterialData material)
+    {      
+        if (material != null)
+        {
+            nameLblMaterial.text = material.Name;
+            //carga los datos especiales de la molecula en el panel especial
+            PanelInfoLoader.SetPanelInfoMaterial(material);
+        }
+    }
+
+
+    #endregion
+
+    #region isotopos
+
+    private void SetInfoIsotopoSelected(IsotopoAllData isotopoData)
+    {
+        //llamo al metodo que carga la info en los text box del panel
+        PanelInfoLoader.SetPanelInfoIsotopos(isotopoData);
+    }
+
+    #endregion
+
+
+    private void DesactivatePanelsAtoms()
+    {
+        for (int i = 0; i < infoContainer.transform.childCount; i++)
+        {
+            infoContainer.transform.GetChild(i).gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < infoContainerIsotopos.transform.childCount; i++)
+        {
+            infoContainerIsotopos.transform.GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
+    private void ActivatePanelsAtoms()
+    {
+        for (int i = 0; i < infoContainer.transform.childCount; i++)
+        {
+            infoContainer.transform.GetChild(i).gameObject.SetActive(true);
+        }
+
+        for (int i = 0; i < infoContainerIsotopos.transform.childCount; i++)
+        {
+            infoContainerIsotopos.transform.GetChild(i).gameObject.SetActive(true);
+        }
     }
 }

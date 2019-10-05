@@ -60,7 +60,7 @@ public class QryMoleculas : MonoBehaviour
 
         try
         {
-            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " +
+            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion " +
             "FROM moleculas_lista WHERE id=" + moleculaId + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -74,7 +74,12 @@ public class QryMoleculas : MonoBehaviour
                 string systematicNm = reader.GetString(2);
                 string stockNm = reader.GetString(3);
                 string traditionalNm = reader.GetString(4);
-                moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm);
+                string caracteristicas = dBManager.SafeGetString(reader, 5);
+                string propiedades = dBManager.SafeGetString(reader, 6);
+                string usos = dBManager.SafeGetString(reader, 7);
+                string clasificacion = dBManager.SafeGetString(reader, 8);
+
+                moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion);
             }
 
         }
@@ -182,7 +187,7 @@ public class QryMoleculas : MonoBehaviour
 
         try
         { 
-            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional " +
+            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion " +
             "FROM moleculas_lista;";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -196,10 +201,13 @@ public class QryMoleculas : MonoBehaviour
                 string systematicNm = reader.GetString(2);
                 string stockNm = reader.GetString(3);
                 string traditionalNm = reader.GetString(4);
-                MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm);
+                string caracteristicas = dBManager.SafeGetString(reader, 5);
+                string propiedades = dBManager.SafeGetString(reader, 6);
+                string usos = dBManager.SafeGetString(reader, 7);
+                string clasificacion = dBManager.SafeGetString(reader, 8);
+                MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion);
                 molecules.Add(moleculeData);
             }
-
         }
         catch (Exception e)
         {   
@@ -213,5 +221,86 @@ public class QryMoleculas : MonoBehaviour
         return molecules;
     }
 
+    public List<MoleculeMappingData> GetAllMoleculeMappings()
+    {
+        List<MoleculeMappingData> molecules = new List<MoleculeMappingData>();
+        //dejo un reader local para cada query, no siendo global
+        SqliteDataReader reader = null;
+        SqliteConnection dbConnection = null;
+
+        try
+        {
+            string sqlQuery = "SELECT * FROM moleculas_mapping_element;";
+
+            //LLAMADA AL METODO DE LA DBMANAGER
+            dbConnection = dBManager.openCon();
+            reader = dBManager.ManageExec(dbConnection, sqlQuery);
+
+            while (reader.Read())
+            {
+                int idMol = reader.GetInt32(0);
+                int idEle = reader.GetInt32(1);
+                int amount = reader.GetInt32(2);
+                MoleculeMappingData moleculeMapping = new MoleculeMappingData(idMol, idEle, amount);
+                molecules.Add(moleculeMapping);
+            }
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        finally
+        {
+            dBManager.ManageClosing(dbConnection, reader);
+        }
+
+        return molecules;
+    }
+
+    public List<MoleculeData> GetAllMoleculesIn(List<int> moleculeIdList)
+    {
+        List<MoleculeData> molecules = new List<MoleculeData>();
+        if (moleculeIdList != null && moleculeIdList.Count <= 0) return molecules;
+
+        string idList = "(" + String.Join(",", moleculeIdList) + ")";
+
+        SqliteDataReader reader = null;
+        SqliteConnection dbConnection = null;
+
+        try
+        {
+            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion " +
+            "FROM moleculas_lista WHERE id IN " + idList + ";";
+
+            //LLAMADA AL METODO DE LA DBMANAGER
+            dbConnection = dBManager.openCon();
+            reader = dBManager.ManageExec(dbConnection, sqlQuery);
+
+            while (reader.Read())
+            {
+                int id = reader.GetInt32(0);
+                string formula = reader.GetString(1);
+                string systematicNm = reader.GetString(2);
+                string stockNm = reader.GetString(3);
+                string traditionalNm = reader.GetString(4);
+                string caracteristicas = dBManager.SafeGetString(reader, 5);
+                string propiedades = dBManager.SafeGetString(reader, 6);
+                string usos = dBManager.SafeGetString(reader, 7);
+                string clasificacion = dBManager.SafeGetString(reader, 8);
+                MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion);
+                molecules.Add(moleculeData);
+            }
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        finally
+        {
+            dBManager.ManageClosing(dbConnection, reader);
+        }
+
+        return molecules;
+    }
     #endregion
 }

@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class UIToolTipControl : MonoBehaviour
 {
-    public CanvasGroup panelTper;
-    public CanvasGroup textToolTipCanvas;
-    public CanvasGroup toolTipCanvas;
+    public GameObject panelTper;
+    public CanvasGroup toolTipButton;
+    public CanvasGroup toolTipCloseTper;
     public static bool flagTooltip;
 
     // Start is called before the first frame update
@@ -21,18 +21,16 @@ public class UIToolTipControl : MonoBehaviour
     {
         //si el panel de la tabla periodica esta inactivo.. siempre tiene que estar el toolipTEXT oculto.. soluciona BUG
         //doble control
-        if (!panelTper.gameObject.activeSelf)
+        if (!panelTper.activeSelf)
         {
-            textToolTipCanvas.alpha = 0;
-            toolTipCanvas.alpha = 0;
+            toolTipButton.alpha = 0;
+            toolTipCloseTper.alpha = 0;
         }
-
+   
         if (!flagTooltip)
         {
-
-            textToolTipCanvas.alpha = 0;
-            toolTipCanvas.alpha = 0;
+             toolTipButton.alpha = 0;
+             toolTipCloseTper.alpha = 0;
         }
-
     }
 }

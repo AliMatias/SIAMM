@@ -16,7 +16,8 @@ public class AtomManager : MonoBehaviour
     private bool combineMode = false;
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
-    
+    private SuggestionManager suggestionManager;
+
     //lista de botones relevantes para los átomos
     private List<Button> atomButtons = new List<Button>();
     [SerializeField]
@@ -36,6 +37,7 @@ public class AtomManager : MonoBehaviour
 
         popup = FindObjectOfType<UIPopup>();
         selectionManager = FindObjectOfType<SelectionManager>();
+        suggestionManager = FindObjectOfType<SuggestionManager>();
     }
 
     //agregar nuevo átomo al espacio de trabajo
@@ -67,6 +69,23 @@ public class AtomManager : MonoBehaviour
             spawnedAtom.SpawnNucleon(true, false);
         }
         SelectAtom(spawnedAtom.AtomIndex);
+
+        suggestionManager.updateSuggestions();
+        activateDeactivateAtomButtons();
+    }
+
+    public void NewAtom(AtomSaveData atomSaveData){
+        int position = atomSaveData.position;
+        //instancio
+        Atom spawnedAtom = Instantiate<Atom>(atomPrefab);
+        //asigno position
+        spawnedAtom.transform.localPosition = positionManager.Positions[position];
+        //agrego a la lista
+        atomsList.Add(spawnedAtom);
+        //asigno su índice a este átomo
+        spawnedAtom.AtomIndex = position;
+        spawnedAtom.SpawnFromSaveData(atomSaveData.protons, atomSaveData.neutrons, atomSaveData.electrons);
+        suggestionManager.updateSuggestions();
         activateDeactivateAtomButtons();
     }
 
@@ -120,6 +139,7 @@ public class AtomManager : MonoBehaviour
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
             return;
         }
+        suggestionManager.updateSuggestions();
     }
 
     //quitar del átomo seleccionado la partícula indicada
@@ -149,6 +169,7 @@ public class AtomManager : MonoBehaviour
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
             return;
         }
+        suggestionManager.updateSuggestions();
     }
 
     //BORRAR átomo seleccionado.
@@ -183,6 +204,7 @@ public class AtomManager : MonoBehaviour
         //no va popup
         Debug.Log("Se ha borrado el átomo " + index);
 
+        suggestionManager.updateSuggestions();
         activateDeactivateAtomButtons();
     }
 
@@ -199,6 +221,7 @@ public class AtomManager : MonoBehaviour
             try
             {
                 newAtom.SpawnFromPeriodicTable(elementName);
+                suggestionManager.updateSuggestions();
             } 
             catch(SpawnException)
             {
@@ -212,6 +235,14 @@ public class AtomManager : MonoBehaviour
             popup.MostrarPopUp("Manager Átomo", "No hay más lugar para crear un nuevo átomo");
         }
         activateDeactivateAtomButtons();
+    }
+
+    public void SpawnFromSaveData(AtomSaveData atomSaveData){
+        if(positionManager.OccupyPosition(atomSaveData.position)){
+            NewAtom(atomSaveData);
+        }else{
+            Debug.LogError("Átomo en posición " + atomSaveData.position + " no cargado");
+        }
     }
 
     //activa-desactiva botones de acuerdo a la cant de átomos
@@ -249,6 +280,15 @@ public class AtomManager : MonoBehaviour
         return selectedAtoms;
     }
 
+    //retorna el tipo de ATOM seleccionado (metodo especial para Panel Inferior Info), ya se de antemano que hay 1 solo seleccionado
+    public TypeAtomEnum GetTypeSelectedAtoms()
+    {
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        Atom atom = FindAtomInList(selectedObjects.Max());//uso max, como es 1 solo item.. me da igual solo quiero obtener lo que hay.. 
+        return atom.TypeAtom;            
+    }
+
+
     /**
      * Elimina todos los atomos
      */
@@ -259,5 +299,7 @@ public class AtomManager : MonoBehaviour
         {
             DeleteAtom(atom.AtomIndex);
         }
+        //el panel de las subparticulas se tiene que ocultar
+        selectionManager.PanelElements.GetComponent<CanvasGroup>().alpha = 0;
     }
 }
