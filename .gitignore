@@ -45,3 +45,6 @@ New Unity Project/.vscode/settings.json
 New Unity Project/Assets/Scenes/SampleScene.unity.orig.meta
 *.orig
 *.orig
+
+# Save Files
+save.json*

@@ -16,7 +16,8 @@ public class AtomManager : MonoBehaviour
     private bool combineMode = false;
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
-    
+    private SuggestionManager suggestionManager;
+
     //lista de botones relevantes para los átomos
     private List<Button> atomButtons = new List<Button>();
     [SerializeField]
@@ -36,6 +37,7 @@ public class AtomManager : MonoBehaviour
 
         popup = FindObjectOfType<UIPopup>();
         selectionManager = FindObjectOfType<SelectionManager>();
+        suggestionManager = FindObjectOfType<SuggestionManager>();
     }
 
     //agregar nuevo átomo al espacio de trabajo
@@ -67,6 +69,8 @@ public class AtomManager : MonoBehaviour
             spawnedAtom.SpawnNucleon(true, false);
         }
         SelectAtom(spawnedAtom.AtomIndex);
+
+        suggestionManager.updateSuggestions();
         activateDeactivateAtomButtons();
     }
 
@@ -81,6 +85,7 @@ public class AtomManager : MonoBehaviour
         //asigno su índice a este átomo
         spawnedAtom.AtomIndex = position;
         spawnedAtom.SpawnFromSaveData(atomSaveData.protons, atomSaveData.neutrons, atomSaveData.electrons);
+        suggestionManager.updateSuggestions();
         activateDeactivateAtomButtons();
     }
 
@@ -134,6 +139,7 @@ public class AtomManager : MonoBehaviour
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
             return;
         }
+        suggestionManager.updateSuggestions();
     }
 
     //quitar del átomo seleccionado la partícula indicada
@@ -163,6 +169,7 @@ public class AtomManager : MonoBehaviour
             Debug.Log("Los valores correctos son: 0-protón, 1-neutrón, 2-electrón");
             return;
         }
+        suggestionManager.updateSuggestions();
     }
 
     //BORRAR átomo seleccionado.
@@ -197,6 +204,7 @@ public class AtomManager : MonoBehaviour
         //no va popup
         Debug.Log("Se ha borrado el átomo " + index);
 
+        suggestionManager.updateSuggestions();
         activateDeactivateAtomButtons();
     }
 
@@ -213,6 +221,7 @@ public class AtomManager : MonoBehaviour
             try
             {
                 newAtom.SpawnFromPeriodicTable(elementName);
+                suggestionManager.updateSuggestions();
             } 
             catch(SpawnException)
             {
