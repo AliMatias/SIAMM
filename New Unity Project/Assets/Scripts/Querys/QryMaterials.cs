@@ -13,6 +13,46 @@ public class QryMaterials : MonoBehaviour
     }
 
     #region Metodos Exec Querys & Management
+
+    //Obtiene todos los materiales
+    public List<MaterialData> GetAllMaterials(){
+        List<MaterialData> materials = new List<MaterialData>();
+        //dejo un reader local para cada query, no siendo global
+        SqliteDataReader reader = null;
+        SqliteConnection dbConnection = null;
+
+        try
+        { 
+            string sqlQuery = "SELECT  id,	nombre, archivo_modelo, clasificacion, caracteristicas, propiedades, usos, notas " +
+            "FROM materiales_lista";
+            //LLAMADA AL METODO DE LA DBMANAGER
+            dbConnection = dBManager.openCon();
+            reader = dBManager.ManageExec(dbConnection, sqlQuery);
+
+            while (reader.Read())
+            {
+                int idMat = reader.GetInt32(0);
+                string name = reader.GetString(1);
+                string modelFile = reader.GetString(2);
+                string clasification = dBManager.SafeGetString(reader, 3);
+                string characteristics = dBManager.SafeGetString(reader, 4);
+                string properties = dBManager.SafeGetString(reader, 5);
+                string uses = dBManager.SafeGetString(reader, 6);
+                string notes = dBManager.SafeGetString(reader, 7);
+                materials.Add(new MaterialData(idMat, name, modelFile, clasification, characteristics,
+                properties, uses, notes));
+            }
+        }catch (Exception e)
+        {   
+            throw e;
+        }
+        finally
+        {
+            dBManager.ManageClosing(dbConnection, reader);
+        }
+
+        return materials;
+    }
     
     public MaterialMappingData GetMaterialByMoleculeId(int moleculeId)
     {

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
@@ -6,19 +6,19 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PopulateMoleculeList : MonoBehaviour
+public class PopulateMaterialList : MonoBehaviour
 {
     // seteados desde unity
-    public GameObject moleculeItem;
+    public GameObject materialItem;
     public GameObject content;
 
-    private MoleculeManager moleculeManager;
-    private QryMoleculas qryMolecule;
+    private MaterialManager materialManager;
+    private QryMaterials qryMaterials;
 
     private InputField inputFilter;
 
-    private List<MoleculeData> moleculeList = new List<MoleculeData>();
-    public MoleculeData SelectedMolecule { get; set; } = null;
+    private List<MaterialData> materialList = new List<MaterialData>();
+    public MaterialData SelectedMaterial { get; set; } = null;
 
     private UIPopup popup = null;
 
@@ -28,56 +28,54 @@ public class PopulateMoleculeList : MonoBehaviour
         inputFilter = gameObject.GetComponentInChildren<InputField>();
 
         GameObject go = new GameObject();
-        go.AddComponent<QryMoleculas>();
-        qryMolecule = go.GetComponent<QryMoleculas>();
+        go.AddComponent<QryMaterials>();
+        qryMaterials = go.GetComponent<QryMaterials>();
 
-        moleculeManager = FindObjectOfType<MoleculeManager>();
+        materialManager = FindObjectOfType<MaterialManager>();
         
         try
         {
-            moleculeList = qryMolecule.GetAllMolecules();
+            materialList = qryMaterials.GetAllMaterials();
         }
         catch (Exception e)
         {
-            Debug.LogError("PopulateMoleculeList :: Ocurrio un error al buscar Todas las Moleculas de la Base: " + e.Message);
-            popup.MostrarPopUp("Elementos Qry DB", "Error Obteniendo Todas las Moleculas de la Base");
+            Debug.LogError("PopulateMaterialList :: Ocurrió un error al buscar Todos los Materiales de la Base: " + e.Message);
+            popup.MostrarPopUp("Materiales Qry DB", "Error Obteniendo Todos los Materiales de la Base");
             return;
         }
 
-        // cargo todas las moleculas a la lista
-        foreach (MoleculeData molecule in moleculeList)
+        // cargo todos los materiales a la lista
+        foreach (MaterialData material in materialList)
         {
-            LoadMoleculeToList(molecule);
+            LoadMaterialToList(material);
         }
     }
 
     /**
-     * Carga una molecula a la lista
+     * Carga un material a la lista
      */
-    public void LoadMoleculeToList(MoleculeData molecule)
+    public void LoadMaterialToList(MaterialData material)
     {
         // crea un nuevo item en la lista
-        var itemList = Instantiate(moleculeItem);
+        var itemList = Instantiate(materialItem);
         itemList.transform.SetParent(content.transform);
         itemList.transform.localPosition = Vector3.zero;
-        //mostrara la formula + tradicional nom
-        itemList.GetComponentInChildren<TextMeshProUGUI>().text = molecule.ToStringToList;
+        itemList.GetComponentInChildren<TextMeshProUGUI>().text = material.Name;
 
         // le agrega comportamiento al componente button del texto seleccionado
         itemList.GetComponent<Button>().onClick.AddListener(
             () =>
             {
-                SelectMolecule(molecule, itemList);
-                //no va popup
-                Debug.Log("Clicked: " + molecule.ToString);
+                SelectMaterial(material, itemList);
+                Debug.Log("Clicked: " + material.Name);
             }
         );
     }
 
     /**
-     * Selecciona una molecula de la lista, marcandola en azul
+     * Selecciona un material de la lista, marcandolo en azul
      */
-    public void SelectMolecule(MoleculeData molecule, GameObject selectedItem)
+    public void SelectMaterial(MaterialData material, GameObject selectedItem)
     {
         // deselecciono todos los elementos de la lista
         int childCount = content.transform.childCount;
@@ -88,55 +86,46 @@ public class PopulateMoleculeList : MonoBehaviour
         }
 
         // selecciono el que quiero o lo deselecciono si ya estaba seleccionado
-        if (SelectedMolecule == molecule)
+        if (SelectedMaterial == material)
         {
-            SelectedMolecule = null;
+            SelectedMaterial = null;
         }
         else
         {
-            SelectedMolecule = molecule;
+            SelectedMaterial = material;
             selectedItem.GetComponentInChildren<TextMeshProUGUI>().color = Color.blue;
         }
     }
-
+ 
     /**
-     * Agrega la molecula seleccionada al workspace
+     * Agrega el material seleccionado al workspace
      */
-    public void AddMolecule()
+    public void AddMaterial()
     {
-        if (SelectedMolecule != null)
+        if (SelectedMaterial != null)
         {
-            List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(SelectedMolecule.Id);
-            moleculeManager.SpawnMolecule(atomsPosition, SelectedMolecule.ToStringToList);
+            materialManager.SpawnMaterial(SelectedMaterial);
         }
     }
 
-    public void AddMolecule(string name, int position, int moleculeId){
-        List<AtomInMolPositionData> atomsPosition = qryMolecule.GetElementPositions(moleculeId);
-        moleculeManager.SpawnMoleculeFromSavedData(atomsPosition, name, position, moleculeId);
-    }
-
     /*
-     * Elimina el contenido de la lista y la vuelve a popular con las moleculas filtradas
-     * Solo filtra por nomenclatura tradicional (ej. "Agua") o formula molecular (ej. "H2O")
+     * Elimina el contenido de la lista y la vuelve a popular con los materiales filtrados
      * Es case insensitive e ignora tildes.
-     * Permite que al escribir "oxido" encuentre moléculas como "Óxido cuproso (Cu2O)".
      * Es llamado con el evento OnValueChanged del InputField de la lista de moleculas
      * Busca mientras el usuario escribe
      */
-    public void FilterMolecules()
+    public void FilterMaterials()
     {
         if (inputFilter != null)
         {
             string searchQuery = EliminarTildes(inputFilter.text.ToUpper());
             ClearList();
-            foreach (MoleculeData molecule in moleculeList)
+            foreach (MaterialData material in materialList)
             {
                 if (searchQuery == "" ||
-                    EliminarTildes(molecule.Formula).ToUpper().Contains(searchQuery) ||
-                    EliminarTildes(molecule.TraditionalNomenclature).ToUpper().Contains(searchQuery))
+                    EliminarTildes(material.Name).ToUpper().Contains(searchQuery))
                 {
-                    LoadMoleculeToList(molecule);
+                    LoadMaterialToList(material);
                 }
             }
         }
@@ -147,7 +136,7 @@ public class PopulateMoleculeList : MonoBehaviour
      */
     private void ClearList()
     {
-        SelectedMolecule = null;
+        SelectedMaterial = null;
         int childCount = content.transform.childCount;
         for (int i = 0; i < childCount; i++)
         {
@@ -174,5 +163,5 @@ public class PopulateMoleculeList : MonoBehaviour
         }
 
         return stringBuilder.ToString();
-    }
+    } 
 }

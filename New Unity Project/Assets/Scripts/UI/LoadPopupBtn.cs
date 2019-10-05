@@ -56,6 +56,12 @@ public class LoadPopupBtn : MonoBehaviour
             case TypeToolTip.buttonTper:
                 setPointersToolTipMove(objectText);          
                 break;
+
+            case TypeToolTip.mnuMaterial:
+                //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
+                offset = new Vector3(70, 0, 0);
+                setPointersToolTipStaticMove("* MATERIALES", offset);
+                break;
         }
     }
 
