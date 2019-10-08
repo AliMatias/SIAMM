@@ -16,10 +16,10 @@ public class UIMenu : MonoBehaviour
 
     private bool entrando = true;
 
+    private GUIStyle currentStyle = null;
+
     //funcionalidades
     private SaveLoadManager sl;
-
-    private GUIStyle currentStyle = null;
 
     void Awake()
     {
@@ -53,7 +53,7 @@ public class UIMenu : MonoBehaviour
         altura = 0.32f * Screen.height;
 
         //titulo del menu!
-        GUI.Box(new Rect(posX, posY, largo, altura), "Menú",currentStyle);
+        GUI.Box(new Rect(posX, posY, largo, altura), "Menú", currentStyle);
 
         //nueva posicion para los botones asi bajan dejando lugar al titulo
         largo = 0.16f * Screen.width;
@@ -86,7 +86,7 @@ public class UIMenu : MonoBehaviour
         if (currentStyle == null)
         {
             currentStyle = new GUIStyle(GUI.skin.box);
-            currentStyle.normal.background = MakeTex(2, 2, new Color(0, 0, 0, 0.5f));
+            currentStyle.normal.background = MakeTex(2, 2, new Color(0, 0, 0, 0.7f));
         }
     }
 
@@ -114,7 +114,8 @@ public class UIMenu : MonoBehaviour
         switch (msge)
         {
             case "Nuevo Proyecto":
-                Debug.Log("APRETASTE GIL! " + msge);
+                gameObject.AddComponent<UIAction>();
+                GetComponent<UIAction>().newProy();//tiene que llamar un popup de afirmacion
                 break;
 
             case "Abrir Proyecto":
@@ -135,7 +136,7 @@ public class UIMenu : MonoBehaviour
 
             case "Salir de SIAMM":
                 gameObject.AddComponent<UIAction>();
-                GetComponent<UIAction>().Quit();
+                GetComponent<UIAction>().Quit();//tiene que llamar un popup de afirmacion
                 break;
         }
     }
