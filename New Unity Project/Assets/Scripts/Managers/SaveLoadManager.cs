@@ -21,23 +21,25 @@ public class SaveLoadManager : MonoBehaviour
     }
 
     public void SaveAs(){
-        string oldPath = savePath;
+        Debug.Log("DOES NOT WORK");
+        /*string oldPath = savePath;
         savePath = EditorUtility.SaveFilePanelInProject("Guardar como...", "Save", "json", "");
         if(savePath == ""){
             savePath = oldPath;
         }else{
             Save();
-        }
+        }*/
     }
 
     public void OpenFile(){
-        string oldPath = savePath;
+        Debug.Log("DOES NOT WORK");
+        /*string oldPath = savePath;
         savePath = EditorUtility.OpenFilePanel("Abrir", Application.dataPath, "json");
         if(savePath == ""){
             savePath = oldPath;
         }else{
             Load();
-        }
+        }*/
     }
 
     public void Save(){
