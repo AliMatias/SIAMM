@@ -13,12 +13,10 @@ public class UIMenu : MonoBehaviour
     private float altura = 0.32f * Screen.height;
 
     private float velocidad = 15f;
-
     private bool entrando = true;
-
     private GUIStyle currentStyle = null;
 
-    //funcionalidades
+    //funcionalidades de guardado espacio de trabajo
     private SaveLoadManager sl;
 
     void Awake()
@@ -29,25 +27,26 @@ public class UIMenu : MonoBehaviour
     //efecto del deslizamiento desde el lateral
     void Update()
     {
-        if(entrando && posXr != posX)
+        //apertura
+        if (entrando && posXr != posX)
         {
             posX = Mathf.Lerp(posX, posXr, velocidad * Time.deltaTime);
         }
 
+        //para el cierre del menu
         if (!entrando && -2 * Screen.width != posX)
         {
             posX = Mathf.Lerp(posX, -2 * Screen.width, 0.3f * Time.deltaTime);
         }
     }
 
-
+    //creacion del menu
     void OnGUI()
     {
-
         InitStyles();
 
         //valores del "background donde van los botones"
-        posXr = 0.03f * Screen.width;      
+        posXr = 0.03f * Screen.width;//a donde tiene que terminar de posicionarse el menu luego de Deslizar     
         posY = 0.07f * Screen.height;//esto puede ir cambiando de acuerdo a donde ubique el boton... desde arriba
         largo = 0.12f * Screen.width;
         altura = 0.32f * Screen.height;
@@ -64,7 +63,7 @@ public class UIMenu : MonoBehaviour
                 largo - 0.05f * Screen.width,
                 0.1f * Screen.height - 0.07f * Screen.height), bottonNames[0]))
         {
-            showMsge(bottonNames[0]);
+            CallFuntion(bottonNames[0]);
         }
 
     
@@ -76,17 +75,18 @@ public class UIMenu : MonoBehaviour
                 largo - 0.05f * Screen.width,
                 0.1f * Screen.height - 0.07f * Screen.height), bottonNames[i]))
             {
-                showMsge(bottonNames[i]);
+                CallFuntion(bottonNames[i]);
             }
         }
     }
 
+    //utilizo texturas para controlar la opacidad
     private void InitStyles()
     {
         if (currentStyle == null)
         {
             currentStyle = new GUIStyle(GUI.skin.box);
-            currentStyle.normal.background = MakeTex(2, 2, new Color(0, 0, 0, 0.7f));
+            currentStyle.normal.background = MakeTex(2, 2, new Color(0, 0, 0, 0.7f));//controlar la opacidad rgb es BLACK!
         }
     }
 
@@ -103,18 +103,21 @@ public class UIMenu : MonoBehaviour
         return result;
     }
 
+    //metodo para que sea llamado desde el UIaction y haga el fade a la izq
     public void CloseMenu()
     {
         entrando = false;
         Destroy(this, 0.5f);
     }
 
-    private void showMsge (string msge)
-    {      
+    private void CallFuntion (string msge)
+    {
+        //agrego el script de acciones a menu en runtime
+        gameObject.AddComponent<UIAction>();
+
         switch (msge)
         {
-            case "Nuevo Proyecto":
-                gameObject.AddComponent<UIAction>();
+            case "Nuevo Proyecto":              
                 GetComponent<UIAction>().newProy();//tiene que llamar un popup de afirmacion
                 break;
 
@@ -135,7 +138,6 @@ public class UIMenu : MonoBehaviour
                 break;
 
             case "Salir de SIAMM":
-                gameObject.AddComponent<UIAction>();
                 GetComponent<UIAction>().Quit();//tiene que llamar un popup de afirmacion
                 break;
         }

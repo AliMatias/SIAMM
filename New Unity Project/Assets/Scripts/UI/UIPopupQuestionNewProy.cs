@@ -37,7 +37,7 @@ public class UIPopupQuestionNewProy : MonoBehaviour
         }
     }
 
-    //INSTANCIA UNA VEZ para la interfaz que lo referencia por eso hay 2 clases uipopup
+    //INSTANCIA UNA VEZ para la interfaz que lo referencia por eso hay MAS DE UNA clase uipopup
     public void ShowGUI(int windowID)
     {
         //no ejecuta el awake por eso se coloca aca las referencias
