@@ -22,17 +22,13 @@ public class UIAction : MonoBehaviour
     {
         if (!menu)
         {
-            Debug.Log("ABRE MENU");
             gameObject.AddComponent<UIMenu>();
             menu = true;
         }
         else if (menu)
         {
-            Destroy(GetComponent<UIMenu>());
+            GetComponent<UIMenu>().CloseMenu();
             menu = false;
         }
     }
-
-
-
 }
