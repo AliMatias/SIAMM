@@ -22,6 +22,7 @@ public class UIAction : MonoBehaviour
         GetComponent<UIPopupQuestionNewProy>().MostrarPopUp("Nuevo Proyecto", "¿Esta seguro que desea borrar todo y comenzar de nuevo?");//tiene que llamar un popup de afirmacion
     }
 
+    //disparador de menu principal de "arriba"
     public void openMenu()
     {
         if (!menu)
@@ -35,4 +36,21 @@ public class UIAction : MonoBehaviour
             menu = false;
         }
     }
+
+    //disparador de click sobre panel lateral
+    public void openMenuPanelClik()
+    {
+        if (!menu)
+        {
+            gameObject.AddComponent<UIPanelClick>();
+            GetComponent<UIPanelClick>().OpenMenu();//abre
+            menu = true;
+        }
+        else if (menu)
+        {
+            GetComponent<UIPanelClick>().CloseMenu();//cierra
+            menu = false;
+        }
+    }
+
 }
