@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIMenu : MonoBehaviour
 {
-    private string[] bottonNames = { "Nuevo Proyecto", "Abrir Proyecto","Guardar", "Guardar Como", "Exportar", "Salir de SIAMM"};
+    private string[] bottonNames = { "Nuevo Proyecto", "Abrir Proyecto", "Carga Rápida", "Guardar", "Guardar Como",  "Salir de SIAMM"};
 
     private float posX = -2 * Screen.width; //posicion inicial (detras del canvas al costado)                                          
     private float posXr = 0.03f * Screen.width; //a donde tiene que terminar de posicionarse el menu luego de Deslizar
@@ -122,7 +122,7 @@ public class UIMenu : MonoBehaviour
                 break;
 
             case "Abrir Proyecto":
-                sl.Load();
+                Debug.Log("APRETASTE Abrir Proyecto! " + msge);
                 break;
 
             case "Guardar":
@@ -130,11 +130,11 @@ public class UIMenu : MonoBehaviour
                 break;
 
             case "Guardar Como":
-                Debug.Log("APRETASTE GIL! " + msge);
+                Debug.Log("APRETASTE Guardar Como! " + msge);
                 break;
 
-            case "Exportar":
-                Debug.Log("APRETASTE GIL! " + msge);
+            case "Carga Rápida":
+                sl.Load(); 
                 break;
 
             case "Salir de SIAMM":

@@ -39,8 +39,8 @@ public class LoadPopupBtn : MonoBehaviour
 
             case TypeToolTip.mnuInfo:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
-                offset = new Vector3(-200, 40, 0);
-                setPointersToolTipStaticMove("SUGERENCIAS\nINFORMACIÓN ADICIONAL", offset);
+                offset = new Vector3(-250, 40, 0);
+                setPointersToolTipStaticMove("COMBINACIONES RECURRENTES\nINFORMACIÓN ADICIONAL", offset);
                 break;
 
             case TypeToolTip.mnuMolecule:
@@ -51,7 +51,7 @@ public class LoadPopupBtn : MonoBehaviour
 
             case TypeToolTip.mnuSuggestions:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
-                offset = new Vector3(-70, 0, 0);
+                offset = new Vector3(-90, 0, 0);
                 setPointersToolTipStaticMove("* SUGERENCIAS", offset);
                 break;
 
