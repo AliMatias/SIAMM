@@ -63,6 +63,11 @@ public class LoadPopupBtn : MonoBehaviour
                 setPointersToolTipMove(objectText);          
                 break;
 
+            case TypeToolTip.buttonRefColors:
+                setPointersToolTipMove("REFERENCIAS DE COLORES \nCLASIFICACIÓN ELEMENTOS");
+                break;
+
+
             case TypeToolTip.mnuMaterial:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
                 offset = new Vector3(70, 0, 0);

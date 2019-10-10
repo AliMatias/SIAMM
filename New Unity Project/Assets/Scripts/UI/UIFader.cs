@@ -7,6 +7,8 @@ public class UIFader : MonoBehaviour
     //para comunicar accion en la corutina!
     private bool active = false;
     private bool inactive = false;
+    private bool activeRaycast = false;
+    private bool inactiveRaycast = false;
 
     /**
     * Override para especificar que elemento CANVAS GROUP mostrar
@@ -68,6 +70,37 @@ public class UIFader : MonoBehaviour
             FadeOut(ElementWithCanvasGroup);
     }
 
+    /*este metodo se usa para GO que tienen rayscast desactivados desactivados y hacen efecto fade y luego activan!*/
+    public void FadeInAndOutWithActiveRaycast(GameObject ElementWithCanvasGroup)
+    {
+        activeRaycast = true;
+
+        if (ElementWithCanvasGroup.GetComponent<CanvasGroup>().alpha == 0)
+        {
+            ElementWithCanvasGroup.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+            FadeIn(ElementWithCanvasGroup);
+        }
+        else
+            FadeOut(ElementWithCanvasGroup);
+    }
+
+
+    public void FadeInAndOutWithInactiveRaycast(GameObject ElementWithCanvasGroup)
+    {
+        inactiveRaycast = true;
+
+        if (ElementWithCanvasGroup.GetComponent<CanvasGroup>().alpha == 0)
+        {
+            ElementWithCanvasGroup.GetComponent<CanvasGroup>().blocksRaycasts = false;
+
+            FadeIn(ElementWithCanvasGroup);
+        }
+        else
+            FadeOut(ElementWithCanvasGroup);
+    }
+
+
     /*metodo para generar el efecto de fade in and out*/
     public IEnumerator fadeCanvasGroup(CanvasGroup cg, float start, float end)
     {
@@ -103,6 +136,16 @@ public class UIFader : MonoBehaviour
             if (inactive)
             {
                 cg.gameObject.SetActive(true);
+            }
+            //cuando termina el efeto y tiene que DESBLOQUEAR el raycast 
+            if (activeRaycast)
+            {
+                cg.blocksRaycasts = false;
+            }
+
+            if (inactiveRaycast)
+            {
+                cg.blocksRaycasts = true;
             }
         }
     }
