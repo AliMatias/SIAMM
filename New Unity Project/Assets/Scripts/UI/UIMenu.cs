@@ -19,6 +19,8 @@ public class UIMenu : MonoBehaviour
     //funcionalidades de guardado espacio de trabajo
     private SaveLoadManager sl;
 
+    public bool Entrando { get => entrando; set => entrando = value; }
+
     void Awake()
     {
         sl = FindObjectOfType<SaveLoadManager>();
@@ -86,7 +88,7 @@ public class UIMenu : MonoBehaviour
         if (currentStyle == null)
         {
             currentStyle = new GUIStyle(GUI.skin.box);
-            currentStyle.normal.background = MakeTex(2, 2, new Color(0, 0, 0, 0.7f));//controlar la opacidad rgb es BLACK!
+            currentStyle.normal.background = MakeTex(2, 2, new Color(0, 0, 0, 0.95f));//controlar la opacidad rgb es BLACK!
         }
     }
 
@@ -106,7 +108,7 @@ public class UIMenu : MonoBehaviour
     //metodo para que sea llamado desde el UIaction y haga el fade a la izq
     public void CloseMenu()
     {
-        entrando = false;
+        Entrando = false;
         Destroy(this, 0.5f);
     }
 
