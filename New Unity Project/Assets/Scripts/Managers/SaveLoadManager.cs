@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using UnityEditor;
+using SFB;
 
 public class SaveLoadManager : MonoBehaviour
 {
@@ -21,25 +21,21 @@ public class SaveLoadManager : MonoBehaviour
     }
 
     public void SaveAs(){
-        Debug.Log("DOES NOT WORK");
-        /*string oldPath = savePath;
-        savePath = EditorUtility.SaveFilePanelInProject("Guardar como...", "Save", "json", "");
-        if(savePath == ""){
-            savePath = oldPath;
-        }else{
+        string savingPath = StandaloneFileBrowser.SaveFilePanel("Save File", "", "Save", "json");
+        if(savingPath != ""){
+            Debug.Log("Guardando en: " + savingPath);
+            savePath = savingPath;
             Save();
-        }*/
+        }
     }
 
     public void OpenFile(){
-        Debug.Log("DOES NOT WORK");
-        /*string oldPath = savePath;
-        savePath = EditorUtility.OpenFilePanel("Abrir", Application.dataPath, "json");
-        if(savePath == ""){
-            savePath = oldPath;
-        }else{
+        string[] openingPath = StandaloneFileBrowser.OpenFilePanel("Open File", "", "json", false);
+        if(openingPath.Length > 0 && openingPath[0] != ""){
+            Debug.Log("Abriendo archivo: " + openingPath[0]);
+            savePath = openingPath[0];
             Load();
-        }*/
+        }
     }
 
     public void Save(){
