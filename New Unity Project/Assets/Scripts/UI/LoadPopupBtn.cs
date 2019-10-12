@@ -27,31 +27,36 @@ public class LoadPopupBtn : MonoBehaviour
         {
             case TypeToolTip.mnuAtom:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
-                offset = new Vector3(70, 0, 0);
+                //utilizamos el valor del screen para obtener la referencia de resolucion, sino queda mal posicionado.       
+                offset = new Vector3(0.035f * Screen.width, 0, 0);
                 setPointersToolTipStaticMove("* ÁTOMOS\n* TABLA PERIÓDICA", offset);
                 break;
 
             case TypeToolTip.mnuCombineProton:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
-                offset = new Vector3(25, 90, 0);
+                //utilizamos el valor del screen para obtener la referencia de resolucion, sino queda mal posicionado.       
+                offset = new Vector3(0.018f * Screen.width, 0.105f * Screen.height, 0);
                 setPointersToolTipStaticMove("COMBINAR\n * ELEMENTOS\n * MOLECÚLAS \n * MATERIALES", offset);
                 break;
 
             case TypeToolTip.mnuInfo:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
-                offset = new Vector3(-200, 40, 0);
-                setPointersToolTipStaticMove("SUGERENCIAS\nINFORMACIÓN ADICIONAL", offset);
+                //utilizamos el valor del screen para obtener la referencia de resolucion, sino queda mal posicionado.       
+                offset = new Vector3(-0.13f * Screen.width, 0.04f * Screen.height, 0);
+                setPointersToolTipStaticMove("COMBINACIONES RECURRENTES\nINFORMACIÓN ADICIONAL", offset);
                 break;
 
             case TypeToolTip.mnuMolecule:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
-                offset = new Vector3(-70, 0, 0);             
+                //utilizamos el valor del screen para obtener la referencia de resolucion, sino queda mal posicionado.       
+                offset = new Vector3(-0.035f * Screen.width, 0, 0);             
                 setPointersToolTipStaticMove("* MOLÉCULAS", offset);
                 break;
 
             case TypeToolTip.mnuSuggestions:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
-                offset = new Vector3(-70, 0, 0);
+                //utilizamos el valor del screen para obtener la referencia de resolucion, sino queda mal posicionado.       
+                offset = new Vector3(-0.045f * Screen.width, 0, 0);
                 setPointersToolTipStaticMove("* SUGERENCIAS", offset);
                 break;
 
@@ -63,11 +68,21 @@ public class LoadPopupBtn : MonoBehaviour
                 setPointersToolTipMove(objectText);          
                 break;
 
+            case TypeToolTip.buttonRefColors:
+                setPointersToolTipMove("REFERENCIAS DE COLORES \nSEGUN CLASIFICACIÓN");
+                break;
+
+            case TypeToolTip.buttonRefParam:
+                setPointersToolTipMove("PARÁMETROS MOSTRADOS \nEN CADA ELEMENTO");
+                break;
+             
             case TypeToolTip.mnuMaterial:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
-                offset = new Vector3(70, 0, 0);
+                //utilizamos el valor del screen para obtener la referencia de resolucion, sino queda mal posicionado.       
+                offset = new Vector3(0.035f * Screen.width, 0, 0); 
                 setPointersToolTipStaticMove("* MATERIALES", offset);
                 break;
+
         }
     }
 

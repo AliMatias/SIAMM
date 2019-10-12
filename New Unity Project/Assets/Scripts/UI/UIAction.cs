@@ -10,29 +10,47 @@ public class UIAction : MonoBehaviour
 
     public void Quit()
     {
-        popupQuit = FindObjectOfType<UIPopupQuestionQuit>();
-
         Debug.Log("Saliendo de la Aplicación");
-
+        popupQuit = FindObjectOfType<UIPopupQuestionQuit>();       
         popupQuit.MostrarPopUp("Salir", "¿Esta seguro que desea salir de la aplicacion?");
     }
 
+    public void newProy()
+    {
+        Debug.Log("Nuevo Proyecto?");
+        gameObject.AddComponent<UIPopupQuestionNewProy>();
+        GetComponent<UIPopupQuestionNewProy>().MostrarPopUp("Nuevo Proyecto", "¿Esta seguro que desea borrar todo y comenzar de nuevo?");//tiene que llamar un popup de afirmacion
+    }
 
+    //disparador de menu principal de "arriba"
     public void openMenu()
     {
         if (!menu)
         {
-            Debug.Log("ABRE MENU");
             gameObject.AddComponent<UIMenu>();
             menu = true;
         }
         else if (menu)
         {
-            Destroy(GetComponent<UIMenu>());
+            GetComponent<UIMenu>().CloseMenu();
             menu = false;
         }
     }
 
-
+    //disparador de click sobre panel lateral
+    public void openMenuPanelClik()
+    {
+        if (!menu)
+        {
+            gameObject.AddComponent<UIPanelClick>();
+            GetComponent<UIPanelClick>().OpenMenu();//abre
+            menu = true;
+        }
+        else if (menu)
+        {
+            GetComponent<UIPanelClick>().CloseMenu();//cierra
+            menu = false;
+        }
+    }
 
 }
