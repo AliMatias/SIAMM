@@ -47,4 +47,4 @@ New Unity Project/Assets/Scenes/SampleScene.unity.orig.meta
 *.orig
 
 # Save Files
-save.json*
+*.json
