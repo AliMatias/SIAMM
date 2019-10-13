@@ -209,6 +209,7 @@ public class MoleculeManager : MonoBehaviour
     {
         Molecule selectedMolecule = FindMoleculeInList(index);
         selectionManager.SelectObject(selectedMolecule);
+        suggestionManager.updateSuggestions();
     }
 
     // BORRAR molécula seleccionada.
@@ -268,6 +269,22 @@ public class MoleculeManager : MonoBehaviour
         }
         return selectedMolecules;
     }
+
+    public List<int> GetSelectedMoleculeIds()
+    {
+        List<int> selectedMolecules = new List<int>();
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        foreach (int index in selectedObjects)
+        {
+            Molecule molecule = FindMoleculeInList(index);
+            if (molecule != null)
+            {
+                selectedMolecules.Add(molecule.MoleculeId);
+            }
+        }
+        return selectedMolecules;
+    }
+
 
     /**
      * Reduce las posiciones de los átomos de una molécula a un valor entre -1 y 1 si es necesario.
