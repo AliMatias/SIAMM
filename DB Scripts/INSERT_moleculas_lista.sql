@@ -1,5 +1,5 @@
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'H2O','Monóxido De Dihidrógeno','Óxido De Hidrógeno','Agua','El agua es una sustancia química cuya fórmula es H2O. Está formado por:
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+1,'H2O','Monóxido De Dihidrógeno','Óxido De Hidrógeno','Agua','El agua es una sustancia química cuya fórmula es H2O. Está formado por:
 
 Un átomo de oxígeno.
 Dos átomos de hidrógeno.
@@ -15,9 +15,9 @@ Agua potable: usada para el consumo humano.
 Agua purificada: utilizada en ciencia e ingeniería en los tres estados que se indican
 Agua destilada.
 Agua de doble destilación.
-Agua desionizada.','Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'CO','Monóxido De Carbono','Óxido De Carbono (II)','Óxido De Carbono','La fórmula CO corresponde a un gas incoloro, insípido y inodoro llamada monóxido de carbono. Se trata de un compuesto muy tóxico y altamente inflamable. Es soluble en benceno y etanol y no es soluble en agua.','Las principales propiedades del CO son:
+Agua desionizada.','Óxido Acido',1.24);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+2,'CO','Monóxido De Carbono','Óxido De Carbono (II)','Óxido De Carbono','La fórmula CO corresponde a un gas incoloro, insípido y inodoro llamada monóxido de carbono. Se trata de un compuesto muy tóxico y altamente inflamable. Es soluble en benceno y etanol y no es soluble en agua.','Las principales propiedades del CO son:
 
 Densidad: 1,25 g dm-3 (0ºC).
 Masa Molar: 28,0 g/mol.
@@ -31,9 +31,9 @@ En los calentadores de propano.
 En los sistemas de calefacción.
 En los motores de los automóviles.
 Carbón, petróleo, propano, o gasolina.
-Calentadores de agua en los que se utiliza gas natural.','Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'K2O','Monóxido De Dipotasio','Óxido De Potasio (I)','Óxido Potásico','El óxido potasio u óxido potásico es un compuesto sólido cuya fórmula química es (K2O). Se trata de un compuesto que se presenta en color amarillo claro.
+Calentadores de agua en los que se utiliza gas natural.','Óxido Acido',0.89);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+3,'K2O','Monóxido De Dipotasio','Óxido De Potasio (I)','Óxido Potásico','El óxido potasio u óxido potásico es un compuesto sólido cuya fórmula química es (K2O). Se trata de un compuesto que se presenta en color amarillo claro.
 El óxido potásico es un óxido metálico formado por:
 
 2 átomos de potasio.
@@ -44,9 +44,9 @@ Masa molar: 94,20 g/mol.
 Punto de fusión: 350 °C.','Entre los usos más comunes del óxido potásico se encuentran:
 
 Elaboración de cementos.
-Fuente en la elaboración de fertilizantes.','Óxido Basico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'Cu2O','Monóxido De Dicobre','Óxido De Cobre (I)','ÓxidoCuproso','El óxido de cobre (I) u óxido cuproso (Cu2O) es un compuesto químico de color rojo o amarillo dependiendo del tamaño de sus partículas. Es insoluble en agua y soluble en solución de amoníaco. Es un compuesto que al disolverse en ácido clorhídrico se obtiene HCuCl2.
+Fuente en la elaboración de fertilizantes.','Óxido Basico',2.62);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+4,'Cu2O','Monóxido De Dicobre','Óxido De Cobre (I)','ÓxidoCuproso','El óxido de cobre (I) u óxido cuproso (Cu2O) es un compuesto químico de color rojo o amarillo dependiendo del tamaño de sus partículas. Es insoluble en agua y soluble en solución de amoníaco. Es un compuesto que al disolverse en ácido clorhídrico se obtiene HCuCl2.
 El óxido cuproso es un óxido metálico formado por:
 
 2 átomos de cobre.
@@ -60,9 +60,9 @@ Punto de ebullición: 1800 °C.','El óxido de cobre (I) es un semiconductor uti
 Efecto Stark Dinámico.
 Diodos semiconductores.
 Efecto Stark Dinámico de excitones.
-Demostración experimental de Wannier.','Óxido Basico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'Fe2O3','Trióxido De Dihierro','Óxido De Hierro (III)','Óxido Férrico','El óxido de hierro (III) (Fe2O3) es un compuesto que no conduce la electricidad. Su apariencia es en forma de polvo de diversos colores como azul, verde o violeta dependiendo del cambio de electrones en el penúltimo nivel de energía.
+Demostración experimental de Wannier.','Óxido Basico',1.54);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+5,'Fe2O3','Trióxido De Dihierro','Óxido De Hierro (III)','Óxido Férrico','El óxido de hierro (III) (Fe2O3) es un compuesto que no conduce la electricidad. Su apariencia es en forma de polvo de diversos colores como azul, verde o violeta dependiendo del cambio de electrones en el penúltimo nivel de energía.
 El óxido de hierro (III) es un óxido metálico formado por:
 
 2 átomos de hierro.
@@ -75,9 +75,9 @@ Solubilidad en agua: insoluble.','Entre las características más importantes de
 
 No tiene brillo metálico.
 No conduce la electricidad.
-Puede darse semiconducción en estequiometría.','Óxido Basico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'FeO','Monóxido De Hierro','Óxido De Hierro (II)','ÓxidoFerroso','El óxido de hierro (II) u óxido ferroso (FeO) es un compuesto en forma de polvo de color negro que no conduce la electricidad. La valencia del hierro en el óxido ferroso es +2.
+Puede darse semiconducción en estequiometría.','Óxido Basico',1.64);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+6,'FeO','Monóxido De Hierro','Óxido De Hierro (II)','ÓxidoFerroso','El óxido de hierro (II) u óxido ferroso (FeO) es un compuesto en forma de polvo de color negro que no conduce la electricidad. La valencia del hierro en el óxido ferroso es +2.
 El óxido de hierro (II) es un óxido metálico formado por:
 
 1 átomo de hierro.
@@ -90,9 +90,9 @@ Punto de ebullición: 3414 °C.','Entre las usos más característicos del óxid
 
 Productos cosméticos.
 Elaboración de tatuajes.
-Es usado como pigmento.','Óxido Basico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'SiO2','Dióxido De Silicio','Óxido De Silicio (IV)','Óxido De Silicio','El óxido de silicio también conocido como sílice, es un mineral que aparece en la arena y es el mineral más abundante de la naturaleza. Este mineral se presenta en forma de granito, neises, cuarcitas... y existe en diferentes colores como por ejemplo: blanco, transparente, amarillo, rosa etc','Entre las principales propiedades del óxido de silicio (SiO2) están:
+Es usado como pigmento.','Óxido Basico',1.64);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+7,'SiO2','Dióxido De Silicio','Óxido De Silicio (IV)','Óxido De Silicio','El óxido de silicio también conocido como sílice, es un mineral que aparece en la arena y es el mineral más abundante de la naturaleza. Este mineral se presenta en forma de granito, neises, cuarcitas... y existe en diferentes colores como por ejemplo: blanco, transparente, amarillo, rosa etc','Entre las principales propiedades del óxido de silicio (SiO2) están:
 
 Densidad: 2630 kg/m3
 Masa molar: 60,0843 g/mol
@@ -103,9 +103,9 @@ Solubilidad: 0,012g en 100g de agua','Dada su estructura dura y cristalina el ó
 Fabricación de vidrios.
 Joyería (como priedras preciosas).
 Construcción.
-Elemento en aleaciones.','Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'KH','Monohidruro De Potasio','Hidruro De Potasio (I)','Hidruro Potásico','El hidruro de potasio es un compuesto químico formado por hidrógeno y potasio que se presenta en forma sólida de color gris y sin aspecto metálico cuya fórmula química es (KH). Reacciona con el agua provocando una reacción virulenta y poderosa provocando una llama de color lila al mismo tiempo que arde el gas hidrógeno producido en la reacción. Se trata de un compuesto pirofórico que requiere un manejo cuidadoso del mismo.
+Elemento en aleaciones.','Óxido Acido',1.54);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+8,'KH','Monohidruro De Potasio','Hidruro De Potasio (I)','Hidruro Potásico','El hidruro de potasio es un compuesto químico formado por hidrógeno y potasio que se presenta en forma sólida de color gris y sin aspecto metálico cuya fórmula química es (KH). Reacciona con el agua provocando una reacción virulenta y poderosa provocando una llama de color lila al mismo tiempo que arde el gas hidrógeno producido en la reacción. Se trata de un compuesto pirofórico que requiere un manejo cuidadoso del mismo.
 
 El hidruro potásico es un hidruro metálico formado por:
 
@@ -114,25 +114,25 @@ El hidruro potásico es un hidruro metálico formado por:
 
 Masa molar: 40,10 g/mol.
 Inflamación: no se inflama al aire ni al oxígeno.
-Ardimiento: arde en aire y en oxígeno a una temperatura de 80ºC.',NULL,'Hidruro Metalico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'NiH3','Trihidruro De Níquel','Hidruro De Níquel (III)','Hidruro Niquélico',NULL,NULL,NULL,'Hidruro Metalico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'CuH2','Dihidruro De Cobre','Hidruro De Cobre (II)','Hidruro Cúprico',NULL,NULL,NULL,'Hidruro Metalico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'PbH4','Tetrahidruro De Plomo','Hidruro De Plomo (IV)','Hidruro Plúmbico',NULL,NULL,NULL,'Hidruro Metalico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'FeS','Monosulfuro De Hierro','Sulfuro De Hierro (II)','Sulfuro Ferroso',NULL,NULL,NULL,'Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'Fe2S3','Trisulfuro De Dihierro','Sulfuro De Hierro (III)','Sulfuro Férrico',NULL,NULL,NULL,'Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'AuCl3','Tricloruro De Oro','Cloruro De Oro (III)','Cloruro Áurico',NULL,NULL,NULL,'Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'AuBr','Monobromuro De Oro','Bromuro De Oro (I)','Bromuro Auroso',NULL,NULL,NULL,'Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'MnS2','Disulfuro De Manganeso','Sulfuro De Manganeso (IV)','Sulfuro De Manganeso',NULL,NULL,NULL,'Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'N2O','Monóxido De Dinitrógeno','Óxido De Nitrógeno (I)','Oxido Hiponitroso','El óxido de nitrógeno (I) es un gas volátil, incoloro y ligeramente tóxico cuya fórmula química es (N2O). Fue el primer gas utilizado en medicina.
+Ardimiento: arde en aire y en oxígeno a una temperatura de 80ºC.',NULL,'Hidruro Metalico',1.38);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+9,'NiH3','Trihidruro De Níquel','Hidruro De Níquel (III)','Hidruro Niquélico',NULL,NULL,NULL,'Hidruro Metalico',0.29);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+10,'CuH2','Dihidruro De Cobre','Hidruro De Cobre (II)','Hidruro Cúprico',NULL,NULL,NULL,'Hidruro Metalico',0.3);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+11,'PbH4','Tetrahidruro De Plomo','Hidruro De Plomo (IV)','Hidruro Plúmbico',NULL,NULL,NULL,'Hidruro Metalico',0.13);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+12,'FeS','Monosulfuro De Hierro','Sulfuro De Hierro (II)','Sulfuro Ferroso',NULL,NULL,NULL,'Sal Binaria',0.75);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+13,'Fe2S3','Trisulfuro De Dihierro','Sulfuro De Hierro (III)','Sulfuro Férrico',NULL,NULL,NULL,'Sal Binaria',0.75);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+14,'AuCl3','Tricloruro De Oro','Cloruro De Oro (III)','Cloruro Áurico',NULL,NULL,NULL,'Sal Binaria',0.62);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+15,'AuBr','Monobromuro De Oro','Bromuro De Oro (I)','Bromuro Auroso',NULL,NULL,NULL,'Sal Binaria',0.42);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+16,'MnS2','Disulfuro De Manganeso','Sulfuro De Manganeso (IV)','Sulfuro De Manganeso',NULL,NULL,NULL,'Sal Binaria',1.03);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+17,'N2O','Monóxido De Dinitrógeno','Óxido De Nitrógeno (I)','Oxido Hiponitroso','El óxido de nitrógeno (I) es un gas volátil, incoloro y ligeramente tóxico cuya fórmula química es (N2O). Fue el primer gas utilizado en medicina.
 
 Es un anhídrido formado por:
 
@@ -146,18 +146,18 @@ Densidad del gas (20ºC, 1 bar): 1843 g/ml','Entre las principales aplicaciones 
 
 Obstetricia.
 Odontología.
-Analgesia y sedación.','Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'N2O3','Trióxido De Dinitrógeno','Óxido De Nitrógeno (III)','Óxido Nitroso','El óxido de nitrógeno (III) es un compuesto cuya fórmula es N2O3. Se trata de un líquido de color azul con olor desagradable. El óxido de nitrógeno (III) es un anhídrido formado por:
+Analgesia y sedación.','Óxido Acido',0.4);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+18,'N2O3','Trióxido De Dinitrógeno','Óxido De Nitrógeno (III)','Óxido Nitroso','El óxido de nitrógeno (III) es un compuesto cuya fórmula es N2O3. Se trata de un líquido de color azul con olor desagradable. El óxido de nitrógeno (III) es un anhídrido formado por:
 
 2 átomos de nitrógeno.
 3 átomos de oxígeno.','Las principales propiedades del anhídrido nitroso N2O3 son:
 
 Densidad: 1,445 g/cm3.
 Masa molar: 76,012 g/mol.
-Punto de ebullición: 3,5 °C.','Dado que este tipo de anhídrido es muy inestable al contacto con el aire no tiene aplicaciones salvo combustibles especiales.','Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'N2O5','Pentóxido De Dinitrógeno','Óxido De Nitrógeno (V)','Óxido Nítrico','El pentaóxido de dinitrógeno (N2O5) es un compuesto perteneciente a los compuestos binarios de los óxidos de nitrógeno formado por:
+Punto de ebullición: 3,5 °C.','Dado que este tipo de anhídrido es muy inestable al contacto con el aire no tiene aplicaciones salvo combustibles especiales.','Óxido Acido',0.4);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+19,'N2O5','Pentóxido De Dinitrógeno','Óxido De Nitrógeno (V)','Óxido Nítrico','El pentaóxido de dinitrógeno (N2O5) es un compuesto perteneciente a los compuestos binarios de los óxidos de nitrógeno formado por:
 
 2 átomos de oxígeno.
 5 átomos de nitrógeno.
@@ -166,13 +166,13 @@ Es un compuesto potencialmente peligroso y muy reactivo al disolverse en clorofo
 Densidad: 1,64 g/cm3.
 Masa molar: 108,01 g/mol.
 Punto de fusión: 41 °C.
-Punto de ebullición: 47 °C.',NULL,'Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'HIO','Monoxoyodato (I) De Hidrógeno','Ácido Monoxoyódico (I)','Ácido Hipoyodoso',NULL,NULL,NULL,'Oxoacido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'H2','Dihidrógeno','-','Hidrogeno Molecular',NULL,NULL,NULL,'Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'HCl','Cloruro De Hidrógeno','Cloruro De Hidrógeno','Ácido Clorhídrico','HCl corresponde al compuesto denominado cloruro de hidrógeno. Es un gas fumante incoloro formado por:
+Punto de ebullición: 47 °C.',NULL,'Óxido Acido',0.4);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+20,'HIO','Monoxoyodato (I) De Hidrógeno','Ácido Monoxoyódico (I)','Ácido Hipoyodoso',NULL,NULL,NULL,'Oxoacido',0.78);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+21,'H2','Dihidrógeno','-','Hidrogeno Molecular',NULL,NULL,NULL,'Sal Binaria',0.0);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+22,'HCl','Cloruro De Hidrógeno','Cloruro De Hidrógeno','Ácido Clorhídrico','HCl corresponde al compuesto denominado cloruro de hidrógeno. Es un gas fumante incoloro formado por:
 
 Un átomo de cloro.
 Un átomo de hidrógeno.
@@ -185,9 +185,9 @@ Punto de ebullición: -85 °C.','El cloruro de hidrógeno se usa entre otros uso
 
 Curtir cuero.
 Limpieza y tratamiento para galvanizar metales.
-Industria manufacturera.','Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'HF','Fluoruro De Hidrógeno','Fluoruro De Hidrógeno','Ácido Fluorhídrico','El fluoruro de hidrógeno cuya fórmula es HF es un líquido incoloro formado por:
+Industria manufacturera.','Sal Binaria',0.96);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+23,'HF','Fluoruro De Hidrógeno','Fluoruro De Hidrógeno','Ácido Fluorhídrico','El fluoruro de hidrógeno cuya fórmula es HF es un líquido incoloro formado por:
 
 1 átomo de hidrógeno.
 1 átomo de flúor.
@@ -201,9 +201,9 @@ Punto de ebullición: 19,51 °C.','Entre los usos comerciales que tiene el fluor
 Aerosoles.
 Solventes.
 Fluorocarbonos.
-Refrigerantes.','Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'KCl','Monocloruro De Potasio','Cloruro De Potasio','Cloruro Potásico','El cloruro de potasio (KCl) es un compuesto inorgánico en forma de cristales blancos o incoloros altamente soluble en agua.
+Refrigerantes.','Sal Binaria',1.78);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+24,'KCl','Monocloruro De Potasio','Cloruro De Potasio','Cloruro Potásico','El cloruro de potasio (KCl) es un compuesto inorgánico en forma de cristales blancos o incoloros altamente soluble en agua.
 
 Es una sal neutra formada por:
 
@@ -219,11 +219,11 @@ Medicina.
 Construcción.
 Industria alimenticia.
 Industria farmacéutica.
-Suplementos minerales y nutritivos.','Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'N2','Dinitrógeno','-','Nitrógeno Molecular',NULL,NULL,NULL,'Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'NO','Monóxido De Nitrógeno','Óxido De Nitrógeno (II)','Óxido Nítroso','El monóxido de nitrógeno (NO) es un gas incoloro y poco soluble en agua. Se oxida con facilidad en presencia de oxígeno convirtiéndolo en dióxido de nitrógeno así como con halógenos dando haluros de nitrosilo (XNO).','Las principales propiedades del monóxido de nitrógeno(NO) son:
+Suplementos minerales y nutritivos.','Sal Binaria',2.34);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+25,'N2','Dinitrógeno','-','Nitrógeno Molecular',NULL,NULL,NULL,'Sal Binaria',0.0);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+26,'NO','Monóxido De Nitrógeno','Óxido De Nitrógeno (II)','Óxido Nítroso','El monóxido de nitrógeno (NO) es un gas incoloro y poco soluble en agua. Se oxida con facilidad en presencia de oxígeno convirtiéndolo en dióxido de nitrógeno así como con halógenos dando haluros de nitrosilo (XNO).','Las principales propiedades del monóxido de nitrógeno(NO) son:
 
 Densidad: 0,00103 g/cm3.
 Masa molar: 30,01 g/mol.
@@ -234,9 +234,9 @@ Presión crítica: 63,16 atm.','Entre los principales usos monóxido de nitróge
 
 Automovilismo.
 Elaboración de productos químicos.
-Farmacocinética: utilizado para la elaboración de anestésicos.','Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'NaCl','Monocloruro De Sodio','Cloruro De Sodio','Cloruro Sódico','El cloruro de sodio, conocido como sal común, es un sólido incoloro cristalino soluble en agua y muy poco soluble en etanol. Está formado por
+Farmacocinética: utilizado para la elaboración de anestésicos.','Óxido Acido',0.4);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+27,'NaCl','Monocloruro De Sodio','Cloruro De Sodio','Cloruro Sódico','El cloruro de sodio, conocido como sal común, es un sólido incoloro cristalino soluble en agua y muy poco soluble en etanol. Está formado por
 
 Un átomo de sodio.
 Un átomo de cloro.','Las principales propiedades cloruro sódico (NaCl) son:
@@ -251,11 +251,11 @@ Fabricación de plásticos.
 Extintores de incendios.
 Producción de hormigón.
 Productos para las piscinas.
-Deshielo en carreteras, los estacionamientos y las aceras: ya que el cloruro de sodio genera calor al disolverse en agua.','Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'SiO','Monóxido De Silicio','Óxido De Silicio','Óxido Silícico',NULL,NULL,NULL,'Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'CH4','Tetrahidruro De Carbono','-','Metano​​','El metano (CH4) es el hidrocarburo alcano más sencillo. Cada uno de los átomos de hidrógeno se encuentra unido a al carbono mediante un enlace covalente. El metano es el componente fundamental del gas natural aproximadamente un (97%).','Las principales propiedades del metano (CH4) son:
+Deshielo en carreteras, los estacionamientos y las aceras: ya que el cloruro de sodio genera calor al disolverse en agua.','Sal Binaria',2.23);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+28,'SiO','Monóxido De Silicio','Óxido De Silicio','Óxido Silícico',NULL,NULL,NULL,'Óxido Acido',1.54);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+29,'CH4','Tetrahidruro De Carbono','-','Metano​​','El metano (CH4) es el hidrocarburo alcano más sencillo. Cada uno de los átomos de hidrógeno se encuentra unido a al carbono mediante un enlace covalente. El metano es el componente fundamental del gas natural aproximadamente un (97%).','Las principales propiedades del metano (CH4) son:
 
 Densidad: 0,000717 g/cm3.
 Masa molar: 16,04 g/mol.
@@ -264,9 +264,9 @@ Punto de ebullición: -162 °C.','Entre los principales usos del metano se encue
 
 Procesos industriales.
 Combustible: utilizado para la generación eléctrica.
-Industria química: para la producción de hidrógeno, metano y ácido acético.','Organico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'NH3','Trihidruro De Nitrógeno','Nitruro De Hidrógeno (III)','Amoníaco','NH3 corresponde con la fórmula del amoníaco. Se trata de un compuesto químico formado por :
+Industria química: para la producción de hidrógeno, metano y ácido acético.','Organico',0.35);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+30,'NH3','Trihidruro De Nitrógeno','Nitruro De Hidrógeno (III)','Amoníaco','NH3 corresponde con la fórmula del amoníaco. Se trata de un compuesto químico formado por :
 
 Un átomo de nitrógeno.
 Tres átomos de hidrógeno.
@@ -279,9 +279,9 @@ Punto de ebullición: -33,34 °C.','Entre los principales funciones y usos del a
 
 Producción de pulpa y papel.
 Productos de limpieza: suele ser utilizado como disolvente.
-Fertilizante agrícola: es comúnmente usado como fertilizante en forma de amoníaco anhidro y como abono.','Hidruro No Metalico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'CO2','Dióxido De Carbono','Óxido De Carbono (IV)','Óxido Carbónico','El dióxido de carbono (CO2) es un gas incoloro e inodoro. Es soluble en agua, acetona y etanol.
+Fertilizante agrícola: es comúnmente usado como fertilizante en forma de amoníaco anhidro y como abono.','Hidruro No Metalico',0.84);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+31,'CO2','Dióxido De Carbono','Óxido De Carbono (IV)','Óxido Carbónico','El dióxido de carbono (CO2) es un gas incoloro e inodoro. Es soluble en agua, acetona y etanol.
 El dióxido de carbono se encuentra en dos posible estados:
 
 Dióxido de carbono líquido: se obtiene a altas temperaturas. En este compuesto la molécula CO2 es lineal, cada órgano se une mediante un doble enlace al átomo de carbono. Al disolverse en agua da lugar al ácido carbónico.
@@ -300,9 +300,9 @@ Medicina: entre los que se encuentran
 Ventilación en cirugías.
 Tratamientos estéticos.
 Tratamiento para problemas circulatorios.
-Tratamiento de heridas craneales.','Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'H2S','Monosulfuro de Dihidrógeno','Sulfuro De Hidrógeno (I)','Ácido Sulfhídrico','El ácido sulfhídrico es un compuesto cuya fórmula es (H2S). Se trata de un gas incoloro de olor característico a huevos podridos. El ácido sulfhídrico es un hidrácido formado por:
+Tratamiento de heridas craneales.','Óxido Acido',0.89);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+32,'H2S','Monosulfuro de Dihidrógeno','Sulfuro De Hidrógeno (I)','Ácido Sulfhídrico','El ácido sulfhídrico es un compuesto cuya fórmula es (H2S). Se trata de un gas incoloro de olor característico a huevos podridos. El ácido sulfhídrico es un hidrácido formado por:
 
 2 átomos de hidrógeno.
 1 átomo de azufre.','Las principales propiedades del sulfuro de hidrógeno (H2S) son:
@@ -314,18 +314,18 @@ Punto de ebullición: -60,7 °C.','Entre las aplicaciones en las que interviene 
 
 Como reactivo.
 Industría química.
-Para la obtención de sulfuro puro.','Hidruro No Metalico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'SO2','Dióxido De Azufre','Óxido De Azufre (IV)','Óxido Sulfuroso','El dióxido de azufre (SO2) es un gas incoloro con un fuerte olor característico. Su velocidad de reacción es baja en condiciones normales. Se disuelve en agua formando una disolución ácida.','Las principales propiedades del dióxido de azufre son:
+Para la obtención de sulfuro puro.','Hidruro No Metalico',0.38);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+33,'SO2','Dióxido De Azufre','Óxido De Azufre (IV)','Óxido Sulfuroso','El dióxido de azufre (SO2) es un gas incoloro con un fuerte olor característico. Su velocidad de reacción es baja en condiciones normales. Se disuelve en agua formando una disolución ácida.','Las principales propiedades del dióxido de azufre son:
 
 Densidad: 2,63 kg/m3.
 Masa molar: 64,066 g/mol.
 Punto de fusión: -72 °C.
-Punto de ebullición: -10 °C.',NULL,'Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'NaOH','Hidróxido De Sodio','Hidróxido De Sodio (I)','Hidróxido Sódico',NULL,'Soda Caustica',NULL,'Hidróxido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'KOH','Hidróxido De Potasio','Hidróxido De Potasio (I)','Hidróxido Potásico','El hidróxido de potasio tambien llamado potasa caústica o lejía de potasio es un compuesto cuya fórmula es (KOH). Se trata de un sólido de color blanco con gran facilidad de absorber la humedad del aire. Se trata de un hidróxido formado por:
+Punto de ebullición: -10 °C.',NULL,'Óxido Acido',0.86);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+34,'NaOH','Hidróxido De Sodio','Hidróxido De Sodio (I)','Hidróxido Sódico',NULL,'Soda Caustica',NULL,'Hidróxido',2.51);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+35,'KOH','Hidróxido De Potasio','Hidróxido De Potasio (I)','Hidróxido Potásico','El hidróxido de potasio tambien llamado potasa caústica o lejía de potasio es un compuesto cuya fórmula es (KOH). Se trata de un sólido de color blanco con gran facilidad de absorber la humedad del aire. Se trata de un hidróxido formado por:
 
 1 átomo de potasio.
 1 átomo de oxígeno.
@@ -340,17 +340,17 @@ Fertilizantes.
 Jabones.
 Pilas alcalinas.
 Productos de limpieza.
-Derivados del potasio.','Hidróxido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'Fe(OH)2','Dihidróxido De Hierro','Hidróxido De Hierro (II)','Hidróxido Ferroso',NULL,NULL,NULL,'Hidróxido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'Fe(OH)3','Trihidróxido De Hierro','Hidróxido De Hierro (III)','Hidróxido Férrico',NULL,NULL,NULL,'Hidróxido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'CuOH','Hidróxido De Cobre','Hidróxido De Cobre (I)','Hidróxido Cuproso',NULL,NULL,NULL,'Hidróxido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'Cu(OH)2','Dihidróxido De Cobre','Hidróxido De Cobre (II)','Hidróxido Cúprico',NULL,NULL,NULL,'Hidróxido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'Ca(OH)2','Dihidróxido De Calcio','Hidróxido De Calcio (II)','Hidróxido Cálcico','El hidróxido de calcio también llamado cal apagada o cal hidratada es un compuesto cuya fórmula es Ca(OH)2. Se trata de un hidróxido en forma de polvo blanco formado por:
+Derivados del potasio.','Hidróxido',2.62);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+36,'Fe(OH)2','Dihidróxido De Hierro','Hidróxido De Hierro (II)','Hidróxido Ferroso',NULL,NULL,NULL,'Hidróxido',1.61);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+37,'Fe(OH)3','Trihidróxido De Hierro','Hidróxido De Hierro (III)','Hidróxido Férrico',NULL,NULL,NULL,'Hidróxido',1.61);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+38,'CuOH','Hidróxido De Cobre','Hidróxido De Cobre (I)','Hidróxido Cuproso',NULL,NULL,NULL,'Hidróxido',1.54);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+39,'Cu(OH)2','Dihidróxido De Cobre','Hidróxido De Cobre (II)','Hidróxido Cúprico',NULL,NULL,NULL,'Hidróxido',1.54);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+40,'Ca(OH)2','Dihidróxido De Calcio','Hidróxido De Calcio (II)','Hidróxido Cálcico','El hidróxido de calcio también llamado cal apagada o cal hidratada es un compuesto cuya fórmula es Ca(OH)2. Se trata de un hidróxido en forma de polvo blanco formado por:
 
 1 átomo de calcio.
 2 átomos de oxígeno.
@@ -368,9 +368,9 @@ Industria alimentaria.
 Cosméticos.
 Industria de la construcción.
 Purificación de aguas.
-Fertilizante, abonos y piensos.','Hidróxido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'HClO','Oxoclorato (I) De hidrógeno','Ácido de Cloro (I)','Ácido Hipocloroso','El ácido hipocloroso es un ácido compuesto por la unión del óxido de cloro con agua (H20), siendo +1 el estado de oxidación con el que actúa el cloro.
+Fertilizante, abonos y piensos.','Hidróxido',2.44);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+41,'HClO','Oxoclorato (I) De hidrógeno','Ácido de Cloro (I)','Ácido Hipocloroso','El ácido hipocloroso es un ácido compuesto por la unión del óxido de cloro con agua (H20), siendo +1 el estado de oxidación con el que actúa el cloro.
 El ácido hipocloroso es un oxoácido formado por:
 
 1 átomo de hidrógeno.
@@ -384,9 +384,9 @@ Punto de ebullición: 2.0°C.','Entre las características más importantes del 
 Es un gran desinfectante.
 Limpieza de exposiciones óseas.
 Control de infecciones cutáneas.
-Cuidado de heridas por quemaduras.','Oxoacido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'SiH4','Tetrahidruro De Silicio','Hidruro de Silicio (IV)','Silano​','El Silano (SiH4) es un gas incoloro, insoluble en agua y puede llegar a ser irritante para diversas partes sensibles del organismo. El silano es estable en ausencia de aire llegando a inflamarse espontáneamente a temperaturas bajas.','Las principales propiedades de la silano (SiH4) son:
+Cuidado de heridas por quemaduras.','Oxoacido',0.28);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+42,'SiH4','Tetrahidruro De Silicio','Hidruro de Silicio (IV)','Silano​','El Silano (SiH4) es un gas incoloro, insoluble en agua y puede llegar a ser irritante para diversas partes sensibles del organismo. El silano es estable en ausencia de aire llegando a inflamarse espontáneamente a temperaturas bajas.','Las principales propiedades de la silano (SiH4) son:
 
 Densidad: 0,7 g/cm3.
 Masa molar: 32,12 g/mol.
@@ -396,9 +396,9 @@ Punto de ebullición: -112 °C.','Entre los principales usos en los que se encue
 Electrónica.
 Astronáutica.
 Cerámicas, vidrio, cemento y cal.
-Química: usado como agente reductor para síntesis orgánicas.','Oxoacido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'HNO3','Trioxonitrato (V) De Hidrógeno','Ácido Trioxonítrico (V)','Ácido Nítrico','El ácido nítrico es un compuesto químico tóxico y corrosivo de fórmula HNO3.
+Química: usado como agente reductor para síntesis orgánicas.','Oxoacido',0.3);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+43,'HNO3','Trioxonitrato (V) De Hidrógeno','Ácido Trioxonítrico (V)','Ácido Nítrico','El ácido nítrico es un compuesto químico tóxico y corrosivo de fórmula HNO3.
 El ácido nítrico es un oxoácido formado por:
 
 1 átomo de hidrógeno.
@@ -414,9 +414,9 @@ Incoloro.
 Inoloro.
 Viscoso.
 Es un oxoácido fuerte.
-Es un agente oxidante potente.','Oxoacido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'CHCl3','Triclorometano','-','Cloroformo','El cloroformo es un derivado halogenado en estado líquido a temperatura ambiente, incoloro y volátil ya que cambia fácilmente de un estado líquido a un estado de varpor a temperaturas ambientales normales.
+Es un agente oxidante potente.','Oxoacido',0.4);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+44,'CHCl3','Triclorometano','-','Cloroformo','El cloroformo es un derivado halogenado en estado líquido a temperatura ambiente, incoloro y volátil ya que cambia fácilmente de un estado líquido a un estado de varpor a temperaturas ambientales normales.
 
 Su fórmula es CHCl3 y se encuentra formado por:
 
@@ -439,9 +439,9 @@ La exposición prolongada al cloroformo puede causar dolencias y enfermedades co
 Cáncer.
 Vómitos.
 Dolores de cabeza.
-Problemas de corazón.','Organico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'SO3','Trióxido De Azufre','Óxido De Azufre (VI)','Óxido Sulfúrico','El Trióxido de Azufre (SO3) es un sólido incoloro humeante en condiciones normales, aunque en condiciones estándar (25ºC y 1 atm) se comporta como un gas, siendo el principal agente de la lluvia ácida.','Las principales propiedades trióxido de azufre (SO3) son:
+Problemas de corazón.','Organico',0.61);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+45,'SO3','Trióxido De Azufre','Óxido De Azufre (VI)','Óxido Sulfúrico','El Trióxido de Azufre (SO3) es un sólido incoloro humeante en condiciones normales, aunque en condiciones estándar (25ºC y 1 atm) se comporta como un gas, siendo el principal agente de la lluvia ácida.','Las principales propiedades trióxido de azufre (SO3) son:
 
 Densidad: 1,92 g/cm3.
 Masa molar: 80,06 g/mol.
@@ -449,9 +449,9 @@ Punto de fusión: 16,9 °C.
 Punto de ebullición: 45 °C.','Entre los usos más frecuente del trióxido de azufre (SO3) se encuentran:
 
 Disolvente en disoluciones ácidas.
-Agente reductor en las disoluciones de tipo básicas.','Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'CCl4','Tetracloruro De Carbono','Cloruro De Carbono (IV)','Cloruro Carbónico','El cloruro carbónico (CCl4) es un compuesto químico sintético muy tóxico que se presenta en estado líquido. Es una sal volátil formada por:
+Agente reductor en las disoluciones de tipo básicas.','Óxido Acido',0.86);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+46,'CCl4','Tetracloruro De Carbono','Cloruro De Carbono (IV)','Cloruro Carbónico','El cloruro carbónico (CCl4) es un compuesto químico sintético muy tóxico que se presenta en estado líquido. Es una sal volátil formada por:
 
 1 átomo de carbono.
 4 átomos de cloro.','Las principales características del cloruro de carbono (IV) (CCl4) son:
@@ -463,19 +463,19 @@ Punto de ebullición: 77ºC.','Entre las principales aplicaciones del tetracloru
 
 Fungicidas.
 Plaguicidas.
-Desinfectante genérico.','Sal Binaria');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'OH','-','-','Radical Hidróxilo​',NULL,NULL,NULL,'Organico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'CO2H','-','-','Ácido Carboxilico',NULL,NULL,NULL,'Compuestos');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'CH3','-','-','Metilo',NULL,NULL,NULL,'Organico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'C2H5','-','-','Radical Etilo',NULL,NULL,NULL,'Organico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'C3H8','-','-','Propano',NULL,NULL,NULL,'Organico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'C2H4','-','-','Eteno','El etileno es un alqueno gaseoso incoloro de olor etéreo. Es un compuesto casi insoluble en agua y soluble en disolventes orgánicos.
+Desinfectante genérico.','Sal Binaria',0.61);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+47,'OH','-','-','Radical Hidróxilo​',NULL,NULL,NULL,'Organico',1.24);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+48,'CO2H','-','-','Ácido Carboxilico',NULL,NULL,NULL,'Compuestos',0.89);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+49,'CH3','-','-','Metilo',NULL,NULL,NULL,'Organico',0.35);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+50,'C2H5','-','-','Radical Etilo',NULL,NULL,NULL,'Organico',0.35);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+51,'C3H8','-','-','Propano',NULL,NULL,NULL,'Organico',0.35);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+52,'C2H4','-','-','Eteno','El etileno es un alqueno gaseoso incoloro de olor etéreo. Es un compuesto casi insoluble en agua y soluble en disolventes orgánicos.
 
 La fórmula del eteno es C2H4 y se encuentra formado por:
 
@@ -490,11 +490,11 @@ Punto de ebullición: -104 °C.','Entre las principales aplicaciones del eteno s
 Fabricación de estireno.
 Productos farmacéuticos.
 Fabricación de polímeros.
-Industria química orgánica.','Organico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'O2','-','-','Oxigeno',NULL,NULL,NULL,'Organico');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'NO2','Dioxido de Nitrogeno','Óxido De Nitrógeno (IV)','Óxido Nítrico','El dióxido de nitrógeno u óxido nítrico es un compuesto químico cuya fórmula es (NO2) de color amarillo-marrón.
+Industria química orgánica.','Organico',0.35);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+53,'O2','-','-','Oxigeno',NULL,NULL,NULL,'Organico',0.0);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+54,'NO2','Dioxido de Nitrogeno','Óxido De Nitrógeno (IV)','Óxido Nítrico','El dióxido de nitrógeno u óxido nítrico es un compuesto químico cuya fórmula es (NO2) de color amarillo-marrón.
 El óxido nítrico es un óxido metálico formado por:
 
 1 átomo de nitrógeno.
@@ -503,9 +503,9 @@ El óxido nítrico es un óxido metálico formado por:
 Densidad: 1,449 kg/m3.
 Masa molar: 46,1 g/mol.
 Punto de fusión: -11,20 °C.
-Punto de ebullición: 21,2 °C.',NULL,'Óxido Acido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'Al(OH)3','Hidróxido De Aluminio','Hidróxido De Aluminio (III)','Hidróxido Alumínico','El hidróxido de aluminio es un compuesto cuya fórmula es Al(OH)3. Se trata de un sólido de color blanco que puede encontrarse en forma de polvo, cristales o gránulos. Es un hidróxido formado por:
+Punto de ebullición: 21,2 °C.',NULL,'Óxido Acido',0.4);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+55,'Al(OH)3','Hidróxido De Aluminio','Hidróxido De Aluminio (III)','Hidróxido Alumínico','El hidróxido de aluminio es un compuesto cuya fórmula es Al(OH)3. Se trata de un sólido de color blanco que puede encontrarse en forma de polvo, cristales o gránulos. Es un hidróxido formado por:
 
 1 átomo de aluminio.
 3 átomos de oxígeno.
@@ -517,15 +517,15 @@ Punto de fusión: 300 °C.','Entre las aplicaciones en las que interviene el hid
 
 Antiácido gástrico.
 Dentífricos.
-Vacunas.','Hidróxido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'HClO2','Dioxoclorato (III) De Hidrógeno','Ácido Dioxoclórico (III)','Ácido Cloroso',NULL,NULL,NULL,'Oxoacido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'HBrO2','Dioxobromato (III) De Hidrógeno','Ácido Dioxobrómico (III)','Ácido Bromoso','El ácido bromoso (HBrO2) es un compuesto de bromo con número de oxidación +3.
+Vacunas.','Hidróxido',1.83);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+56,'HClO2','Dioxoclorato (III) De Hidrógeno','Ácido Dioxoclórico (III)','Ácido Cloroso',NULL,NULL,NULL,'Oxoacido',0.28);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+57,'HBrO2','Dioxobromato (III) De Hidrógeno','Ácido Dioxobrómico (III)','Ácido Bromoso','El ácido bromoso (HBrO2) es un compuesto de bromo con número de oxidación +3.
 El ácido bromoso es un oxoácido formado por:
 
 1 átomo de hidrógeno.
 1 átomo de bromo.
-2 átomos de oxígeno.','','','Oxoacido');
-INSERT INTO moleculas_lista (formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion) VALUES (
-'HIO2','Dioxoyodato (III) De Hidrógeno','Ácido Dioxoyódico (III)','Ácido Yodoso',NULL,NULL,NULL,'Oxoacido');
+2 átomos de oxígeno.','','','Oxoacido',0.48);
+INSERT INTO moleculas_lista (id,formula,formula_nomenclatura_sistematica,nomenclatura_stock,nomenclatura_tradicional,caracteristicas,propiedades,usos,clasificacion,diferencia_electronegatividad) VALUES (
+58,'HIO2','Dioxoyodato (III) De Hidrógeno','Ácido Dioxoyódico (III)','Ácido Yodoso',NULL,NULL,NULL,'Oxoacido',0.78);
