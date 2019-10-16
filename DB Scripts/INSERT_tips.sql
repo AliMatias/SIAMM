@@ -1,12 +1,12 @@
 INSERT INTO tips (tema_relacionado,tema_tratado,descripcion) VALUES (
-'√Åtomos','Valencia','La valencia de un elemento indica la capacidad de combinaci√≥n de un √°tomo');
+'¡tomos','Valencia','La valencia de un elemento indica la capacidad de combinaciÛn de un ¡tomo');
 INSERT INTO tips (tema_relacionado,tema_tratado,descripcion) VALUES (
-'√Åtomos','N√∫mero de oxidaci√≥n','El n√∫mero de oxidaci√≥n indica la valencia con la que un √°tomo act√∫a en un compuesto');
+'¡tomos','N˙mero de oxidaciÛn','El n˙mero de oxidaciÛn indica la valencia con la que un ·tomo actua en un compuesto');
 INSERT INTO tips (tema_relacionado,tema_tratado,descripcion) VALUES (
-'Mol√©cula','Definiciones','La mol√©cula es la parte m√°s peque√±a de una sustancia qu√≠mica que puede existir de forma independiente con sus propiedades caracter√≠sticas');
+'MolÈcula','Definiciones','La molÈcula es la parte mas pequeÒa de una sustancia quÌmica que puede existir de forma independiente con sus propiedades caracteristicas');
 INSERT INTO tips (tema_relacionado,tema_tratado,descripcion) VALUES (
-'Mol√©cula','Medidas','Las densidades para las medidas de las moleculas estan expresadas en Angstrom');
+'MolÈcula','Medidas','Las densidades para las medidas de las moleculas estan expresadas en Angstrom');
 INSERT INTO tips (tema_relacionado,tema_tratado,descripcion) VALUES (
-'Mol√©cula','Enlaces','El orden de enlace es el n√∫mero de enlaces existentes entre un par de √°tomos');
+'MolÈcula','Enlaces','El orden de enlace es el n˙mero de enlaces existentes entre un par de ·tomos');
 INSERT INTO tips (tema_relacionado,tema_tratado,descripcion) VALUES (
-'√Åtomos','Configuracion Electronica','La distribucion de los electrones en las orbitas se realiza con la ayuda del Diagrama de Linus Pauling');
+'¡tomos','Configuracion Electronica','La distribucion de los electrones en las orbitas se realiza con la ayuda del Diagrama de Linus Pauling');

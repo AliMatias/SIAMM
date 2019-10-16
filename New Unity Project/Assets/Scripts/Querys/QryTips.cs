@@ -52,4 +52,36 @@ public class QryTips : MonoBehaviour
     }
 
 
+    //trae el listado de id de tips para llenar los contadores de aparicion
+    public List <int> GetTipsIds()
+    {
+        List<int> tipId = new List<int>();
+        //dejo un reader local para cada query, no siendo global
+        SqliteDataReader reader = null;
+        SqliteConnection dbConnection = null;
+        try
+        {
+            string sqlQuery = "SELECT id FROM tips ORDER BY id;";
+
+            //LLAMADA AL METODO DE LA DBMANAGER
+            dbConnection = dBManager.openCon();
+            reader = dBManager.ManageExec(dbConnection, sqlQuery);
+
+            while (reader.Read())
+            {
+                tipId.Add(reader.GetInt32(0));
+            }
+
+        }
+        catch (Exception e)
+        {
+            throw e;
+        }
+        finally
+        {
+            dBManager.ManageClosing(dbConnection, reader);
+        }
+        return tipId;
+    }
+
 }

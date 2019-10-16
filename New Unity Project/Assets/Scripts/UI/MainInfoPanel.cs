@@ -41,15 +41,11 @@ public class MainInfoPanel : MonoBehaviour
         //se instancia las clases para querys
         GameObject go = new GameObject();
         go.AddComponent<QryElementos>();
+        go.AddComponent<QryMoleculas>();
+        go.AddComponent<QryMaterials>();
         qryElement = go.GetComponent<QryElementos>();
-
-        GameObject go1 = new GameObject();
-        go1.AddComponent<QryMoleculas>();
-        qryMolecule = go1.GetComponent<QryMoleculas>();
-
-        GameObject go2 = new GameObject();
-        go2.AddComponent<QryMaterials>();
-        qryMaterial = go2.GetComponent<QryMaterials>();
+        qryMolecule = go.GetComponent<QryMoleculas>();
+        qryMaterial = go.GetComponent<QryMaterials>();
 
         InitializeCategoryDictionary();
         PanelInfoLoader = FindObjectOfType<PanelInfoLoader>();

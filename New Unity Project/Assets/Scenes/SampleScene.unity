@@ -1690,7 +1690,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1425040188}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -8356,7 +8356,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1588822743}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999997
+  m_Size: 0.9999999
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -11936,8 +11936,81 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onLeft.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onRight.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onLeft.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onLeft.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onLeft.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 378249611}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onLeft.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ShowTip
+      objectReference: {fileID: 0}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onLeft.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onRight.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onRight.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onRight.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 378249611}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onRight.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: CloseAsistent
+      objectReference: {fileID: 0}
+    - target: {fileID: 915372656330534205, guid: 014c123053b2223469c254c55ef8bc03,
+        type: 3}
+      propertyPath: onRight.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1939212056404262305, guid: 014c123053b2223469c254c55ef8bc03, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 014c123053b2223469c254c55ef8bc03, type: 3}
+--- !u!114 &378249611 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 372816993879596876, guid: 014c123053b2223469c254c55ef8bc03,
+    type: 3}
+  m_PrefabInstance: {fileID: 378249610}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58b2fffd559377246b230e986a6e6857, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &379457291
 GameObject:
   m_ObjectHideFlags: 0
@@ -14967,7 +15040,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1807429813}
   m_Direction: 0
   m_Value: 1
-  m_Size: 1
+  m_Size: 0.9999996
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -19776,7 +19849,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 46.7
+  m_fontSize: 47.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -22558,7 +22631,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -98.99997, y: 0.000024981333}
+  m_AnchoredPosition: {x: -98.99994, y: 0.000013456422}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &745860143
@@ -28698,7 +28771,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -98.99994, y: -0.0000011849953}
+  m_AnchoredPosition: {x: -98.99995, y: -0.0000011849953}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &896579102
@@ -31458,8 +31531,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 817370137}
   m_HandleRect: {fileID: 817370136}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.99999905
+  m_Value: 1
+  m_Size: 0.9999995
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -33927,7 +34000,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -64.06003, y: 0.00006881544}
+  m_AnchoredPosition: {x: -64.05654, y: 0.000023133493}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1016735911
@@ -44166,7 +44239,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1488716184}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99999994
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -50781,8 +50854,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 245361555}
   m_HandleRect: {fileID: 245361554}
   m_Direction: 0
-  m_Value: 1
-  m_Size: 0.9999997
+  m_Value: 0
+  m_Size: 0.99995947
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

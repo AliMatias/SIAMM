@@ -10,28 +10,32 @@ public class MainInfoTips : MonoBehaviour
 {
 
     #region atributos
-    //contenedor para la info de atomos luego ira cada uno de los otros
-    public CanvasGroup infoContainer;
 
     //objeto con el que interactúo para acceder a la DB
     private QryTips qryTip;
+    private Dictionary<int, int> counterIdTip = new Dictionary<int, int>();
+    private const int counterShow = 5;
 
     #endregion
 
-    private void Awake()
+    void Start()
     {
         //se instancia las clases para querys
         GameObject go = new GameObject();
         go.AddComponent<QryTips>();
         qryTip = go.GetComponent<QryTips>();
+
+        //carga un struct del tipo id - cantapariciones
+        InitializeCounter();
     } 
 
 
     /*Utilizado desde el Material Manager*/
     public void SetInfoTips(int id)
     {
-
-        //MaterialData material = qryMaterial.GetMaterialById(mapping.MaterialId);
+        Debug.Log("CARGA TIP DE DB Y MUESTRA ASISTENTE VALIDANDO SI..");
+      
+        TipsData tipsData = qryTip.GetTipById(id);
 
         //if (material != null)
         //{
@@ -39,6 +43,28 @@ public class MainInfoTips : MonoBehaviour
         //    //carga los datos especiales de la molecula en el panel especial
         //    PanelInfoLoader.SetPanelInfoMaterial(material);
         //}
+    }
+
+    private void InitializeCounter()
+    {
+        List<int> tipId = qryTip.GetTipsIds();
+
+        foreach (int id in tipId)
+        {
+            counterIdTip.Add(id, counterShow);// del tipo 1,5 / 2,5 / 3,5...
+        }
+    }
+
+
+    //método para obtener el material
+    private int GetIndexFromDictionary(int id)
+    {
+        return counterIdTip[id];
+    }
+
+    private void SetIndexFromDictionary(int id, int valor)
+    {
+        counterIdTip[id] = valor;
     }
 
 }

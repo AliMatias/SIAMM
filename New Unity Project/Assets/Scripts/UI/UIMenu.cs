@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIMenu : MonoBehaviour
 {
-    private string[] bottonNames = { "Nuevo Proyecto", "Abrir Proyecto", "Carga Rápida", "Guardar", "Guardar Como",  "Salir de SIAMM"};
+    private string[] bottonNames = { "Nuevo Proyecto", "Abrir Proyecto", "Carga Rápida", "Guardado Rápido", "Guardar Como",  "Salir de SIAMM"};
 
     private float posX = -2 * Screen.width; //posicion inicial (detras del canvas al costado)                                          
     private float posXr = 0.03f * Screen.width; //a donde tiene que terminar de posicionarse el menu luego de Deslizar
