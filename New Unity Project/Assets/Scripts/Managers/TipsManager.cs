@@ -6,10 +6,12 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
-public class MainInfoTips : MonoBehaviour
+public class TipsManager : MonoBehaviour
 {
 
     #region atributos
+    public TipsObject TipSiammPrefab;
+    public GameObject canvas;// the canvas get transform 
 
     //objeto con el que interactúo para acceder a la DB
     private QryTips qryTip;
@@ -27,23 +29,49 @@ public class MainInfoTips : MonoBehaviour
 
         //carga un struct del tipo id - cantapariciones
         InitializeCounter();
-    } 
+    }
 
-
-    /*Utilizado desde el Material Manager*/
-    public void SetInfoTips(int id)
+    //este es llamado desde otras clases al momento de crear un tip
+    public void SpawnTipsCharacter(int id)
     {
+        //CREA el tip GO
+        TipsObject newTip = GetTipPos();
+
         Debug.Log("CARGA TIP DE DB Y MUESTRA ASISTENTE VALIDANDO SI..");
-      
+
+       
         TipsData tipsData = qryTip.GetTipById(id);
 
-        //if (material != null)
-        //{
-        //    nameLblMaterial.text = material.Name;
-        //    //carga los datos especiales de la molecula en el panel especial
-        //    PanelInfoLoader.SetPanelInfoMaterial(material);
-        //}
+        if (tipsData != null)
+        {
+            //    nameLblMaterial.text = material.Name;
+            //    //carga los datos especiales de la molecula en el panel especial
+            //    PanelInfoLoader.SetPanelInfoMaterial(material);
+            Debug.Log(tipsData.Descripcion);
+        }
     }
+
+
+
+    /*La posicion por ahora esta "harcodeada"*/
+    private TipsObject GetTipPos()
+    {
+        TipsObject newTip = Instantiate<TipsObject>(TipSiammPrefab);
+        newTip.transform.SetParent(canvas.transform, false);
+        newTip.transform.localScale = new Vector3(1, 1, 1);
+        //newTip.transform.localPosition = new Vector3(480, -185, 14);
+        newTip.transform.localPosition = new Vector3(-0.13f * Screen.width, 0.04f * Screen.height, 0);
+
+        return newTip;
+    }
+
+    //Quitar tip
+    public void DeleteTip(TipsObject tip)
+    {
+        //lo destruyo
+        Destroy(tip);
+    }
+
 
     private void InitializeCounter()
     {
