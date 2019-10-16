@@ -162,10 +162,7 @@ public class SelectionManager : MonoBehaviour
         else
         {
             // en el modo combinacion no se pueden seleccionar materiales
-            //DeselectAllMaterials();
-
-            //CON ESTO ESTARIA ARREGLANDO EL BUG QUE AL OCMBINAR SALTA EL POPUP DE QUE FALTAN ELEGIR ELEMENTOS.. CHARLARLO LUEGO
-            DeselectAll();
+            DeselectAllMaterials();
 
             //no muestro panel de agregar elementos cuando se activa el switch
             panelElements.GetComponent<CanvasGroup>().alpha = 0;
@@ -194,11 +191,30 @@ public class SelectionManager : MonoBehaviour
 
     public void DeselectAllMaterials()
     {
-        selectedObjects = new List<int>();
-
         foreach (MaterialObject material in materialManager.Materials)
         {
+            RemoveObject(material.MaterialIndex);
             material.Deselect();
+        }
+    }
+
+    public void DeleteAllSelected()
+    {
+        List<int> tempSelectedObjects = new List<int>(selectedObjects);
+        foreach (int selected in tempSelectedObjects)
+        {
+            if (moleculeManager.FindMoleculeInList(selected) != null)
+            {
+                moleculeManager.DeleteMolecule(selected);
+            }
+            else if (atomManager.FindAtomInList(selected) != null)
+            {
+                atomManager.DeleteAtom(selected);
+            }
+            else if (materialManager.FindMaterialInList(selected) != null)
+            {
+                materialManager.DeleteMaterial(selected);
+            }
         }
     }
 }
