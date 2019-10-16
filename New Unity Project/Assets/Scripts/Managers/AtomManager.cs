@@ -94,6 +94,7 @@ public class AtomManager : MonoBehaviour
     {
         Atom selectedAtom = FindAtomInList(index);
         selectionManager.SelectObject(selectedAtom);
+        suggestionManager.updateSuggestions();
     }
 
     //ya que el índice del átomo depende de la posición, 
@@ -275,6 +276,21 @@ public class AtomManager : MonoBehaviour
             if (atom != null)
             {
                 selectedAtoms.Add(index);
+            }
+        }
+        return selectedAtoms;
+    }
+
+    public List<int> GetSelectedAtomNumbers()
+    {
+        List<int> selectedAtoms = new List<int>();
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        foreach (int index in selectedObjects)
+        {
+            Atom atom = FindAtomInList(index);
+            if (atom != null)
+            {
+                selectedAtoms.Add(atom.ElementNumber);
             }
         }
         return selectedAtoms;

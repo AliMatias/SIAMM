@@ -64,7 +64,91 @@ public class SuggestionManager : MonoBehaviour
         materialsFullyMatched = new List<int>();
         materialsPartiallyMatched = new List<int>();
 
-        materialMappingList.ForEach(mapping =>
+        // if selected filter mapping lists
+        List<int> selectedAtoms = atomManager.GetSelectedAtomNumbers();
+        List<int> selectedMolecules = moleculeManager.GetSelectedMoleculeIds();
+
+        List<MoleculeElementsMapping> filteredMoleculeMappingList = new List<MoleculeElementsMapping>();
+        List<MaterialMappingData> filteredMaterialMappingList = new List<MaterialMappingData>();
+
+        if (selectedAtoms.Count > 0 && selectedMolecules.Count <= 0)
+        {
+            filteredMoleculeMappingList = FilterMoleculeMapping(selectedAtoms);
+            filteredMaterialMappingList = FilterMaterialMapping(selectedAtoms, selectedMolecules);
+            findMatchingMolecules(filteredMoleculeMappingList);
+            findMatchingMaterials(filteredMaterialMappingList);
+        }
+
+        if (selectedMolecules.Count > 0 && selectedAtoms.Count <= 0)
+        {
+            filteredMaterialMappingList = FilterMaterialMapping(selectedAtoms, selectedMolecules);
+            findMatchingMolecules(filteredMoleculeMappingList);
+            findMatchingMaterials(filteredMaterialMappingList);
+        }
+
+        if (selectedAtoms.Count <= 0 && selectedMolecules.Count <= 0)
+        {
+            findMatchingMolecules(moleculeMappingList);
+            findMatchingMaterials(materialMappingList);
+        }
+
+        populateSuggestionList.UpdateList();
+    }
+
+    private List<MoleculeElementsMapping> FilterMoleculeMapping(List<int> selectedAtoms)
+    {
+        return moleculeMappingList.FindAll(mapping =>
+        {
+            List<int> tempList = new List<int>(selectedAtoms);
+            foreach (MoleculeElementAmountStruct element in mapping.Elements)
+            {
+                tempList.RemoveAll(atom => atom == element.IdElement);
+            };
+            return tempList.Count == 0;
+        });
+    }
+
+    private List<MaterialMappingData> FilterMaterialMapping(List<int> selectedAtoms, List<int> selectedMolecules)
+    {
+        return materialMappingList.FindAll(mapping =>
+        {
+            if (mapping.IdElement > 0)
+            {
+                return selectedAtoms.Contains(mapping.IdElement);
+            }
+
+            if (mapping.IdMolecule > 0)
+            {
+                return selectedMolecules.Contains(mapping.IdMolecule);
+            }
+            return false;
+        });
+    }
+
+    private void findMatchingMolecules(List<MoleculeElementsMapping> mappingList)
+    {
+        mappingList.ForEach(mapping =>
+        {
+            int elementsMatchedCount = 0;
+            mapping.Elements.ForEach(element =>
+            {
+                int matchedAmount = atomManager.AtomsList.FindAll(atom => atom.ElementNumber == element.IdElement).Count;
+                elementsMatchedCount = matchedAmount >= element.Amount ? elementsMatchedCount + element.Amount : elementsMatchedCount + matchedAmount;
+            });
+            if (elementsMatchedCount == mapping.totalElementsAmount())
+            {
+                moleculesFullyMatched.Add(mapping.IdMolecule);
+            }
+            else if (elementsMatchedCount > 0)
+            {
+                moleculesPartiallyMatched.Add(mapping.IdMolecule);
+            }
+        });
+    }
+
+    private void findMatchingMaterials(List<MaterialMappingData> mappingList)
+    {
+        mappingList.ForEach(mapping =>
         {
             int elementsMatchedCount = 0;
             if (mapping.IdElement > 0)
@@ -87,26 +171,6 @@ public class SuggestionManager : MonoBehaviour
                 materialsPartiallyMatched.Add(mapping.IdMaterial);
             }
         });
-
-        moleculeMappingList.ForEach(mapping => 
-        {
-            int elementsMatchedCount = 0;
-            mapping.Elements.ForEach(element =>
-            {
-                int matchedAmount = atomManager.AtomsList.FindAll(atom => atom.ElementNumber == element.IdElement).Count;
-                elementsMatchedCount = matchedAmount >= element.Amount ? elementsMatchedCount + element.Amount : elementsMatchedCount + matchedAmount;
-            });
-            if (elementsMatchedCount == mapping.totalElementsAmount())
-            {
-                moleculesFullyMatched.Add(mapping.IdMolecule);
-            }
-            else if (elementsMatchedCount > 0)
-            {
-                moleculesPartiallyMatched.Add(mapping.IdMolecule);
-            }
-        });
-
-        populateSuggestionList.UpdateList();
     }
 
     public void spawnSuggestedMolecule(MoleculeData molecule)

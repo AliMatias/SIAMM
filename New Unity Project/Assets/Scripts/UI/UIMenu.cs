@@ -124,7 +124,7 @@ public class UIMenu : MonoBehaviour
                 break;
 
             case "Abrir Proyecto":
-                Debug.Log("APRETASTE Abrir Proyecto! " + msge);
+                sl.OpenFile();
                 break;
 
             case "Guardar":
@@ -132,7 +132,7 @@ public class UIMenu : MonoBehaviour
                 break;
 
             case "Guardar Como":
-                Debug.Log("APRETASTE Guardar Como! " + msge);
+                sl.SaveAs();
                 break;
 
             case "Carga Rápida":

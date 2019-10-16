@@ -8,7 +8,8 @@ CREATE TABLE "moleculas_lista"(
 	"caracteristicas" TEXT NULL,	
 	"propiedades" TEXT NULL,	
 	"usos" TEXT NULL,
-	"clasificacion" TEXT NULL	
+	"clasificacion" TEXT NULL,
+	"diferencia_electronegatividad" REAL NULL
 	);
 
 

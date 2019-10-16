@@ -44,6 +44,7 @@ public class MaterialManager : MonoBehaviour
         MaterialObject newMaterial = Instantiate<MaterialObject>(materialPrefab);
         newMaterial.transform.localPosition = positionManager.Positions[position];
         newMaterial.MaterialIndex = position;
+        positionManager.OccupyPosition(position);
         materials.Add(newMaterial);
         newMaterial.SetMaterialName(name);
         newMaterial.MaterialId = id;

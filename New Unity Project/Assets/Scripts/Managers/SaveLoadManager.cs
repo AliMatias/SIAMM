@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using SFB;
 
 public class SaveLoadManager : MonoBehaviour
 {
@@ -17,6 +18,24 @@ public class SaveLoadManager : MonoBehaviour
         materialManager = FindObjectOfType<MaterialManager>();
         populateMoleculeList = FindObjectOfType<PopulateMoleculeList>();
         savePath = Application.dataPath + "/save.json";
+    }
+
+    public void SaveAs(){
+        string savingPath = StandaloneFileBrowser.SaveFilePanel("Save File", "", "Save", "json");
+        if(savingPath != ""){
+            Debug.Log("Guardando en: " + savingPath);
+            savePath = savingPath;
+            Save();
+        }
+    }
+
+    public void OpenFile(){
+        string[] openingPath = StandaloneFileBrowser.OpenFilePanel("Open File", "", "json", false);
+        if(openingPath.Length > 0 && openingPath[0] != ""){
+            Debug.Log("Abriendo archivo: " + openingPath[0]);
+            savePath = openingPath[0];
+            Load();
+        }
     }
 
     public void Save(){
