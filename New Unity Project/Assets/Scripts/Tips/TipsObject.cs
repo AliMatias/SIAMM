@@ -3,39 +3,55 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class TipsObject : MonoBehaviour, IPointerClickHandler
 {
     //para luego definirle donde estara posicionado
     private Transform parent;
-
     private TipsManager TipManager;
+    private float lifetime = 20; //in seconds
 
-    private CanvasGroup toolTipGlobe;
-    private CanvasGroup SiammTip;
+    public GameObject toolTipGlobe;
+    public GameObject toolTipInitial;
+
+    private int idTip;
+    
+    public int IdTip { get => idTip; set => idTip = value; }
+
+    public Transform Parent { get => parent; set => parent = value; }
 
     private void Awake()
     {
         TipManager = FindObjectOfType<TipsManager>();
+        Invoke("DestroyMe", lifetime); /*el GO se destruye solo al lapso de tiempo configurado */
     }
 
-    public Transform Parent { get => parent; set => parent = value; }
+    private void CancelAutoDestroy()
+    {
+      CancelInvoke("DestroyMe");
+    }
 
-/*  cuando se destruye la instancia de este script, tengo que destruir
-*   manualmente el gameObject al cual está asignado este script
-*/
-void OnDestroy()
+    private void DestroyMe()
     {
         Destroy(gameObject);
     }
 
+
+    /*  cuando se destruye la instancia de este script, tengo que destruir
+    *   manualmente el gameObject al cual está asignado este script
+    */
+    void OnDestroy()
+    {
+        Destroy(gameObject);
+    }
 
     //Según el botón apretado del mouse llama al evento indicado
     public void OnPointerClick(PointerEventData eventData)
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            ShowTip();
+            //manejado por el scrip LEAN DRAG.
         }
         else if (eventData.button == PointerEventData.InputButton.Right)
         {
@@ -44,7 +60,10 @@ void OnDestroy()
     }
 
 
-    #region Metodos
+    public void setText (string text)
+    {
+        toolTipGlobe.GetComponentInChildren<Text>().text = text;   
+    }
 
     /**
      * metodo principal para el manejo de mostrar el tooltip con el TIP
@@ -52,6 +71,22 @@ void OnDestroy()
     public void ShowTip()
     {
         Debug.Log("MUESTRO TIP"); //el tipito esta mostrandose en pantalla
+
+        //si hago click luego de mostrar.. o destruyo.. o vuelvo al estado anterior y muestro el tooltip original
+        //que hacer con el tiempo.... que tiene para cerrarse solo...
+        CancelAutoDestroy();
+
+        if (toolTipInitial.activeSelf)
+        {
+            //tengo que esconder el original "sabias que"
+            toolTipInitial.SetActive(false);
+            toolTipGlobe.GetComponent<UIFader>().FadeInAndOut(toolTipGlobe);
+        }
+        else
+        {
+            toolTipGlobe.GetComponent<UIFader>().FadeInAndOut(toolTipGlobe);
+            toolTipInitial.SetActive(true);           
+        }
     }
 
 
@@ -61,8 +96,11 @@ void OnDestroy()
     public void CloseAsistent()
     {
         Debug.Log("CIERRO TIP Y ASISTENTE");//BOTON DERECHO
-        //gameObject.GetComponent<UIFader>().FadeInAndOut(gameObject);
-        //TipManager.DeleteTip(this);
+        //tendria que parar el tiempo
+        CancelAutoDestroy();
+
+        gameObject.AddComponent<UIAction>();
+        GetComponent<UIAction>().OptionsTips(); 
     }
 
 
@@ -75,8 +113,5 @@ void OnDestroy()
     {
         objActivar.blocksRaycasts = true;
     }
-
-
-    #endregion
 
 }

@@ -22,6 +22,14 @@ public class UIAction : MonoBehaviour
         GetComponent<UIPopupQuestionNewProy>().MostrarPopUp("Nuevo Proyecto", "¿Esta seguro que desea borrar todo y comenzar de nuevo?");//tiene que llamar un popup de afirmacion
     }
 
+    public void OptionsTips()
+    {
+        Debug.Log("CONFIG TIPS");
+        gameObject.AddComponent<UIPopupQuestionTips>();
+        GetComponent<UIPopupQuestionTips>().MostrarPopUp("Config Tips", "Elija La Opción Deseada");//tiene que llamar un popup de afirmacion
+    }
+
+
     //disparador de menu principal de "arriba"
     public void openMenu()
     {

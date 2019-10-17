@@ -21,6 +21,6 @@ public class TipsData
         this.descripcion = descripcion; 
     }
 
-    public new string ToString => "["+TemaRelacionado+ " - " +TemaTratado+"]: \n" + Descripcion +".";
+    public new string ToString => "["+TemaRelacionado+ " - " +TemaTratado+"]: " + Descripcion +".";
 
 }

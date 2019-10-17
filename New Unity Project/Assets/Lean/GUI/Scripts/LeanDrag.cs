@@ -435,6 +435,11 @@ namespace Lean.Gui
                     gameObject.GetComponent<UIAction>().openMenuPanelClik();
                     OnEndDrag(eventData);
                 }
+
+                if (gameObject.name == "Tip(Clone)" && dragging == false)
+                {
+                    gameObject.GetComponent<TipsObject>().ShowTip();
+                }
             }
         }
 

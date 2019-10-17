@@ -14,6 +14,6 @@ public class Prueba : MonoBehaviour
 
     public void exec()
     {
-        t.SpawnTipsCharacter(1);
+        t.GetTips(1);
     }
 }
