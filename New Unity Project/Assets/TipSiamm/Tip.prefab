@@ -428,11 +428,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6117470053675839134}
     m_Modifications:
-    - target: {fileID: 720002279795461929, guid: 6675abd6e247b3c478faae0925fb996f,
-        type: 3}
-      propertyPath: m_Name
-      value: TipAsist
-      objectReference: {fileID: 0}
     - target: {fileID: 3606419272642185925, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -501,12 +496,12 @@ PrefabInstance:
     - target: {fileID: 3606419272642185925, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 360
       objectReference: {fileID: 0}
     - target: {fileID: 3606419272642185925, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 50
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 3606419272642185925, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
@@ -537,6 +532,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 720002279795461929, guid: 6675abd6e247b3c478faae0925fb996f,
+        type: 3}
+      propertyPath: m_Name
+      value: TipAsist
       objectReference: {fileID: 0}
     - target: {fileID: 8359857288441324110, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}

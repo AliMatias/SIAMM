@@ -11,6 +11,7 @@ public class MoleculeManager : MonoBehaviour
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
     private SuggestionManager suggestionManager;
+    private TipsManager tipsManager;
     private QryElementos qryElement;
     //prefab de molécula
     public Molecule moleculePrefab;
@@ -37,6 +38,7 @@ public class MoleculeManager : MonoBehaviour
         qryElement = go.GetComponent<QryElementos>();
 
         suggestionManager = FindObjectOfType<SuggestionManager>();
+        tipsManager = FindObjectOfType<TipsManager>();
 
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("moleculeToggle");
         foreach (GameObject btn in buttons)
@@ -163,6 +165,9 @@ public class MoleculeManager : MonoBehaviour
 
         // actualizo panel de sugerencias
         suggestionManager.updateSuggestions();
+
+        /*CREA UN TIP! CON LA TEMATICA PASADA POR ID*/
+        tipsManager.LaunchTips(3);
     }
 
     //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom") METODO PARA SPAWN DESDE LISTA 

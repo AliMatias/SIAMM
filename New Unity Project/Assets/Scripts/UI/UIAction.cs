@@ -22,11 +22,24 @@ public class UIAction : MonoBehaviour
         GetComponent<UIPopupQuestionNewProy>().MostrarPopUp("Nuevo Proyecto", "¿Esta seguro que desea borrar todo y comenzar de nuevo?");//tiene que llamar un popup de afirmacion
     }
 
+    //disparador para activar o desactivar Asistente TIPS
     public void OptionsTips()
     {
-        Debug.Log("CONFIG TIPS");
-        gameObject.AddComponent<UIPopupQuestionTips>();
-        GetComponent<UIPopupQuestionTips>().MostrarPopUp("Config Tips", "Elija La Opción Deseada");//tiene que llamar un popup de afirmacion
+        TipsObject tips;
+        TipsManager tipsManager;
+        //no ejecuta el awake por eso se coloca aca las referencias
+        tips = FindObjectOfType<TipsObject>();
+        tipsManager = FindObjectOfType<TipsManager>();
+
+        if (!tipsManager.DisableTips)
+        {
+            tipsManager.setDisabledAllTips();
+            tipsManager.DeleteTip(tips);
+        }
+        else
+        {
+            tipsManager.setEnabledAllTips();
+        }
     }
 
 

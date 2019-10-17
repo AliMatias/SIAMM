@@ -18,9 +18,10 @@ public class TipsManager : MonoBehaviour
     private Dictionary<int, int> counterIdTip = new Dictionary<int, int>();
     private const int counterShow = 5;
 
-    private Dictionary<int, bool> EnableIdTip = new Dictionary<int, bool>();
     private bool disableTips;
-    
+
+    public bool DisableTips { get => disableTips; set => disableTips = value; }
+
     #endregion
 
     void Start()
@@ -30,49 +31,47 @@ public class TipsManager : MonoBehaviour
         go.AddComponent<QryTips>();
         qryTip = go.GetComponent<QryTips>();
 
-        disableTips = false;//estado inicial! tips activos!
+        //estado inicial! tips activos! NO persistente en el tiempo solo en runtime
+        disableTips = false;
 
         //carga un struct del tipo id - cantapariciones
         InitializeCounter();
-
-        InitializeEnabledIdTip();
     }
 
-    //este es llamado desde otras clases al momento de crear un tip
-    //el tip mas actual! reemplaza el existente destruye si hay uno ya y crea uno nuevo
-    public void GetTips(int id)
+    /*
+     * este es llamado desde otras clases al momento de crear un tip
+     * el tip mas actual! reemplaza el existente destruye si hay uno ya y crea uno nuevo
+     */
+    public void LaunchTips(int id)
     {
         if (!disableTips)
         {
-            bool estadoIdActual = GetIndexFromDictionaryEnable(id);
+            int valorActual = GetIndexFromDictionary(id);
 
-            if (estadoIdActual)//ese idtip esta activo
+            if (valorActual == counterShow)//si es igual al original estado.. ahi si muestro.. sino tiene que esperar a que resetee
             {
-                int valorActual = GetIndexFromDictionary(id);
+                //CREA el tip GO SI NO ESTA CREADO o lo destruye antes si ya estaba generado
+                TipsObject GoTip = SpawnTipsCharacter();
+                TipsData tipsData = qryTip.GetTipById(id);
 
-                if (valorActual == counterShow)//si es igual al original estado.. ahi si muestro.. sino tiene que esperar a que resetee
+                if (tipsData != null)
                 {
-                    //CREA el tip GO SI NO ESTA CREADO o lo destruye antes si ya estaba generado
-                    TipsObject GoTip = SpawnTipsCharacter();
-                    TipsData tipsData = qryTip.GetTipById(id);
-
-                    if (tipsData != null)
-                    {
-                        GoTip.IdTip = tipsData.Id;
-                        GoTip.setText(tipsData.ToString);
-                    }
+                    GoTip.IdTip = tipsData.Id;
+                    GoTip.setText(tipsData.ToString);
                 }
-
-                //aparecera el tip.. a lo sumo luego de 5 interacciones (para evitar que aparezca siempre)
-                discountCounter(id);
             }
+
+            //aparecera el tip.. a lo sumo luego de "x" iteracciones (para evitar que aparezca siempre)
+            discountCounter(id);         
         }
     }
 
-    /*spawn asistente u obtiene la instancia ya creada y la borra si esta existe*/
+    /*
+     * spawn asistente u obtiene la instancia ya creada y la borra si esta existe
+     */
     public TipsObject SpawnTipsCharacter()
     {
-        TipsObject newTip = FindObjectOfType<TipsObject>();
+        TipsObject newTip = FindObjectOfType<TipsObject>();//esta instanciado?
 
         //CREA el tip GO SI NO ESTA CREADO
         if (newTip == null)
@@ -82,32 +81,36 @@ public class TipsManager : MonoBehaviour
         else
         {
             DeleteTip(newTip);
+            newTip = GetTipPos();//otra instancia nueva.. le da efecto sobre el asistente tambien
         }
 
         return newTip;
     }
 
 
-    /*La posicion por ahora esta "harcodeada"*/
+    /*
+     * La posicion esta "harcodeada" en el propio prefab y necesita la referencia del transfor del canvas
+     */
     private TipsObject GetTipPos()
     {
         TipsObject newTip = Instantiate<TipsObject>(TipSiammPrefab);
         newTip.transform.SetParent(canvas.transform, false);
         /*los valores de position estan seteados directos en el prefab que se puede ver la referencia en el canvas en forma grafica*/
-        //newTip.transform.localScale = new Vector3(1, 1, 1);
-        //newTip.transform.position = new Vector3(-100, 40, 14);
-        //newTip.transform.localPosition = new Vector3(0.33f * Screen.width, -0.30f * Screen.height, 0);
         return newTip;
     }
 
-    //Quitar tip
+    /*
+     * Quitar tip
+     */
     public void DeleteTip(TipsObject tip)
     {     
         //lo destruyo
         Destroy(tip);
     }
 
-
+    /*
+     * inicializa la esctructura id,cant iteraciones
+     */
     private void InitializeCounter()
     {
         List<int> tipId = qryTip.GetTipsIds();
@@ -118,21 +121,24 @@ public class TipsManager : MonoBehaviour
         }
     }
 
-
+    /*
+     * si de deshabilita los tips que vuelva a resetear los contadores
+     */
     private void ResetCounter()
     {
-        foreach (var item in counterIdTip.Keys)
-        {
-            SetIndexFromDictionary(item, counterShow);
-        }
+        counterIdTip.Clear();
+        InitializeCounter();
     }
 
-
+    /*
+     * logica para contador de que cada ciertas iteracciones de un mismo IDTIP vuelva a reaparecer el asistente
+     * para evitar que aparezca a cada instante
+     */
     private void discountCounter(int id)
     {
         int valorActual = GetIndexFromDictionary(id);
 
-        if (valorActual != 0)
+        if (valorActual != 1)
         {
             SetIndexFromDictionary(id, valorActual-1);
         }
@@ -142,53 +148,38 @@ public class TipsManager : MonoBehaviour
         }
 
     }
-
-    private void InitializeEnabledIdTip()
-    {
-        List<int> tipId = qryTip.GetTipsIds();
-
-        foreach (int id in tipId)
-        {
-            EnableIdTip.Add(id, true);
-        }
-    }
-
-    /*desactivar*/
-    public void setDisabledTipId(int id)
-    {
-        SetIndexFromDictionaryEnable(id, false);
-        SetIndexFromDictionary(id, counterShow);//reseteo el contador 
-    }
-
-    public void setDisabledAllTips()
-    {
-        disableTips = true;
-        ResetCounter();//reseteo los contadores
-    }
-
-
-    //método para obtener el valor
+   
+    /*
+     * método para obtener el valor
+     */
     private int GetIndexFromDictionary(int id)
     {
         return counterIdTip[id];
     }
 
+    //metodo para setear el valor de una key determinada
     private void SetIndexFromDictionary(int id, int valor)
     {
         counterIdTip[id] = valor;
     }
 
 
-    //método para obtener el valor
-    private bool GetIndexFromDictionaryEnable(int id)
+    /*
+     * metodo para desactivar llamado desde el menu
+     */
+    public void setDisabledAllTips()
     {
-        return EnableIdTip[id];
+        disableTips = true;
+        ResetCounter();//reseteo los contadores
     }
 
-    private void SetIndexFromDictionaryEnable(int id, bool valor)
+    /*
+     * metodo para REactivar llamado desde el menu
+     */
+    public void setEnabledAllTips()
     {
-        EnableIdTip[id] = valor;
+        disableTips = false;
+        ResetCounter();//reseteo los contadores
     }
-
 
 }

@@ -8,6 +8,7 @@ public class MaterialManager : MonoBehaviour
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
     private CombinationManager combinationManager;
+    private TipsManager tipsManager;
     private UIPopup popup;
 
     public MaterialObject materialPrefab;
@@ -26,6 +27,7 @@ public class MaterialManager : MonoBehaviour
         combinationManager = FindObjectOfType<CombinationManager>();
         materials = new List<MaterialObject>();
         mainInfoPanel = FindObjectOfType<MainInfoPanel>();
+        tipsManager = FindObjectOfType<TipsManager>();
     }
 
     public void SpawnMaterial(MaterialData materialData)
@@ -38,6 +40,9 @@ public class MaterialManager : MonoBehaviour
 
         //seteo info en panel inferior de elementos
         mainInfoPanel.SetInfoMaterial(materialData);
+
+        /*CREA UN TIP! CON LA TEMATICA PASADA POR ID*/
+        tipsManager.LaunchTips(4);
     }
 
     public void SpawnMaterialFromSave(int position, int id, string name, string modelFile){
