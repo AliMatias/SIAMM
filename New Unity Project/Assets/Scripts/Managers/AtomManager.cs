@@ -7,25 +7,28 @@ using System;
 
 public class AtomManager : MonoBehaviour
 {
-    //prefab asignado por interfaz
-    [SerializeField]
-    private Atom atomPrefab;
-    //lista que maneja los átomos en pantalla
-    private List<Atom> atomsList = new List<Atom>();
-    //booleano que indica si el modo combinación está activo
-    private bool combineMode = false;
-    private PositionManager positionManager = PositionManager.Instance;
-    private SelectionManager selectionManager;
-    private SuggestionManager suggestionManager;
+    #region Atributos 
+        //prefab asignado por interfaz
+        [SerializeField]
+        private Atom atomPrefab;
+        //lista que maneja los átomos en pantalla
+        private List<Atom> atomsList = new List<Atom>();
+        //booleano que indica si el modo combinación está activo
+        private bool combineMode = false;
+        private PositionManager positionManager = PositionManager.Instance;
+        private SelectionManager selectionManager;
+        private SuggestionManager suggestionManager;
+        private TipsManager tipsManager;
 
-    //lista de botones relevantes para los átomos
-    private List<Button> atomButtons = new List<Button>();
-    [SerializeField]
-    private Button plusAtomButton;
+        //lista de botones relevantes para los átomos
+        private List<Button> atomButtons = new List<Button>();
+        [SerializeField]
+        private Button plusAtomButton;
 
-    private UIPopup popup;
+        private UIPopup popup;
 
-    public List<Atom> AtomsList { get => atomsList; }
+        public List<Atom> AtomsList { get => atomsList; }
+    #endregion
 
     private void Awake(){
         GameObject[] buttons = GameObject.FindGameObjectsWithTag("toToggle");
@@ -38,6 +41,7 @@ public class AtomManager : MonoBehaviour
         popup = FindObjectOfType<UIPopup>();
         selectionManager = FindObjectOfType<SelectionManager>();
         suggestionManager = FindObjectOfType<SuggestionManager>();
+        tipsManager = FindObjectOfType<TipsManager>();
     }
 
     //agregar nuevo átomo al espacio de trabajo
@@ -72,6 +76,9 @@ public class AtomManager : MonoBehaviour
 
         suggestionManager.updateSuggestions();
         activateDeactivateAtomButtons();
+
+        /*CREA UN TIP! CON LA TEMATICA PASADA POR ID*/
+        tipsManager.LaunchTips(6);
     }
 
     public void NewAtom(AtomSaveData atomSaveData){
