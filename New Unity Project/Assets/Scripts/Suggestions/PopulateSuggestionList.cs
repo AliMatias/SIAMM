@@ -229,7 +229,8 @@ public class PopulateSuggestionList : MonoBehaviour
     */
     private void ClearList()
     {
-        // SelectedMolecule = null;
+        selectedMolecule = null;
+        selectedMaterial = null;
         fullyMatchedMolecules = new List<MoleculeData>();
         partiallyMatchedMolecules = new List<MoleculeData>();
         fullyMatchedMaterials = new List<MaterialData>();

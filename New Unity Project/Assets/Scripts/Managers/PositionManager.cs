@@ -28,7 +28,7 @@ public class PositionManager
         }
     }
 
-#region positions
+    #region positions
     //seteo las posibles posiciones, por ahora hardcodeadas
     private void LoadPositions()
     {

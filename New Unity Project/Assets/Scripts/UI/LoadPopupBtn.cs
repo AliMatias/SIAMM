@@ -49,7 +49,7 @@ public class LoadPopupBtn : MonoBehaviour
             case TypeToolTip.mnuMolecule:
                 //parametro manual que tenemos que calcular para que el tooltip se muestre a un delta del gameobject 
                 //utilizamos el valor del screen para obtener la referencia de resolucion, sino queda mal posicionado.       
-                offset = new Vector3(-0.035f * Screen.width, 0, 0);             
+                offset = new Vector3(0.035f * Screen.width, 0, 0);             
                 setPointersToolTipStaticMove("* MOLÉCULAS", offset);
                 break;
 

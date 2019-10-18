@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class UIMenu : MonoBehaviour
 {
-    private string[] bottonNames = { "Nuevo Proyecto", "Abrir Proyecto", "Carga Rápida", "Guardar", "Guardar Como",  "Salir de SIAMM"};
+    private string[] bottonNames = { "Nuevo Proyecto", "Abrir Proyecto", "Carga Rápida", "Guardado Rápido", "Guardar Como", "Desactivar TIPS" ,"Salir de SIAMM"};
 
     private float posX = -2 * Screen.width; //posicion inicial (detras del canvas al costado)                                          
     private float posXr = 0.03f * Screen.width; //a donde tiene que terminar de posicionarse el menu luego de Deslizar
     private float posY = 0.07f * Screen.height;
     private float largo = 0.12f * Screen.width;
-    private float altura = 0.32f * Screen.height;
+    private float altura = 0.37f * Screen.height;
 
     private float velocidad = 15f;
     private bool entrando = true;
@@ -51,7 +51,7 @@ public class UIMenu : MonoBehaviour
         posXr = 0.03f * Screen.width;//a donde tiene que terminar de posicionarse el menu luego de Deslizar     
         posY = 0.07f * Screen.height;//esto puede ir cambiando de acuerdo a donde ubique el boton... desde arriba
         largo = 0.12f * Screen.width;
-        altura = 0.32f * Screen.height;
+        altura = 0.37f * Screen.height;
 
         //titulo del menu!
         GUI.Box(new Rect(posX, posY, largo, altura), "Menú", currentStyle);
@@ -61,14 +61,15 @@ public class UIMenu : MonoBehaviour
 
         //primer boton del menu lo hace aparte para tener una nueva referencia por los anchos
         if (GUI.Button(new Rect(posX + 0.005f * Screen.width,
-                posY + (0.03f + 0 * 0.1f) * Screen.height,
+                posY + (0.035f + 0 * 0.1f) * Screen.height,
                 largo - 0.05f * Screen.width,
                 0.1f * Screen.height - 0.07f * Screen.height), bottonNames[0]))
         {
             CallFuntion(bottonNames[0]);
         }
 
-    
+        checkOptionTips();
+
         //demas botones tomando como referencia el 1ro! 
         for (int i=1; i<bottonNames.Length; i++)
         {
@@ -109,7 +110,7 @@ public class UIMenu : MonoBehaviour
     public void CloseMenu()
     {
         Entrando = false;
-        Destroy(this, 0.5f);
+        Destroy(this, 0.5f);//en in cierto tiempo delta se cierra
     }
 
     private void CallFuntion (string msge)
@@ -127,7 +128,7 @@ public class UIMenu : MonoBehaviour
                 sl.OpenFile();
                 break;
 
-            case "Guardar":
+            case "Guardado Rápido":
                 sl.Save();
                 break;
 
@@ -139,9 +140,34 @@ public class UIMenu : MonoBehaviour
                 sl.Load(); 
                 break;
 
+            case "Desactivar TIPS":
+                GetComponent<UIAction>().OptionsTips();
+                break;
+
+            case "Activar TIPS":
+                GetComponent<UIAction>().OptionsTips();
+                break;
+
             case "Salir de SIAMM":
                 GetComponent<UIAction>().Quit();//tiene que llamar un popup de afirmacion
                 break;
+        }
+    }
+
+    /*control para colocar el nombre al boton segun este activo o no los tips*/
+    private void checkOptionTips()
+    {
+        TipsManager tipsManager;
+        //no ejecuta el awake por eso se coloca aca las referencias
+        tipsManager = FindObjectOfType<TipsManager>();
+
+        if (tipsManager.DisableTips)
+        {
+            bottonNames[5] = "Activar TIPS";
+        }
+        else
+        {
+            bottonNames[5] = "Desactivar TIPS";
         }
     }
 }
