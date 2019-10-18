@@ -21,6 +21,7 @@ public class CombinationManager : MonoBehaviour
     private MoleculeManager moleculeManager;
     private SelectionManager selectionManager;
     private MaterialManager materialManager;
+    private TipsManager tipsManager;
     public Button combineButton;
     public Text combineModeButton;
     private UIPopup popup;
@@ -43,6 +44,7 @@ public class CombinationManager : MonoBehaviour
         atomManager = FindObjectOfType<AtomManager>();
         materialManager = FindObjectOfType<MaterialManager>();
         popup = FindObjectOfType<UIPopup>();
+        tipsManager = FindObjectOfType<TipsManager>();
 
         //instancio en el momento la clase que contiene las querys, seria lo mismo que hacer class algo = new class();
         GameObject go = new GameObject();
@@ -85,7 +87,7 @@ public class CombinationManager : MonoBehaviour
             combineModeButton.text = "Creación";
 
             //si se ingresa a modo combinacion POR AHORA habilita boton
-            buttonInfoPanel.GetComponent<Button>().interactable = true;
+            buttonInfoPanel.GetComponent<Button>().interactable = true;          
         }
         else
         {
@@ -96,6 +98,9 @@ public class CombinationManager : MonoBehaviour
 
             //si se ingresa a modo combinacion POR AHORA desactiva tambien el boton info
             buttonInfoPanel.GetComponent<Button>().interactable = false;
+
+            /*CREA UN TIP! CON LA TEMATICA PASADA POR ID*/
+            tipsManager.LaunchTips(1);
         }
     }
 
@@ -112,7 +117,11 @@ public class CombinationManager : MonoBehaviour
             if(atomCount>1){
                     Debug.Log("Combinando átomos.");
                     CombineAtoms(selectedAtoms);
-            }else{
+
+                    /*CREA UN TIP! CON LA TEMATICA PASADA POR ID*/
+                    tipsManager.LaunchTips(2);
+            }
+            else{
                 if(molCount>1){
                     Debug.Log("Combinando moléculas.");
                     CombineMolecules(selectedMolecules);
