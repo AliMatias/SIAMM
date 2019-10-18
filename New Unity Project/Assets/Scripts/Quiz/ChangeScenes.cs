@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ChangeScenes : MonoBehaviour
 {
@@ -10,24 +11,30 @@ public class ChangeScenes : MonoBehaviour
     public const int MAIN_SCENE = 1;
     public const int QUIZ_SCENE = 2;
 
+    [SerializeField]
+    public Image blackLayer;
+
     private SaveLoadManager saveLoadManager;
+    private UIPopupQuestionChangeScene popupChangeScene;
+    
     private string tempPath;
 
     private void Start()
     {
         saveLoadManager = FindObjectOfType<SaveLoadManager>();
+        popupChangeScene = FindObjectOfType<UIPopupQuestionChangeScene>();
         tempPath = Application.dataPath + "/tmp.json";
     }
 
-    public void loadQuizScene()
+    public void LoadQuizScene()
     {
         saveLoadManager.SaveTempScene();
         SceneManager.LoadSceneAsync(QUIZ_SCENE);
     }
 
-    public void loadMainScene()
+    public void LoadMainScene()
     {
-        SceneManager.LoadSceneAsync(MAIN_SCENE);
+        popupChangeScene.MostrarPopUp("Atención!", "¿Seguro que desea cancelar el exámen y volver al espacio de trabajo?", MAIN_SCENE, blackLayer);
     }
 
     private void OnApplicationQuit()
