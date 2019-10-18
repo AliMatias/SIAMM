@@ -10,14 +10,23 @@ public class SaveLoadManager : MonoBehaviour
     private MoleculeManager moleculeManager;
     private MaterialManager materialManager;
     private PopulateMoleculeList populateMoleculeList;
+    private PositionManager positionManager;
     private string savePath;
+    private string tempPath;
 
     private void Awake() {
         atomManager = FindObjectOfType<AtomManager>();
         moleculeManager = FindObjectOfType<MoleculeManager>();
         materialManager = FindObjectOfType<MaterialManager>();
         populateMoleculeList = FindObjectOfType<PopulateMoleculeList>();
+        positionManager = PositionManager.Instance;
         savePath = Application.dataPath + "/save.json";
+        tempPath = Application.dataPath + "/tmp.json";
+    }
+
+    private void Start()
+    {
+        LoadTempScene();
     }
 
     public void SaveAs(){
@@ -27,6 +36,17 @@ public class SaveLoadManager : MonoBehaviour
             savePath = savingPath;
             Save();
         }
+    }
+
+    public void SaveTempScene()
+    {
+        List<AtomSaveData> atomSaveData = ObtainAtomsData();
+        List<MoleculeSaveData> moleculeSaveData = ObtainMoleculesData();
+        List<MaterialSaveData> materialSaveData = ObtainMaterialsData();
+        SaveData save = new SaveData(atomSaveData, moleculeSaveData, materialSaveData);
+        string json = JsonUtility.ToJson(save);
+        Debug.Log("Scene Saved! " + json);
+        File.WriteAllText(tempPath, json);
     }
 
     public void OpenFile(){
@@ -94,5 +114,30 @@ public class SaveLoadManager : MonoBehaviour
             materialManager.SpawnMaterialFromSave(materialData.position, materialData.materialId, 
                 materialData.name, materialData.modelFile);
         }
+    }
+
+    public void LoadTempScene()
+    {
+        if (!File.Exists(tempPath)) return;
+        SaveData save = JsonUtility.FromJson<SaveData>(File.ReadAllText(tempPath));
+
+        positionManager.ResetAllPositions();
+
+        foreach (AtomSaveData atomData in save.atoms)
+        {
+            atomManager.SpawnFromSaveData(atomData);
+        }
+        foreach (MoleculeSaveData moleculeData in save.molecules)
+        {
+            populateMoleculeList.AddMolecule(moleculeData.name, moleculeData.position,
+                moleculeData.moleculeId);
+        }
+        foreach (MaterialSaveData materialData in save.materials)
+        {
+            materialManager.SpawnMaterialFromSave(materialData.position, materialData.materialId,
+                materialData.name, materialData.modelFile);
+        }
+
+        File.Delete(tempPath);
     }
 }
