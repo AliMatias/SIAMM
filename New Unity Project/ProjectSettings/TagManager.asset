@@ -7,6 +7,13 @@ TagManager:
   - toToggle
   - moleculeToggle
   - Canvas
+  - skipQuestion
+  - inputAnswer
+  - textAnswer
+  - resultQuestion
+  - resultCorrect
+  - resultUser
+  - resultsNote
   layers:
   - Default
   - TransparentFX

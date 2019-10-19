@@ -312,4 +312,11 @@ public class PositionManager
             return false;
         }
     }
+
+    public void ResetAllPositions()
+    {
+        Positions = new List<Vector3>();
+        AvailablePositions = new List<bool>();
+        LoadPositions();
+    }
 }
