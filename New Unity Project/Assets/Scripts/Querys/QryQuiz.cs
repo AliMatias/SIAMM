@@ -40,7 +40,7 @@ public class QryQuiz : MonoBehaviour
                 string answerQuery = "SELECT id, answer, is_correct " +
             "FROM quiz_answer WHERE question_id = " + questionId + ";";
 
-                answerReader = dBManager.ManageExec(dbConnection, questionQuery);
+                answerReader = dBManager.ManageExec(dbConnection, answerQuery);
 
                 while (answerReader.Read())
                 {
@@ -59,6 +59,7 @@ public class QryQuiz : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.LogError("QryQuiz :: DB Error: " + e.ToString());
             throw e;
         }
         finally

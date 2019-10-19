@@ -99,6 +99,7 @@ public class DBManager : MonoBehaviour
         }
         catch (Exception e)
         {
+            Debug.LogError("DBManager :: OpenConnection Error: " + e.ToString());
             throw e;
         }
         return con;

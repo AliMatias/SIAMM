@@ -151,5 +151,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1bcc9d6c481735418aa72f08e52faeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursor: {fileID: 0}
   highlightColor: {r: 0.8867924, g: 0.18823427, b: 0.18823427, a: 1}
