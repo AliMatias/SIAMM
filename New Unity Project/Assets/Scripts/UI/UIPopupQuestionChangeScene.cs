@@ -73,6 +73,7 @@ public class UIPopupQuestionChangeScene : MonoBehaviour
         }
         else if (GUI.Button(new Rect(200, 100, 75, 30), "No"))
         {
+            backgroundLayer.enabled = false;
             OcultarPopUp();
         }
     }

@@ -11,8 +11,12 @@ public class QuizManager : MonoBehaviour
     public GameObject questionPrefab;
     public GameObject answerContainerPrefab;
     public GameObject inputContainerPrefab;
+    public GameObject wrongAnswerPrefab;
+    public GameObject rightAnswerPrefab;
+
     public Canvas quizCanvas;
     public Canvas introCanvas;
+    public Canvas resultsCanvas;
 
     private UIPopupQuestionChangeScene popupChangeScene = null;
     private QryQuiz qryQuiz;
@@ -31,14 +35,10 @@ public class QuizManager : MonoBehaviour
         quizResults = new List<ResultQuizStruct>();
         popupChangeScene = FindObjectOfType<UIPopupQuestionChangeScene>();
 
-        // comenzar con quiz oculto
-        CanvasGroup quizCanvasGroup = quizCanvas.GetComponent<CanvasGroup>();
-        quizCanvasGroup.alpha = 0;
-        quizCanvasGroup.interactable = false;
-
-        CanvasGroup introCanvasGroup = introCanvas.GetComponent<CanvasGroup>();
-        introCanvasGroup.alpha = 1;
-        introCanvasGroup.interactable = true;
+        // comenzar con quiz y resultados ocultos
+        HideCanvas(quizCanvas);
+        HideCanvas(resultsCanvas);
+        ShowCanvas(introCanvas);
 
         GameObject go = new GameObject();
         go.AddComponent<QryQuiz>();
@@ -62,10 +62,24 @@ public class QuizManager : MonoBehaviour
         Destroy(introCanvas.gameObject);
 
         // mostrar quiz
-        CanvasGroup quizCanvasGroup = quizCanvas.GetComponent<CanvasGroup>();
-        quizCanvasGroup.alpha = 1;
-        quizCanvasGroup.interactable = true;
+        ShowCanvas(quizCanvas);
         LoadQuestion();
+    }
+
+    private void ShowCanvas(Canvas canvas)
+    {
+        CanvasGroup canvasGroup = canvas.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 1;
+        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = true;
+    }
+
+    private void HideCanvas(Canvas canvas)
+    {
+        CanvasGroup canvasGroup = canvas.GetComponent<CanvasGroup>();
+        canvasGroup.alpha = 0;
+        canvasGroup.interactable = false;
+        canvasGroup.blocksRaycasts = false;
     }
 
     public void LoadQuestion()
@@ -205,5 +219,48 @@ public class QuizManager : MonoBehaviour
     public void ShowResults()
     {
         CheckResults();
+        LoadResultsCanvas();
+        ShowCanvas(resultsCanvas);
+    }
+
+    private void LoadResultsCanvas()
+    {
+        Transform parent = resultsCanvas.GetComponent<CanvasGroup>().gameObject.transform;
+        float fixedOffset = 39.0f;
+        int questionNumber = 1;
+        int correctAnswers = 0;
+        Vector3 initialPosition = rightAnswerPrefab.transform.localPosition;
+        quizResults.ForEach(result =>
+        {
+            if (result.IsCorrect) correctAnswers++;
+            float rowOffset = fixedOffset * (questionNumber - 1);
+            Vector3 newPosition = new Vector3(initialPosition.x, initialPosition.y - rowOffset, initialPosition.z);
+
+            GameObject row = result.IsCorrect ?
+                Instantiate(rightAnswerPrefab, parent) :
+                Instantiate(wrongAnswerPrefab, parent);
+
+            row.transform.localPosition = newPosition;
+
+            foreach (Transform child in row.transform)
+            {
+                switch (child.tag)
+                {
+                    case "resultQuestion":
+                        child.GetComponent<Text>().text = questionNumber + ". " + result.Question;
+                        break;
+                    case "resultCorrect":
+                        child.GetComponent<Text>().text = result.CorrectAnswer;
+                        break;
+                    case "resultUser":
+                        child.GetComponent<Text>().text = result.UserAnswer;
+                        break;
+                }
+            }
+            questionNumber++;
+        });
+
+        GameObject finalNote = resultsCanvas.GetComponent<CanvasGroup>().gameObject.transform.Find("ResultsNote").gameObject;
+        finalNote.GetComponent<Text>().text = "Acertaste <b>" + correctAnswers + "/" + chosenQuestions.Count +"</b> preguntas";
     }
 }

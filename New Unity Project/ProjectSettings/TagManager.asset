@@ -10,6 +10,10 @@ TagManager:
   - skipQuestion
   - inputAnswer
   - textAnswer
+  - resultQuestion
+  - resultCorrect
+  - resultUser
+  - resultsNote
   layers:
   - Default
   - TransparentFX

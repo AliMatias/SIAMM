@@ -34,6 +34,11 @@ public class ChangeScenes : MonoBehaviour
         popupChangeScene.MostrarPopUp("Atención!", "¿Seguro que desea cancelar el exámen y volver al espacio de trabajo?", MAIN_SCENE);
     }
 
+    public void ForceLoadMainScene()
+    {
+        SceneManager.LoadSceneAsync(MAIN_SCENE);
+    }
+
     private void OnApplicationQuit()
     {
         if (!File.Exists(tempPath)) return;
