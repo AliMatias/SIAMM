@@ -10,10 +10,7 @@ public class ChangeScenes : MonoBehaviour
     public const int SPLASH_SCENE = 0;
     public const int MAIN_SCENE = 1;
     public const int QUIZ_SCENE = 2;
-
-    [SerializeField]
-    public Image blackLayer;
-
+    
     private SaveLoadManager saveLoadManager;
     private UIPopupQuestionChangeScene popupChangeScene;
     
@@ -34,7 +31,7 @@ public class ChangeScenes : MonoBehaviour
 
     public void LoadMainScene()
     {
-        popupChangeScene.MostrarPopUp("Atención!", "¿Seguro que desea cancelar el exámen y volver al espacio de trabajo?", MAIN_SCENE, blackLayer);
+        popupChangeScene.MostrarPopUp("Atención!", "¿Seguro que desea cancelar el exámen y volver al espacio de trabajo?", MAIN_SCENE);
     }
 
     private void OnApplicationQuit()

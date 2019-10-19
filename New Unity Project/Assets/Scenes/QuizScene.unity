@@ -734,6 +734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3417ae695749201469a855a8ed66b90d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backgroundLayer: {fileID: 532843999}
 --- !u!114 &620012048
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1370,7 +1371,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d08e135eeccc824196906b7b90c60c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blackLayer: {fileID: 532843999}
 --- !u!114 &1527773782
 MonoBehaviour:
   m_ObjectHideFlags: 0
