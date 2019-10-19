@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 616536059840518146}
   m_Layer: 5
   m_Name: SkipTxt
-  m_TagString: Untagged
+  m_TagString: skipQuestion
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

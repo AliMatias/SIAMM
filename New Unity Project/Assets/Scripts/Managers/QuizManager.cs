@@ -19,12 +19,16 @@ public class QuizManager : MonoBehaviour
 
     private List<QuestionData> allQuestions;
     private List<QuestionData> chosenQuestions;
+    private List<AnswerQuizStruct> userAnswers;
+    private List<ResultQuizStruct> quizResults;
 
     private int currentQuestionNumber;
 
     void Start()
     {
         currentQuestionNumber = 0;
+        userAnswers = new List<AnswerQuizStruct>();
+        quizResults = new List<ResultQuizStruct>();
         popupChangeScene = FindObjectOfType<UIPopupQuestionChangeScene>();
 
         // comenzar con quiz oculto
@@ -66,51 +70,105 @@ public class QuizManager : MonoBehaviour
 
     public void LoadQuestion()
     {
-        CanvasGroup quizCanvasGroup = quizCanvas.GetComponent<CanvasGroup>();
-        Transform quizTransform = quizCanvasGroup.gameObject.transform;
-        QuestionData currentQuestion = allQuestions[currentQuestionNumber++];
-
-        GameObject questionInstance = Instantiate(questionPrefab, quizTransform);
-        questionInstance.GetComponent<Text>().text = currentQuestion.Question;
-        if (currentQuestion.IsChoice)
+        if (currentQuestionNumber < chosenQuestions.Count)
         {
-            GameObject answerContainer = Instantiate(answerContainerPrefab, quizTransform);
-            List<AnswerData> shuffleAnswers = new List<AnswerData>(currentQuestion.Answers);
+            CanvasGroup quizCanvasGroup = quizCanvas.GetComponent<CanvasGroup>();
+            Transform quizTransform = quizCanvasGroup.gameObject.transform;
+            QuestionData currentQuestion = chosenQuestions[currentQuestionNumber++];
 
-            for (int i = 0; i < answerContainer.transform.childCount; i++)
+            GameObject questionInstance = Instantiate(questionPrefab, quizTransform);
+            questionInstance.GetComponent<Text>().text = currentQuestionNumber + ". " + currentQuestion.Question;
+            if (currentQuestion.IsChoice)
             {
-                GameObject answerChoice = answerContainer.transform.GetChild(i).gameObject;
-
-                // desordenar aleatoriamente respuestas
-                int indexAnswer = Random.Range(0, shuffleAnswers.Count);
-                AnswerData randomAnswer = shuffleAnswers[indexAnswer];
-                answerChoice.GetComponent<Text>().text = randomAnswer.Answer;
-                answerChoice.AddComponent<Button>().onClick.AddListener(
-                    () =>
-                    {
-                        PickAnswer(randomAnswer.Id);
-                        Destroy(answerContainer);
-                        Destroy(questionInstance);
-                        LoadQuestion();
-                    }
-                );
-                shuffleAnswers.RemoveAt(indexAnswer);
+                ShowMultipleChoice(quizTransform, currentQuestion, questionInstance);
+            }
+            else
+            {
+                ShowInputAnswer(quizTransform, currentQuestion, questionInstance);
             }
         }
         else
         {
-            GameObject inputContainer = Instantiate(inputContainerPrefab, quizTransform);
+            ShowResults();
         }
     }
 
-    public void PickAnswer(int id)
+    private void ShowInputAnswer(Transform quizTransform, QuestionData currentQuestion, GameObject questionInstance)
     {
-        Debug.Log("PICKED " + id);
+        GameObject inputContainer = Instantiate(inputContainerPrefab, quizTransform);
+
+        GameObject skipText = null;
+        GameObject okButton = null;
+        GameObject inputField = null;
+
+        foreach (Transform child in inputContainer.transform)
+        {
+            switch (child.tag)
+            {
+                case "skipQuestion":
+                    skipText = child.gameObject;
+                    break;
+                case "inputAnswer":
+                    okButton = child.gameObject;
+                    break;
+                case "textAnswer":
+                    inputField = child.gameObject;
+                    break;
+            }
+        }
+
+        skipText.GetComponent<Button>().onClick.AddListener(
+            () =>
+            {
+                InputAnswer("", currentQuestion);
+                Destroy(inputContainer);
+                Destroy(questionInstance);
+                LoadQuestion();
+            });
+
+        okButton.GetComponent<Button>().onClick.AddListener(
+            () =>
+            {
+                InputAnswer(inputField.GetComponent<InputField>().text, currentQuestion);
+                Destroy(inputContainer);
+                Destroy(questionInstance);
+                LoadQuestion();
+            });
     }
 
-    public void InputAnswer(string answer)
+    private void ShowMultipleChoice(Transform quizTransform, QuestionData currentQuestion, GameObject questionInstance)
     {
-        Debug.Log("ANSWERED " + answer);
+        GameObject answerContainer = Instantiate(answerContainerPrefab, quizTransform);
+        List<AnswerData> shuffleAnswers = new List<AnswerData>(currentQuestion.Answers);
+
+        for (int i = 0; i < answerContainer.transform.childCount; i++)
+        {
+            GameObject answerChoice = answerContainer.transform.GetChild(i).gameObject;
+
+            // desordenar aleatoriamente respuestas
+            int indexAnswer = Random.Range(0, shuffleAnswers.Count);
+            AnswerData randomAnswer = shuffleAnswers[indexAnswer];
+            answerChoice.GetComponent<Text>().text = randomAnswer.Answer;
+            answerChoice.AddComponent<Button>().onClick.AddListener(
+                () =>
+                {
+                    PickAnswer(randomAnswer, currentQuestion);
+                    Destroy(answerContainer);
+                    Destroy(questionInstance);
+                    LoadQuestion();
+                });
+            shuffleAnswers.RemoveAt(indexAnswer);
+        }
+    }
+
+    public void PickAnswer(AnswerData answer, QuestionData question)
+    {
+        userAnswers.Add(new AnswerQuizStruct(question, answer));
+    }
+
+    public void InputAnswer(string answer, QuestionData question)
+    {
+        userAnswers.Add(new AnswerQuizStruct(question, answer));
     }
 
     public void ChooseRandomQuestions(int amount)
@@ -124,5 +182,28 @@ public class QuizManager : MonoBehaviour
             chosenQuestions.Add(allQuestionsTemp[index]);
             allQuestionsTemp.RemoveAt(index);
         }
+    }
+
+    public void CheckResults()
+    {
+        userAnswers.ForEach(result =>
+        {
+            AnswerData correctAnswer = result.Question.Answers.Find(answer => answer.IsCorrect);
+            if (result.Answer != null)
+            {
+                bool isCorrect = correctAnswer.Id == result.Answer.Id;
+                quizResults.Add(new ResultQuizStruct(result.Question.Question, result.Answer.Answer, correctAnswer.Answer, isCorrect));
+            }
+            else if (result.UserInput != null)
+            {
+                bool isCorrect = correctAnswer.Answer.ToLower() == result.UserInput.ToLower();
+                quizResults.Add(new ResultQuizStruct(result.Question.Question, result.UserInput, correctAnswer.Answer, isCorrect));
+            }
+        });
+    }
+
+    public void ShowResults()
+    {
+        CheckResults();
     }
 }
