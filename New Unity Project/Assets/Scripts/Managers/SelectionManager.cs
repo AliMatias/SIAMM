@@ -187,6 +187,9 @@ public class SelectionManager : MonoBehaviour
         {
             material.Deselect();
         }
+
+        //no muestro panel de agregar elementos se DESELECCIONA TODO
+        panelElements.GetComponent<CanvasGroup>().alpha = 0;
     }
 
     public void DeselectAllMaterials()
@@ -210,6 +213,8 @@ public class SelectionManager : MonoBehaviour
             else if (atomManager.FindAtomInList(selected) != null)
             {
                 atomManager.DeleteAtom(selected);
+                //no muestro panel de agregar elementos si lo que se elimina es un atom!
+                panelElements.GetComponent<CanvasGroup>().alpha = 0;
             }
             else if (materialManager.FindMaterialInList(selected) != null)
             {

@@ -277,6 +277,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Scaling Tool Tip
       objectReference: {fileID: 0}
+    - target: {fileID: 9134631305288308049, guid: 85190ea695addcb4aa1347e0a78675db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 49.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134631305288308049, guid: 85190ea695addcb4aa1347e0a78675db,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 25
+      objectReference: {fileID: 0}
     - target: {fileID: 9133675448817062121, guid: 85190ea695addcb4aa1347e0a78675db,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -382,16 +392,6 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 9134631305288308049, guid: 85190ea695addcb4aa1347e0a78675db,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 49.6
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134631305288308049, guid: 85190ea695addcb4aa1347e0a78675db,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 25
-      objectReference: {fileID: 0}
     - target: {fileID: 9135030037178766251, guid: 85190ea695addcb4aa1347e0a78675db,
         type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -428,6 +428,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6117470053675839134}
     m_Modifications:
+    - target: {fileID: 720002279795461929, guid: 6675abd6e247b3c478faae0925fb996f,
+        type: 3}
+      propertyPath: m_Name
+      value: TipAsist
+      objectReference: {fileID: 0}
     - target: {fileID: 3606419272642185925, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -501,7 +506,7 @@ PrefabInstance:
     - target: {fileID: 3606419272642185925, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
       propertyPath: m_SizeDelta.y
-      value: 55
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 3606419272642185925, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
@@ -533,25 +538,25 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
-    - target: {fileID: 720002279795461929, guid: 6675abd6e247b3c478faae0925fb996f,
-        type: 3}
-      propertyPath: m_Name
-      value: TipAsist
-      objectReference: {fileID: 0}
     - target: {fileID: 8359857288441324110, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
       propertyPath: m_Alpha
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1434427413913889304, guid: 6675abd6e247b3c478faae0925fb996f,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 130
       objectReference: {fileID: 0}
     - target: {fileID: 6193982232102670909, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
       propertyPath: m_Text
       value: TIP TEXT
       objectReference: {fileID: 0}
-    - target: {fileID: 1434427413913889304, guid: 6675abd6e247b3c478faae0925fb996f,
+    - target: {fileID: 6193982232102670909, guid: 6675abd6e247b3c478faae0925fb996f,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 130
+      propertyPath: m_FontData.m_MinSize
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6675abd6e247b3c478faae0925fb996f, type: 3}
