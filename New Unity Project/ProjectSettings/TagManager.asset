@@ -14,6 +14,8 @@ TagManager:
   - resultCorrect
   - resultUser
   - resultsNote
+  - materialToggle
+  - atomToggle
   layers:
   - Default
   - TransparentFX

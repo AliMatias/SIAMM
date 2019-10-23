@@ -12536,8 +12536,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1634286531}
   m_HandleRect: {fileID: 1634286530}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9999999
+  m_Value: 0
+  m_Size: 0.9999995
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -19810,6 +19810,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeleteObjectBtn
       objectReference: {fileID: 0}
+    - target: {fileID: 5307810597703645420, guid: 1a1f194ec400bd24aa294b64a0b40d2d,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 5307810597703645421, guid: 1a1f194ec400bd24aa294b64a0b40d2d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -20062,7 +20067,7 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 47.85
+  m_fontSize: 46.8
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -20186,7 +20191,7 @@ GameObject:
   - component: {fileID: 653529504}
   m_Layer: 5
   m_Name: AddMoleculeBtn
-  m_TagString: Untagged
+  m_TagString: moleculeToggle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -23020,8 +23025,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1705394206}
   m_HandleRect: {fileID: 1705394205}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.9998537
+  m_Value: 1
+  m_Size: 0.9999995
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -23145,7 +23150,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -114.09991, y: -0.00001398753}
+  m_AnchoredPosition: {x: -114.09995, y: -0.00001398753}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!1001 &745860143
@@ -32216,8 +32221,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 817370137}
   m_HandleRect: {fileID: 817370136}
   m_Direction: 0
-  m_Value: 0
-  m_Size: 0.9999995
+  m_Value: 1
+  m_Size: 0.99999964
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -34690,7 +34695,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -94.43103, y: -0.0000057575216}
+  m_AnchoredPosition: {x: -94.44996, y: -0.0000036185472}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1016735911
@@ -42170,9 +42175,10 @@ GameObject:
   - component: {fileID: 1316814762}
   - component: {fileID: 1316814765}
   - component: {fileID: 1316814766}
+  - component: {fileID: 1316814767}
   m_Layer: 5
   m_Name: TablaPeriodicaBtn
-  m_TagString: Untagged
+  m_TagString: toToggle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42270,6 +42276,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1316814767}
+        m_MethodName: changeButtonTextTper
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1316814763
@@ -42336,6 +42353,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0ef88b950065664fb8e1c1086791e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1316814767
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316814760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 111fa0bfdbf8c9b4e9ef6951680c7662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myText: {fileID: 1804744005}
 --- !u!1001 &1321357929
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43895,7 +43925,7 @@ GameObject:
   - component: {fileID: 1376566122}
   m_Layer: 5
   m_Name: AddAtomBtn
-  m_TagString: toToggle
+  m_TagString: atomToggle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -51580,7 +51610,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 245361554}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.9998533
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -61900,7 +61930,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -94.431046, y: -0.0000049677483}
+  m_AnchoredPosition: {x: -94.45007, y: 0.00004357887}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &1962140485
@@ -64656,7 +64686,7 @@ GameObject:
   - component: {fileID: 2049272147}
   m_Layer: 5
   m_Name: AddMatBtn
-  m_TagString: Untagged
+  m_TagString: materialToggle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

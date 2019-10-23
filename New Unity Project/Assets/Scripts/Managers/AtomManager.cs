@@ -31,7 +31,7 @@ public class AtomManager : MonoBehaviour
     #endregion
 
     private void Awake(){
-        GameObject[] buttons = GameObject.FindGameObjectsWithTag("toToggle");
+        GameObject[] buttons = GameObject.FindGameObjectsWithTag("atomToggle");
         foreach(GameObject btn in buttons)
         {
             atomButtons.Add(btn.GetComponent<Button>());
