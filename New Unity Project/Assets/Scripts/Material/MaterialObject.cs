@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using UnityEditor;
+using UnityEngine.EventSystems;
 
-public class MaterialObject : MonoBehaviour
+public class MaterialObject : MonoBehaviour, IPointerClickHandler
 {
     public Transform parent;
     public GameObject materialLabel;
@@ -41,8 +42,12 @@ public class MaterialObject : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void OnMouseDown()
+    //se lanza cuando se hace click al material ademas controla el RAYCAST del GO
+    public void OnPointerClick(PointerEventData data)
     {
+        // This will only execute if the objects collider was the first hit by the click's raycast
+        //no va popup
+        Debug.Log("clickeaste el material " + materialIndex);
         materialManager.SelectMaterial(materialIndex);
     }
 

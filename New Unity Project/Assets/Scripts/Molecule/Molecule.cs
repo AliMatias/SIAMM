@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Molecule : MonoBehaviour
+public class Molecule : MonoBehaviour, IPointerClickHandler
 {
     #region Atributos
 
@@ -158,9 +159,11 @@ public class Molecule : MonoBehaviour
         moleculeName = name;
     }
     
-    //se lanza cuando se hace click a la molécula
-    public void OnMouseDown()
+    //se lanza cuando se hace click a la molécula ademas controla el RAYCAST del GO
+    public void OnPointerClick(PointerEventData data)
     {
+        // This will only execute if the objects collider was the first hit by the click's raycast
+        //no va popup
         Debug.Log("clickeaste la molécula " + MoleculeIndex);
         moleculeManager.SelectMolecule(MoleculeIndex);
     }
