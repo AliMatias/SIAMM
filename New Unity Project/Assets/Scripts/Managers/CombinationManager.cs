@@ -353,7 +353,7 @@ public class CombinationManager : MonoBehaviour
 
             if (atomIds.Count >= mapping.Amount)
             {
-                popup.MostrarPopUp("Combinación", "Creaste " + material.Name);
+                //popup.MostrarPopUp("Combinación", "Creaste " + material.Name);
                 materialManager.SpawnMaterial(material);
             }
             else
@@ -409,7 +409,7 @@ public class CombinationManager : MonoBehaviour
 
             if(moleculeIds.Count >= mapping.Amount)
             {
-                popup.MostrarPopUp("Combinación","Creaste " + material.Name);
+                //popup.MostrarPopUp("Combinación","Creaste " + material.Name);
                 materialManager.SpawnMaterial(material);
                 DeleteCombinedMolecules(selectedMolecules);
             }
@@ -535,7 +535,7 @@ public class CombinationManager : MonoBehaviour
         yield return StartCoroutine(StopAnimationCombination());
 
         //exito! muestro por pantalla 
-        popup.MostrarPopUp("Manager Combinación", "Molécula Formada: " + toStringPopup);
+        //popup.MostrarPopUp("Manager Combinación", "Molécula Formada: " + toStringPopup);
     }
 
 
