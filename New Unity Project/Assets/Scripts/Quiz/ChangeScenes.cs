@@ -7,9 +7,9 @@ using UnityEngine.UI;
 
 public class ChangeScenes : MonoBehaviour
 {
-    public const int SPLASH_SCENE = 0;
-    public const int MAIN_SCENE = 1;
-    public const int QUIZ_SCENE = 2;
+    public const int SPLASH_SCENE = 2;
+    public const int MAIN_SCENE = 0;
+    public const int QUIZ_SCENE = 1;
     
     private SaveLoadManager saveLoadManager;
     private UIPopupQuestionChangeScene popupChangeScene;
