@@ -16,6 +16,7 @@ TagManager:
   - resultsNote
   - materialToggle
   - atomToggle
+  - isAnswerPrefab
   layers:
   - Default
   - TransparentFX

@@ -26,6 +26,8 @@ public class QuizManager : MonoBehaviour
     private List<AnswerQuizStruct> userAnswers;
     private List<ResultQuizStruct> quizResults;
 
+    private const int QUESTION_AMOUNT = 10;
+
     private int currentQuestionNumber;
 
     void Start()
@@ -46,7 +48,7 @@ public class QuizManager : MonoBehaviour
         try
         {
             allQuestions = qryQuiz.GetAllQuestions();
-            ChooseRandomQuestions(10);
+            ChooseRandomQuestions();
         }
         catch (Exception e)
         {
@@ -59,8 +61,10 @@ public class QuizManager : MonoBehaviour
     public void StartQuiz()
     {
         // destruir introduccion
-        Destroy(introCanvas.gameObject);
-
+        if (introCanvas != null)
+        {
+            Destroy(introCanvas.gameObject);
+        }
         // mostrar quiz
         ShowCanvas(quizCanvas);
         LoadQuestion();
@@ -185,8 +189,9 @@ public class QuizManager : MonoBehaviour
         userAnswers.Add(new AnswerQuizStruct(question, answer));
     }
 
-    public void ChooseRandomQuestions(int amount)
+    public void ChooseRandomQuestions()
     {
+        int amount = QUESTION_AMOUNT;
         chosenQuestions = new List<QuestionData>();
         List<QuestionData> allQuestionsTemp = new List<QuestionData>(allQuestions);
         if (amount > allQuestionsTemp.Count) amount = allQuestionsTemp.Count;
@@ -220,6 +225,7 @@ public class QuizManager : MonoBehaviour
     {
         CheckResults();
         LoadResultsCanvas();
+        HideCanvas(quizCanvas);
         ShowCanvas(resultsCanvas);
     }
 
@@ -262,5 +268,28 @@ public class QuizManager : MonoBehaviour
 
         GameObject finalNote = resultsCanvas.GetComponent<CanvasGroup>().gameObject.transform.Find("ResultsNote").gameObject;
         finalNote.GetComponent<Text>().text = "Acertaste <b>" + correctAnswers + "/" + chosenQuestions.Count +"</b> preguntas";
+    }
+
+    private void CleanResultsCanvas()
+    {
+        HideCanvas(resultsCanvas);
+        Transform parent = resultsCanvas.GetComponent<CanvasGroup>().gameObject.transform;
+        foreach (Transform child in parent)
+        {
+            if (child.tag == "isAnswerPrefab")
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+
+    public void ResetQuiz()
+    {
+        CleanResultsCanvas();
+        ChooseRandomQuestions();
+        currentQuestionNumber = 0;
+        userAnswers = new List<AnswerQuizStruct>();
+        quizResults = new List<ResultQuizStruct>();
+        StartQuiz();
     }
 }
