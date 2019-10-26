@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 1918698950930484311}
   m_Layer: 5
   m_Name: WrongAnswer
-  m_TagString: Untagged
+  m_TagString: isAnswerPrefab
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
