@@ -26,7 +26,7 @@ public class CameraManager : MonoBehaviour
 
     //Límites de habitación
     //Tienen uno menos que las posiciones globales de las paredes.
-    private MovementLimit movementLimits = new MovementLimit(9,1,-19,19,19,-19);
+    private MovementLimit movementLimits = new MovementLimit(11,-2,-19,19,19,-19);
 
     void Start()
     {
