@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.UI;
 
 public class MaterialManager : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class MaterialManager : MonoBehaviour
     public MaterialObject materialPrefab;
 
     private List<MaterialObject> materials;
+
+    [SerializeField]
+    private Button addMaterialButton;
 
     //panel de info
     private MainInfoPanel mainInfoPanel;
@@ -28,7 +32,27 @@ public class MaterialManager : MonoBehaviour
         materials = new List<MaterialObject>();
         mainInfoPanel = FindObjectOfType<MainInfoPanel>();
         tipsManager = FindObjectOfType<TipsManager>();
+
+        activateDeactivateMaterialButtons();
     }
+
+    //activa-desactiva botones de acuerdo a la cant de materiales
+    private void activateDeactivateMaterialButtons()
+    {
+        if (positionManager.NoPositionsLeft())//si no hay mas posiciones disponibles en la cuadricula DESACTIVA EL BOTON!
+        {
+            addMaterialButton.interactable = false;
+        }
+        else
+        {
+            //aca deberia controlar por las dudas que no este en modo combinacion.. para que no active el boton..
+            if (combinationManager != null && combinationManager.CombineMode == false)
+            {
+                addMaterialButton.interactable = true;
+            }
+        }
+    }
+
 
     public void SpawnMaterial(MaterialData materialData)
     {
@@ -40,6 +64,9 @@ public class MaterialManager : MonoBehaviour
 
         //seteo info en panel inferior de elementos
         mainInfoPanel.SetInfoMaterial(materialData);
+
+        //interacion sobre los botones de la UI
+        activateDeactivateMaterialButtons();
 
         /*CREA UN TIP! CON LA TEMATICA PASADA POR ID*/
         tipsManager.LaunchTips(4);
@@ -134,6 +161,8 @@ public class MaterialManager : MonoBehaviour
         // disponibilizo la posición de nuevo
         positionManager.AvailablePositions[material.MaterialIndex] = true;
         Debug.Log("[MaterialManager] :: Se ha borrado el material " + material.MaterialIndex);
+
+        activateDeactivateMaterialButtons();
     }
 
     // Borrar material por indice

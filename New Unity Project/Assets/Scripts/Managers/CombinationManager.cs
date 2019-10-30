@@ -24,7 +24,7 @@ public class CombinationManager : MonoBehaviour
     private TipsManager tipsManager;
     public Button combineButton;
     public Text combineModeButton;
-    GameObject buttonEliminar;
+    private GameObject buttonEliminar;
     private UIPopup popup;
 
     //prefab de animacion para combinacion y parent donde se asignara el GObj
