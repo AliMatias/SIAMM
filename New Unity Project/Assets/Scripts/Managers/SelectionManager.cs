@@ -221,5 +221,8 @@ public class SelectionManager : MonoBehaviour
                 materialManager.DeleteMaterial(selected);
             }
         }
+
+        //SI SE BORRA TAMBIEN se quita la seleccion y no hay otros seleccionados cierra panel
+        mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanel();
     }
 }

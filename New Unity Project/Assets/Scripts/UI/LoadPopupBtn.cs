@@ -69,7 +69,7 @@ public class LoadPopupBtn : MonoBehaviour
 
             /*Tooltips que se mueven segun over mouse*/
             case TypeToolTip.closeTper:        
-                setPointersToolTipMove("CERRAR TABLA PERIODICA");
+                setPointersToolTipMove("CERRAR TABLA \nPERIÓDICA");
                 break;
 
             case TypeToolTip.buttonTper:

@@ -29,8 +29,8 @@ public class UIToolTipControl : MonoBehaviour
    
         if (!flagTooltip)
         {
-             toolTipButton.alpha = 0;
-             toolTipCloseTper.alpha = 0;
+            toolTipButton.alpha = 0;
+            toolTipCloseTper.alpha = 0;
         }
     }
 }

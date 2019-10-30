@@ -28,20 +28,27 @@ public class AtomManager : MonoBehaviour
         private UIPopup popup;
 
         public List<Atom> AtomsList { get => atomsList; }
+
+        private CombinationManager combinationManager;
+        private UIToolTipControl openTper;
     #endregion
 
-    private void Awake(){
-        GameObject[] buttons = GameObject.FindGameObjectsWithTag("atomToggle");
-        foreach(GameObject btn in buttons)
-        {
-            atomButtons.Add(btn.GetComponent<Button>());
-        }
+    private void Awake()
+    {
+        //GameObject[] buttons = GameObject.FindGameObjectsWithTag("atomToggle");
+        //foreach(GameObject btn in buttons)
+        //{
+        //    atomButtons.Add(btn.GetComponent<Button>());
+        //}
         activateDeactivateAtomButtons();
 
         popup = FindObjectOfType<UIPopup>();
         selectionManager = FindObjectOfType<SelectionManager>();
         suggestionManager = FindObjectOfType<SuggestionManager>();
         tipsManager = FindObjectOfType<TipsManager>();
+
+        combinationManager = FindObjectOfType<CombinationManager>();
+        openTper = FindObjectOfType<UIToolTipControl>();
     }
 
     //agregar nuevo átomo al espacio de trabajo
@@ -256,20 +263,27 @@ public class AtomManager : MonoBehaviour
     //activa-desactiva botones de acuerdo a la cant de átomos
     private void activateDeactivateAtomButtons()
     {
-        bool status = true;
-        if(atomsList.Count == 0){
-            status = false;
-        }
+        //bool status = true;
+        //if(atomsList.Count == 0){
+        //    status = false;
+        //}
 
-        foreach(Button btn in atomButtons){
-            btn.interactable = status;
-        }
+        //foreach(Button btn in atomButtons){
+        //    btn.interactable = status;
+        //}
 
         if(positionManager.NoPositionsLeft())
         {
             plusAtomButton.interactable = false;
-        }else{
-            plusAtomButton.interactable = true;
+        }
+        else
+        {
+            //aca deberia controlar por las dudas que no este en modo combinacion.. para que no active el boton..
+            if (combinationManager != null && combinationManager.CombineMode == false) 
+            {
+                if (openTper.panelTper.activeSelf == false)//si la tabla periodica esta abierta! no habilita!
+                    plusAtomButton.interactable = true;
+            }
         }
     }
 
