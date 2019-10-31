@@ -170,7 +170,7 @@ public class Molecule : MonoBehaviour, IPointerClickHandler
 
     public void Select()
     {
-        moleculeLabel.GetComponent<TextMesh>().color = new Color(240, 0, 0);
+        moleculeLabel.GetComponent<TextMesh>().color = new Color(0, 0.4431373f, 1); // equivale a R:0, G:113, B:255
         StartAllHighlights(atoms);
         StartAllHighlights(connections);
     }

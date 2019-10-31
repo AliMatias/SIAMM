@@ -428,7 +428,7 @@ public class Atom : MonoBehaviour, IPointerClickHandler
 
     //ilumina todas las partículas
     public void Select(){
-        elementLabel.GetComponent<TextMesh>().color = new Color(240,0,0);
+        elementLabel.GetComponent<TextMesh>().color = new Color(0, 0.4431373f, 1); // equivale a R:0, G:113, B:255
         StartAllHighlights(protonQueue);
         StartAllHighlights(neutronQueue);
     }
