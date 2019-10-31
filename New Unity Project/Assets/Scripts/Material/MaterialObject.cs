@@ -64,7 +64,7 @@ public class MaterialObject : MonoBehaviour, IPointerClickHandler
 
     public void Select()
     {
-        materialLabel.GetComponent<TextMesh>().color = new Color(240, 0, 0);
+        materialLabel.GetComponent<TextMesh>().color = new Color(0, 0.4431373f, 1); // equivale a R:0, G:113, B:255
         // StartAllHighlights();
     }
 
