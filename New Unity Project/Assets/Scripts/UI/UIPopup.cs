@@ -45,7 +45,7 @@ public class UIPopup : MonoBehaviour
         }
     }
 
-    //INSTANCIA UNA VEZ para la interfaz que lo referencia por eso hay 2 clases uipopup
+    //INSTANCIA UNA VEZ para la interfaz que lo referencia por eso hay MAS DE UNA clase uipopup
     public void ShowGUI(int windowID)
     {
         // Label que muestra mensaje

@@ -4,9 +4,10 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
 
 //script que se encarga de spawnear las partículas, manejarlas y saber que estoy formando.
-public class Atom: MonoBehaviour
+public class Atom : MonoBehaviour, IPointerClickHandler
 {
     #region atributos
     //Lista de prefabs de partículas, posición 0->proton, 1->neutron, 2->electron
@@ -416,9 +417,10 @@ public class Atom: MonoBehaviour
         return elementText;
     }
 
-    //se lanza cuando se hace click al átomo
-    public void OnMouseDown()
+    //se lanza cuando se hace click al átomo ademas controla el RAYCAST del GO
+    public void OnPointerClick(PointerEventData data)
     {
+        // This will only execute if the objects collider was the first hit by the click's raycast
         //no va popup
         Debug.Log("clickeaste el átomo " + AtomIndex);
         atomManager.SelectAtom(AtomIndex);
@@ -426,7 +428,7 @@ public class Atom: MonoBehaviour
 
     //ilumina todas las partículas
     public void Select(){
-        elementLabel.GetComponent<TextMesh>().color = new Color(240,0,0);
+        elementLabel.GetComponent<TextMesh>().color = new Color(0, 0.4431373f, 1); // equivale a R:0, G:113, B:255
         StartAllHighlights(protonQueue);
         StartAllHighlights(neutronQueue);
     }

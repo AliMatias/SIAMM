@@ -1,1 +1,1 @@
-{"atoms":[],"molecules":[],"materials":[{"materialId":4,"position":0,"name":"Cobre","modelFile":"Copper"},{"materialId":4,"position":1,"name":"Cobre","modelFile":"Copper"}]}
+{"atoms":[{"neutrons":0,"protons":1,"electrons":0,"position":1}],"molecules":[{"moleculeId":1,"position":0,"name":"Agua (H2O)"}],"materials":[]}

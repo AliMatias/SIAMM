@@ -40,6 +40,8 @@ public class OpenMenus : MonoBehaviour
     */
     public void OpenBottomPanel()
     {
+        // cierro todos los paneles
+        CloseAll();
         restoreAlphasTabbedMenu();
 
         // traigo todos los atomos seleccionados
@@ -56,6 +58,8 @@ public class OpenMenus : MonoBehaviour
                 if (selectedMolecules.Count == 0 && selectedMaterials.Count == 0 && infoPanelElements.alpha == 0)
                 {
                     gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+                    // activo el blockRayCast para el panel que estoy abriendo y lo desactivo para el resto
+                    setActiveRayCast(infoPanelElements);
                     setInactiveRayCast(infoPanelMolecule);
                     setInactiveRayCast(infoPanelMaterial);
                     setInactiveRayCast(infoPanelIsotopos);
@@ -67,6 +71,11 @@ public class OpenMenus : MonoBehaviour
                 if (selectedMolecules.Count == 0 && selectedMaterials.Count == 0 && infoPanelIsotopos.alpha == 0)
                 {
                     gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+                    // activo el blockRayCast para el panel que estoy abriendo y lo desactivo para el resto
+                    setInactiveRayCast(infoPanelElements);
+                    setInactiveRayCast(infoPanelMolecule);
+                    setInactiveRayCast(infoPanelMaterial);
+                    setActiveRayCast(infoPanelIsotopos);
                 }
             }
         }
@@ -75,6 +84,9 @@ public class OpenMenus : MonoBehaviour
         else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 1 && selectedMaterials.Count == 0 && infoPanelMolecule.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+            // activo el blockRayCast para el panel que estoy abriendo y lo desactivo para el resto
+            setInactiveRayCast(infoPanelElements);
+            setActiveRayCast(infoPanelMolecule);
             setInactiveRayCast(infoPanelMaterial);
             setInactiveRayCast(infoPanelIsotopos);
         }
@@ -84,46 +96,52 @@ public class OpenMenus : MonoBehaviour
         else if (selectedAtoms.Count == 0 && selectedMolecules.Count == 0 && selectedMaterials.Count == 1 && infoPanelMaterial.alpha == 0)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);//el uifader lo tiene instanciado el padre de todos los panels
+            // activo el blockRayCast para el panel que estoy abriendo y lo desactivo para el resto
+            setInactiveRayCast(infoPanelElements);
+            setInactiveRayCast(infoPanelMolecule);
+            setActiveRayCast(infoPanelMaterial);
             setInactiveRayCast(infoPanelIsotopos);
         }
-
-        //verifica que quiza tenga que cerrar algun panel
-        CloseBottomPanel();
     }
 
-    /*
-     * metodo principal para el manejo del cierre del panel INFOPANEL padre de los otros paneles de informacion
-     * infocontainer de atomos, moleculas y materiales
+    /**
+     * Cierro todos los paneles abiertos y desactivo todos los blockRayCast
      */
-    public void CloseBottomPanel()
+    private void CloseAll()
     {
-        restoreAlphasTabbedMenu();
-
         if (infoPanelElements.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelElements.gameObject);
-            setActiveRayCast(infoPanelMolecule);
-            setActiveRayCast(infoPanelMaterial);
-            setActiveRayCast(infoPanelIsotopos);
         }
 
         if (infoPanelMolecule.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMolecule.gameObject);
-            setActiveRayCast(infoPanelMaterial);
-            setActiveRayCast(infoPanelIsotopos);
         }
 
         if (infoPanelMaterial.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelMaterial.gameObject);
-            setActiveRayCast(infoPanelIsotopos);
         }
 
         if (infoPanelIsotopos.alpha == 1)
         {
             gameObject.GetComponent<UIFader>().FadeInAndOut(infoPanelIsotopos.gameObject);
         }
+
+        setInactiveRayCast(infoPanelElements);
+        setInactiveRayCast(infoPanelMolecule);
+        setInactiveRayCast(infoPanelMaterial);
+        setInactiveRayCast(infoPanelIsotopos);
+    }
+
+    /*
+     * Metodo publico para cerrar paneles
+     */
+    public void CloseBottomPanel()
+    {
+        CloseAll();
+        restoreAlphasTabbedMenu();
     }
 
     //que si algun panel esta en 1 quiere decir que el usuario en algun momento LO ACTIVO.. por lo tanto... tendria que ver ver la forma de hacer una combinacion

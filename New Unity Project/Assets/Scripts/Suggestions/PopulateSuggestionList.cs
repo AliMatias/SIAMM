@@ -19,6 +19,9 @@ public class PopulateSuggestionList : MonoBehaviour
 
     private UIPopup popup = null;
 
+    private List<MoleculeData> allMolecules = new List<MoleculeData>();
+    private List<MaterialData> allMaterials = new List<MaterialData>();
+
     private List<MoleculeData> fullyMatchedMolecules = new List<MoleculeData>();
     private List<MoleculeData> partiallyMatchedMolecules = new List<MoleculeData>();
     private List<MaterialData> fullyMatchedMaterials = new List<MaterialData>();
@@ -43,67 +46,79 @@ public class PopulateSuggestionList : MonoBehaviour
         go.AddComponent<QryMaterials>();
         qryMolecule = go.GetComponent<QryMoleculas>();
         qryMaterial = go.GetComponent<QryMaterials>();
+        try
+        {
+            allMolecules = qryMolecule.GetAllMolecules();
+            allMaterials = qryMaterial.GetAllMaterials();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("PopulateSuggestionList :: Error getting data from database: " + e.StackTrace);
+            popup.MostrarPopUp("Error", "Error cargando sugerencias");
+        }
     }
 
     public void UpdateList()
     {
-        try
+        ClearList();
+        FilterMolecules();
+        FilterMaterials();
+        LoadList();
+    }
+
+    private void FilterMaterials()
+    {
+        if (suggestionManager.MaterialsFullyMatched != null && suggestionManager.MaterialsFullyMatched.Count > 0)
         {
-            ClearList();
-
-            // TODO reemplazar todas estas llamadas a DB por filtrado de listas con todas las moleculas y materiales. 
-            //      Las llamadas a DB para traer todo tienen que estar en el Start. 
-
-            if (suggestionManager.MoleculesFullyMatched != null && suggestionManager.MoleculesFullyMatched.Count > 0)
-            {
-                fullyMatchedMolecules = qryMolecule.GetAllMoleculesIn(suggestionManager.MoleculesFullyMatched);
-            }
-
-            if (suggestionManager.MoleculesPartiallyMatched != null && suggestionManager.MoleculesPartiallyMatched.Count > 0)
-            {
-                partiallyMatchedMolecules = qryMolecule.GetAllMoleculesIn(suggestionManager.MoleculesPartiallyMatched);
-            }
-
-            if (suggestionManager.MaterialsFullyMatched != null && suggestionManager.MaterialsFullyMatched.Count > 0)
-            {
-                fullyMatchedMaterials = qryMaterial.GetAllMaterialsIn(suggestionManager.MaterialsFullyMatched);
-            }
-
-            if (suggestionManager.MaterialsPartiallyMatched != null && suggestionManager.MaterialsPartiallyMatched.Count > 0)
-            {
-                partiallyMatchedMaterials = qryMaterial.GetAllMaterialsIn(suggestionManager.MaterialsPartiallyMatched);
-            }
-
-
-            if (fullyMatchedMolecules.Count > 0)
-            {
-                fullyMatchedMolecules.ForEach(moleculeData => LoadItemToList(moleculeData));
-            }
-            if (fullyMatchedMaterials.Count > 0)
-            {
-                fullyMatchedMaterials.ForEach(materialData => LoadItemToList(materialData));
-            }
-
-            if (partiallyMatchedMolecules.Count > 0)
-            {
-                partiallyMatchedMolecules.ForEach(moleculeData => LoadItemToList(moleculeData));
-            }
-            if (partiallyMatchedMaterials.Count > 0)
-            {
-                partiallyMatchedMaterials.ForEach(materialData => LoadItemToList(materialData));
-            }
+            fullyMatchedMaterials = allMaterials.FindAll(material => suggestionManager.MaterialsFullyMatched.Contains(material.Id));
         }
-        catch (Exception e)
+
+        if (suggestionManager.MaterialsPartiallyMatched != null && suggestionManager.MaterialsPartiallyMatched.Count > 0)
         {
-            Debug.Log("PopulateSuggestionList :: Error getting data from database: " + e.StackTrace);
-            popup.MostrarPopUp("Error", "Error cargando sugerencias");
+            partiallyMatchedMaterials = allMaterials.FindAll(material => suggestionManager.MaterialsPartiallyMatched.Contains(material.Id));
+        }
+    }
+
+    private void FilterMolecules()
+    {
+        if (suggestionManager.MoleculesFullyMatched != null && suggestionManager.MoleculesFullyMatched.Count > 0)
+        {
+            fullyMatchedMolecules = allMolecules.FindAll(molecule => suggestionManager.MoleculesFullyMatched.Contains(molecule.Id));
+            fullyMatchedMolecules.Sort(SortMoleculesByDiferenciaElectronegatividadDesc);
+        }
+
+        if (suggestionManager.MoleculesPartiallyMatched != null && suggestionManager.MoleculesPartiallyMatched.Count > 0)
+        {
+            partiallyMatchedMolecules = allMolecules.FindAll(molecule => suggestionManager.MoleculesPartiallyMatched.Contains(molecule.Id));
+            partiallyMatchedMolecules.Sort(SortMoleculesByDiferenciaElectronegatividadDesc);
+        }
+    }
+
+    private void LoadList()
+    {
+        if (fullyMatchedMolecules.Count > 0)
+        {
+            fullyMatchedMolecules.ForEach(moleculeData => LoadItemToList(moleculeData, true));
+        }
+        if (fullyMatchedMaterials.Count > 0)
+        {
+            fullyMatchedMaterials.ForEach(materialData => LoadItemToList(materialData, true));
+        }
+
+        if (partiallyMatchedMolecules.Count > 0)
+        {
+            partiallyMatchedMolecules.ForEach(moleculeData => LoadItemToList(moleculeData, false));
+        }
+        if (partiallyMatchedMaterials.Count > 0)
+        {
+            partiallyMatchedMaterials.ForEach(materialData => LoadItemToList(materialData, false));
         }
     }
 
     /**
      * Carga una molecula a la lista
      */
-    public void LoadItemToList(MoleculeData molecule)
+    public void LoadItemToList(MoleculeData molecule, bool isBold)
     {
         // crea un nuevo item en la lista
         var itemList = Instantiate(listItem);
@@ -111,13 +126,13 @@ public class PopulateSuggestionList : MonoBehaviour
         itemList.transform.localPosition = Vector3.zero;
         //mostrara la formula + tradicional nom
         itemList.GetComponentInChildren<TextMeshProUGUI>().text = molecule.ToStringToList;
+        if (isBold) itemList.GetComponentInChildren<TextMeshProUGUI>().fontStyle = FontStyles.Bold;
 
         // le agrega comportamiento al componente button del texto seleccionado
         itemList.GetComponent<Button>().onClick.AddListener(
             () =>
             {
                 SelectItem(molecule, itemList);
-                Debug.Log("Clicked: " + molecule.ToString);
             }
         );
     }
@@ -125,20 +140,20 @@ public class PopulateSuggestionList : MonoBehaviour
     /**
      * Carga un material a la lista
      */
-    public void LoadItemToList(MaterialData material)
+    public void LoadItemToList(MaterialData material, bool isBold)
     {
         // crea un nuevo item en la lista
         var itemList = Instantiate(listItem);
         itemList.transform.SetParent(content.transform);
         itemList.transform.localPosition = Vector3.zero;
         itemList.GetComponentInChildren<TextMeshProUGUI>().text = material.ToStringToList;
+        if (isBold) itemList.GetComponentInChildren<TextMeshProUGUI>().fontStyle = FontStyles.Bold;
 
         // le agrega comportamiento al componente button del texto seleccionado
         itemList.GetComponent<Button>().onClick.AddListener(
             () =>
             {
                 SelectItem(material, itemList);
-                Debug.Log("Clicked: " + material.ToString);
             }
         );
     }
@@ -214,7 +229,8 @@ public class PopulateSuggestionList : MonoBehaviour
     */
     private void ClearList()
     {
-        // SelectedMolecule = null;
+        selectedMolecule = null;
+        selectedMaterial = null;
         fullyMatchedMolecules = new List<MoleculeData>();
         partiallyMatchedMolecules = new List<MoleculeData>();
         fullyMatchedMaterials = new List<MaterialData>();
@@ -226,5 +242,16 @@ public class PopulateSuggestionList : MonoBehaviour
             GameObject child = content.transform.GetChild(i).gameObject;
             Destroy(child);
         }
+    }
+
+    /**
+     * Ordena las moleculas por diferencia de electronegatividad de mayor a menor
+     */
+    private int SortMoleculesByDiferenciaElectronegatividadDesc(MoleculeData moleculeA, MoleculeData moleculeB)
+    {
+        if (moleculeA.DiferenciaElectronegatividad == null && moleculeB.DiferenciaElectronegatividad == null) return 0;
+        if (moleculeA.DiferenciaElectronegatividad == null) return -1;
+        if (moleculeB.DiferenciaElectronegatividad == null) return 1;
+        return moleculeA.DiferenciaElectronegatividad > moleculeB.DiferenciaElectronegatividad ? -1 : 1;
     }
 }

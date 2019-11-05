@@ -60,7 +60,7 @@ public class QryMoleculas : MonoBehaviour
 
         try
         {
-            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion " +
+            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion, diferencia_electronegatividad " +
             "FROM moleculas_lista WHERE id=" + moleculaId + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -78,8 +78,9 @@ public class QryMoleculas : MonoBehaviour
                 string propiedades = dBManager.SafeGetString(reader, 6);
                 string usos = dBManager.SafeGetString(reader, 7);
                 string clasificacion = dBManager.SafeGetString(reader, 8);
+                Nullable<float> dif_electronegatividad = dBManager.SafeGetFloat(reader, 9);
 
-                moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion);
+                moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion, dif_electronegatividad);
             }
 
         }
@@ -187,8 +188,8 @@ public class QryMoleculas : MonoBehaviour
 
         try
         { 
-            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion " +
-            "FROM moleculas_lista;";
+            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, " + 
+                "caracteristicas, propiedades, usos, clasificacion, diferencia_electronegatividad FROM moleculas_lista;";
 
             //LLAMADA AL METODO DE LA DBMANAGER
             dbConnection = dBManager.openCon();
@@ -205,7 +206,8 @@ public class QryMoleculas : MonoBehaviour
                 string propiedades = dBManager.SafeGetString(reader, 6);
                 string usos = dBManager.SafeGetString(reader, 7);
                 string clasificacion = dBManager.SafeGetString(reader, 8);
-                MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion);
+                Nullable<float> dif_electronegatividad = dBManager.SafeGetFloat(reader, 9);
+                MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion, dif_electronegatividad);
                 molecules.Add(moleculeData);
             }
         }
@@ -269,7 +271,7 @@ public class QryMoleculas : MonoBehaviour
 
         try
         {
-            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion " +
+            string sqlQuery = "SELECT id, formula, formula_nomenclatura_sistematica, nomenclatura_stock, nomenclatura_tradicional, caracteristicas, propiedades, usos, clasificacion, diferencia_electronegatividad " +
             "FROM moleculas_lista WHERE id IN " + idList + ";";
 
             //LLAMADA AL METODO DE LA DBMANAGER
@@ -287,7 +289,9 @@ public class QryMoleculas : MonoBehaviour
                 string propiedades = dBManager.SafeGetString(reader, 6);
                 string usos = dBManager.SafeGetString(reader, 7);
                 string clasificacion = dBManager.SafeGetString(reader, 8);
-                MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion);
+                Nullable<float> dif_electronegatividad = dBManager.SafeGetFloat(reader, 9);
+
+                MoleculeData moleculeData = new MoleculeData(id, formula, systematicNm, stockNm, traditionalNm, caracteristicas, propiedades, usos, clasificacion, dif_electronegatividad);
                 molecules.Add(moleculeData);
             }
         }

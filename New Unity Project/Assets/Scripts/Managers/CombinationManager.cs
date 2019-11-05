@@ -21,8 +21,10 @@ public class CombinationManager : MonoBehaviour
     private MoleculeManager moleculeManager;
     private SelectionManager selectionManager;
     private MaterialManager materialManager;
+    private TipsManager tipsManager;
     public Button combineButton;
     public Text combineModeButton;
+    private GameObject buttonEliminar;
     private UIPopup popup;
 
     //prefab de animacion para combinacion y parent donde se asignara el GObj
@@ -43,6 +45,12 @@ public class CombinationManager : MonoBehaviour
         atomManager = FindObjectOfType<AtomManager>();
         materialManager = FindObjectOfType<MaterialManager>();
         popup = FindObjectOfType<UIPopup>();
+        tipsManager = FindObjectOfType<TipsManager>();
+        mainInfoPanel = FindObjectOfType<MainInfoPanel>();
+        buttonInfoPanel = GameObject.Find("InteractivePanelInfoBtn");
+        buttonEliminar = GameObject.Find("DeleteObjectBtn");//es un button LEAN! y no se puede hacer interactuable
+        moleculeManager = FindObjectOfType<MoleculeManager>();
+        selectionManager = FindObjectOfType<SelectionManager>();
 
         //instancio en el momento la clase que contiene las querys, seria lo mismo que hacer class algo = new class();
         GameObject go = new GameObject();
@@ -53,51 +61,106 @@ public class CombinationManager : MonoBehaviour
         qryMaterial = go.GetComponent<QryMaterials>();
         qryElementos = go.GetComponent<QryElementos>();
 
-        moleculeManager = FindObjectOfType<MoleculeManager>();
-        selectionManager = FindObjectOfType<SelectionManager>();
-        //encuentro y asigno a mi lista los botones a apagar
+        //el boton de lanzar combinacion comienza deshabilitado
+        combineButton.interactable = false;
+
+        //busca y encuentra los botones que tiene que activar o desactivar de acuerdo al modo actual
+        searchButtonsOffON();
+    }
+
+
+    private void searchButtonsOffON()
+    {
+        //encuentro y asigno a mi lista los botones a apagar al momento de entrar en combinacion
         GameObject[] btns = GameObject.FindGameObjectsWithTag("toToggle");
+        GameObject[] btnsAtom = GameObject.FindGameObjectsWithTag("atomToggle");
+        GameObject[] btnsMol = GameObject.FindGameObjectsWithTag("moleculeToggle");
+        GameObject[] btnsMat = GameObject.FindGameObjectsWithTag("materialToggle");
+
         foreach (GameObject btn in btns)
         {
             buttonsToToggle.Add(btn.GetComponent<Button>());
         }
-        combineButton.interactable = false;
 
-        mainInfoPanel = FindObjectOfType<MainInfoPanel>();
-        buttonInfoPanel = GameObject.Find("InteractivePanelInfoBtn");
+        foreach (GameObject btn in btnsAtom)
+        {
+            buttonsToToggle.Add(btn.GetComponent<Button>());
+        }
+
+
+        foreach (GameObject btn in btnsMol)
+        {
+            buttonsToToggle.Add(btn.GetComponent<Button>());
+        }
+
+
+        foreach (GameObject btn in btnsMat)
+        {
+            buttonsToToggle.Add(btn.GetComponent<Button>());
+        }
     }
 
     public void SwitchCombineMode()
     {
+        ActionsCommons();
+
+        if (!combineMode)
+        {
+            ActionsCreation();
+        }
+        else
+        {
+            ActionsCombine();
+        }
+    }
+    
+    private void ActionsCommons()
+    {
         combineMode = !combineMode;
-        //apago los botones
+
+        //apago los botones o los prendo si vuelvo a creacion
         foreach (Button btn in buttonsToToggle)
         {
             btn.interactable = !combineMode;
         }
+
+        //el boton de lanzar combinacion debe cambiar
         combineButton.interactable = !combineButton.interactable;
+
         // le aviso al selection manager que cambié de modo
         selectionManager.SwitchCombineMode(combineMode);
+    }
+
+    private void ActionsCombine()
+    {
+        buttonEliminar.SetActive(false);
 
         //obtengo el texto del boton y lo cambio
-        if (!combineMode)
-        {
-            combineModeButton.text = "Creación";
+        combineModeButton.text = "Combinación";
 
-            //si se ingresa a modo combinacion POR AHORA habilita boton
-            buttonInfoPanel.GetComponent<Button>().interactable = true;
-        }
-        else
-        {
-            combineModeButton.text = "Combinación";
+        //si se ingresa a modo combinacion POR AHORA cierra paneles INFERIORES
+        mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanel();
 
-            //si se ingresa a modo combinacion POR AHORA cierra panel
-            mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanel();
+        //si se ingresa a modo combinacion POR AHORA desactiva tambien el boton info
+        buttonInfoPanel.GetComponent<Button>().interactable = false;
 
-            //si se ingresa a modo combinacion POR AHORA desactiva tambien el boton info
-            buttonInfoPanel.GetComponent<Button>().interactable = false;
-        }
+        /*CREA UN TIP! CON LA TEMATICA PASADA POR ID*/
+        tipsManager.LaunchTips(1);
     }
+
+    private void ActionsCreation()
+    {
+        buttonEliminar.SetActive(true);
+
+        //obtengo el texto del boton y lo cambio
+        combineModeButton.text = "Creación";
+
+        //si se ingresa a modo combinacion POR AHORA habilita boton
+        buttonInfoPanel.GetComponent<Button>().interactable = true;
+    }
+
+
+    #region Combination
 
     public void Combine(){
         List<int> selectedAtoms = atomManager.GetSelectedAtoms();
@@ -112,7 +175,11 @@ public class CombinationManager : MonoBehaviour
             if(atomCount>1){
                     Debug.Log("Combinando átomos.");
                     CombineAtoms(selectedAtoms);
-            }else{
+
+                    /*CREA UN TIP! CON LA TEMATICA PASADA POR ID*/
+                    tipsManager.LaunchTips(2);
+            }
+            else{
                 if(molCount>1){
                     Debug.Log("Combinando moléculas.");
                     CombineMolecules(selectedMolecules);
@@ -286,7 +353,7 @@ public class CombinationManager : MonoBehaviour
 
             if (atomIds.Count >= mapping.Amount)
             {
-                popup.MostrarPopUp("Combinación", "Creaste " + material.Name);
+                //popup.MostrarPopUp("Combinación", "Creaste " + material.Name);
                 materialManager.SpawnMaterial(material);
             }
             else
@@ -342,7 +409,7 @@ public class CombinationManager : MonoBehaviour
 
             if(moleculeIds.Count >= mapping.Amount)
             {
-                popup.MostrarPopUp("Combinación","Creaste " + material.Name);
+                //popup.MostrarPopUp("Combinación","Creaste " + material.Name);
                 materialManager.SpawnMaterial(material);
                 DeleteCombinedMolecules(selectedMolecules);
             }
@@ -384,6 +451,8 @@ public class CombinationManager : MonoBehaviour
             moleculeManager.DeleteMolecule(molecule);
         }
     }
+
+    #endregion
 
     #region Metodos Para traslacion de objetos atomos
     //metodo para lanzar traslacion, animacion y luego recien spawnear la molecula (no se usan atributos /var globales)
@@ -466,7 +535,7 @@ public class CombinationManager : MonoBehaviour
         yield return StartCoroutine(StopAnimationCombination());
 
         //exito! muestro por pantalla 
-        popup.MostrarPopUp("Manager Combinación", "Molécula Formada: " + toStringPopup);
+        //popup.MostrarPopUp("Manager Combinación", "Molécula Formada: " + toStringPopup);
     }
 
 

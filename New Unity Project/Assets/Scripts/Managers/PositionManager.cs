@@ -28,7 +28,7 @@ public class PositionManager
         }
     }
 
-#region positions
+    #region positions
     //seteo las posibles posiciones, por ahora hardcodeadas
     private void LoadPositions()
     {
@@ -311,5 +311,12 @@ public class PositionManager
             Debug.LogError("Posición " + position + " ya está ocupada.");
             return false;
         }
+    }
+
+    public void ResetAllPositions()
+    {
+        Positions = new List<Vector3>();
+        AvailablePositions = new List<bool>();
+        LoadPositions();
     }
 }

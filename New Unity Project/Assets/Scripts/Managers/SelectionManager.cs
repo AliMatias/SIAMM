@@ -162,10 +162,7 @@ public class SelectionManager : MonoBehaviour
         else
         {
             // en el modo combinacion no se pueden seleccionar materiales
-            //DeselectAllMaterials();
-
-            //CON ESTO ESTARIA ARREGLANDO EL BUG QUE AL OCMBINAR SALTA EL POPUP DE QUE FALTAN ELEGIR ELEMENTOS.. CHARLARLO LUEGO
-            DeselectAll();
+            DeselectAllMaterials();
 
             //no muestro panel de agregar elementos cuando se activa el switch
             panelElements.GetComponent<CanvasGroup>().alpha = 0;
@@ -190,15 +187,42 @@ public class SelectionManager : MonoBehaviour
         {
             material.Deselect();
         }
+
+        //no muestro panel de agregar elementos se DESELECCIONA TODO
+        panelElements.GetComponent<CanvasGroup>().alpha = 0;
     }
 
     public void DeselectAllMaterials()
     {
-        selectedObjects = new List<int>();
-
         foreach (MaterialObject material in materialManager.Materials)
         {
+            RemoveObject(material.MaterialIndex);
             material.Deselect();
         }
+    }
+
+    public void DeleteAllSelected()
+    {
+        List<int> tempSelectedObjects = new List<int>(selectedObjects);
+        foreach (int selected in tempSelectedObjects)
+        {
+            if (moleculeManager.FindMoleculeInList(selected) != null)
+            {
+                moleculeManager.DeleteMolecule(selected);
+            }
+            else if (atomManager.FindAtomInList(selected) != null)
+            {
+                atomManager.DeleteAtom(selected);
+                //no muestro panel de agregar elementos si lo que se elimina es un atom!
+                panelElements.GetComponent<CanvasGroup>().alpha = 0;
+            }
+            else if (materialManager.FindMaterialInList(selected) != null)
+            {
+                materialManager.DeleteMaterial(selected);
+            }
+        }
+
+        //SI SE BORRA TAMBIEN se quita la seleccion y no hay otros seleccionados cierra panel
+        mainInfoPanel.GetComponent<OpenMenus>().CloseBottomPanel();
     }
 }

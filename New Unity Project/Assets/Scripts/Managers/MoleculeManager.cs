@@ -11,6 +11,7 @@ public class MoleculeManager : MonoBehaviour
     private PositionManager positionManager = PositionManager.Instance;
     private SelectionManager selectionManager;
     private SuggestionManager suggestionManager;
+    private TipsManager tipsManager;
     private QryElementos qryElement;
     //prefab de molécula
     public Molecule moleculePrefab;
@@ -27,6 +28,8 @@ public class MoleculeManager : MonoBehaviour
     //panel de info
     private MainInfoPanel mainInfoPanel;
 
+    private CombinationManager combinationManager;
+
     #endregion
 
     private void Awake()
@@ -37,41 +40,48 @@ public class MoleculeManager : MonoBehaviour
         qryElement = go.GetComponent<QryElementos>();
 
         suggestionManager = FindObjectOfType<SuggestionManager>();
+        tipsManager = FindObjectOfType<TipsManager>();
 
-        GameObject[] buttons = GameObject.FindGameObjectsWithTag("moleculeToggle");
-        foreach (GameObject btn in buttons)
-        {
-            moleculeButtons.Add(btn.GetComponent<Button>());
-        }
+        //GameObject[] buttons = GameObject.FindGameObjectsWithTag("moleculeToggle");
+        //foreach (GameObject btn in buttons)
+        //{
+        //    moleculeButtons.Add(btn.GetComponent<Button>());
+        //}
         activateDeactivateMoleculeButtons();
 
         popup = FindObjectOfType<UIPopup>();
         selectionManager = FindObjectOfType<SelectionManager>();
 
         mainInfoPanel = FindObjectOfType<MainInfoPanel>();
+
+        combinationManager = FindObjectOfType<CombinationManager>();
     }
 
     //activa-desactiva botones de acuerdo a la cant de moleculas
     private void activateDeactivateMoleculeButtons()
     {
-        bool status = true;
-        if (molecules.Count == 0)
-        {
-            status = false;
-        }
+        //bool status = true;
+        //if (molecules.Count == 0)
+        //{
+        //    status = false;
+        //}
 
-        foreach (Button btn in moleculeButtons)
-        {
-            btn.interactable = status;
-        }
+        //foreach (Button btn in moleculeButtons)
+        //{
+        //    btn.interactable = status;
+        //}
 
-        if (positionManager.NoPositionsLeft())
+        if (positionManager.NoPositionsLeft())//si no hay mas posiciones disponibles en la cuadricula DESACTIVA EL BOTON!
         {
             addMoleculeButton.interactable = false;
         }
         else
         {
-            addMoleculeButton.interactable = true;
+            //aca deberia controlar por las dudas que no este en modo combinacion.. para que no active el boton..
+            if (combinationManager != null && combinationManager.CombineMode == false)
+            {
+                addMoleculeButton.interactable = true;
+            }
         }
     }
 
@@ -163,6 +173,9 @@ public class MoleculeManager : MonoBehaviour
 
         // actualizo panel de sugerencias
         suggestionManager.updateSuggestions();
+
+        /*CREA UN TIP! CON LA TEMATICA PASADA POR ID*/
+        tipsManager.LaunchTips(3);
     }
 
     //spawnear molécula (objeto vacío donde se meten los objetos, como "Atom") METODO PARA SPAWN DESDE LISTA 
@@ -209,6 +222,7 @@ public class MoleculeManager : MonoBehaviour
     {
         Molecule selectedMolecule = FindMoleculeInList(index);
         selectionManager.SelectObject(selectedMolecule);
+        suggestionManager.updateSuggestions();
     }
 
     // BORRAR molécula seleccionada.
@@ -268,6 +282,22 @@ public class MoleculeManager : MonoBehaviour
         }
         return selectedMolecules;
     }
+
+    public List<int> GetSelectedMoleculeIds()
+    {
+        List<int> selectedMolecules = new List<int>();
+        List<int> selectedObjects = selectionManager.SelectedObjects;
+        foreach (int index in selectedObjects)
+        {
+            Molecule molecule = FindMoleculeInList(index);
+            if (molecule != null)
+            {
+                selectedMolecules.Add(molecule.MoleculeId);
+            }
+        }
+        return selectedMolecules;
+    }
+
 
     /**
      * Reduce las posiciones de los átomos de una molécula a un valor entre -1 y 1 si es necesario.

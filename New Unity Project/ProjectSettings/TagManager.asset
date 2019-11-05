@@ -6,6 +6,17 @@ TagManager:
   tags:
   - toToggle
   - moleculeToggle
+  - Canvas
+  - skipQuestion
+  - inputAnswer
+  - textAnswer
+  - resultQuestion
+  - resultCorrect
+  - resultUser
+  - resultsNote
+  - materialToggle
+  - atomToggle
+  - isAnswerPrefab
   layers:
   - Default
   - TransparentFX

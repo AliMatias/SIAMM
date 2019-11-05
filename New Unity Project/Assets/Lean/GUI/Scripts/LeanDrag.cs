@@ -74,8 +74,8 @@ namespace Lean.Gui
 	[RequireComponent(typeof(RectTransform))]
 	[HelpURL(LeanGui.HelpUrlPrefix + "LeanDrag")]
 	[AddComponentMenu(LeanGui.ComponentMenuPrefix + "Drag")]
-	public class LeanDrag : Selectable, IBeginDragHandler, IDragHandler, IEndDragHandler
-	{
+	public class LeanDrag : Selectable, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerClickHandler
+    {
 		/// <summary>If you want a different RectTransform to be moved while dragging on this UI element, then specify it here.
 		/// This allows you to turn the current UI element into a drag handle.</summary>
 		public RectTransform Target { set { target = value; } get { return target; } } [SerializeField] private RectTransform target;
@@ -293,7 +293,7 @@ namespace Lean.Gui
 
 		private bool MayDrag(PointerEventData eventData)
 		{
-			return IsActive() && IsInteractable();// && eventData.button == PointerEventData.InputButton.Left;
+            return IsActive() && IsInteractable() && eventData.button == PointerEventData.InputButton.Left;
 		}
 
 		private void ClampPosition(ref Vector2 anchoredPosition)
@@ -352,5 +352,97 @@ namespace Lean.Gui
 				}
 			}
 		}
-	}
+
+
+        #region metodos propios
+
+        //metodo para el moviemiento de apertura (los valores los objeto de la clase LEAN GUI DRAG a traves de los SET correspondientes)
+        private void ClampPositionOpen(ref Vector2 anchoredPosition)
+        {
+            if (horizontalClamp == true)
+            {
+                anchoredPosition.x = Mathf.Clamp(anchoredPosition.x, horizontalMin, horizontalMax);
+            }
+
+            if (verticalClamp == true)
+            {
+                anchoredPosition.y = Mathf.Clamp(anchoredPosition.y, verticalMin, verticalMax);
+            }
+        }
+
+        //metodo para el moviemiento de cierre (los valores los objeto de la clase LEAN GUI DRAG a traves de los SET correspondientes)
+        private void ClampPositionClose(ref Vector2 anchoredPosition)
+        {
+            if (horizontalClamp == true)
+            {
+                anchoredPosition.x = Mathf.Clamp(anchoredPosition.x, horizontalMax, horizontalMin);
+            }
+
+            if (verticalClamp == true)
+            {
+                anchoredPosition.y = Mathf.Clamp(anchoredPosition.y, verticalMax, verticalMin);
+            }
+        }
+
+
+
+        public void clickMenuOpenClose(bool entrando)
+        {
+            var oldVector = default(Vector2);
+            var target = TargetTransform;
+
+            var newVector = default(Vector2);
+
+            var anchoredPosition = target.anchoredPosition;
+
+            currentPosition += newVector - oldVector;
+
+            if (horizontal == true)
+            {
+                anchoredPosition.x = currentPosition.x;
+            }
+
+            if (vertical == true)
+            {
+                anchoredPosition.y = currentPosition.y;
+            }
+
+            //dependiendo de la accion a realizar
+            if (entrando)
+            {
+                ClampPositionOpen(ref anchoredPosition);
+            }
+            else
+            {
+                ClampPositionClose(ref anchoredPosition);
+            }
+
+            // Offset the anchored position by the difference
+            target.anchoredPosition = anchoredPosition;
+        }
+
+
+        //esta referenciados 2 veces, tanto en el GO como aqui, puesto que para hacer drag y quiza luego click necesita una "doble" referencia del puntero
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (eventData.button == PointerEventData.InputButton.Left)
+            {
+                /*fix temporario para ver si se separan en script aparte porque este mismo no se pueden usar para drag & click como los panels y drag SOLO como ahora se usa 
+                con el asistente o las referencias*/
+                if (gameObject.name == "Drag Handle")//estos son los paneles laterales
+                {
+                    OnBeginDrag(eventData);
+                    gameObject.GetComponent<UIAction>().openMenuPanelClik();
+                    OnEndDrag(eventData);
+                }
+
+                if (gameObject.name == "Tip(Clone)" && dragging == false)
+                {
+                    gameObject.GetComponent<TipsObject>().ShowTip();
+                }
+            }
+        }
+
+        #endregion
+    }
 }
